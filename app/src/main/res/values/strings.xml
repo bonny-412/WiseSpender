@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">WiseSpender</string>
+
+    <!-- Bottom Navigation Menu -->
+    <string name="title_home_menu">Home</string>
+    <string name="title_statistics_menu">Statistics</string>
+    <string name="title_transaction_menu">Transactions</string>
+    <string name="title_user_menu">User</string>
+
+</resources>
