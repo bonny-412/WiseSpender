@@ -1,4 +1,4 @@
-package it.bonny.app.wisespender;
+package it.bonny.app.wisespender.manager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.fragment.HomeFragment;
 import it.bonny.app.wisespender.fragment.StatisticsFragment;
 import it.bonny.app.wisespender.fragment.TransactionFragment;

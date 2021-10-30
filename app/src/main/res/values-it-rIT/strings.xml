@@ -5,4 +5,12 @@
     <string name="title_statistics_menu">Statistiche</string>
     <string name="title_transaction_menu">Transazioni</string>
     <string name="title_user_menu">User</string>
+    <string name="button_plus">Entrata</string>
+    <string name="button_minus">Spese</string>
+    <string name="title_transactions">Ultime transazioni</string>
+    <string name="see_all">Vedi tutto</string>
+    <string name="hello_text">Ciao</string>
+    <string name="more_text">Altro</string>
+    <string name="name_first_account">Conto principale</string>
+    <string name="money_account">0</string>
 </resources>

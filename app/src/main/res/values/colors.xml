@@ -6,4 +6,6 @@
     <color name="primary_text">#565B65</color>
     <color name="secondary_text">#9B9A9D</color>
     <color name="white">#FFFFFF</color>
+    <color name="button_plus">#35D8B7</color>
+    <color name="button_minus">#8B72FF</color>
 </resources>
