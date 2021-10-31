@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#667AFF</color>
-    <color name="background">#252C4B</color>
-    <color name="background_card">#27325F</color>
+    <color name="primary">#02cbff</color>
+    <color name="secondary">#fe5866</color>
+    <color name="background">#282b34</color>
+    <color name="background_card">#2d343e</color>
     <color name="primary_text">#FFFFFF</color>
-    <color name="secondary_text">#797F95</color>
+    <color name="secondary_text">#5c5f68</color>
     <color name="white">#FFFFFF</color>
-    <color name="button_plus">#35D8B7</color>
-    <color name="button_minus">#8B72FF</color>
+    <color name="black">#000000</color>
 </resources>

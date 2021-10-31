@@ -12,10 +12,13 @@
     <string name="name_first_account">Main account</string>
     <string name="money_account">0</string>
 
-    <string name="button_plus">Income</string>
-    <string name="button_minus">Expenses</string>
+    <string name="category_type_income">Income</string>
+    <string name="category_type_expenses">Expenses</string>
 
+    <!-- Transaction -->
     <string name="title_transactions">Last Transaction</string>
     <string name="see_all">See All</string>
+    <string name="empty_list_transactions">There are no recent transactions</string>
+
 
 </resources>

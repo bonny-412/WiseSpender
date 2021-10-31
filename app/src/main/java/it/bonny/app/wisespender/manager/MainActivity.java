@@ -1,11 +1,14 @@
 package it.bonny.app.wisespender.manager;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.fragment.HomeFragment;
@@ -19,27 +22,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        getSupportFragmentManager().beginTransaction().replace(R.id.rootLayout, new HomeFragment()).commit();
-        bottomNavigationView.setSelectedItemId(R.id.home);
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            Fragment fragment = null;
-            if(item.getItemId() == R.id.home) {
-                fragment = new HomeFragment();
-            }else if(item.getItemId() == R.id.statistics) {
-                fragment = new StatisticsFragment();
-            }else if(item.getItemId() == R.id.transactions) {
-                fragment = new TransactionFragment();
-            }else if(item.getItemId() == R.id.user) {
-                fragment = new UserFragment();
-            }
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnItemSelectedListener(onItemSelectedListener);
 
-            if(fragment != null)
-                getSupportFragmentManager().beginTransaction().replace(R.id.rootLayout, fragment).commit();
-
-            return true;
-        });
+        if (savedInstanceState == null)
+            getSupportFragmentManager().beginTransaction().replace(R.id.rootLayout, new HomeFragment()).commit();
 
     }
+
+    private final NavigationBarView.OnItemSelectedListener onItemSelectedListener = item -> {
+        Fragment selectedFragment = null;
+        if(item.getItemId() == R.id.home)
+            selectedFragment = new HomeFragment();
+        else if(item.getItemId() == R.id.transactions)
+            selectedFragment = new TransactionFragment();
+        else if(item.getItemId() == R.id.statistics)
+            selectedFragment = new StatisticsFragment();
+        else if(item.getItemId() == R.id.user)
+            selectedFragment = new UserFragment();
+
+        if(selectedFragment != null)
+            getSupportFragmentManager().beginTransaction().replace(R.id.rootLayout, selectedFragment).commit();
+
+        return true;
+    };
 
 }
