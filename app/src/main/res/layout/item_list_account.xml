@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/itemListAccount"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?attr/selectableItemBackground"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/itemListAccountName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/primary_text"
+        android:text="ciaooo"
+        />
+
+    <ImageView
+        android:id="@+id/radioButtonAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/itemListAccountName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/itemListAccountName"
+        android:src="@drawable/ic_radio_button_checked"
+        app:tint="@color/secondary"
+        android:contentDescription="@string/content_description_radio_button"
+        />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

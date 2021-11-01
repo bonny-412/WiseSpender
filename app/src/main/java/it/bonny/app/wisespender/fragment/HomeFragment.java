@@ -26,12 +26,9 @@ public class HomeFragment extends Fragment {
 
         TextView accountBtn = root.findViewById(R.id.accountBtn);
 
-        accountBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                BottomSheetAccount bottomSheetAccount = new BottomSheetAccount();
-                bottomSheetAccount.show(getParentFragmentManager(), "TAG");
-            }
+        accountBtn.setOnClickListener(view -> {
+            BottomSheetAccount bottomSheetAccount = new BottomSheetAccount(getActivity());
+            bottomSheetAccount.show(getParentFragmentManager(), "TAG");
         });
 
         return root;
