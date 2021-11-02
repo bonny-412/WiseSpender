@@ -22,4 +22,5 @@
     <string name="date_new_account_input">Data</string>
     <string name="save_button">Salva</string>
     <string name="title_page_new_account">Nuovo conto</string>
+    <string name="spender_text">Spendaccione</string>
 </resources>

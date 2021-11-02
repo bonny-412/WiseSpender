@@ -8,6 +8,7 @@
     <string name="title_user_menu">User</string>
 
     <string name="hello_text">Hello</string>
+    <string name="spender_text">Spender</string>
     <string name="more_text">More</string>
     <string name="name_first_account">Main account</string>
     <string name="money_account">0</string>

@@ -6,34 +6,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background">
 
-    <View
-        android:id="@+id/viewHeaderBackground"
-        android:layout_width="match_parent"
-        android:layout_height="125dp"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
-        android:id="@+id/titleText"
+        android:id="@+id/titleTextHello"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
         android:text="@string/hello_text"
         android:textColor="@color/primary_text"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:textSize="13sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/titleTextSpender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/spender_text"
+        android:textColor="@color/primary_text"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/titleTextHello"
+        app:layout_constraintTop_toBottomOf="@+id/titleTextHello" />
+
     <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iconHomeFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:src="@drawable/ic_baseline_notifications_24"
-        app:layout_constraintBottom_toBottomOf="@+id/titleText"
+        app:layout_constraintBottom_toBottomOf="@+id/titleTextSpender"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/titleText"
+        app:layout_constraintTop_toTopOf="@+id/titleTextHello"
         app:tint="@color/primary_text"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
@@ -49,8 +52,10 @@
         app:cardCornerRadius="20dp"
         android:elevation="20dp"
         app:cardBackgroundColor="@color/background_card"
-        app:layout_constraintBottom_toBottomOf="@+id/viewHeaderBackground"
-        app:layout_constraintTop_toBottomOf="@+id/viewHeaderBackground">
+        app:layout_constraintTop_toBottomOf="@+id/titleTextSpender"
+        app:layout_constraintStart_toStartOf="@+id/titleTextSpender"
+        app:layout_constraintEnd_toEndOf="@+id/iconHomeFragment"
+        >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
