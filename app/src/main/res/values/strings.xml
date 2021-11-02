@@ -14,7 +14,7 @@
     <string name="money_account">0</string>
 
     <string name="category_type_income">Income</string>
-    <string name="category_type_expenses">Expenses</string>
+    <string name="category_type_expenses">Expense</string>
 
     <!-- Transaction -->
     <string name="title_transactions">Last Transaction</string>

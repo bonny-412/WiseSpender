@@ -13,7 +13,7 @@
     <string name="money_account">0</string>
     <string name="empty_list_transactions">Non ci sono transazioni recenti</string>
     <string name="category_type_income">Entrata</string>
-    <string name="category_type_expenses">Spese</string>
+    <string name="category_type_expenses">Spesa</string>
     <string name="new_button">Nuovo</string>
     <string name="account_bottom_sheet">Conto</string>
     <string name="content_description_radio_button">Conto selezionato</string>
