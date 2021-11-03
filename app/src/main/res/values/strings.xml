@@ -31,4 +31,7 @@
     <string name="save_button">Save</string>
     <string name="title_page_new_account">New account</string>
 
+    <!-- Toast -->
+    <string name="pressToExit">Press back again to exit</string>
+
 </resources>

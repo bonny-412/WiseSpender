@@ -53,11 +53,13 @@ public class BottomSheetAccount extends BottomSheetDialogFragment {
         account.setId(1);
         account.setName("Principale");
         account.setChecked(1);
+        account.setViewTotalBalance(1);
 
         Account account1 = new Account();
         account1.setId(2);
         account1.setName("Prova conto 2");
         account1.setChecked(0);
+        account1.setViewTotalBalance(0);
 
         accountList.add(account);
         accountList.add(account1);

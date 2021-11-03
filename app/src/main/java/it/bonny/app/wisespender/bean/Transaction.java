@@ -1,11 +1,12 @@
 package it.bonny.app.wisespender.bean;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class Transaction {
     private long id;
     private Category category;
-    private Double amount;
+    private BigDecimal amount;
     private Date date;
     private String note;
 
@@ -25,10 +26,10 @@ public class Transaction {
         this.category = category;
     }
 
-    public Double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
-    public void setAmount(Double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

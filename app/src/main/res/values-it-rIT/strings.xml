@@ -23,4 +23,5 @@
     <string name="save_button">Salva</string>
     <string name="title_page_new_account">Nuovo conto</string>
     <string name="spender_text">Spendaccione</string>
+    <string name="pressToExit">Premere di nuovo indietro per uscire</string>
 </resources>

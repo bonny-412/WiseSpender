@@ -1,18 +1,20 @@
 package it.bonny.app.wisespender.bean;
 
+import java.math.BigDecimal;
+
 public class Account {
-    private long id;
+    private Integer id;
     private String name;
-    private int checked;
-    private Double amount;
+    private Integer amount;
+    private int viewTotalBalance;
 
     public Account() {}
 
 
-    public long getId() {
+    public Integer getId() {
         return id;
     }
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -23,18 +25,18 @@ public class Account {
         this.name = name;
     }
 
-    public int getChecked() {
-        return checked;
-    }
-    public void setChecked(int checked) {
-        this.checked = checked;
-    }
-
-    public Double getAmount() {
+    public Integer getAmount() {
         return amount;
     }
-    public void setAmount(Double amount) {
+    public void setAmount(Integer amount) {
         this.amount = amount;
+    }
+
+    public int getViewTotalBalance() {
+        return viewTotalBalance;
+    }
+    public void setViewTotalBalance(int viewTotalBalance) {
+        this.viewTotalBalance = viewTotalBalance;
     }
 
 }
