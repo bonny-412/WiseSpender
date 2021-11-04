@@ -1,12 +1,19 @@
 package it.bonny.app.wisespender.bean;
 
-import java.math.BigDecimal;
-
 public class Account {
+
+    public static final String TABLE = "account";
+    public static final String KEY_ID = "id";
+    public static final String KEY_NAME = "name";
+    public static final String KEY_AMOUNT = "amount";
+    public static final String KEY_FLAG_VIEW_TOTAL_BALANCE = "flag_view_total_balance";
+    public static final String KEY_FLAG_SELECTED = "flag_selected";
+
     private Integer id;
     private String name;
     private Integer amount;
-    private int viewTotalBalance;
+    private Integer flagViewTotalBalance;
+    private Integer flagSelected;
 
     public Account() {}
 
@@ -32,11 +39,18 @@ public class Account {
         this.amount = amount;
     }
 
-    public int getViewTotalBalance() {
-        return viewTotalBalance;
+    public Integer getFlagViewTotalBalance() {
+        return flagViewTotalBalance;
     }
-    public void setViewTotalBalance(int viewTotalBalance) {
-        this.viewTotalBalance = viewTotalBalance;
+    public void setFlagViewTotalBalance(Integer flagViewTotalBalance) {
+        this.flagViewTotalBalance = flagViewTotalBalance;
+    }
+
+    public Integer getFlagSelected() {
+        return flagSelected;
+    }
+    public void setFlagSelected(Integer flagSelected) {
+        this.flagSelected = flagSelected;
     }
 
 }
