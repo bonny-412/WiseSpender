@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -43,7 +42,7 @@
         android:focusable="true"
         />
 
-    <!-- Account info -->
+    <!-- AccountBean info -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardHeader"
         android:layout_width="match_parent"
@@ -148,7 +147,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/category_type_income"
+                android:text="@string/type_income"
                 android:layout_marginTop="5dp"
                 android:textColor="@color/primary_text"
                 android:textStyle="normal" />
@@ -185,14 +184,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/category_type_expenses"
+                android:text="@string/type_expense"
                 android:layout_marginTop="5dp"
                 android:textColor="@color/primary_text"
                 android:textStyle="normal" />
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Transaction -->
+    <!-- TransactionBean -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/containerTransactions"
         android:layout_width="match_parent"

@@ -25,8 +25,7 @@
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.categoryBean.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity

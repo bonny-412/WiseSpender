@@ -7,71 +7,85 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.bonny.app.wisespender.bean.Account;
+import it.bonny.app.wisespender.bean.AccountBean;
 
 public class AccountDAO {
 
-    public long insertAccount(Account account, SQLiteDatabase db) {
+    public long insertAccount(AccountBean accountBean, SQLiteDatabase db) {
         ContentValues values = new ContentValues();
-        values.put(Account.KEY_NAME, account.getName());
-        values.put(Account.KEY_AMOUNT, account.getAmount());
-        values.put(Account.KEY_FLAG_VIEW_TOTAL_BALANCE, account.getFlagViewTotalBalance());
-        values.put(Account.KEY_FLAG_SELECTED, account.getFlagSelected());
+        values.put(AccountBean.KEY_NAME, accountBean.getName());
+        values.put(AccountBean.KEY_AMOUNT, accountBean.getAmount());
+        values.put(AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE, accountBean.getFlagViewTotalBalance());
+        values.put(AccountBean.KEY_FLAG_SELECTED, accountBean.getFlagSelected());
+        values.put(AccountBean.KEY_IS_MASTER, accountBean.getIsMaster());
+        values.put(AccountBean.KEY_CURRENCY, accountBean.getCurrency());
 
-        return db.insert(Account.TABLE, null, values);
+        return db.insert(AccountBean.TABLE, null, values);
     }
 
-    public int updateAccount(Account account, SQLiteDatabase db) {
+    public long updateAccount(AccountBean accountBean, SQLiteDatabase db) {
         ContentValues values = new ContentValues();
-        values.put(Account.KEY_NAME, account.getName());
-        values.put(Account.KEY_AMOUNT, account.getAmount());
-        values.put(Account.KEY_FLAG_VIEW_TOTAL_BALANCE, account.getFlagViewTotalBalance());
-        values.put(Account.KEY_FLAG_SELECTED, account.getFlagSelected());
+        values.put(AccountBean.KEY_NAME, accountBean.getName());
+        values.put(AccountBean.KEY_AMOUNT, accountBean.getAmount());
+        values.put(AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE, accountBean.getFlagViewTotalBalance());
+        values.put(AccountBean.KEY_FLAG_SELECTED, accountBean.getFlagSelected());
+        values.put(AccountBean.KEY_IS_MASTER, accountBean.getIsMaster());
+        values.put(AccountBean.KEY_CURRENCY, accountBean.getCurrency());
 
-        return db.update(Account.TABLE, values, Account.KEY_ID + " = ?",
-                new String[] {String.valueOf(account.getId())});
+        return db.update(AccountBean.TABLE, values, AccountBean.KEY_ID + " = ?",
+                new String[] {String.valueOf(accountBean.getId())});
     }
 
-    public void deleteAccount(long id, SQLiteDatabase db) {
-        db.delete(Account.TABLE, Account.KEY_ID + " = ?",
-                new String[] {String.valueOf(id)});
+    public boolean deleteAccount(long id, SQLiteDatabase db) {
+        boolean result = false;
+        try {
+            result = db.delete(AccountBean.TABLE, AccountBean.KEY_ID + " = ?",
+                    new String[] {String.valueOf(id)}) > 0;
+        }catch (Exception e) {
+            //TODO: Firebase
+        }
+        return result;
     }
 
-    public Account getAccountById(long id, SQLiteDatabase db) {
-        String selectQuery = "SELECT * FROM " + Account.TABLE + " WHERE " + Account.KEY_ID + " = " + id;
+    public AccountBean getAccountById(long id, SQLiteDatabase db) {
+        String selectQuery = "SELECT * FROM " + AccountBean.TABLE + " WHERE " + AccountBean.KEY_ID + " = " + id;
         Cursor c = db.rawQuery(selectQuery, null);
-        Account account = new Account();
+        AccountBean accountBean = new AccountBean();
         if(c != null) {
             c.moveToFirst();
 
-            account.setId(c.getInt(c.getColumnIndex(Account.KEY_ID)));
-            account.setName(c.getString(c.getColumnIndex(Account.KEY_NAME)));
-            account.setAmount(c.getInt(c.getColumnIndex(Account.KEY_AMOUNT)));
-            account.setFlagViewTotalBalance(c.getInt(c.getColumnIndex(Account.KEY_FLAG_VIEW_TOTAL_BALANCE)));
-            account.setFlagSelected(c.getInt(c.getColumnIndex(Account.KEY_FLAG_SELECTED)));
+            accountBean.setId(Long.parseLong(c.getString(c.getColumnIndex(AccountBean.KEY_ID))));
+            accountBean.setName(c.getString(c.getColumnIndex(AccountBean.KEY_NAME)));
+            accountBean.setAmount(c.getInt(c.getColumnIndex(AccountBean.KEY_AMOUNT)));
+            accountBean.setFlagViewTotalBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE)));
+            accountBean.setFlagSelected(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_SELECTED)));
+            accountBean.setIsMaster(c.getInt(c.getColumnIndex(AccountBean.KEY_IS_MASTER)));
+            accountBean.setCurrency(c.getString(c.getColumnIndex(AccountBean.KEY_CURRENCY)));
         }
         if(c != null)
             c.close();
-        return account;
+        return accountBean;
     }
 
-    public List<Account> getAllAccounts(SQLiteDatabase db) {
-        List<Account> accounts = new ArrayList<>();
-        String selectQuery = "SELECT * FROM " + Account.TABLE;
+    public List<AccountBean> getAllAccounts(SQLiteDatabase db) {
+        List<AccountBean> accountBeans = new ArrayList<>();
+        String selectQuery = "SELECT * FROM " + AccountBean.TABLE;
         Cursor c = db.rawQuery(selectQuery, null);
         if(c.moveToFirst()) {
             do {
-                Account account = new Account();
-                account.setId(c.getInt(c.getColumnIndex(Account.KEY_ID)));
-                account.setName(c.getString(c.getColumnIndex(Account.KEY_NAME)));
-                account.setAmount(c.getInt(c.getColumnIndex(Account.KEY_AMOUNT)));
-                account.setFlagViewTotalBalance(c.getInt(c.getColumnIndex(Account.KEY_FLAG_VIEW_TOTAL_BALANCE)));
-                account.setFlagSelected(c.getInt(c.getColumnIndex(Account.KEY_FLAG_SELECTED)));
-                accounts.add(account);
+                AccountBean accountBean = new AccountBean();
+                accountBean.setId(Long.parseLong(c.getString(c.getColumnIndex(AccountBean.KEY_ID))));
+                accountBean.setName(c.getString(c.getColumnIndex(AccountBean.KEY_NAME)));
+                accountBean.setAmount(c.getInt(c.getColumnIndex(AccountBean.KEY_AMOUNT)));
+                accountBean.setFlagViewTotalBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE)));
+                accountBean.setFlagSelected(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_SELECTED)));
+                accountBean.setIsMaster(c.getInt(c.getColumnIndex(AccountBean.KEY_IS_MASTER)));
+                accountBean.setCurrency(c.getString(c.getColumnIndex(AccountBean.KEY_CURRENCY)));
+                accountBeans.add(accountBean);
             }while (c.moveToNext());
         }
         c.close();
-        return accounts;
+        return accountBeans;
     }
 
 }

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,21 +11,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.google.android.material.checkbox.MaterialCheckBox;
-import com.google.android.material.radiobutton.MaterialRadioButton;
-
 import java.util.List;
 
 import it.bonny.app.wisespender.R;
-import it.bonny.app.wisespender.bean.Account;
+import it.bonny.app.wisespender.bean.AccountBean;
+import it.bonny.app.wisespender.bean.TypeObjectBean;
 
-public class ListAccountAdapter extends ArrayAdapter<Account>  {
-    private final List<Account> accountList;
+public class ListAccountAdapter extends ArrayAdapter<AccountBean>  {
+    private final List<AccountBean> accountBeanList;
     private int selectedPosition = -1;
 
-    public ListAccountAdapter(List<Account> accountList, Activity activity) {
-        super(activity, R.layout.item_list_account, accountList);
-        this.accountList = accountList;
+    public ListAccountAdapter(List<AccountBean> accountBeanList, Activity activity) {
+        super(activity, R.layout.item_list_account, accountBeanList);
+        this.accountBeanList = accountBeanList;
         findSelectedTimer();
     }
 
@@ -42,20 +39,22 @@ public class ListAccountAdapter extends ArrayAdapter<Account>  {
             }else
                 holder = (ViewHolder) rowView.getTag();
 
-            holder.itemListAccountName.setText(accountList.get(position).getName());
+            holder.itemListAccountName.setText(accountBeanList.get(position).getName());
 
             if(position == selectedPosition){
                 holder.radioButtonAccount.setVisibility(View.VISIBLE);
-                accountList.get(position).setChecked(1);
+                accountBeanList.get(position).setFlagSelected(TypeObjectBean.SELECTED);
             }else {
                 holder.radioButtonAccount.setVisibility(View.GONE);
-                accountList.get(position).setChecked(0);
+                accountBeanList.get(position).setFlagSelected(TypeObjectBean.NO_SELECTED);
             }
 
-            if(accountList.size() > 0)
+            if(accountBeanList.size() > 0)
                 holder.itemListAccount.setOnClickListener(onStateChangedListener(holder.radioButtonAccount, position));
 
-        }catch (Exception e) {}
+        }catch (Exception e) {
+            //TODO: Firebase
+        }
         return rowView != null ? rowView : View.inflate(getContext(), R.layout.item_list_account, null);
     }
 
@@ -73,11 +72,11 @@ public class ListAccountAdapter extends ArrayAdapter<Account>  {
 
     private View.OnClickListener onStateChangedListener(final ImageView radioButtonAccount, final int position) {
         return v -> {
-            if (accountList.get(position).getChecked() == 0) {
-                accountList.get(selectedPosition).setChecked(0);
+            if (accountBeanList.get(position).getFlagSelected() == TypeObjectBean.NO_SELECTED) {
+                accountBeanList.get(selectedPosition).setFlagSelected(TypeObjectBean.NO_SELECTED);
 
                 selectedPosition = position;
-                accountList.get(position).setChecked(1);
+                accountBeanList.get(position).setFlagSelected(TypeObjectBean.SELECTED);
                 radioButtonAccount.setVisibility(View.VISIBLE);
             }
             notifyDataSetChanged();
@@ -85,9 +84,9 @@ public class ListAccountAdapter extends ArrayAdapter<Account>  {
     }
 
     private void findSelectedTimer(){
-        for(int i = 0; i < accountList.size(); i++){
-            Account account = accountList.get(i);
-            if(account.getChecked() == 1){
+        for(int i = 0; i < accountBeanList.size(); i++){
+            AccountBean accountBean = accountBeanList.get(i);
+            if(accountBean.getFlagSelected() == TypeObjectBean.SELECTED){
                 selectedPosition = i;
             }
         }

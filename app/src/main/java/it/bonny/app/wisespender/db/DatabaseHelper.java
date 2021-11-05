@@ -7,29 +7,39 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.bonny.app.wisespender.bean.Account;
-import it.bonny.app.wisespender.bean.Category;
+import it.bonny.app.wisespender.bean.AccountBean;
+import it.bonny.app.wisespender.bean.CategoryBean;
+import it.bonny.app.wisespender.bean.TransactionBean;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "wiseSpender";
     
-    private static final String CREATE_TABLE_ACCOUNT = "CREATE TABLE " + Account.TABLE
+    private static final String CREATE_TABLE_ACCOUNT = "CREATE TABLE " + AccountBean.TABLE
             + "("
-                + Account.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
-                + Account.KEY_NAME + " TEXT,"
-                + Account.KEY_AMOUNT + " INTEGER,"
-                + Account.KEY_FLAG_VIEW_TOTAL_BALANCE + " INTEGER DEFAULT 0,"
-                + Account.KEY_FLAG_SELECTED + " INTEGER DEFAULT 0"
+                + AccountBean.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+                + AccountBean.KEY_NAME + " TEXT,"
+                + AccountBean.KEY_AMOUNT + " INTEGER,"
+                + AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE + " INTEGER DEFAULT 0,"
+                + AccountBean.KEY_FLAG_SELECTED + " INTEGER DEFAULT 0"
             + ")";
-    private static final String CREATE_TABLE_CATEGORY = "CREATE TABLE " + Category.TABLE
+    private static final String CREATE_TABLE_CATEGORY = "CREATE TABLE " + CategoryBean.TABLE
             + "("
-            + Category.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
-            + Category.KEY_NAME + " TEXT,"
-            + Category.KEY_LIMIT_CASH + " INTEGER,"
-            + Category.KEY_TYPE_CATEGORY + " INTEGER,"
-            + Category.KEY_ID_CATEGORY_ASSOCIATED + " INTEGER,"
-            + Category.KEY_ID_ICON + " INTEGER"
+            + CategoryBean.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+            + CategoryBean.KEY_NAME + " TEXT,"
+            //+ CategoryBean.KEY_LIMIT_CASH + " INTEGER,"
+            + CategoryBean.KEY_TYPE_CATEGORY + " INTEGER,"
+            + CategoryBean.KEY_ID_ICON + " INTEGER"
+            + ")";
+    private static final String CREATE_TABLE_TRANSACTION = "CREATE TABLE " + TransactionBean.TABLE
+            + "("
+            + TransactionBean.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+            + TransactionBean.KEY_AMOUNT + " INTEGER,"
+            + TransactionBean.KEY_DATE_INSERT + " DATETIME,"
+            + TransactionBean.KEY_NOTE + " TEXT,"
+            + TransactionBean.KEY_TYPE_TRANSACTION + " INTEGER,"
+            + TransactionBean.KEY_ID_ACCOUNT + " INTEGER,"
+            + TransactionBean.KEY_ID_CATEGORY + " INTEGER"
             + ")";
 
     public DatabaseHelper(Context context) {
@@ -40,74 +50,74 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      *********** ACCOUNT ***********
      *****************************/
 
-    public long insertAccount(Account account) {
+    public long insertAccount(AccountBean accountBean) {
         AccountDAO accountDAO = new AccountDAO();
-        return accountDAO.insertAccount(account, this.getWritableDatabase());
+        return accountDAO.insertAccount(accountBean, this.getWritableDatabase());
     }
 
-    public Account getAccountById(long id) {
-        Account account = null;
+    public AccountBean getAccountById(long id) {
+        AccountBean accountBean = null;
         try {
             AccountDAO accountDAO = new AccountDAO();
-            account = accountDAO.getAccountById(id, this.getReadableDatabase());
+            accountBean = accountDAO.getAccountById(id, this.getReadableDatabase());
         }catch (Exception e) {
             //TODO: Firebase
         }
-        return account;
+        return accountBean;
     }
 
-    public List<Account> getAllAccounts() {
-        List<Account> accounts = new ArrayList<>();
+    public List<AccountBean> getAllAccounts() {
+        List<AccountBean> accountBeans = new ArrayList<>();
         try {
             AccountDAO accountDAO = new AccountDAO();
-            accounts = accountDAO.getAllAccounts(this.getReadableDatabase());
+            accountBeans = accountDAO.getAllAccounts(this.getReadableDatabase());
         }catch (Exception e) {
             //TODO: Firebase
         }
-        return accounts;
+        return accountBeans;
     }
 
-    public int updateAccount(Account account) {
+    public long updateAccount(AccountBean accountBean) {
         AccountDAO accountDAO = new AccountDAO();
-        return accountDAO.updateAccount(account, this.getWritableDatabase());
+        return accountDAO.updateAccount(accountBean, this.getWritableDatabase());
     }
 
-    public void deleteAccount(long id) {
+    public boolean deleteAccount(long id) {
         AccountDAO accountDAO = new AccountDAO();
-        accountDAO.deleteAccount(id, this.getWritableDatabase());
+        return accountDAO.deleteAccount(id, this.getWritableDatabase());
     }
 
     /*******************************
      *********** CATEGORY **********
      *****************************/
-    public long insertCategory(Category category) {
+    public long insertCategory(CategoryBean categoryBean) {
         CategoryDAO categoryDAO = new CategoryDAO();
-        return categoryDAO.insertCategory(category, this.getWritableDatabase());
+        return categoryDAO.insertCategory(categoryBean, this.getWritableDatabase());
     }
 
-    public int updateCategory(Category account) {
+    public long updateCategory(CategoryBean account) {
         CategoryDAO categoryDAO = new CategoryDAO();
         return categoryDAO.updateCategory(account, this.getWritableDatabase());
     }
 
-    public void deleteCategory(long id) {
+    public boolean deleteCategory(long id) {
         CategoryDAO categoryDAO = new CategoryDAO();
-        categoryDAO.deleteCategory(id, this.getWritableDatabase());
+        return categoryDAO.deleteCategory(id, this.getWritableDatabase());
     }
 
-    public Category getCategoryById(long id) {
-        Category category = null;
+    public CategoryBean getCategoryById(long id) {
+        CategoryBean categoryBean = null;
         try {
             CategoryDAO categoryDAO = new CategoryDAO();
-            category = categoryDAO.getCategoryById(id, this.getReadableDatabase());
+            categoryBean = categoryDAO.getCategoryById(id, this.getReadableDatabase());
         }catch (Exception e) {
             //TODO: Firebase
         }
-        return category;
+        return categoryBean;
     }
 
-    public List<Category> getAllCategoryIncome() {
-        List<Category> categories = new ArrayList<>();
+    public List<CategoryBean> getAllCategoryIncome() {
+        List<CategoryBean> categories = new ArrayList<>();
         try {
             CategoryDAO categoryDAO = new CategoryDAO();
             categories = categoryDAO.getAllCategoryIncome(this.getReadableDatabase());
@@ -117,8 +127,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return categories;
     }
 
-    public List<Category> getAllCategoryExpense() {
-        List<Category> categories = new ArrayList<>();
+    public List<CategoryBean> getAllCategoryExpense() {
+        List<CategoryBean> categories = new ArrayList<>();
         try {
             CategoryDAO categoryDAO = new CategoryDAO();
             categories = categoryDAO.getAllCategoryExpense(this.getReadableDatabase());
@@ -128,9 +138,60 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return categories;
     }
 
+    /*******************************
+     *********** TRANSACTION *******
+     *****************************/
+    public long insertTransaction(TransactionBean transactionBean) {
+        TransactionDAO transactionDAO = new TransactionDAO();
+        return transactionDAO.insertTransaction(transactionBean, this.getWritableDatabase());
+    }
+
+    public long updateTransaction(TransactionBean transactionBean) {
+        TransactionDAO transactionDAO = new TransactionDAO();
+        return transactionDAO.updateTransaction(transactionBean, this.getWritableDatabase());
+    }
+
+    public boolean deleteTransaction(long id) {
+        TransactionDAO transactionDAO = new TransactionDAO();
+        return transactionDAO.deleteTransaction(id, this.getWritableDatabase());
+    }
+
+    public TransactionBean getTransactionById(long id) {
+        TransactionBean transactionBean = null;
+        try {
+            TransactionDAO transactionDAO = new TransactionDAO();
+            transactionBean = transactionDAO.getTransactionById(id, this.getReadableDatabase());
+        }catch (Exception e) {
+            //TODO: Firebase
+        }
+        return transactionBean;
+    }
+
+    public List<TransactionBean> getAllTransactionIncome() {
+        List<TransactionBean> transactionBeans = new ArrayList<>();
+        try {
+            TransactionDAO transactionDAO = new TransactionDAO();
+            transactionBeans = transactionDAO.getAllTransactionIncome(this.getReadableDatabase());
+        }catch (Exception e) {
+            //TODO: Firebase
+        }
+        return transactionBeans;
+    }
+
+    public List<TransactionBean> getAllTransactionExpense() {
+        List<TransactionBean> transactionBeans = new ArrayList<>();
+        try {
+            TransactionDAO transactionDAO = new TransactionDAO();
+            transactionBeans = transactionDAO.getAllTransactionExpense(this.getReadableDatabase());
+        }catch (Exception e) {
+            //TODO: Firebase
+        }
+        return transactionBeans;
+    }
 
 
-   ////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_ACCOUNT);
@@ -139,9 +200,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         //On upgrade drop older tables
-        db.execSQL("DROP TABLE IF EXISTS " + Account.TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + AccountBean.TABLE);
 
         //Create new tables
         onCreate(db);
     }
+
+    // closing database
+    public void closeDB() {
+        SQLiteDatabase dbRead = this.getReadableDatabase();
+        SQLiteDatabase dbWrite = this.getWritableDatabase();
+        if (dbRead != null && dbRead.isOpen())
+            dbRead.close();
+        if(dbWrite != null && dbWrite.isOpen())
+            dbWrite.close();
+    }
+
 }

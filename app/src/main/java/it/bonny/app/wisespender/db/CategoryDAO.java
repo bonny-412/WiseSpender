@@ -7,91 +7,93 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.bonny.app.wisespender.bean.Category;
-import it.bonny.app.wisespender.bean.CategoryType;
+import it.bonny.app.wisespender.bean.AccountBean;
+import it.bonny.app.wisespender.bean.CategoryBean;
+import it.bonny.app.wisespender.bean.TypeObjectBean;
 
 public class CategoryDAO {
 
-    public long insertCategory(Category category, SQLiteDatabase db) {
+    public long insertCategory(CategoryBean categoryBean, SQLiteDatabase db) {
         ContentValues values = new ContentValues();
-        values.put(Category.KEY_NAME, category.getName());
-        values.put(Category.KEY_ID_CATEGORY_ASSOCIATED, category.getIdCategoryAssociated());
-        values.put(Category.KEY_ID_ICON, category.getIdIcon());
-        values.put(Category.KEY_TYPE_CATEGORY, category.getTypeCategory());
-        values.put(Category.KEY_LIMIT_CASH, category.getLimitCash());
-        return db.insert(Category.TABLE, null, values);
+        values.put(CategoryBean.KEY_NAME, categoryBean.getName());
+        values.put(CategoryBean.KEY_ID_ICON, categoryBean.getIdIcon());
+        values.put(CategoryBean.KEY_TYPE_CATEGORY, categoryBean.getTypeCategory());
+        //values.put(CategoryBean.KEY_LIMIT_CASH, categoryBean.getLimitCash());
+        return db.insert(CategoryBean.TABLE, null, values);
     }
 
-    public int updateCategory(Category category, SQLiteDatabase db) {
+    public long updateCategory(CategoryBean categoryBean, SQLiteDatabase db) {
         ContentValues values = new ContentValues();
-        values.put(Category.KEY_NAME, category.getName());
-        values.put(Category.KEY_ID_CATEGORY_ASSOCIATED, category.getIdCategoryAssociated());
-        values.put(Category.KEY_ID_ICON, category.getIdIcon());
-        values.put(Category.KEY_TYPE_CATEGORY, category.getTypeCategory());
-        values.put(Category.KEY_LIMIT_CASH, category.getLimitCash());
-        return db.update(Category.TABLE, values, Category.KEY_ID + " = ?",
-                new String[] {String.valueOf(category.getId())});
+        values.put(CategoryBean.KEY_NAME, categoryBean.getName());
+        values.put(CategoryBean.KEY_ID_ICON, categoryBean.getIdIcon());
+        values.put(CategoryBean.KEY_TYPE_CATEGORY, categoryBean.getTypeCategory());
+        //values.put(CategoryBean.KEY_LIMIT_CASH, categoryBean.getLimitCash());
+        return db.update(CategoryBean.TABLE, values, CategoryBean.KEY_ID + " = ?",
+                new String[] {String.valueOf(categoryBean.getId())});
     }
 
-    public void deleteCategory(long id, SQLiteDatabase db) {
-        db.delete(Category.TABLE, Category.KEY_ID + " = ?",
-                new String[] {String.valueOf(id)});
+    public boolean deleteCategory(long id, SQLiteDatabase db) {
+        boolean result = false;
+        try {
+            result = db.delete(CategoryBean.TABLE, CategoryBean.KEY_ID + " = ?",
+                    new String[] {String.valueOf(id)}) > 0;
+        }catch (Exception e) {
+            //TODO: Firebase
+        }
+        return result;
     }
 
-    public Category getCategoryById(long id, SQLiteDatabase db) {
-        String selectQuery = "SELECT * FROM " + Category.TABLE + " WHERE " + Category.KEY_ID + " = " + id;
+    public CategoryBean getCategoryById(long id, SQLiteDatabase db) {
+        String selectQuery = "SELECT * FROM " + CategoryBean.TABLE + " WHERE " + CategoryBean.KEY_ID + " = " + id;
         Cursor c = db.rawQuery(selectQuery, null);
-        Category category = new Category();
+        CategoryBean categoryBean = new CategoryBean();
         if(c != null) {
             c.moveToFirst();
 
-            category.setId(c.getInt(c.getColumnIndex(Category.KEY_ID)));
-            category.setName(c.getString(c.getColumnIndex(Category.KEY_NAME)));
-            category.setIdCategoryAssociated(c.getInt(c.getColumnIndex(Category.KEY_ID_CATEGORY_ASSOCIATED)));
-            category.setIdIcon(c.getInt(c.getColumnIndex(Category.KEY_ID_ICON)));
-            category.setTypeCategory(c.getInt(c.getColumnIndex(Category.KEY_TYPE_CATEGORY)));
-            category.setLimitCash(c.getInt(c.getColumnIndex(Category.KEY_LIMIT_CASH)));
+            categoryBean.setId(Long.parseLong(c.getString(c.getColumnIndex(CategoryBean.KEY_ID))));
+            categoryBean.setName(c.getString(c.getColumnIndex(CategoryBean.KEY_NAME)));
+            categoryBean.setIdIcon(c.getInt(c.getColumnIndex(CategoryBean.KEY_ID_ICON)));
+            categoryBean.setTypeCategory(c.getInt(c.getColumnIndex(CategoryBean.KEY_TYPE_CATEGORY)));
+            //categoryBean.setLimitCash(c.getInt(c.getColumnIndex(CategoryBean.KEY_LIMIT_CASH)));
 
         }
         if(c != null)
             c.close();
-        return category;
+        return categoryBean;
     }
 
-    public List<Category> getAllCategoryIncome(SQLiteDatabase db) {
-        List<Category> categories = new ArrayList<>();
-        String selectQuery = "SELECT * FROM " + Category.TABLE + " c WHERE c." + Category.KEY_TYPE_CATEGORY + " = " + CategoryType.INCOME;
+    public List<CategoryBean> getAllCategoryIncome(SQLiteDatabase db) {
+        List<CategoryBean> categories = new ArrayList<>();
+        String selectQuery = "SELECT * FROM " + CategoryBean.TABLE + " c WHERE c." + CategoryBean.KEY_TYPE_CATEGORY + " = " + TypeObjectBean.INCOME;
         Cursor c = db.rawQuery(selectQuery, null);
         if(c.moveToFirst()) {
             do {
-                Category category = new Category();
-                category.setId(c.getInt(c.getColumnIndex(Category.KEY_ID)));
-                category.setName(c.getString(c.getColumnIndex(Category.KEY_NAME)));
-                category.setIdCategoryAssociated(c.getInt(c.getColumnIndex(Category.KEY_ID_CATEGORY_ASSOCIATED)));
-                category.setIdIcon(c.getInt(c.getColumnIndex(Category.KEY_ID_ICON)));
-                category.setTypeCategory(c.getInt(c.getColumnIndex(Category.KEY_TYPE_CATEGORY)));
-                category.setLimitCash(c.getInt(c.getColumnIndex(Category.KEY_LIMIT_CASH)));
-                categories.add(category);
+                CategoryBean categoryBean = new CategoryBean();
+                categoryBean.setId(Long.parseLong(c.getString(c.getColumnIndex(CategoryBean.KEY_ID))));
+                categoryBean.setName(c.getString(c.getColumnIndex(CategoryBean.KEY_NAME)));
+                categoryBean.setIdIcon(c.getInt(c.getColumnIndex(CategoryBean.KEY_ID_ICON)));
+                categoryBean.setTypeCategory(c.getInt(c.getColumnIndex(CategoryBean.KEY_TYPE_CATEGORY)));
+                //categoryBean.setLimitCash(c.getInt(c.getColumnIndex(CategoryBean.KEY_LIMIT_CASH)));
+                categories.add(categoryBean);
             }while (c.moveToNext());
         }
         c.close();
         return categories;
     }
 
-    public List<Category> getAllCategoryExpense(SQLiteDatabase db) {
-        List<Category> categories = new ArrayList<>();
-        String selectQuery = "SELECT * FROM " + Category.TABLE + " c WHERE c." + Category.KEY_TYPE_CATEGORY + " = " + CategoryType.EXPENSES;
+    public List<CategoryBean> getAllCategoryExpense(SQLiteDatabase db) {
+        List<CategoryBean> categories = new ArrayList<>();
+        String selectQuery = "SELECT * FROM " + CategoryBean.TABLE + " c WHERE c." + CategoryBean.KEY_TYPE_CATEGORY + " = " + TypeObjectBean.EXPENSE;
         Cursor c = db.rawQuery(selectQuery, null);
         if(c.moveToFirst()) {
             do {
-                Category category = new Category();
-                category.setId(c.getInt(c.getColumnIndex(Category.KEY_ID)));
-                category.setName(c.getString(c.getColumnIndex(Category.KEY_NAME)));
-                category.setIdCategoryAssociated(c.getInt(c.getColumnIndex(Category.KEY_ID_CATEGORY_ASSOCIATED)));
-                category.setIdIcon(c.getInt(c.getColumnIndex(Category.KEY_ID_ICON)));
-                category.setTypeCategory(c.getInt(c.getColumnIndex(Category.KEY_TYPE_CATEGORY)));
-                category.setLimitCash(c.getInt(c.getColumnIndex(Category.KEY_LIMIT_CASH)));
-                categories.add(category);
+                CategoryBean categoryBean = new CategoryBean();
+                categoryBean.setId(Long.parseLong(c.getString(c.getColumnIndex(CategoryBean.KEY_ID))));
+                categoryBean.setName(c.getString(c.getColumnIndex(CategoryBean.KEY_NAME)));
+                categoryBean.setIdIcon(c.getInt(c.getColumnIndex(CategoryBean.KEY_ID_ICON)));
+                categoryBean.setTypeCategory(c.getInt(c.getColumnIndex(CategoryBean.KEY_TYPE_CATEGORY)));
+                //categoryBean.setLimitCash(c.getInt(c.getColumnIndex(CategoryBean.KEY_LIMIT_CASH)));
+                categories.add(categoryBean);
             }while (c.moveToNext());
         }
         c.close();

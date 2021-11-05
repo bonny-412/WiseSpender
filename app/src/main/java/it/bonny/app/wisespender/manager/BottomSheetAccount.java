@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.bonny.app.wisespender.R;
-import it.bonny.app.wisespender.bean.Account;
+import it.bonny.app.wisespender.bean.AccountBean;
 import it.bonny.app.wisespender.util.ListAccountAdapter;
 
 public class BottomSheetAccount extends BottomSheetDialogFragment {
@@ -35,9 +35,8 @@ public class BottomSheetAccount extends BottomSheetDialogFragment {
         MaterialButton buttonNewAccount = view.findViewById(R.id.buttonNewAccount);
         ListView listViewAccount = view.findViewById(R.id.listViewAccount);
 
-        List<Account> accountList = new ArrayList<>();
-        testAccountList(accountList);
-        ListAccountAdapter listAccountAdapter = new ListAccountAdapter(accountList, activity);
+        List<AccountBean> accountBeanList = new ArrayList<>();
+        ListAccountAdapter listAccountAdapter = new ListAccountAdapter(accountBeanList, activity);
         listViewAccount.setAdapter(listAccountAdapter);
 
         buttonNewAccount.setOnClickListener(view1 -> {
@@ -46,23 +45,6 @@ public class BottomSheetAccount extends BottomSheetDialogFragment {
         });
 
         return view;
-    }
-
-    public void testAccountList(List<Account> accountList) {
-        Account account = new Account();
-        account.setId(1);
-        account.setName("Principale");
-        account.setChecked(1);
-        account.setViewTotalBalance(1);
-
-        Account account1 = new Account();
-        account1.setId(2);
-        account1.setName("Prova conto 2");
-        account1.setChecked(0);
-        account1.setViewTotalBalance(0);
-
-        accountList.add(account);
-        accountList.add(account1);
     }
 
 }

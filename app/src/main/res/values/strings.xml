@@ -10,28 +10,36 @@
     <string name="hello_text">Hello</string>
     <string name="spender_text">Spender</string>
     <string name="more_text">More</string>
-    <string name="name_first_account">Main account</string>
+    <string name="name_first_account">Main accountBean</string>
     <string name="money_account">0</string>
 
-    <string name="category_type_income">Income</string>
-    <string name="category_type_expenses">Expense</string>
+    <string name="type_income">Income</string>
+    <string name="type_expense">Expense</string>
 
-    <!-- Transaction -->
+    <!-- TransactionBean -->
     <string name="title_transactions">Last Transaction</string>
     <string name="see_all">See All</string>
-    <string name="empty_list_transactions">There are no recent transactions</string>
+    <string name="empty_list_transactions">There are no recent transactionBeans</string>
 
-    <!-- Bottom sheet account -->
+    <!-- Bottom sheet accountBean -->
     <string name="account_bottom_sheet">Account</string>
     <string name="new_button">New</string>
-    <string name="content_description_radio_button">Selected account</string>
+    <string name="content_description_radio_button">Selected accountBean</string>
     <string name="name_new_account_input">Account name</string>
     <string name="opening_balance_new_account_input">Account opening balance</string>
     <string name="date_new_account_input">Date</string>
     <string name="save_button">Save</string>
-    <string name="title_page_new_account">New account</string>
+    <string name="title_page_new_account">New accountBean</string>
 
     <!-- Toast -->
     <string name="pressToExit">Press back again to exit</string>
+
+    <!-- BEAN -->
+    <string name="account_bean_master">Show all accounts</string>
+    <string name="account_bean_cash">Cash</string>
+    <string name="account_bean_credit_card">Credit card</string>
+    
+    <string name="category_bean_hobby">Hobby</string>
+    <string name="category_bean_necessity">Necessity</string>
 
 </resources>
