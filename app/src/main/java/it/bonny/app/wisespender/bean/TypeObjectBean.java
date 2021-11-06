@@ -5,14 +5,16 @@ import android.content.res.Resources;
 import it.bonny.app.wisespender.R;
 
 public class TypeObjectBean {
-    public static final Integer INCOME = 0;
-    public static final Integer EXPENSE = 1;
-    public static final Integer SELECTED = 1;
-    public static final Integer NO_SELECTED = 0;
+    public static final int INCOME = 0;
+    public static final int EXPENSE = 1;
+    public static final int SELECTED = 1;
+    public static final int NO_SELECTED = 0;
+    public static final int IS_MASTER = 1;
+    public static final int NO_MASTER = 0;
 
     public TypeObjectBean() {}
 
-    public String getTypeName(Integer catTypeNum) {
+    public String getTypeName(int catTypeNum) {
         String typeName = "";
         if(catTypeNum == 0)
             typeName = Resources.getSystem().getString(R.string.type_income);

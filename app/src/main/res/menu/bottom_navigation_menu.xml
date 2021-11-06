@@ -11,7 +11,7 @@
         android:title="@string/title_statistics_menu" />
 
     <item
-        android:id="@+id/transactionBeans"
+        android:id="@+id/transactions"
         android:icon="@drawable/ic_transaction"
         android:title="@string/title_transaction_menu" />
 

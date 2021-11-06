@@ -1,6 +1,8 @@
 package it.bonny.app.wisespender.db;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -10,18 +12,23 @@ import java.util.List;
 import it.bonny.app.wisespender.bean.AccountBean;
 import it.bonny.app.wisespender.bean.CategoryBean;
 import it.bonny.app.wisespender.bean.TransactionBean;
+import it.bonny.app.wisespender.bean.TypeObjectBean;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
+
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "wiseSpender";
-    
+
     private static final String CREATE_TABLE_ACCOUNT = "CREATE TABLE " + AccountBean.TABLE
             + "("
-                + AccountBean.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
-                + AccountBean.KEY_NAME + " TEXT,"
-                + AccountBean.KEY_AMOUNT + " INTEGER,"
-                + AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE + " INTEGER DEFAULT 0,"
-                + AccountBean.KEY_FLAG_SELECTED + " INTEGER DEFAULT 0"
+            + AccountBean.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+            + AccountBean.KEY_NAME + " TEXT,"
+            + AccountBean.KEY_AMOUNT + " INTEGER,"
+            + AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE + " INTEGER DEFAULT 0,"
+            + AccountBean.KEY_FLAG_SELECTED + " INTEGER DEFAULT 0,"
+            + AccountBean.KEY_IS_MASTER + " INTEGER DEFAULT 0,"
+            + AccountBean.KEY_CURRENCY + " TEXT,"
+            + AccountBean.KEY_ID_ICON + " TEXT"
             + ")";
     private static final String CREATE_TABLE_CATEGORY = "CREATE TABLE " + CategoryBean.TABLE
             + "("
@@ -46,174 +53,186 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    /*******************************
-     *********** ACCOUNT ***********
-     *****************************/
 
-    public long insertAccount(AccountBean accountBean) {
-        AccountDAO accountDAO = new AccountDAO();
-        return accountDAO.insertAccount(accountBean, this.getWritableDatabase());
-    }
-
-    public AccountBean getAccountById(long id) {
-        AccountBean accountBean = null;
-        try {
-            AccountDAO accountDAO = new AccountDAO();
-            accountBean = accountDAO.getAccountById(id, this.getReadableDatabase());
-        }catch (Exception e) {
-            //TODO: Firebase
-        }
-        return accountBean;
-    }
-
-    public List<AccountBean> getAllAccounts() {
-        List<AccountBean> accountBeans = new ArrayList<>();
-        try {
-            AccountDAO accountDAO = new AccountDAO();
-            accountBeans = accountDAO.getAllAccounts(this.getReadableDatabase());
-        }catch (Exception e) {
-            //TODO: Firebase
-        }
-        return accountBeans;
-    }
-
-    public long updateAccount(AccountBean accountBean) {
-        AccountDAO accountDAO = new AccountDAO();
-        return accountDAO.updateAccount(accountBean, this.getWritableDatabase());
-    }
-
-    public boolean deleteAccount(long id) {
-        AccountDAO accountDAO = new AccountDAO();
-        return accountDAO.deleteAccount(id, this.getWritableDatabase());
-    }
-
-    /*******************************
-     *********** CATEGORY **********
-     *****************************/
-    public long insertCategory(CategoryBean categoryBean) {
-        CategoryDAO categoryDAO = new CategoryDAO();
-        return categoryDAO.insertCategory(categoryBean, this.getWritableDatabase());
-    }
-
-    public long updateCategory(CategoryBean account) {
-        CategoryDAO categoryDAO = new CategoryDAO();
-        return categoryDAO.updateCategory(account, this.getWritableDatabase());
-    }
-
-    public boolean deleteCategory(long id) {
-        CategoryDAO categoryDAO = new CategoryDAO();
-        return categoryDAO.deleteCategory(id, this.getWritableDatabase());
-    }
-
-    public CategoryBean getCategoryById(long id) {
-        CategoryBean categoryBean = null;
-        try {
-            CategoryDAO categoryDAO = new CategoryDAO();
-            categoryBean = categoryDAO.getCategoryById(id, this.getReadableDatabase());
-        }catch (Exception e) {
-            //TODO: Firebase
-        }
-        return categoryBean;
-    }
-
-    public List<CategoryBean> getAllCategoryIncome() {
-        List<CategoryBean> categories = new ArrayList<>();
-        try {
-            CategoryDAO categoryDAO = new CategoryDAO();
-            categories = categoryDAO.getAllCategoryIncome(this.getReadableDatabase());
-        }catch (Exception e) {
-            //TODO: Firebase
-        }
-        return categories;
-    }
-
-    public List<CategoryBean> getAllCategoryExpense() {
-        List<CategoryBean> categories = new ArrayList<>();
-        try {
-            CategoryDAO categoryDAO = new CategoryDAO();
-            categories = categoryDAO.getAllCategoryExpense(this.getReadableDatabase());
-        }catch (Exception e) {
-            //TODO: Firebase
-        }
-        return categories;
-    }
-
-    /*******************************
-     *********** TRANSACTION *******
-     *****************************/
-    public long insertTransaction(TransactionBean transactionBean) {
-        TransactionDAO transactionDAO = new TransactionDAO();
-        return transactionDAO.insertTransaction(transactionBean, this.getWritableDatabase());
-    }
-
-    public long updateTransaction(TransactionBean transactionBean) {
-        TransactionDAO transactionDAO = new TransactionDAO();
-        return transactionDAO.updateTransaction(transactionBean, this.getWritableDatabase());
-    }
-
-    public boolean deleteTransaction(long id) {
-        TransactionDAO transactionDAO = new TransactionDAO();
-        return transactionDAO.deleteTransaction(id, this.getWritableDatabase());
-    }
-
-    public TransactionBean getTransactionById(long id) {
-        TransactionBean transactionBean = null;
-        try {
-            TransactionDAO transactionDAO = new TransactionDAO();
-            transactionBean = transactionDAO.getTransactionById(id, this.getReadableDatabase());
-        }catch (Exception e) {
-            //TODO: Firebase
-        }
-        return transactionBean;
-    }
-
-    public List<TransactionBean> getAllTransactionIncome() {
-        List<TransactionBean> transactionBeans = new ArrayList<>();
-        try {
-            TransactionDAO transactionDAO = new TransactionDAO();
-            transactionBeans = transactionDAO.getAllTransactionIncome(this.getReadableDatabase());
-        }catch (Exception e) {
-            //TODO: Firebase
-        }
-        return transactionBeans;
-    }
-
-    public List<TransactionBean> getAllTransactionExpense() {
-        List<TransactionBean> transactionBeans = new ArrayList<>();
-        try {
-            TransactionDAO transactionDAO = new TransactionDAO();
-            transactionBeans = transactionDAO.getAllTransactionExpense(this.getReadableDatabase());
-        }catch (Exception e) {
-            //TODO: Firebase
-        }
-        return transactionBeans;
-    }
-
-
-
-    ////////////////////////////////////////////////////
     @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_TABLE_ACCOUNT);
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        sqLiteDatabase.execSQL(CREATE_TABLE_ACCOUNT);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        //On upgrade drop older tables
-        db.execSQL("DROP TABLE IF EXISTS " + AccountBean.TABLE);
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+        // on upgrade drop older tables
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + AccountBean.TABLE);
 
-        //Create new tables
-        onCreate(db);
+        // create new tables
+        onCreate(sqLiteDatabase);
     }
 
     // closing database
     public void closeDB() {
-        SQLiteDatabase dbRead = this.getReadableDatabase();
-        SQLiteDatabase dbWrite = this.getWritableDatabase();
-        if (dbRead != null && dbRead.isOpen())
-            dbRead.close();
-        if(dbWrite != null && dbWrite.isOpen())
-            dbWrite.close();
+        SQLiteDatabase db = this.getReadableDatabase();
+        if (db != null && db.isOpen())
+            db.close();
+    }
+
+    /*public List<String> getAllTableFromDB() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
+        List<String> stringList = new ArrayList<>();
+        if (c.moveToFirst()) {
+            while ( !c.isAfterLast() ) {
+                String a = c.getString(0);
+                stringList.add(a);
+                c.moveToNext();
+            }
+        }
+        return stringList;
+    }*/
+
+    // ------------------------ "account" table methods ----------------//
+    /**
+     * Creating a Account
+     */
+    public long insertAccountBean(AccountBean accountBean) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(AccountBean.KEY_NAME, accountBean.getName());
+        values.put(AccountBean.KEY_CURRENCY, accountBean.getCurrency());
+        values.put(AccountBean.KEY_AMOUNT, accountBean.getAmount());
+        values.put(AccountBean.KEY_FLAG_SELECTED, accountBean.getFlagSelected());
+        values.put(AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE, accountBean.getFlagViewTotalBalance());
+        values.put(AccountBean.KEY_IS_MASTER, accountBean.getIsMaster());
+        values.put(AccountBean.KEY_ID_ICON, accountBean.getIdIcon());
+
+        return db.insertOrThrow(AccountBean.TABLE, null, values);
+    }
+
+    /**
+     * Updating a Account
+     */
+    public int updateAccountBean(AccountBean accountBean) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(AccountBean.KEY_NAME, accountBean.getName());
+        values.put(AccountBean.KEY_CURRENCY, accountBean.getCurrency());
+        values.put(AccountBean.KEY_AMOUNT, accountBean.getAmount());
+        values.put(AccountBean.KEY_FLAG_SELECTED, accountBean.getFlagSelected());
+        values.put(AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE, accountBean.getFlagViewTotalBalance());
+        values.put(AccountBean.KEY_IS_MASTER, accountBean.getIsMaster());
+        values.put(AccountBean.KEY_ID_ICON, accountBean.getIdIcon());
+
+        return db.update(AccountBean.TABLE, values, AccountBean.KEY_ID + " = ?",
+                new String[] {String.valueOf(accountBean.getId())});
+    }
+
+    /**
+     * Deleting a Account
+     */
+    public void deleteAccountBean(long accountId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(AccountBean.TABLE, AccountBean.KEY_ID + " = ?",new String[] {String.valueOf(accountId)});
+    }
+
+    /**
+     * Getting single Account
+     */
+    public AccountBean getAccountBean(long account_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        AccountBean accountBean = new AccountBean();
+        String selectQuery = "SELECT * FROM " + AccountBean.TABLE + " WHERE " + AccountBean.KEY_ID + " = " + account_id;
+        Cursor c = db.rawQuery(selectQuery, null);
+        if(c != null) {
+            c.moveToFirst();
+
+            accountBean.setId(Long.parseLong(c.getString(c.getColumnIndex(AccountBean.KEY_ID))));
+            accountBean.setName(c.getString(c.getColumnIndex(AccountBean.KEY_NAME)));
+            accountBean.setCurrency(c.getString(c.getColumnIndex(AccountBean.KEY_CURRENCY)));
+            accountBean.setIdIcon(c.getString(c.getColumnIndex(AccountBean.KEY_ID_ICON)));
+            accountBean.setAmount(c.getInt(c.getColumnIndex(AccountBean.KEY_AMOUNT)));
+            accountBean.setFlagViewTotalBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE)));
+            accountBean.setFlagSelected(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_SELECTED)));
+            accountBean.setIsMaster(c.getInt(c.getColumnIndex(AccountBean.KEY_IS_MASTER)));
+        }
+        if(c != null)
+            c.close();
+        return accountBean;
+    }
+
+    /**
+     * Getting all Accounts
+     */
+    public List<AccountBean> getAllAccountBeans() {
+        List<AccountBean> accountBeans = new ArrayList<>();
+        String selectQuery = "SELECT * FROM " + AccountBean.TABLE;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+        if (c.moveToFirst()) {
+            do {
+                AccountBean accountBean = new AccountBean();
+                accountBean.setId(Long.parseLong(c.getString(c.getColumnIndex(AccountBean.KEY_ID))));
+                accountBean.setName(c.getString(c.getColumnIndex(AccountBean.KEY_NAME)));
+                accountBean.setCurrency(c.getString(c.getColumnIndex(AccountBean.KEY_CURRENCY)));
+                accountBean.setIdIcon(c.getString(c.getColumnIndex(AccountBean.KEY_ID_ICON)));
+                accountBean.setAmount(c.getInt(c.getColumnIndex(AccountBean.KEY_AMOUNT)));
+                accountBean.setFlagViewTotalBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE)));
+                accountBean.setFlagSelected(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_SELECTED)));
+                accountBean.setIsMaster(c.getInt(c.getColumnIndex(AccountBean.KEY_IS_MASTER)));
+                accountBeans.add(accountBean);
+            } while (c.moveToNext());
+        }
+        c.close();
+        return accountBeans;
+    }
+
+    /**
+     * Getting all Account no master
+     */
+    public List<AccountBean> getAllAccountBeansNoMaster() {
+        List<AccountBean> accountBeans = new ArrayList<>();
+        String selectQuery = "SELECT * FROM " + AccountBean.TABLE + " a WHERE a." + AccountBean.KEY_IS_MASTER + " = " + TypeObjectBean.NO_MASTER;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+        if (c.moveToFirst()) {
+            do {
+                AccountBean accountBean = new AccountBean();
+                accountBean.setId(Long.parseLong(c.getString(c.getColumnIndex(AccountBean.KEY_ID))));
+                accountBean.setName(c.getString(c.getColumnIndex(AccountBean.KEY_NAME)));
+                accountBean.setCurrency(c.getString(c.getColumnIndex(AccountBean.KEY_CURRENCY)));
+                accountBean.setIdIcon(c.getString(c.getColumnIndex(AccountBean.KEY_ID_ICON)));
+                accountBean.setAmount(c.getInt(c.getColumnIndex(AccountBean.KEY_AMOUNT)));
+                accountBean.setFlagViewTotalBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE)));
+                accountBean.setFlagSelected(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_SELECTED)));
+                accountBean.setIsMaster(c.getInt(c.getColumnIndex(AccountBean.KEY_IS_MASTER)));
+                accountBeans.add(accountBean);
+            } while (c.moveToNext());
+        }
+        c.close();
+        return accountBeans;
+    }
+
+    /**
+     * Getting single Account
+     */
+    public AccountBean getAccountBeanSelected() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        AccountBean accountBean = new AccountBean();
+        String selectQuery = "SELECT * FROM " + AccountBean.TABLE + " WHERE " + AccountBean.KEY_FLAG_SELECTED + " = " + TypeObjectBean.SELECTED;
+        Cursor c = db.rawQuery(selectQuery, null);
+        if(c != null) {
+            c.moveToFirst();
+
+            accountBean.setId(Long.parseLong(c.getString(c.getColumnIndex(AccountBean.KEY_ID))));
+            accountBean.setName(c.getString(c.getColumnIndex(AccountBean.KEY_NAME)));
+            accountBean.setCurrency(c.getString(c.getColumnIndex(AccountBean.KEY_CURRENCY)));
+            accountBean.setIdIcon(c.getString(c.getColumnIndex(AccountBean.KEY_ID_ICON)));
+            accountBean.setAmount(c.getInt(c.getColumnIndex(AccountBean.KEY_AMOUNT)));
+            accountBean.setFlagViewTotalBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE)));
+            accountBean.setFlagSelected(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_SELECTED)));
+            accountBean.setIsMaster(c.getInt(c.getColumnIndex(AccountBean.KEY_IS_MASTER)));
+
+            c.close();
+        }
+        return accountBean;
     }
 
 }

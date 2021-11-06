@@ -24,7 +24,7 @@
     <string name="title_page_new_account">Nuovo conto</string>
     <string name="spender_text">Spendaccione</string>
     <string name="pressToExit">Premere di nuovo indietro per uscire</string>
-    <string name="account_bean_master">Mostra tutti gli account</string>
+    <string name="account_bean_master">Tutti gli account</string>
     <string name="account_bean_cash">Contanti</string>
     <string name="account_bean_credit_card">Carta di credito</string>
     <string name="category_bean_hobby">Svago</string>

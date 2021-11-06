@@ -9,7 +9,8 @@ public class AccountBean {
     public static final String KEY_FLAG_VIEW_TOTAL_BALANCE = "flag_view_total_balance";
     public static final String KEY_FLAG_SELECTED = "flag_selected";
     public static final String KEY_IS_MASTER = "is_master";
-    public static final String KEY_CURRENCY = "currency";
+    public static final String KEY_CURRENCY = "currency";//EUR
+    public static final String KEY_ID_ICON = "id_icon";
 
     private long id;
     private String name;
@@ -18,6 +19,7 @@ public class AccountBean {
     private int flagSelected;
     private int isMaster;
     private String currency;
+    private String idIcon;
 
     public AccountBean() {
         currency = "EUR";
@@ -71,6 +73,13 @@ public class AccountBean {
     }
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public String getIdIcon() {
+        return idIcon;
+    }
+    public void setIdIcon(String idIcon) {
+        this.idIcon = idIcon;
     }
 
 }

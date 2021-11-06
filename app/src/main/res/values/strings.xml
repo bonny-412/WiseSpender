@@ -35,7 +35,7 @@
     <string name="pressToExit">Press back again to exit</string>
 
     <!-- BEAN -->
-    <string name="account_bean_master">Show all accounts</string>
+    <string name="account_bean_master">All accounts</string>
     <string name="account_bean_cash">Cash</string>
     <string name="account_bean_credit_card">Credit card</string>
     
