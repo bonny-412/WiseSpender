@@ -11,6 +11,8 @@ public class TypeObjectBean {
     public static final int NO_SELECTED = 0;
     public static final int IS_MASTER = 1;
     public static final int NO_MASTER = 0;
+    public static final int IS_TOTAL_BALANCE = 1;
+    public static final int NO_TOTAL_BALANCE = 0;
 
     public TypeObjectBean() {}
 

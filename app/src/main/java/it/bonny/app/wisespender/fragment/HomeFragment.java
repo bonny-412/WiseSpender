@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.SharedElementCallback;
 import androidx.fragment.app.Fragment;
 
 import org.w3c.dom.Text;
@@ -35,17 +36,17 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.home_fragment, container, false);
         init(root);
 
-        utility = new Utility(getActivity());
+        utility = new Utility();
         db = new DatabaseHelper(getContext());
-        showWelcomeAlert();
+        showWelcomeAlert(root);
 
         List<AccountBean> accountBeanList = db.getAllAccountBeans();
         AccountBean accountBeanSelected = db.getAccountBeanSelected();
         db.closeDB();
 
+        BottomSheetAccount bottomSheetAccount = new BottomSheetAccount(accountBeanList, getActivity());
         accountName.setText(accountBeanSelected.getName());
         accountBtn.setOnClickListener(view -> {
-            BottomSheetAccount bottomSheetAccount = new BottomSheetAccount(accountBeanList, getActivity());
             bottomSheetAccount.show(getParentFragmentManager(), "TAG");
         });
 
@@ -54,7 +55,7 @@ public class HomeFragment extends Fragment {
 
 
     //Shows the welcome alert
-    private void showWelcomeAlert(){
+    private void showWelcomeAlert(View root){
         boolean firstStart = false;
         SharedPreferences prefs;
         if(getContext() != null) {
@@ -67,9 +68,8 @@ public class HomeFragment extends Fragment {
             }
         }
         if(firstStart) {
-            utility.insertAccountDefault(db);
-            Toast.makeText(getContext(), "Benvenuto", Toast.LENGTH_SHORT).show();
             if(getActivity() != null) {
+                utility.insertAccountDefault(db, getActivity());
                 SharedPreferences.Editor editor = getActivity().getSharedPreferences(Utility.PREFS_NAME_FILE, Context.MODE_PRIVATE).edit();
                 editor.putBoolean("firstStart", false);
                 editor.apply();

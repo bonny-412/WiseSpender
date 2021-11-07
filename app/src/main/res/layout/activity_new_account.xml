@@ -90,11 +90,12 @@
                     android:drawableStart="@drawable/custom_ic_edit"
                     android:drawablePadding="12dp"
                     android:textColor="@color/primary_text"
-                    android:textColorHint="@android:color/darker_gray"
+                    android:textColorHint="@color/secondary_text"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:inputType="textCapWords"/>
+                    android:inputType="textCapWords"
+                    android:imeOptions="actionDone"/>
 
                 <EditText
                     android:id="@+id/accountOpeningBalance"
@@ -106,7 +107,7 @@
                     android:textSize="14sp"
                     android:drawableStart="@drawable/custom_ic_euro_symbol"
                     android:drawablePadding="12dp"
-                    android:textColorHint="@android:color/darker_gray"
+                    android:textColorHint="@color/secondary_text"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
                     android:autofillHints="name"
@@ -115,10 +116,65 @@
                     app:layout_constraintStart_toStartOf="@+id/accountName"
                     app:layout_constraintEnd_toEndOf="@+id/accountName"
                     app:layout_constraintTop_toBottomOf="@+id/accountName"
-                    android:layout_marginTop="10dp" />
+                    android:layout_marginTop="10dp"
+                    android:imeOptions="actionDone"/>
 
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/linearSwitch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/accountOpeningBalance"
+                    android:layout_marginTop="10dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/new_account_included_balance"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/flag_view_total_balance"
+                        app:layout_constraintBottom_toBottomOf="@+id/flag_view_total_balance"
+                        android:textColor="@color/secondary_text"/>
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/flag_view_total_balance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="parent"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <LinearLayout
+                    android:id="@+id/linearIcon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/linearSwitch"
+                    app:layout_constraintStart_toStartOf="@+id/linearSwitch"
+                    app:layout_constraintEnd_toEndOf="@+id/linearSwitch"
+                    app:layout_constraintBottom_toTopOf="@+id/buttonSaveNewAccount"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/titleChooseIconNewAccount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/secondary_text"
+                        android:text="@string/new_account_choose_icon"
+                        android:layout_marginBottom="10dp"/>
+                    <GridView
+                        android:id="@+id/gridViewNewAccount"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:maxHeight="400dp"
+                        android:columnWidth="90dp"
+                        android:numColumns="auto_fit"
+                        android:verticalSpacing="10dp"
+                        android:horizontalSpacing="10dp"
+                        android:stretchMode="spacingWidthUniform"
+                        android:gravity="center"
+                        android:listSelector="@drawable/selected_item_icon_new_account"/>
+                </LinearLayout>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/buttonSaveNewAccount"
@@ -134,7 +190,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/accountOpeningBalance"
+                    app:layout_constraintTop_toBottomOf="@+id/linearIcon"
                     android:layout_margin="16dp"
                     />
 

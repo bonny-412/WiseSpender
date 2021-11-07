@@ -3,46 +3,48 @@ package it.bonny.app.wisespender.util;
 import android.app.Activity;
 import android.content.res.Resources;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
 import it.bonny.app.wisespender.bean.CategoryBean;
+import it.bonny.app.wisespender.bean.IconBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
 import it.bonny.app.wisespender.db.DatabaseHelper;
 
 public class Utility {
     public static  final String PREFS_NAME_FILE = "WiseSpenderFileConf";
-    private final Activity activity;
-    public Utility(Activity activity) {
-        this.activity = activity;
+    public Utility() {
     }
 
-    public void insertAccountDefault(DatabaseHelper db) {
+    public void insertAccountDefault(DatabaseHelper db, Activity activity) {
         AccountBean accountMaster = new AccountBean();
         accountMaster.setName(activity.getString(R.string.account_bean_master));
         accountMaster.setAmount(0);
-        accountMaster.setIsMaster(1);
-        accountMaster.setFlagSelected(1);
-        accountMaster.setFlagViewTotalBalance(1);
+        accountMaster.setIsMaster(TypeObjectBean.IS_MASTER);
+        accountMaster.setFlagSelected(TypeObjectBean.SELECTED);
+        accountMaster.setFlagViewTotalBalance(TypeObjectBean.IS_TOTAL_BALANCE);
         accountMaster.setCurrency("EUR");
-        accountMaster.setIdIcon("2131165369");
+        accountMaster.setIdIcon("ic_bank");
 
         AccountBean accountCash = new AccountBean();
         accountCash.setName(activity.getString(R.string.account_bean_cash));
         accountCash.setAmount(0);
-        accountCash.setIsMaster(0);
-        accountCash.setFlagSelected(0);
-        accountCash.setFlagViewTotalBalance(1);
+        accountCash.setIsMaster(TypeObjectBean.NO_MASTER);
+        accountCash.setFlagSelected(TypeObjectBean.NO_SELECTED);
+        accountCash.setFlagViewTotalBalance(TypeObjectBean.IS_TOTAL_BALANCE);
         accountCash.setCurrency("EUR");
-        accountCash.setIdIcon("2131165367");
+        accountCash.setIdIcon("ic_money");
 
         AccountBean accountCreditCard = new AccountBean();
         accountCreditCard.setName(activity.getString(R.string.account_bean_credit_card));
         accountCreditCard.setAmount(0);
-        accountCreditCard.setIsMaster(0);
-        accountCreditCard.setFlagSelected(0);
-        accountCreditCard.setFlagViewTotalBalance(1);
+        accountCash.setIsMaster(TypeObjectBean.NO_MASTER);
+        accountCash.setFlagSelected(TypeObjectBean.NO_SELECTED);
+        accountCash.setFlagViewTotalBalance(TypeObjectBean.IS_TOTAL_BALANCE);
         accountCreditCard.setCurrency("EUR");
-        accountCreditCard.setIdIcon("2131165356");
+        accountCreditCard.setIdIcon("ic_credit_card");
 
         long a = db.insertAccountBean(accountMaster);
         long b = db.insertAccountBean(accountCash);
@@ -52,7 +54,7 @@ public class Utility {
 
     }
 
-    public void insertCategoryDefault(DatabaseHelper db) {
+    public void insertCategoryDefault(DatabaseHelper db, Activity activity) {
         CategoryBean categoryHobbyIncome = new CategoryBean();
         categoryHobbyIncome.setName(activity.getString(R.string.category_bean_hobby));
         categoryHobbyIncome.setTypeCategory(TypeObjectBean.INCOME);
@@ -80,6 +82,33 @@ public class Utility {
 
         db.closeDB();*/
 
+    }
+
+    public int getIdIconByAccountBean(AccountBean accountBean) {
+        int idIcon = 0;
+        if("ic_bank".equals(accountBean.getIdIcon())) {
+            idIcon = R.drawable.ic_bank;
+        }else if("ic_credit_card".equals(accountBean.getIdIcon())) {
+            idIcon = R.drawable.ic_credit_card;
+        }else if("ic_money".equals(accountBean.getIdIcon())) {
+            idIcon = R.drawable.ic_money;
+        }else if("ic_cash_register".equals(accountBean.getIdIcon())) {
+            idIcon = R.drawable.ic_cash_register;
+        }
+        return idIcon;
+    }
+
+    public static List<IconBean> getListIconToNewAccount() {
+        List<IconBean> iconBeans = new ArrayList<>();
+        IconBean icBank = new IconBean(R.drawable.ic_bank, "ic_bank");
+        IconBean icCashRegister = new IconBean(R.drawable.ic_cash_register, "ic_cash_register");
+        IconBean icCreditCard = new IconBean(R.drawable.ic_credit_card, "ic_credit_card");
+        IconBean icMoney = new IconBean(R.drawable.ic_money, "ic_money");
+        iconBeans.add(icBank);
+        iconBeans.add(icCashRegister);
+        iconBeans.add(icCreditCard);
+        iconBeans.add(icMoney);
+        return iconBeans;
     }
 
 }

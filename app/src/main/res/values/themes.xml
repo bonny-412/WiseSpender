@@ -1,12 +1,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <style name="Theme.WiseSpender" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
-        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorSecondary">@color/primary</item>
         <item name="android:statusBarColor" tools:targetApi="l">@color/black</item>
     </style>
     <style name="Theme.WiseSpender1" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
-        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorSecondary">@color/primary</item>
         <item name="android:statusBarColor" tools:targetApi="l">@color/primary</item>
     </style>
 </resources>

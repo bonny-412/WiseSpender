@@ -24,6 +24,7 @@ public class ListAccountAdapter extends RecyclerView.Adapter<ListAccountAdapter.
     private int selectedPosition = -1;
     private final Activity activity;
     private final DatabaseHelper db;
+    private final Utility utility = new Utility();
 
     public ListAccountAdapter(List<AccountBean> accountBeanList, Activity activity) {
         this.accountBeanList = accountBeanList;
@@ -46,8 +47,7 @@ public class ListAccountAdapter extends RecyclerView.Adapter<ListAccountAdapter.
         holder.itemListAccountName.setText(accountBean.getName());
         if(accountBeanList.get(position) != null && accountBeanList.get(position).getIdIcon() != null && !"".equals(accountBeanList.get(position).getIdIcon())) {
             try {
-                int id_icon = Integer.parseInt(accountBeanList.get(position).getIdIcon());
-                holder.itemListAccountIcon.setImageResource(id_icon);
+                holder.itemListAccountIcon.setImageResource(utility.getIdIconByAccountBean(accountBean));
             }catch (Exception e) {
                 //TODO: Firebase
             }
