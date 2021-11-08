@@ -33,4 +33,6 @@
     <string name="new_account_choose_icon">Scegli un\'icona:</string>
     <string name="saved_ok">Salvataggio avvenuto con successo</string>
     <string name="saved_ko">Errore durante il salvataggio</string>
+    <string name="accounts">Conti</string>
+    <string name="categories">Categorie</string>
 </resources>

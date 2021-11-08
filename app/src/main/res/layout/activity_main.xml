@@ -11,10 +11,7 @@
         android:id="@+id/rootLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/menu"
+        app:layout_anchor="@id/bottomAppBar"
         />
 
 
@@ -47,6 +44,6 @@
         android:contentDescription="@string/app_name"
         android:src="@drawable/ic_transfer"
         android:tint="@color/background_card"
-        app:layout_anchor="@id/bottomAppBar" />
+        app:layout_anchor="@id/bottomAppBar"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

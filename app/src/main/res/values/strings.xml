@@ -48,5 +48,8 @@
 
     <string name="saved_ok">Saved successfully</string>
     <string name="saved_ko">Error while saving</string>
+
+    <string name="accounts">Accounts</string>
+    <string name="categories">Categories</string>
     
 </resources>
