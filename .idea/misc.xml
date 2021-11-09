@@ -8,6 +8,7 @@
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1527777777777778" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable-v24/icon_background_no_selected.xml" value="0.18981481481481483" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable-v24/item_icon_new_account.xml" value="0.14010416666666667" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/alert_background.xml" value="0.1390625" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/alternative_page_background.xml" value="0.11770833333333333" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/background_button.xml" value="0.14010416666666667" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/bottom_navigation_background.xml" value="0.1527777777777778" />
@@ -50,9 +51,11 @@
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/selected_item_icon_new_account.xml" value="0.18981481481481483" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/sheet_line_background.xml" value="0.14010416666666667" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/view_background.xml" value="0.1527777777777778" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/activity_account.xml" value="0.1" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/activity_main.xml" value="0.11018518518518519" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/activity_new_account.xml" value="0.2" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/activity_splash_screen.xml" value="0.12" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/alert_delete.xml" value="0.264" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/bottom_sheet_account.xml" value="0.12395833333333334" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/button_account_home_fragment.xml" value="0.2484375" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/button_category_home_fragment.xml" value="0.2484375" />
@@ -61,6 +64,7 @@
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/info_income.xml" value="0.264" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/item_icon_new_account.xml" value="0.2484375" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/item_list_account.xml" value="0.264" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/item_list_account_category.xml" value="0.35180722891566263" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/list_account_item.xml" value="0.1171875" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/statistics_fragment.xml" value="0.1" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/transaction_fragment.xml" value="0.1" />

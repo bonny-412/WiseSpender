@@ -12,4 +12,6 @@
     <color name="primary_dark">#04b6e4</color>
     <color name="secondary_dark">#e54d5c</color>
 
+    <color name="transparent">#00FFFFFF</color>
+
 </resources>

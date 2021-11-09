@@ -24,7 +24,6 @@
         android:layout_height="wrap_content"
         android:text="@string/spender_text"
         android:textColor="@color/primary_text"
-        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/titleTextHello"
         app:layout_constraintTop_toBottomOf="@+id/titleTextHello" />
 
@@ -230,7 +229,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/title_transactions"
                 android:textColor="@color/primary_text"
-                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

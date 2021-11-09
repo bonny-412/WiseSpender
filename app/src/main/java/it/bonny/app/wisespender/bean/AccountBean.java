@@ -5,21 +5,25 @@ public class AccountBean {
     public static final String TABLE = "account";
     public static final String KEY_ID = "id";
     public static final String KEY_NAME = "name";
-    public static final String KEY_AMOUNT = "amount";
+    public static final String KEY_OPENING_BALANCE = "openingBalance";
     public static final String KEY_FLAG_VIEW_TOTAL_BALANCE = "flag_view_total_balance";
     public static final String KEY_FLAG_SELECTED = "flag_selected";
     public static final String KEY_IS_MASTER = "is_master";
     public static final String KEY_CURRENCY = "currency";//EUR
     public static final String KEY_ID_ICON = "id_icon";
+    public static final String KEY_TOT_MONEY_INCOME = "totMoneyIncome";
+    public static final String KEY_TOT_MONEY_EXPENSE = "totMoneyExpense";
 
     private long id;
     private String name;
-    private int amount;
+    private int openingBalance;
     private int flagViewTotalBalance;
     private int flagSelected;
     private int isMaster;
     private String currency;
     private String idIcon;
+    private int totMoneyIncome;
+    private int totMoneyExpense;
 
     public AccountBean() {
         currency = "EUR";
@@ -40,11 +44,11 @@ public class AccountBean {
         this.name = name;
     }
 
-    public int getAmount() {
-        return amount;
+    public int getOpeningBalance() {
+        return openingBalance;
     }
-    public void setAmount(int amount) {
-        this.amount = amount;
+    public void setOpeningBalance(int openingBalance) {
+        this.openingBalance = openingBalance;
     }
 
     public int getFlagViewTotalBalance() {
@@ -80,6 +84,20 @@ public class AccountBean {
     }
     public void setIdIcon(String idIcon) {
         this.idIcon = idIcon;
+    }
+
+    public int getTotMoneyIncome() {
+        return totMoneyIncome;
+    }
+    public void setTotMoneyIncome(int totMoneyIncome) {
+        this.totMoneyIncome = totMoneyIncome;
+    }
+
+    public int getTotMoneyExpense() {
+        return totMoneyExpense;
+    }
+    public void setTotMoneyExpense(int totMoneyExpense) {
+        this.totMoneyExpense = totMoneyExpense;
     }
 
 }

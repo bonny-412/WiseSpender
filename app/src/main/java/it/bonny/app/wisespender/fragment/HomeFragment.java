@@ -1,6 +1,7 @@
 package it.bonny.app.wisespender.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.core.app.SharedElementCallback;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.card.MaterialCardView;
+
 import org.w3c.dom.Text;
 
 import java.util.List;
@@ -21,6 +24,7 @@ import java.util.List;
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
 import it.bonny.app.wisespender.db.DatabaseHelper;
+import it.bonny.app.wisespender.manager.AccountActivity;
 import it.bonny.app.wisespender.manager.BottomSheetAccount;
 import it.bonny.app.wisespender.util.Utility;
 
@@ -44,11 +48,17 @@ public class HomeFragment extends Fragment {
         AccountBean accountBeanSelected = db.getAccountBeanSelected();
         db.closeDB();
 
+        MaterialCardView btnAccountPage = root.findViewById(R.id.btnAccountPage);
+        btnAccountPage.setOnClickListener(view -> {
+            if(getActivity() != null) {
+                Intent intent = new Intent(getActivity(), AccountActivity.class);
+                getActivity().startActivity(intent);
+            }
+        });
+
         BottomSheetAccount bottomSheetAccount = new BottomSheetAccount(accountBeanList, getActivity());
         accountName.setText(accountBeanSelected.getName());
-        accountBtn.setOnClickListener(view -> {
-            bottomSheetAccount.show(getParentFragmentManager(), "TAG");
-        });
+        accountBtn.setOnClickListener(view -> bottomSheetAccount.show(getParentFragmentManager(), "TAG"));
 
         return root;
     }

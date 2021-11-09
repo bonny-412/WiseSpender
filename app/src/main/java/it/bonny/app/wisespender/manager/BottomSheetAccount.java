@@ -36,20 +36,11 @@ public class BottomSheetAccount extends BottomSheetDialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle bundle) {
         View view = inflater.inflate(R.layout.bottom_sheet_account, container, false);
-
-        MaterialButton buttonNewAccount = view.findViewById(R.id.buttonNewAccount);
         RecyclerView listViewAccount = view.findViewById(R.id.listViewAccount);
-
         ListAccountAdapter listAccountAdapter = new ListAccountAdapter(accountBeanList, activity);
         listViewAccount.setHasFixedSize(true);
         listViewAccount.setLayoutManager(new LinearLayoutManager(getContext()));
         listViewAccount.setAdapter(listAccountAdapter);
-
-        buttonNewAccount.setOnClickListener(view1 -> {
-            Intent intent = new Intent(activity, NewAccountActivity.class);
-            view1.getContext().startActivity(intent);
-        });
-
         return view;
     }
 

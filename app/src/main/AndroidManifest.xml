@@ -34,6 +34,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".manager.MainActivity" />
         </activity>
+        <activity
+            android:name=".manager.AccountActivity"
+            android:exported="false"
+            android:theme="@style/Theme.WiseSpender1">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".manager.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -52,18 +52,43 @@ public class NewAccountActivity extends AppCompatActivity implements TextWatcher
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_account);
         init();
+        AccountBean accountBean;
+        DatabaseHelper db = new DatabaseHelper(getApplicationContext());
+        int iconSelectedPosition;
+
+        String idAccountString = getIntent().getStringExtra("idAccount");
+        if(idAccountString != null && !"".equals(idAccountString)) {//Sono in modifca
+            long idAccount = Long.parseLong(idAccountString);
+            accountBean = db.getAccountBean(idAccount);
+            db.closeDB();
+            accountName.setText(accountBean.getName());
+            //accountOpeningBalance.setText(accountBean.getOpeningBalance());
+            boolean flag = false;
+            if(accountBean.getFlagViewTotalBalance() == TypeObjectBean.IS_TOTAL_BALANCE)
+                flag = true;
+            flagViewTotalBalance.setChecked(flag);
+            iconSelectedPosition = Utility.getPositionIconToNewAccount(accountBean.getIdIcon());
+        }else {
+            accountBean = new AccountBean();
+            accountBean.setIsMaster(TypeObjectBean.NO_MASTER);
+            accountBean.setFlagViewTotalBalance(TypeObjectBean.NO_TOTAL_BALANCE);
+            accountBean.setFlagSelected(TypeObjectBean.NO_SELECTED);
+            iconSelectedPosition = -1;
+        }
 
         IconNewAccountAdapter iconNewAccountAdapter = new IconNewAccountAdapter(this);
         gridView.setAdapter(iconNewAccountAdapter);
-
-        AccountBean accountBean = new AccountBean();
-        accountBean.setIsMaster(TypeObjectBean.NO_MASTER);
-        accountBean.setFlagViewTotalBalance(TypeObjectBean.NO_TOTAL_BALANCE);
-        accountBean.setFlagSelected(TypeObjectBean.NO_SELECTED);
+        //Sono in modifca
+        if(iconSelectedPosition != -1) {
+            iconNewAccountAdapter.makeAllUnselect(iconSelectedPosition);
+            iconNewAccountAdapter.notifyDataSetChanged();
+        }
 
         returnNewAccount.setOnClickListener(view -> finish());
 
         gridView.setOnItemClickListener((adapterView, view, position, l) -> {
+            iconNewAccountAdapter.makeAllUnselect(position);
+            iconNewAccountAdapter.notifyDataSetChanged();
             accountBean.setIdIcon(Utility.getListIconToNewAccount().get(position).getName());
             titleChooseIconNewAccount.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.secondary_text));
         });
@@ -92,19 +117,18 @@ public class NewAccountActivity extends AppCompatActivity implements TextWatcher
                 titleChooseIconNewAccount.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.secondary_text));
             }
 
-            int amount = 0;
+            int openingBalance = 0;
             if(!"".equals(accountOpeningBalance.getText().toString().trim())) {
                 try {
-                    amount = Integer.parseInt(accountOpeningBalance.getText().toString().trim());
+                    openingBalance = Integer.parseInt(accountOpeningBalance.getText().toString().trim());
                 }catch (Exception e) {
                     //TODO: Firebase
                 }
             }
-            accountBean.setAmount(amount);
+            accountBean.setOpeningBalance(openingBalance);
 
             if(!isError) {
                 try {
-                    DatabaseHelper db = new DatabaseHelper(getApplicationContext());
                     db.insertAccountBean(accountBean);
                     db.closeDB();
                     Toast.makeText(getApplicationContext(), getString(R.string.saved_ok), Toast.LENGTH_LONG).show();

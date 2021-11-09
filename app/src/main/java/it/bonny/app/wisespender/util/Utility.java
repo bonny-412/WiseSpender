@@ -21,30 +21,36 @@ public class Utility {
     public void insertAccountDefault(DatabaseHelper db, Activity activity) {
         AccountBean accountMaster = new AccountBean();
         accountMaster.setName(activity.getString(R.string.account_bean_master));
-        accountMaster.setAmount(0);
+        accountMaster.setOpeningBalance(0);
         accountMaster.setIsMaster(TypeObjectBean.IS_MASTER);
         accountMaster.setFlagSelected(TypeObjectBean.SELECTED);
         accountMaster.setFlagViewTotalBalance(TypeObjectBean.IS_TOTAL_BALANCE);
         accountMaster.setCurrency("EUR");
         accountMaster.setIdIcon("ic_bank");
+        accountMaster.setTotMoneyIncome(0);
+        accountMaster.setTotMoneyExpense(0);
 
         AccountBean accountCash = new AccountBean();
         accountCash.setName(activity.getString(R.string.account_bean_cash));
-        accountCash.setAmount(0);
+        accountCash.setOpeningBalance(0);
         accountCash.setIsMaster(TypeObjectBean.NO_MASTER);
         accountCash.setFlagSelected(TypeObjectBean.NO_SELECTED);
         accountCash.setFlagViewTotalBalance(TypeObjectBean.IS_TOTAL_BALANCE);
         accountCash.setCurrency("EUR");
         accountCash.setIdIcon("ic_money");
+        accountCash.setTotMoneyIncome(0);
+        accountCash.setTotMoneyExpense(0);
 
         AccountBean accountCreditCard = new AccountBean();
         accountCreditCard.setName(activity.getString(R.string.account_bean_credit_card));
-        accountCreditCard.setAmount(0);
+        accountCreditCard.setOpeningBalance(0);
         accountCash.setIsMaster(TypeObjectBean.NO_MASTER);
         accountCash.setFlagSelected(TypeObjectBean.NO_SELECTED);
         accountCash.setFlagViewTotalBalance(TypeObjectBean.IS_TOTAL_BALANCE);
         accountCreditCard.setCurrency("EUR");
         accountCreditCard.setIdIcon("ic_credit_card");
+        accountCreditCard.setTotMoneyIncome(0);
+        accountCreditCard.setTotMoneyExpense(0);
 
         long a = db.insertAccountBean(accountMaster);
         long b = db.insertAccountBean(accountCash);
@@ -109,6 +115,20 @@ public class Utility {
         iconBeans.add(icCreditCard);
         iconBeans.add(icMoney);
         return iconBeans;
+    }
+
+    public static int getPositionIconToNewAccount(String nameIcon) {
+        int pos = -1;
+        if("ic_bank".equals(nameIcon)) {
+            pos = 0;
+        }else if("ic_cash_register".equals(nameIcon)) {
+            pos = 1;
+        }else if("ic_credit_card".equals(nameIcon)) {
+            pos = 2;
+        }else if("ic_money".equals(nameIcon)) {
+            pos = 3;
+        }
+        return pos;
     }
 
 }

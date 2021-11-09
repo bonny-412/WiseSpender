@@ -172,8 +172,7 @@
                         android:verticalSpacing="10dp"
                         android:horizontalSpacing="10dp"
                         android:stretchMode="spacingWidthUniform"
-                        android:gravity="center"
-                        android:listSelector="@drawable/selected_item_icon_new_account"/>
+                        android:gravity="center"/>
                 </LinearLayout>
 
                 <com.google.android.material.button.MaterialButton

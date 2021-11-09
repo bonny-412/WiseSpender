@@ -14,12 +14,14 @@ public class AccountDAO {
     public long updateAccount(AccountBean accountBean, SQLiteDatabase db) {
         ContentValues values = new ContentValues();
         values.put(AccountBean.KEY_NAME, accountBean.getName());
-        values.put(AccountBean.KEY_AMOUNT, accountBean.getAmount());
+        values.put(AccountBean.KEY_OPENING_BALANCE, accountBean.getOpeningBalance());
         values.put(AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE, accountBean.getFlagViewTotalBalance());
         values.put(AccountBean.KEY_FLAG_SELECTED, accountBean.getFlagSelected());
         values.put(AccountBean.KEY_IS_MASTER, accountBean.getIsMaster());
         values.put(AccountBean.KEY_CURRENCY, accountBean.getCurrency());
         values.put(AccountBean.KEY_ID_ICON, accountBean.getIdIcon());
+        values.put(AccountBean.KEY_TOT_MONEY_INCOME, accountBean.getTotMoneyIncome());
+        values.put(AccountBean.KEY_TOT_MONEY_EXPENSE, accountBean.getTotMoneyExpense());
 
         return db.update(AccountBean.TABLE, values, AccountBean.KEY_ID + " = ?",
                 new String[] {String.valueOf(accountBean.getId())});
@@ -45,12 +47,14 @@ public class AccountDAO {
 
             accountBean.setId(Long.parseLong(c.getString(c.getColumnIndex(AccountBean.KEY_ID))));
             accountBean.setName(c.getString(c.getColumnIndex(AccountBean.KEY_NAME)));
-            accountBean.setAmount(c.getInt(c.getColumnIndex(AccountBean.KEY_AMOUNT)));
+            accountBean.setOpeningBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_OPENING_BALANCE)));
             accountBean.setFlagViewTotalBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE)));
             accountBean.setFlagSelected(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_SELECTED)));
             accountBean.setIsMaster(c.getInt(c.getColumnIndex(AccountBean.KEY_IS_MASTER)));
             accountBean.setCurrency(c.getString(c.getColumnIndex(AccountBean.KEY_CURRENCY)));
             accountBean.setIdIcon(c.getString(c.getColumnIndex(AccountBean.KEY_ID_ICON)));
+            accountBean.setTotMoneyIncome(c.getInt(c.getColumnIndex(AccountBean.KEY_TOT_MONEY_INCOME)));
+            accountBean.setTotMoneyExpense(c.getInt(c.getColumnIndex(AccountBean.KEY_TOT_MONEY_EXPENSE)));
         }
         if(c != null)
             c.close();
@@ -66,12 +70,14 @@ public class AccountDAO {
                 AccountBean accountBean = new AccountBean();
                 accountBean.setId(Long.parseLong(c.getString(c.getColumnIndex(AccountBean.KEY_ID))));
                 accountBean.setName(c.getString(c.getColumnIndex(AccountBean.KEY_NAME)));
-                accountBean.setAmount(c.getInt(c.getColumnIndex(AccountBean.KEY_AMOUNT)));
+                accountBean.setOpeningBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_OPENING_BALANCE)));
                 accountBean.setFlagViewTotalBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE)));
                 accountBean.setFlagSelected(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_SELECTED)));
                 accountBean.setIsMaster(c.getInt(c.getColumnIndex(AccountBean.KEY_IS_MASTER)));
                 accountBean.setCurrency(c.getString(c.getColumnIndex(AccountBean.KEY_CURRENCY)));
                 accountBean.setIdIcon(c.getString(c.getColumnIndex(AccountBean.KEY_ID_ICON)));
+                accountBean.setTotMoneyIncome(c.getInt(c.getColumnIndex(AccountBean.KEY_TOT_MONEY_INCOME)));
+                accountBean.setTotMoneyExpense(c.getInt(c.getColumnIndex(AccountBean.KEY_TOT_MONEY_EXPENSE)));
                 accountBeans.add(accountBean);
             }while (c.moveToNext());
         }

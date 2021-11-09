@@ -30,8 +30,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final int[] iconSelected = {0};
-
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setBackground(null);
         bottomNavigationView.getMenu().getItem(2).setEnabled(false);
@@ -70,6 +68,26 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, getString(R.string.pressToExit), Toast.LENGTH_SHORT).show();
 
         backPressedTime = System.currentTimeMillis();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
     }
 
 }

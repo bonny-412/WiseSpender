@@ -23,12 +23,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + "("
             + AccountBean.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
             + AccountBean.KEY_NAME + " TEXT,"
-            + AccountBean.KEY_AMOUNT + " INTEGER,"
+            + AccountBean.KEY_OPENING_BALANCE + " INTEGER,"
             + AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE + " INTEGER DEFAULT 0,"
             + AccountBean.KEY_FLAG_SELECTED + " INTEGER DEFAULT 0,"
             + AccountBean.KEY_IS_MASTER + " INTEGER DEFAULT 0,"
             + AccountBean.KEY_CURRENCY + " TEXT,"
-            + AccountBean.KEY_ID_ICON + " TEXT"
+            + AccountBean.KEY_ID_ICON + " TEXT,"
+            + AccountBean.KEY_TOT_MONEY_INCOME + " INTEGER,"
+            + AccountBean.KEY_TOT_MONEY_EXPENSE + " INTEGER"
             + ")";
     private static final String CREATE_TABLE_CATEGORY = "CREATE TABLE " + CategoryBean.TABLE
             + "("
@@ -98,11 +100,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(AccountBean.KEY_NAME, accountBean.getName());
         values.put(AccountBean.KEY_CURRENCY, accountBean.getCurrency());
-        values.put(AccountBean.KEY_AMOUNT, accountBean.getAmount());
+        values.put(AccountBean.KEY_OPENING_BALANCE, accountBean.getOpeningBalance());
         values.put(AccountBean.KEY_FLAG_SELECTED, accountBean.getFlagSelected());
         values.put(AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE, accountBean.getFlagViewTotalBalance());
         values.put(AccountBean.KEY_IS_MASTER, accountBean.getIsMaster());
         values.put(AccountBean.KEY_ID_ICON, accountBean.getIdIcon());
+        values.put(AccountBean.KEY_TOT_MONEY_INCOME, accountBean.getTotMoneyIncome());
+        values.put(AccountBean.KEY_TOT_MONEY_EXPENSE, accountBean.getTotMoneyExpense());
 
         return db.insertOrThrow(AccountBean.TABLE, null, values);
     }
@@ -115,11 +119,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(AccountBean.KEY_NAME, accountBean.getName());
         values.put(AccountBean.KEY_CURRENCY, accountBean.getCurrency());
-        values.put(AccountBean.KEY_AMOUNT, accountBean.getAmount());
+        values.put(AccountBean.KEY_OPENING_BALANCE, accountBean.getOpeningBalance());
         values.put(AccountBean.KEY_FLAG_SELECTED, accountBean.getFlagSelected());
         values.put(AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE, accountBean.getFlagViewTotalBalance());
         values.put(AccountBean.KEY_IS_MASTER, accountBean.getIsMaster());
         values.put(AccountBean.KEY_ID_ICON, accountBean.getIdIcon());
+        values.put(AccountBean.KEY_TOT_MONEY_INCOME, accountBean.getTotMoneyIncome());
+        values.put(AccountBean.KEY_TOT_MONEY_EXPENSE, accountBean.getTotMoneyExpense());
 
         return db.update(AccountBean.TABLE, values, AccountBean.KEY_ID + " = ?",
                 new String[] {String.valueOf(accountBean.getId())});
@@ -128,9 +134,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Deleting a Account
      */
-    public void deleteAccountBean(long accountId) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(AccountBean.TABLE, AccountBean.KEY_ID + " = ?",new String[] {String.valueOf(accountId)});
+    public boolean deleteAccountBean(long accountId) {
+        boolean result;
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            result = db.delete(AccountBean.TABLE, AccountBean.KEY_ID + " = ?",new String[] {String.valueOf(accountId)}) > 0;
+        }catch (Exception e) {
+            //TODO: Firebase
+            result = false;
+        }
+        return result;
     }
 
     /**
@@ -148,10 +161,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             accountBean.setName(c.getString(c.getColumnIndex(AccountBean.KEY_NAME)));
             accountBean.setCurrency(c.getString(c.getColumnIndex(AccountBean.KEY_CURRENCY)));
             accountBean.setIdIcon(c.getString(c.getColumnIndex(AccountBean.KEY_ID_ICON)));
-            accountBean.setAmount(c.getInt(c.getColumnIndex(AccountBean.KEY_AMOUNT)));
+            accountBean.setOpeningBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_OPENING_BALANCE)));
             accountBean.setFlagViewTotalBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE)));
             accountBean.setFlagSelected(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_SELECTED)));
             accountBean.setIsMaster(c.getInt(c.getColumnIndex(AccountBean.KEY_IS_MASTER)));
+            accountBean.setTotMoneyIncome(c.getInt(c.getColumnIndex(AccountBean.KEY_TOT_MONEY_INCOME)));
+            accountBean.setTotMoneyExpense(c.getInt(c.getColumnIndex(AccountBean.KEY_TOT_MONEY_EXPENSE)));
         }
         if(c != null)
             c.close();
@@ -173,10 +188,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 accountBean.setName(c.getString(c.getColumnIndex(AccountBean.KEY_NAME)));
                 accountBean.setCurrency(c.getString(c.getColumnIndex(AccountBean.KEY_CURRENCY)));
                 accountBean.setIdIcon(c.getString(c.getColumnIndex(AccountBean.KEY_ID_ICON)));
-                accountBean.setAmount(c.getInt(c.getColumnIndex(AccountBean.KEY_AMOUNT)));
+                accountBean.setOpeningBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_OPENING_BALANCE)));
                 accountBean.setFlagViewTotalBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE)));
                 accountBean.setFlagSelected(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_SELECTED)));
                 accountBean.setIsMaster(c.getInt(c.getColumnIndex(AccountBean.KEY_IS_MASTER)));
+                accountBean.setTotMoneyIncome(c.getInt(c.getColumnIndex(AccountBean.KEY_TOT_MONEY_INCOME)));
+                accountBean.setTotMoneyExpense(c.getInt(c.getColumnIndex(AccountBean.KEY_TOT_MONEY_EXPENSE)));
                 accountBeans.add(accountBean);
             } while (c.moveToNext());
         }
@@ -199,10 +216,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 accountBean.setName(c.getString(c.getColumnIndex(AccountBean.KEY_NAME)));
                 accountBean.setCurrency(c.getString(c.getColumnIndex(AccountBean.KEY_CURRENCY)));
                 accountBean.setIdIcon(c.getString(c.getColumnIndex(AccountBean.KEY_ID_ICON)));
-                accountBean.setAmount(c.getInt(c.getColumnIndex(AccountBean.KEY_AMOUNT)));
+                accountBean.setOpeningBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_OPENING_BALANCE)));
                 accountBean.setFlagViewTotalBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE)));
                 accountBean.setFlagSelected(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_SELECTED)));
                 accountBean.setIsMaster(c.getInt(c.getColumnIndex(AccountBean.KEY_IS_MASTER)));
+                accountBean.setTotMoneyIncome(c.getInt(c.getColumnIndex(AccountBean.KEY_TOT_MONEY_INCOME)));
+                accountBean.setTotMoneyExpense(c.getInt(c.getColumnIndex(AccountBean.KEY_TOT_MONEY_EXPENSE)));
                 accountBeans.add(accountBean);
             } while (c.moveToNext());
         }
@@ -225,10 +244,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             accountBean.setName(c.getString(c.getColumnIndex(AccountBean.KEY_NAME)));
             accountBean.setCurrency(c.getString(c.getColumnIndex(AccountBean.KEY_CURRENCY)));
             accountBean.setIdIcon(c.getString(c.getColumnIndex(AccountBean.KEY_ID_ICON)));
-            accountBean.setAmount(c.getInt(c.getColumnIndex(AccountBean.KEY_AMOUNT)));
+            accountBean.setOpeningBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_OPENING_BALANCE)));
             accountBean.setFlagViewTotalBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE)));
             accountBean.setFlagSelected(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_SELECTED)));
             accountBean.setIsMaster(c.getInt(c.getColumnIndex(AccountBean.KEY_IS_MASTER)));
+            accountBean.setTotMoneyIncome(c.getInt(c.getColumnIndex(AccountBean.KEY_TOT_MONEY_INCOME)));
+            accountBean.setTotMoneyExpense(c.getInt(c.getColumnIndex(AccountBean.KEY_TOT_MONEY_EXPENSE)));
 
             c.close();
         }
