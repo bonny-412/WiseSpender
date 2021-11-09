@@ -2,15 +2,11 @@ package it.bonny.app.wisespender.util;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +23,7 @@ import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
 import it.bonny.app.wisespender.db.DatabaseHelper;
-import it.bonny.app.wisespender.manager.NewAccountActivity;
+import it.bonny.app.wisespender.manager.NewEditAccountActivity;
 
 public class ListAccountsAdapter extends ArrayAdapter<AccountBean>  {
     private final List<AccountBean> accountBeanList;
@@ -56,7 +52,7 @@ public class ListAccountsAdapter extends ArrayAdapter<AccountBean>  {
             holder.titleAccount.setText(accountBeanList.get(position).getName());
             holder.btnDeleteAccount.setOnClickListener(view -> getAlertDialogDeleteListAccount(position, accountBeanList.get(position).getId()));
             holder.btnEditAccount.setOnClickListener(view -> {
-                Intent intent = new Intent(activity, NewAccountActivity.class);
+                Intent intent = new Intent(activity, NewEditAccountActivity.class);
                 String id = "" + accountBeanList.get(position).getId();
                 intent.putExtra("idAccount", id);
                 activity.startActivity(intent);

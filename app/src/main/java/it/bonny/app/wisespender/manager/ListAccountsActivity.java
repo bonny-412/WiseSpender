@@ -17,7 +17,7 @@ import it.bonny.app.wisespender.bean.AccountBean;
 import it.bonny.app.wisespender.db.DatabaseHelper;
 import it.bonny.app.wisespender.util.ListAccountsAdapter;
 
-public class AccountActivity extends AppCompatActivity {
+public class ListAccountsActivity extends AppCompatActivity {
     private DatabaseHelper db;
     private ListView listView;
 
@@ -25,7 +25,7 @@ public class AccountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account);
+        setContentView(R.layout.activity_list_accounts);
 
         db = new DatabaseHelper(getApplicationContext());
         listView = findViewById(R.id.listViewAccounts);
@@ -49,7 +49,7 @@ public class AccountActivity extends AppCompatActivity {
         });
 
         buttonNewAccount.setOnClickListener(view1 -> {
-            Intent intent = new Intent(getApplicationContext(), NewAccountActivity.class);
+            Intent intent = new Intent(getApplicationContext(), NewEditAccountActivity.class);
             intent.putExtra("idAccount", "");
             view1.getContext().startActivity(intent);
         });

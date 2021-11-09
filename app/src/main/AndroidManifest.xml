@@ -27,7 +27,7 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".manager.NewAccountActivity"
+            android:name=".manager.NewEditAccountActivity"
             android:exported="false"
             android:theme="@style/Theme.WiseSpender1">
             <meta-data
@@ -35,7 +35,7 @@
                 android:value=".manager.MainActivity" />
         </activity>
         <activity
-            android:name=".manager.AccountActivity"
+            android:name=".manager.ListAccountsActivity"
             android:exported="false"
             android:theme="@style/Theme.WiseSpender1">
             <meta-data

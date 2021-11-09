@@ -1,44 +1,28 @@
 package it.bonny.app.wisespender.manager;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
-import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.content.ContextCompat;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.InputFilter;
-import android.text.Spanned;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.switchmaterial.SwitchMaterial;
-import com.google.android.material.textfield.TextInputLayout;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
 import it.bonny.app.wisespender.db.DatabaseHelper;
-import it.bonny.app.wisespender.util.IconNewAccountAdapter;
+import it.bonny.app.wisespender.util.IconNewEditAccountAdapter;
 import it.bonny.app.wisespender.util.Utility;
 
-public class NewAccountActivity extends AppCompatActivity implements TextWatcher {
+public class NewEditAccountActivity extends AppCompatActivity implements TextWatcher {
 
     private MaterialButton returnNewAccount;
     private GridView gridView;
@@ -50,7 +34,7 @@ public class NewAccountActivity extends AppCompatActivity implements TextWatcher
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_account);
+        setContentView(R.layout.activity_new_edit_account);
         init();
         AccountBean accountBean;
         DatabaseHelper db = new DatabaseHelper(getApplicationContext());
@@ -76,19 +60,19 @@ public class NewAccountActivity extends AppCompatActivity implements TextWatcher
             iconSelectedPosition = -1;
         }
 
-        IconNewAccountAdapter iconNewAccountAdapter = new IconNewAccountAdapter(this);
-        gridView.setAdapter(iconNewAccountAdapter);
+        IconNewEditAccountAdapter iconNewEditAccountAdapter = new IconNewEditAccountAdapter(this);
+        gridView.setAdapter(iconNewEditAccountAdapter);
         //Sono in modifca
         if(iconSelectedPosition != -1) {
-            iconNewAccountAdapter.makeAllUnselect(iconSelectedPosition);
-            iconNewAccountAdapter.notifyDataSetChanged();
+            iconNewEditAccountAdapter.makeAllUnselect(iconSelectedPosition);
+            iconNewEditAccountAdapter.notifyDataSetChanged();
         }
 
         returnNewAccount.setOnClickListener(view -> finish());
 
         gridView.setOnItemClickListener((adapterView, view, position, l) -> {
-            iconNewAccountAdapter.makeAllUnselect(position);
-            iconNewAccountAdapter.notifyDataSetChanged();
+            iconNewEditAccountAdapter.makeAllUnselect(position);
+            iconNewEditAccountAdapter.notifyDataSetChanged();
             accountBean.setIdIcon(Utility.getListIconToNewAccount().get(position).getName());
             titleChooseIconNewAccount.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.secondary_text));
         });

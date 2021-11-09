@@ -16,13 +16,13 @@ import java.util.List;
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.IconBean;
 
-public class IconNewAccountAdapter extends BaseAdapter {
+public class IconNewEditAccountAdapter extends BaseAdapter {
 
     private final Context mContext;
     private final List<IconBean> iconBeans = Utility.getListIconToNewAccount();
     public HashMap<Integer, Boolean> hashMapSelected;
 
-    public IconNewAccountAdapter(Context context) {
+    public IconNewEditAccountAdapter(Context context) {
         this.mContext = context;
         hashMapSelected = new HashMap<>();
         for (int i = 0; i < iconBeans.size(); i++) {

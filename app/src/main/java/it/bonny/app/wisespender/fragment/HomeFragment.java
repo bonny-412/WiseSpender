@@ -9,22 +9,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.core.app.SharedElementCallback;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.card.MaterialCardView;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
 import it.bonny.app.wisespender.db.DatabaseHelper;
-import it.bonny.app.wisespender.manager.AccountActivity;
+import it.bonny.app.wisespender.manager.ListAccountsActivity;
 import it.bonny.app.wisespender.manager.BottomSheetAccount;
 import it.bonny.app.wisespender.util.Utility;
 
@@ -51,7 +47,7 @@ public class HomeFragment extends Fragment {
         MaterialCardView btnAccountPage = root.findViewById(R.id.btnAccountPage);
         btnAccountPage.setOnClickListener(view -> {
             if(getActivity() != null) {
-                Intent intent = new Intent(getActivity(), AccountActivity.class);
+                Intent intent = new Intent(getActivity(), ListAccountsActivity.class);
                 getActivity().startActivity(intent);
             }
         });
