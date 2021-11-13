@@ -3,6 +3,8 @@ package it.bonny.app.wisespender.util;
 import android.app.Activity;
 import android.content.res.Resources;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,8 @@ import it.bonny.app.wisespender.db.DatabaseHelper;
 
 public class Utility {
     public static  final String PREFS_NAME_FILE = "WiseSpenderFileConf";
+    private final BigDecimal cent = new BigDecimal(100);
+
     public Utility() {
     }
 
@@ -104,7 +108,7 @@ public class Utility {
         return idIcon;
     }
 
-    public static List<IconBean> getListIconToNewAccount() {
+    public static List<IconBean> getListIconToAccountBean() {
         List<IconBean> iconBeans = new ArrayList<>();
         IconBean icBank = new IconBean(R.drawable.ic_bank, "ic_bank");
         IconBean icCashRegister = new IconBean(R.drawable.ic_cash_register, "ic_cash_register");
@@ -117,7 +121,7 @@ public class Utility {
         return iconBeans;
     }
 
-    public static int getPositionIconToNewAccount(String nameIcon) {
+    public static int getPositionIconToAccountBean(String nameIcon) {
         int pos = -1;
         if("ic_bank".equals(nameIcon)) {
             pos = 0;
@@ -129,6 +133,20 @@ public class Utility {
             pos = 3;
         }
         return pos;
+    }
+
+
+    public int convertEditTextValueInInt(BigDecimal editTextValue) {
+        int val = 0;
+        if(editTextValue != null) {
+            val = editTextValue.multiply(cent).intValue();
+        }
+        return val;
+    }
+
+    public BigDecimal convertIntInEditTextValue(int value) {
+        BigDecimal bigDecimal = new BigDecimal(value);
+        return bigDecimal.divide(cent, 2, RoundingMode.CEILING);
     }
 
 }

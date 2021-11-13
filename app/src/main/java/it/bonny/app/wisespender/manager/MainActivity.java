@@ -1,61 +1,90 @@
 package it.bonny.app.wisespender.manager;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.MenuItem;
+import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
+import com.google.android.material.card.MaterialCardView;
+
+import java.util.List;
 
 import it.bonny.app.wisespender.R;
-import it.bonny.app.wisespender.fragment.HomeFragment;
-import it.bonny.app.wisespender.fragment.StatisticsFragment;
-import it.bonny.app.wisespender.fragment.TransactionFragment;
-import it.bonny.app.wisespender.fragment.UserFragment;
+import it.bonny.app.wisespender.bean.AccountBean;
+import it.bonny.app.wisespender.db.DatabaseHelper;
+import it.bonny.app.wisespender.util.Utility;
 
 public class MainActivity extends AppCompatActivity {
 
     private long backPressedTime;
+    private DatabaseHelper db;
+    private final Utility utility = new Utility();
+    private MaterialCardView btnAccounts;
+    private TextView accountName, accountBtn;
+    private final Activity activity = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setBackground(null);
-        bottomNavigationView.getMenu().getItem(2).setEnabled(false);
-        bottomNavigationView.setOnItemSelectedListener(onItemSelectedListener);
+        showWelcomeAlert();
+        init();
 
-        if (savedInstanceState == null)
-            getSupportFragmentManager().beginTransaction().replace(R.id.rootLayout, new HomeFragment()).commit();
+        db = new DatabaseHelper(getApplicationContext());
+        List<AccountBean> accountBeanList = db.getAllAccountBeans();
+        AccountBean accountBeanSelected = db.getAccountBeanSelected();
+        db.closeDB();
+
+        btnAccounts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity, ListAccountsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        BottomSheetAccount bottomSheetAccount = new BottomSheetAccount(accountBeanList, activity);
+        accountName.setText(accountBeanSelected.getName());
+        accountBtn.setOnClickListener(view -> bottomSheetAccount.show(getSupportFragmentManager(), "TAG"));
 
     }
 
-    private final NavigationBarView.OnItemSelectedListener onItemSelectedListener = item -> {
-        Fragment selectedFragment = null;
-        if(item.getItemId() == R.id.home)
-            selectedFragment = new HomeFragment();
-        else if(item.getItemId() == R.id.transactions)
-            selectedFragment = new TransactionFragment();
-        else if(item.getItemId() == R.id.statistics)
-            selectedFragment = new StatisticsFragment();
-        else if(item.getItemId() == R.id.user)
-            selectedFragment = new UserFragment();
+    private void init() {
+        btnAccounts = findViewById(R.id.btnAccounts);
+        accountBtn = findViewById(R.id.accountBtn);
+        accountName = findViewById(R.id.accountName);
+    }
 
-        if(selectedFragment != null)
-            getSupportFragmentManager().beginTransaction().replace(R.id.rootLayout, selectedFragment).commit();
-
-        return true;
-    };
+    //Shows the welcome alert
+    private void showWelcomeAlert(){
+        boolean firstStart = false;
+        SharedPreferences prefs;
+        if(getApplicationContext() != null) {
+            try {
+                prefs = getApplicationContext().getSharedPreferences(Utility.PREFS_NAME_FILE, Context.MODE_PRIVATE);
+                firstStart = prefs.getBoolean("firstStart", true);
+            }catch (Exception e) {
+                //TODO: Firebase
+                Log.e("HOME_FRAGMENT", e.toString());
+            }
+        }
+        if(firstStart) {
+            if(activity != null) {
+                utility.insertAccountDefault(db, activity);
+                SharedPreferences.Editor editor = activity.getSharedPreferences(Utility.PREFS_NAME_FILE, Context.MODE_PRIVATE).edit();
+                editor.putBoolean("firstStart", false);
+                editor.apply();
+            }
+        }
+    }
 
     @Override
     public void onBackPressed() {

@@ -36,11 +36,13 @@
     <string name="accounts">Conti</string>
     <string name="categories">Categorie</string>
     <string name="empty_list">Lista vuota</string>
-    <string name="alert_delete_title">Sei sicuro di voler eliminare questo conto?</string>
+    <string name="alert_delete_account_title">Sei sicuro di voler eliminare questo conto?</string>
     <string name="alert_cancel">Annulla</string>
     <string name="alert_delete">Elimina</string>
     <string name="delete_ok">L\'eliminazione è riuscita</string>
     <string name="delete_ko">L\'eliminazione non è andata a buon fine</string>
     <string name="alert_attention">Attenzione</string>
     <string name="alert_delete_account_text">Sicuro di voler cancellare il conto e tutte le sue operazioni?</string>
+    <string name="come_back">Torna indietro</string>
+    <string name="alert_delete_category_title">Sei sicuto di voler eliminare questa categoria?</string>
 </resources>

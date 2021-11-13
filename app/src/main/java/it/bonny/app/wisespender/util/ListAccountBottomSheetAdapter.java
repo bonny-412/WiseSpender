@@ -19,14 +19,14 @@ import it.bonny.app.wisespender.bean.AccountBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
 import it.bonny.app.wisespender.db.DatabaseHelper;
 
-public class ListAccountAdapter extends RecyclerView.Adapter<ListAccountAdapter.ViewHolder>  {
+public class ListAccountBottomSheetAdapter extends RecyclerView.Adapter<ListAccountBottomSheetAdapter.ViewHolder>  {
     private final List<AccountBean> accountBeanList;
     private int selectedPosition = -1;
     private final Activity activity;
     private final DatabaseHelper db;
     private final Utility utility = new Utility();
 
-    public ListAccountAdapter(List<AccountBean> accountBeanList, Activity activity) {
+    public ListAccountBottomSheetAdapter(List<AccountBean> accountBeanList, Activity activity) {
         this.accountBeanList = accountBeanList;
         this.activity = activity;
         this.db = new DatabaseHelper(activity);
@@ -37,7 +37,7 @@ public class ListAccountAdapter extends RecyclerView.Adapter<ListAccountAdapter.
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View listItem= layoutInflater.inflate(R.layout.item_list_account, parent, false);
+        View listItem= layoutInflater.inflate(R.layout.item_list_account_bottom_sheet, parent, false);
         return new ViewHolder(listItem);
     }
 

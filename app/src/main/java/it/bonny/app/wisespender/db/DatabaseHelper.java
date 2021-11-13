@@ -36,7 +36,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + "("
             + CategoryBean.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
             + CategoryBean.KEY_NAME + " TEXT,"
-            //+ CategoryBean.KEY_LIMIT_CASH + " INTEGER,"
             + CategoryBean.KEY_TYPE_CATEGORY + " INTEGER,"
             + CategoryBean.KEY_ID_ICON + " INTEGER"
             + ")";
@@ -59,11 +58,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(CREATE_TABLE_ACCOUNT);
+        sqLiteDatabase.execSQL(CREATE_TABLE_CATEGORY);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         // on upgrade drop older tables
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + AccountBean.TABLE);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + AccountBean.TABLE);
 
         // create new tables
@@ -254,6 +255,113 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             c.close();
         }
         return accountBean;
+    }
+
+    // ------------------------ "category" table methods ----------------//
+    /**
+     * Creating a Category
+     */
+    public long insertCategoryBean(CategoryBean categoryBean) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(CategoryBean.KEY_NAME, categoryBean.getName());
+        values.put(CategoryBean.KEY_TYPE_CATEGORY, categoryBean.getTypeCategory());
+        values.put(CategoryBean.KEY_ID_ICON, categoryBean.getIdIcon());
+
+        return db.insertOrThrow(CategoryBean.TABLE, null, values);
+    }
+
+    /**
+     * Updating a Category
+     */
+    public int updateCategoryBean(CategoryBean categoryBean) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(CategoryBean.KEY_NAME, categoryBean.getName());
+        values.put(CategoryBean.KEY_TYPE_CATEGORY, categoryBean.getTypeCategory());
+        values.put(CategoryBean.KEY_ID_ICON, categoryBean.getIdIcon());
+
+        return db.update(CategoryBean.TABLE, values, CategoryBean.KEY_ID + " = ?",
+                new String[] {String.valueOf(categoryBean.getId())});
+    }
+
+    /**
+     * Deleting a Category
+     */
+    public boolean deleteCategoryBean(long categoryId) {
+        boolean result;
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            result = db.delete(CategoryBean.TABLE, CategoryBean.KEY_ID + " = ?",new String[] {String.valueOf(categoryId)}) > 0;
+        }catch (Exception e) {
+            //TODO: Firebase
+            result = false;
+        }
+        return result;
+    }
+
+    /**
+     * Getting single Category
+     */
+    public CategoryBean getCategoryBean(long categoryId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        CategoryBean categoryBean = new CategoryBean();
+        String selectQuery = "SELECT * FROM " + CategoryBean.TABLE + " WHERE " + CategoryBean.KEY_ID + " = " + categoryId;
+        Cursor c = db.rawQuery(selectQuery, null);
+        if(c != null) {
+            c.moveToFirst();
+            categoryBean.setId(Long.parseLong(c.getString(c.getColumnIndex(CategoryBean.KEY_ID))));
+            categoryBean.setName(c.getString(c.getColumnIndex(CategoryBean.KEY_NAME)));
+            categoryBean.setTypeCategory(c.getInt(c.getColumnIndex(CategoryBean.KEY_TYPE_CATEGORY)));
+            categoryBean.setIdIcon(c.getInt(c.getColumnIndex(CategoryBean.KEY_ID_ICON)));
+        }
+        if(c != null)
+            c.close();
+        return categoryBean;
+    }
+
+    /**
+     * Getting all Categories
+     */
+    public List<CategoryBean> getAllCategoryBeans() {
+        List<CategoryBean> categoryBeans = new ArrayList<>();
+        String selectQuery = "SELECT * FROM " + CategoryBean.TABLE;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+        if (c.moveToFirst()) {
+            do {
+                CategoryBean categoryBean = new CategoryBean();
+                categoryBean.setId(Long.parseLong(c.getString(c.getColumnIndex(CategoryBean.KEY_ID))));
+                categoryBean.setName(c.getString(c.getColumnIndex(CategoryBean.KEY_NAME)));
+                categoryBean.setTypeCategory(c.getInt(c.getColumnIndex(CategoryBean.KEY_TYPE_CATEGORY)));
+                categoryBean.setIdIcon(c.getInt(c.getColumnIndex(CategoryBean.KEY_ID_ICON)));
+                categoryBeans.add(categoryBean);
+            } while (c.moveToNext());
+        }
+        c.close();
+        return categoryBeans;
+    }
+
+    /**
+     * Getting all Categories
+     */
+    public List<CategoryBean> getAllCategoryBeansToTypeCategory(int typeCategory) {
+        List<CategoryBean> categoryBeans = new ArrayList<>();
+        String selectQuery = "SELECT * FROM " + CategoryBean.TABLE + " c WHERE c." + CategoryBean.KEY_TYPE_CATEGORY + " = " + typeCategory;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+        if (c.moveToFirst()) {
+            do {
+                CategoryBean categoryBean = new CategoryBean();
+                categoryBean.setId(Long.parseLong(c.getString(c.getColumnIndex(CategoryBean.KEY_ID))));
+                categoryBean.setName(c.getString(c.getColumnIndex(CategoryBean.KEY_NAME)));
+                categoryBean.setTypeCategory(c.getInt(c.getColumnIndex(CategoryBean.KEY_TYPE_CATEGORY)));
+                categoryBean.setIdIcon(c.getInt(c.getColumnIndex(CategoryBean.KEY_ID_ICON)));
+                categoryBeans.add(categoryBean);
+            } while (c.moveToNext());
+        }
+        c.close();
+        return categoryBeans;
     }
 
 }

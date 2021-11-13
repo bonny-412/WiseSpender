@@ -6,14 +6,12 @@ public class CategoryBean {
     public static final String KEY_ID = "id";
     public static final String KEY_NAME = "name";
     public static final String KEY_TYPE_CATEGORY = "type_category";
-    //public static final String KEY_LIMIT_CASH = "limit_cash";
     public static final String KEY_ID_ICON = "id_icon";
 
     private long id;
     private String name;
     private int typeCategory;
     private int idIcon;
-    //private Integer limitCash;
 
     public CategoryBean() {}
 
@@ -44,12 +42,5 @@ public class CategoryBean {
     public void setIdIcon(int idIcon) {
         this.idIcon = idIcon;
     }
-
-    /*public Integer getLimitCash() {
-        return limitCash;
-    }
-    public void setLimitCash(Integer limitCash) {
-        this.limitCash = limitCash;
-    }*/
 
 }

@@ -2,6 +2,7 @@ package it.bonny.app.wisespender.manager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.content.ContextCompat;
 
 import android.os.Bundle;
@@ -15,10 +16,15 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
+import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
 import it.bonny.app.wisespender.db.DatabaseHelper;
+import it.bonny.app.wisespender.util.CurrencyEditText;
 import it.bonny.app.wisespender.util.IconNewEditAccountAdapter;
 import it.bonny.app.wisespender.util.Utility;
 
@@ -26,10 +32,12 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
 
     private MaterialButton returnNewAccount;
     private GridView gridView;
-    private EditText accountName, accountOpeningBalance;
+    private EditText accountName;
+    private CurrencyEditText accountOpeningBalance;
     private MaterialButton buttonSaveNewAccount;
     private TextView titleChooseIconNewAccount;
     private SwitchMaterial flagViewTotalBalance;
+    private final Utility utility = new Utility();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,18 +54,20 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
             accountBean = db.getAccountBean(idAccount);
             db.closeDB();
             accountName.setText(accountBean.getName());
-            //accountOpeningBalance.setText(accountBean.getOpeningBalance());
+            String openingBalance = utility.convertIntInEditTextValue(accountBean.getOpeningBalance()).toString();
+            accountOpeningBalance.setText(openingBalance);
             boolean flag = false;
             if(accountBean.getFlagViewTotalBalance() == TypeObjectBean.IS_TOTAL_BALANCE)
                 flag = true;
             flagViewTotalBalance.setChecked(flag);
-            iconSelectedPosition = Utility.getPositionIconToNewAccount(accountBean.getIdIcon());
+            iconSelectedPosition = Utility.getPositionIconToAccountBean(accountBean.getIdIcon());
         }else {
             accountBean = new AccountBean();
             accountBean.setIsMaster(TypeObjectBean.NO_MASTER);
             accountBean.setFlagViewTotalBalance(TypeObjectBean.NO_TOTAL_BALANCE);
             accountBean.setFlagSelected(TypeObjectBean.NO_SELECTED);
             iconSelectedPosition = -1;
+            accountOpeningBalance.setText("0");
         }
 
         IconNewEditAccountAdapter iconNewEditAccountAdapter = new IconNewEditAccountAdapter(this);
@@ -73,7 +83,7 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
         gridView.setOnItemClickListener((adapterView, view, position, l) -> {
             iconNewEditAccountAdapter.makeAllUnselect(position);
             iconNewEditAccountAdapter.notifyDataSetChanged();
-            accountBean.setIdIcon(Utility.getListIconToNewAccount().get(position).getName());
+            accountBean.setIdIcon(Utility.getListIconToAccountBean().get(position).getName());
             titleChooseIconNewAccount.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.secondary_text));
         });
 
@@ -102,18 +112,22 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
             }
 
             int openingBalance = 0;
-            if(!"".equals(accountOpeningBalance.getText().toString().trim())) {
+            if(accountOpeningBalance.getText() != null &&
+                    !"".equals(accountOpeningBalance.getText().toString().trim())) {
                 try {
-                    openingBalance = Integer.parseInt(accountOpeningBalance.getText().toString().trim());
+                    openingBalance = utility.convertEditTextValueInInt(new BigDecimal(accountOpeningBalance.getText().toString()));
                 }catch (Exception e) {
                     //TODO: Firebase
                 }
             }
-            accountBean.setOpeningBalance(openingBalance);
 
+            accountBean.setOpeningBalance(openingBalance);
             if(!isError) {
                 try {
-                    db.insertAccountBean(accountBean);
+                    if(accountBean.getId() != 0)
+                        db.updateAccountBean(accountBean);
+                    else
+                        db.insertAccountBean(accountBean);
                     db.closeDB();
                     Toast.makeText(getApplicationContext(), getString(R.string.saved_ok), Toast.LENGTH_LONG).show();
                     finish();

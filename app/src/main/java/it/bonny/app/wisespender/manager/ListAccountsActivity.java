@@ -43,9 +43,7 @@ public class ListAccountsActivity extends AppCompatActivity {
 
         MaterialButton returnAccount = findViewById(R.id.returnAccount);
         returnAccount.setOnClickListener(view -> {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            getApplicationContext().startActivity(intent);
+            finish();
         });
 
         buttonNewAccount.setOnClickListener(view1 -> {

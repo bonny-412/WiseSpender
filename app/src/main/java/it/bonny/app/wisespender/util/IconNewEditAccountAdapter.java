@@ -19,7 +19,7 @@ import it.bonny.app.wisespender.bean.IconBean;
 public class IconNewEditAccountAdapter extends BaseAdapter {
 
     private final Context mContext;
-    private final List<IconBean> iconBeans = Utility.getListIconToNewAccount();
+    private final List<IconBean> iconBeans = Utility.getListIconToAccountBean();
     public HashMap<Integer, Boolean> hashMapSelected;
 
     public IconNewEditAccountAdapter(Context context) {

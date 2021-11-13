@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".manager.ListAccountsActivity"
+    tools:context=".manager.ListCategoriesActivity"
     android:background="@color/background">
 
     <View
@@ -15,7 +15,7 @@
         android:background="@drawable/header_background"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/linearTitleListAccounts"
+        android:id="@+id/linearTitleListCategories"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -25,7 +25,7 @@
         android:padding="10dp"
         >
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/returnAccount"
+            android:id="@+id/returnCategory"
             android:layout_width="48dp"
             android:layout_height="48dp"
             app:icon="@drawable/ic_arrow_back"
@@ -37,15 +37,15 @@
             app:layout_constraintTop_toTopOf="parent"
             />
         <TextView
-            android:id="@+id/titlePageAccount"
+            android:id="@+id/titleListPageCategories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/accounts"
+            android:text="@string/categories"
             android:layout_marginTop="5dp"
             android:textColor="@color/title_page"
             android:textStyle="normal"
-            app:layout_constraintBottom_toBottomOf="@+id/returnAccount"
-            app:layout_constraintTop_toTopOf="@+id/returnAccount"
+            app:layout_constraintBottom_toBottomOf="@+id/returnCategory"
+            app:layout_constraintTop_toTopOf="@+id/returnCategory"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_gravity="end"
@@ -59,15 +59,15 @@
         app:cardCornerRadius="20dp"
         android:elevation="20dp"
         app:cardBackgroundColor="@color/background_card"
-        app:layout_constraintEnd_toEndOf="@+id/linearTitleListAccounts"
-        app:layout_constraintStart_toStartOf="@+id/linearTitleListAccounts"
-        app:layout_constraintTop_toBottomOf="@+id/linearTitleListAccounts"
+        app:layout_constraintEnd_toEndOf="@+id/linearTitleListCategories"
+        app:layout_constraintStart_toStartOf="@+id/linearTitleListCategories"
+        app:layout_constraintTop_toBottomOf="@+id/linearTitleListCategories"
         android:padding="20dp"
         android:orientation="vertical"
         android:layout_marginTop="150dp"
         android:layout_marginBottom="20dp">
         <ListView
-            android:id="@+id/listViewAccounts"
+            android:id="@+id/listViewCategories"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -89,7 +89,7 @@
     </com.google.android.material.card.MaterialCardView>
 
     <LinearLayout
-        android:id="@+id/containerButtonNewAccount"
+        android:id="@+id/containerButtonNewCategory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -98,7 +98,7 @@
         android:gravity="center"
         android:padding="10dp">
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttonNewAccount"
+            android:id="@+id/buttonNewCategory"
             style="@style/Widget.MaterialComponents.Button.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

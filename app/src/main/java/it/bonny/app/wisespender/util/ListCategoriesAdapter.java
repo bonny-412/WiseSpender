@@ -21,17 +21,18 @@ import java.util.List;
 
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
+import it.bonny.app.wisespender.bean.CategoryBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
 import it.bonny.app.wisespender.db.DatabaseHelper;
 import it.bonny.app.wisespender.manager.NewEditAccountActivity;
 
-public class ListAccountsAdapter extends ArrayAdapter<AccountBean>  {
-    private final List<AccountBean> accountBeanList;
+public class ListCategoriesAdapter extends ArrayAdapter<CategoryBean>  {
+    private final List<CategoryBean> categoryBeanList;
     private final Activity activity;
     private final Utility utility = new Utility();
-    public ListAccountsAdapter(List<AccountBean> accountBeanList, Activity activity) {
-        super(activity, R.layout.item_list_accounts,accountBeanList);
-        this.accountBeanList = accountBeanList;
+    public ListCategoriesAdapter(List<CategoryBean> categoryBeanList, Activity activity) {
+        super(activity, R.layout.item_list_categories,categoryBeanList);
+        this.categoryBeanList = categoryBeanList;
         this.activity = activity;
     }
 
@@ -48,13 +49,13 @@ public class ListAccountsAdapter extends ArrayAdapter<AccountBean>  {
                 holder = (ViewHolder) rowView.getTag();
             }
 
-            holder.iconAccount.setImageDrawable(AppCompatResources.getDrawable(activity, utility.getIdIconByAccountBean(accountBeanList.get(position))));
-            holder.titleAccount.setText(accountBeanList.get(position).getName());
-            holder.btnDeleteAccount.setOnClickListener(view -> getAlertDialogDeleteListAccount(position, accountBeanList.get(position).getId()));
-            holder.btnEditAccount.setOnClickListener(view -> {
+            //holder.iconAccount.setImageDrawable(AppCompatResources.getDrawable(activity, utility.getIdIconByAccountBean(categoryBeanList.get(position))));
+            holder.titleCategory.setText(categoryBeanList.get(position).getName());
+            holder.btnDeleteCategory.setOnClickListener(view -> getAlertDialogDeleteListCategory(position, categoryBeanList.get(position).getId()));
+            holder.btnEditCategory.setOnClickListener(view -> {
                 Intent intent = new Intent(activity, NewEditAccountActivity.class);
-                String id = "" + accountBeanList.get(position).getId();
-                intent.putExtra("idAccount", id);
+                String id = "" + categoryBeanList.get(position).getId();
+                intent.putExtra("idCategory", id);
                 activity.startActivity(intent);
             });
 
@@ -66,19 +67,19 @@ public class ListAccountsAdapter extends ArrayAdapter<AccountBean>  {
     }
 
     private static class ViewHolder {
-        private final AppCompatImageView iconAccount;
-        private final TextView titleAccount;
-        private final MaterialCardView btnEditAccount, btnDeleteAccount;
+        private final AppCompatImageView iconCategory;
+        private final TextView titleCategory;
+        private final MaterialCardView btnEditCategory, btnDeleteCategory;
 
         ViewHolder(View v) {
-            iconAccount = v.findViewById(R.id.iconAccount);
-            titleAccount = v.findViewById(R.id.titleAccount);
-            btnEditAccount = v.findViewById(R.id.btnEditAccount);
-            btnDeleteAccount = v.findViewById(R.id.btnDeleteAccount);
+            iconCategory = v.findViewById(R.id.iconCategory);
+            titleCategory = v.findViewById(R.id.titleCategory);
+            btnEditCategory = v.findViewById(R.id.btnEditCategory);
+            btnDeleteCategory = v.findViewById(R.id.btnDeleteCategory);
         }
     }
 
-    private void getAlertDialogDeleteListAccount(final int position, final long id){
+    private void getAlertDialogDeleteListCategory(final int position, final long id){
         final DatabaseHelper db = new DatabaseHelper(getContext());
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         View viewInfoDialog = View.inflate(getContext(), R.layout.alert_delete, null);
@@ -87,7 +88,7 @@ public class ListAccountsAdapter extends ArrayAdapter<AccountBean>  {
         TextView btnCancel = viewInfoDialog.findViewById(R.id.btnCancel);
         TextView btnDelete = viewInfoDialog.findViewById(R.id.btnDelete);
         TextView textAlert = viewInfoDialog.findViewById(R.id.textAlert);
-        textAlert.setText(activity.getString(R.string.alert_delete_account_title));
+        textAlert.setText(activity.getString(R.string.alert_delete_category_title));
         final AlertDialog dialog = builder.create();
         if(dialog != null){
             if(dialog.getWindow() != null){
@@ -111,7 +112,7 @@ public class ListAccountsAdapter extends ArrayAdapter<AccountBean>  {
             db.closeDB();
             if(resultDelete){
                 Toast.makeText(activity, activity.getString(R.string.delete_ok), Toast.LENGTH_SHORT).show();
-                accountBeanList.remove(position);
+                categoryBeanList.remove(position);
                 notifyDataSetChanged();
             }else {
                 Toast.makeText(activity, activity.getString(R.string.delete_ko), Toast.LENGTH_SHORT).show();

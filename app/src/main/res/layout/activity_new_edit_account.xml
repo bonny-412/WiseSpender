@@ -26,19 +26,13 @@
             >
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/returnNewAccount"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:insetLeft="0dp"
-                android:insetTop="0dp"
-                android:insetRight="0dp"
-                android:insetBottom="0dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 app:icon="@drawable/ic_arrow_back"
-                app:iconTint="@color/primary_text"
+                app:iconTint="@color/title_page"
+                android:hint="@string/come_back"
                 app:iconGravity="textStart"
-                app:iconPadding="0dp"
-                android:elevation="24dp"
-                app:cornerRadius="10dp"
-                android:backgroundTint="@color/background_card"
+                android:background="@color/background"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 />
@@ -47,13 +41,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/title_page_new_account"
+                android:hint="@string/title_page_new_account"
                 android:layout_marginTop="5dp"
-                android:textColor="@color/white"
+                android:textColor="@color/title_page"
                 android:textStyle="normal"
                 app:layout_constraintBottom_toBottomOf="@+id/returnNewAccount"
                 app:layout_constraintTop_toTopOf="@+id/returnNewAccount"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/returnNewAccount"
+                app:layout_constraintStart_toStartOf="parent"
                 android:layout_gravity="end"
                 android:textSize="20sp"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -97,28 +92,25 @@
                     android:inputType="textCapWords"
                     android:imeOptions="actionDone"/>
 
-                <EditText
-                    android:id="@+id/accountOpeningBalance"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:ems="10"
-                    android:hint="@string/opening_balance_new_account_input"
-                    android:inputType="numberDecimal"
-                    android:textSize="14sp"
-                    android:drawableStart="@drawable/custom_ic_euro_symbol"
-                    android:drawablePadding="12dp"
-                    android:textColorHint="@color/secondary_text"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    android:autofillHints="name"
-                    android:textColor="@color/primary_text"
-                    android:background="@drawable/custom_input"
-                    app:layout_constraintStart_toStartOf="@+id/accountName"
-                    app:layout_constraintEnd_toEndOf="@+id/accountName"
-                    app:layout_constraintTop_toBottomOf="@+id/accountName"
-                    android:layout_marginTop="10dp"
-                    android:imeOptions="actionDone"/>
-
+            <it.bonny.app.wisespender.util.CurrencyEditText
+                android:id="@+id/accountOpeningBalance"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp"
+                android:autofillHints="name"
+                android:background="@drawable/custom_input"
+                android:drawableStart="@drawable/custom_ic_euro_symbol"
+                android:drawablePadding="12dp"
+                android:ems="10"
+                android:hint="@string/opening_balance_new_account_input"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textColor="@color/primary_text"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@+id/accountName"
+                app:layout_constraintStart_toStartOf="@+id/accountName"
+                app:layout_constraintTop_toBottomOf="@+id/accountName"
+                tools:ignore="SpeakableTextPresentCheck" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/linearSwitch"
@@ -135,7 +127,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/flag_view_total_balance"
                         app:layout_constraintBottom_toBottomOf="@+id/flag_view_total_balance"
-                        android:textColor="@color/secondary_text"/>
+                        android:textColor="@color/primary_text"/>
                     <com.google.android.material.switchmaterial.SwitchMaterial
                         android:id="@+id/flag_view_total_balance"
                         android:layout_width="wrap_content"
@@ -159,7 +151,7 @@
                         android:id="@+id/titleChooseIconNewAccount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/secondary_text"
+                        android:textColor="@color/primary_text"
                         android:text="@string/new_account_choose_icon"
                         android:layout_marginBottom="10dp"/>
                     <GridView
@@ -182,9 +174,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:text="@string/save_button"
-                    android:textColor="@color/background"
+                    android:textColor="@color/title_page"
                     app:icon="@drawable/ic_save"
-                    app:iconTint="@color/background"
+                    app:iconTint="@color/title_page"
                     app:iconGravity="textStart"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
