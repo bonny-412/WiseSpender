@@ -1,6 +1,8 @@
 package it.bonny.app.wisespender.manager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.AppCompatImageView;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,9 +11,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.List;
@@ -27,8 +33,10 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseHelper db;
     private final Utility utility = new Utility();
     private MaterialCardView btnAccounts, btnCategories;
-    private TextView accountName, accountBtn;
+    private TextView accountName, showAccountListBtn;
     private final Activity activity = this;
+    private LinearLayout buttonTransactions, buttonActivity;
+    private boolean isCheckedButtonTransactions = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +50,9 @@ public class MainActivity extends AppCompatActivity {
         AccountBean accountBeanSelected = db.getAccountBeanSelected();
         db.closeDB();
 
-        btnAccounts.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(activity, ListAccountsActivity.class);
-                startActivity(intent);
-            }
+        btnAccounts.setOnClickListener(view -> {
+            Intent intent = new Intent(activity, ListAccountsActivity.class);
+            startActivity(intent);
         });
 
         btnCategories.setOnClickListener(new View.OnClickListener() {
@@ -60,16 +65,35 @@ public class MainActivity extends AppCompatActivity {
 
         BottomSheetAccount bottomSheetAccount = new BottomSheetAccount(accountBeanList, activity);
         accountName.setText(accountBeanSelected.getName());
-        accountBtn.setOnClickListener(view -> bottomSheetAccount.show(getSupportFragmentManager(), "TAG"));
+        showAccountListBtn.setOnClickListener(view -> bottomSheetAccount.show(getSupportFragmentManager(), "TAG"));
+
+        buttonTransactions.setOnClickListener(view -> {
+            if(!isCheckedButtonTransactions) {
+                isCheckedButtonTransactions = true;
+                buttonTransactions.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.button_change_view_checked_background));
+                buttonActivity.setBackgroundResource(0);
+            }
+        });
+
+        buttonActivity.setOnClickListener(view -> {
+            if(isCheckedButtonTransactions) {
+                isCheckedButtonTransactions = false;
+                buttonActivity.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.button_change_view_checked_background));
+                buttonTransactions.setBackgroundResource(0);
+            }
+        });
 
     }
 
     private void init() {
         db = new DatabaseHelper(getApplicationContext());
         btnAccounts = findViewById(R.id.btnAccounts);
-        accountBtn = findViewById(R.id.accountBtn);
+        showAccountListBtn = findViewById(R.id.showAccountListBtn);
         accountName = findViewById(R.id.accountName);
         btnCategories = findViewById(R.id.btnCategories);
+        buttonTransactions = findViewById(R.id.buttonTransactions);
+        buttonTransactions.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.button_change_view_checked_background));
+        buttonActivity = findViewById(R.id.buttonActivity);
     }
 
     //Shows the welcome alert

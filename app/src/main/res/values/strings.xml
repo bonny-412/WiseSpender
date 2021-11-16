@@ -15,6 +15,8 @@
 
     <string name="type_income">Income</string>
     <string name="type_expense">Expense</string>
+    <string name="last_month">Last month</string>
+    <string name="activity">Activity</string>
 
     <!-- TransactionBean -->
     <string name="title_transactions">Last Transaction</string>

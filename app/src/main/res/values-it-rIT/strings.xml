@@ -47,4 +47,6 @@
     <string name="alert_delete_category_title">Sei sicuto di voler eliminare questa categoria?</string>
     <string name="category_out_title">Spese</string>
     <string name="category_in_title">Entrate</string>
+    <string name="last_month">Ultimo mese</string>
+    <string name="activity">Attività</string>
 </resources>
