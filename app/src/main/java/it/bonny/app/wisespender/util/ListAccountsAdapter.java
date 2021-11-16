@@ -50,8 +50,7 @@ public class ListAccountsAdapter extends ArrayAdapter<AccountBean>  {
 
             holder.iconAccount.setImageDrawable(AppCompatResources.getDrawable(activity, utility.getIdIconByAccountBean(accountBeanList.get(position))));
             holder.titleAccount.setText(accountBeanList.get(position).getName());
-            holder.btnDeleteAccount.setOnClickListener(view -> getAlertDialogDeleteListAccount(position, accountBeanList.get(position).getId()));
-            holder.btnEditAccount.setOnClickListener(view -> {
+           holder.btnElement.setOnClickListener(view -> {
                 Intent intent = new Intent(activity, NewEditAccountActivity.class);
                 String id = "" + accountBeanList.get(position).getId();
                 intent.putExtra("idAccount", id);
@@ -68,59 +67,12 @@ public class ListAccountsAdapter extends ArrayAdapter<AccountBean>  {
     private static class ViewHolder {
         private final AppCompatImageView iconAccount;
         private final TextView titleAccount;
-        private final MaterialCardView btnEditAccount, btnDeleteAccount;
+        private final MaterialCardView btnElement;
 
         ViewHolder(View v) {
             iconAccount = v.findViewById(R.id.iconAccount);
             titleAccount = v.findViewById(R.id.titleAccount);
-            btnEditAccount = v.findViewById(R.id.btnEditAccount);
-            btnDeleteAccount = v.findViewById(R.id.btnDeleteAccount);
+            btnElement = v.findViewById(R.id.btnElement);
         }
     }
-
-    private void getAlertDialogDeleteListAccount(final int position, final long id){
-        final DatabaseHelper db = new DatabaseHelper(getContext());
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        View viewInfoDialog = View.inflate(getContext(), R.layout.alert_delete, null);
-        builder.setCancelable(false);
-        builder.setView(viewInfoDialog);
-        TextView btnCancel = viewInfoDialog.findViewById(R.id.btnCancel);
-        TextView btnDelete = viewInfoDialog.findViewById(R.id.btnDelete);
-        TextView textAlert = viewInfoDialog.findViewById(R.id.textAlert);
-        textAlert.setText(activity.getString(R.string.alert_delete_account_title));
-        final AlertDialog dialog = builder.create();
-        if(dialog != null){
-            if(dialog.getWindow() != null){
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getContext().getColor(R.color.transparent)));
-                dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-            }
-        }
-        btnCancel.setOnClickListener(v -> {
-            if(dialog != null)
-                dialog.dismiss();
-        });
-        btnDelete.setOnClickListener(v -> {
-            AccountBean accountBean = db.getAccountBean(id);
-            if(accountBean.getFlagSelected() == TypeObjectBean.SELECTED) {
-                AccountBean master = db.getAccountBean(1);//Id Master Account
-                master.setFlagSelected(TypeObjectBean.SELECTED);
-                db.updateAccountBean(master);
-            }
-            boolean resultDelete = db.deleteAccountBean(id);
-            //TODO: Cancellare tutte le transazioni collegate al conto
-            db.closeDB();
-            if(resultDelete){
-                Toast.makeText(activity, activity.getString(R.string.delete_ok), Toast.LENGTH_SHORT).show();
-                accountBeanList.remove(position);
-                notifyDataSetChanged();
-            }else {
-                Toast.makeText(activity, activity.getString(R.string.delete_ko), Toast.LENGTH_SHORT).show();
-            }
-            if(dialog != null)
-                dialog.dismiss();
-        });
-        if(dialog != null)
-            dialog.show();
-    }
-
 }

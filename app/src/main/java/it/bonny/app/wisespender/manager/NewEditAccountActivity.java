@@ -5,15 +5,21 @@ import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.content.ContextCompat;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.math.BigDecimal;
@@ -30,7 +36,7 @@ import it.bonny.app.wisespender.util.Utility;
 
 public class NewEditAccountActivity extends AppCompatActivity implements TextWatcher {
 
-    private MaterialButton returnNewAccount;
+    private AppCompatImageView returnNewAccount, btnDeleteAccount;
     private GridView gridView;
     private EditText accountName;
     private CurrencyEditText accountOpeningBalance;
@@ -38,6 +44,7 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
     private TextView titleChooseIconNewAccount;
     private SwitchMaterial flagViewTotalBalance;
     private final Utility utility = new Utility();
+    private Activity activity = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +57,7 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
 
         String idAccountString = getIntent().getStringExtra("idAccount");
         if(idAccountString != null && !"".equals(idAccountString)) {//Sono in modifca
+            btnDeleteAccount.setVisibility(View.VISIBLE);
             long idAccount = Long.parseLong(idAccountString);
             accountBean = db.getAccountBean(idAccount);
             db.closeDB();
@@ -139,6 +147,13 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
 
         });
 
+        btnDeleteAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getAlertDialogDeleteListAccount(accountBean.getId());
+            }
+        });
+
 
     }
 
@@ -150,6 +165,7 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
         titleChooseIconNewAccount = findViewById(R.id.titleChooseIconNewAccount);
         flagViewTotalBalance = findViewById(R.id.flag_view_total_balance);
         accountOpeningBalance = findViewById(R.id.accountOpeningBalance);
+        btnDeleteAccount = findViewById(R.id.btnDeleteAccount);
 
         accountName.addTextChangedListener(this);
     }
@@ -172,4 +188,51 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
             accountName.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.custom_input));
         }
     }
+
+    private void getAlertDialogDeleteListAccount(final long id){
+        final DatabaseHelper db = new DatabaseHelper(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        View viewInfoDialog = View.inflate(activity, R.layout.alert_delete, null);
+        builder.setCancelable(false);
+        builder.setView(viewInfoDialog);
+        MaterialButton btnCancel = viewInfoDialog.findViewById(R.id.btnCancel);
+        MaterialButton btnDelete = viewInfoDialog.findViewById(R.id.btnDelete);
+        TextView textAlert = viewInfoDialog.findViewById(R.id.textAlert);
+        textAlert.setText(getString(R.string.alert_delete_account_title));
+        final AlertDialog dialog = builder.create();
+        if(dialog != null){
+            if(dialog.getWindow() != null){
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getApplicationContext().getColor(R.color.transparent)));
+                dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+            }
+        }
+        btnCancel.setOnClickListener(v -> {
+            if(dialog != null)
+                dialog.dismiss();
+        });
+        btnDelete.setOnClickListener(v -> {
+            AccountBean accountBean = db.getAccountBean(id);
+            if(accountBean.getFlagSelected() == TypeObjectBean.SELECTED) {
+                AccountBean master = db.getAccountBean(1);//Id Master Account
+                master.setFlagSelected(TypeObjectBean.SELECTED);
+                db.updateAccountBean(master);
+            }
+            boolean resultDelete = db.deleteAccountBean(id);
+            //TODO: Cancellare tutte le transazioni collegate al conto
+            db.closeDB();
+            if(resultDelete){
+                Toast.makeText(this, getString(R.string.delete_ok), Toast.LENGTH_SHORT).show();
+                finish();
+            }else {
+                Toast.makeText(this, getString(R.string.delete_ko), Toast.LENGTH_SHORT).show();
+            }
+            if(dialog != null)
+                dialog.dismiss();
+        });
+        if(dialog != null) {
+            //dialog.create();
+            dialog.show();
+        }
+    }
+
 }

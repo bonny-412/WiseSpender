@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private long backPressedTime;
     private DatabaseHelper db;
     private final Utility utility = new Utility();
-    private MaterialCardView btnAccounts;
+    private MaterialCardView btnAccounts, btnCategories;
     private TextView accountName, accountBtn;
     private final Activity activity = this;
 
@@ -35,10 +35,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        showWelcomeAlert();
         init();
+        showWelcomeAlert();
 
-        db = new DatabaseHelper(getApplicationContext());
         List<AccountBean> accountBeanList = db.getAllAccountBeans();
         AccountBean accountBeanSelected = db.getAccountBeanSelected();
         db.closeDB();
@@ -51,6 +50,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btnCategories.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity, ListCategoriesActivity.class);
+                startActivity(intent);
+            }
+        });
+
         BottomSheetAccount bottomSheetAccount = new BottomSheetAccount(accountBeanList, activity);
         accountName.setText(accountBeanSelected.getName());
         accountBtn.setOnClickListener(view -> bottomSheetAccount.show(getSupportFragmentManager(), "TAG"));
@@ -58,9 +65,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
+        db = new DatabaseHelper(getApplicationContext());
         btnAccounts = findViewById(R.id.btnAccounts);
         accountBtn = findViewById(R.id.accountBtn);
         accountName = findViewById(R.id.accountName);
+        btnCategories = findViewById(R.id.btnCategories);
     }
 
     //Shows the welcome alert

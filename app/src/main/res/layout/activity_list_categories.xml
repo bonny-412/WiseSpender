@@ -29,7 +29,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             app:icon="@drawable/ic_arrow_back"
-            app:iconTint="@color/title_page"
+            app:iconTint="@color/background"
             android:hint="@string/come_back"
             app:iconGravity="textStart"
             android:background="@color/background"
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:text="@string/categories"
             android:layout_marginTop="5dp"
-            android:textColor="@color/title_page"
+            android:textColor="@color/background"
             android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="@+id/returnCategory"
             app:layout_constraintTop_toTopOf="@+id/returnCategory"
@@ -53,10 +53,11 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/containerCategoryIn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        app:cardCornerRadius="20dp"
+        app:cardCornerRadius="10dp"
         android:elevation="20dp"
         app:cardBackgroundColor="@color/background_card"
         app:layout_constraintEnd_toEndOf="@+id/linearTitleListCategories"
@@ -66,26 +67,183 @@
         android:orientation="vertical"
         android:layout_marginTop="150dp"
         android:layout_marginBottom="20dp">
-        <ListView
-            android:id="@+id/listViewCategories"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-        <TextView
-            android:id="@+id/textEmptyList"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_list"
-            android:textColor="@color/secondary_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:visibility="gone"/>
+            android:layout_height="match_parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/containerTitleCategoryIn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:background="@color/background_card"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless">
+                <TextView
+                    android:id="@+id/textTitleCategoryIn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/category_in_title"
+                    android:textColor="@color/primary_text"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iconCategoryIn"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_arrow_down_close_list"
+                    app:tint="@color/primary_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textTitleCategoryIn"
+                    app:layout_constraintBottom_toBottomOf="@+id/textTitleCategoryIn" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/containerListCategoryIn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@+id/containerTitleCategoryIn"
+                app:layout_constraintEnd_toEndOf="@+id/containerTitleCategoryIn"
+                app:layout_constraintTop_toBottomOf="@+id/containerTitleCategoryIn"
+                android:visibility="gone"
+                android:padding="10dp">
+                <View
+                    android:id="@+id/linearSeparatorIn"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/tertiary_text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <ListView
+                    android:id="@+id/listViewCategoriesIn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearSeparatorIn"
+                    android:layout_marginTop="10dp"
+                    />
+
+                <TextView
+                    android:id="@+id/textEmptyListIn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/empty_list"
+                    android:textColor="@color/secondary_text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:visibility="gone"
+                    android:layout_margin="10dp"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/containerCategoryOut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app:cardCornerRadius="10dp"
+        android:elevation="10dp"
+        app:cardBackgroundColor="@color/background_card"
+        app:layout_constraintEnd_toEndOf="@+id/linearTitleListCategories"
+        app:layout_constraintStart_toStartOf="@+id/linearTitleListCategories"
+        app:layout_constraintTop_toBottomOf="@+id/containerCategoryIn"
+        android:padding="20dp"
+        android:orientation="vertical"
+        android:layout_marginTop="150dp"
+        android:layout_marginBottom="20dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/containerTitleCategoryOut"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:background="@color/background_card"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless">
+                <TextView
+                    android:id="@+id/textTitleCategoryOut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/category_out_title"
+                    android:textColor="@color/primary_text"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_marginStart="5dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iconCategoryOut"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_arrow_down_close_list"
+                    app:tint="@color/primary_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textTitleCategoryOut"
+                    app:layout_constraintBottom_toBottomOf="@+id/textTitleCategoryOut" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/containerListCategoryOut"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@+id/containerTitleCategoryOut"
+                app:layout_constraintEnd_toEndOf="@+id/containerTitleCategoryOut"
+                app:layout_constraintTop_toBottomOf="@+id/containerTitleCategoryOut"
+                android:visibility="gone"
+                android:padding="10dp">
+                <View
+                    android:id="@+id/linearSeparatorOut"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/tertiary_text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <ListView
+                    android:id="@+id/listViewCategoriesOut"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearSeparatorOut"
+                    android:layout_marginTop="10dp"
+                    />
+
+                <TextView
+                    android:id="@+id/textEmptyListOut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/empty_list"
+                    android:textColor="@color/secondary_text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:visibility="gone"
+                    android:layout_margin="10dp"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
     <LinearLayout

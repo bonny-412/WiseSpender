@@ -78,7 +78,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.close();
     }
 
-    /*public List<String> getAllTableFromDB() {
+    public List<String> getAllTableFromDB() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
         List<String> stringList = new ArrayList<>();
@@ -90,7 +90,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
         }
         return stringList;
-    }*/
+    }
 
     // ------------------------ "account" table methods ----------------//
     /**
