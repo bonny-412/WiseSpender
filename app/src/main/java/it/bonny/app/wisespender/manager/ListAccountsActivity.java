@@ -1,18 +1,25 @@
 package it.bonny.app.wisespender.manager;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.core.content.ContextCompat;
+import androidx.core.text.HtmlCompat;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
+import java.util.Locale;
 
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
@@ -29,11 +36,17 @@ public class ListAccountsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_accounts);
 
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
         db = new DatabaseHelper(getApplicationContext());
         listView = findViewById(R.id.listViewAccounts);
         listView.setDivider(null);
         listView.setDividerHeight(0);
-        FloatingActionButton buttonNewAccount = findViewById(R.id.buttonNewAccount);
+        MaterialButton buttonNewAccount = findViewById(R.id.buttonNewAccount);
         List<AccountBean> accountBeanList = db.getAllAccountBeansNoMaster();
         db.closeDB();
         if(accountBeanList != null && accountBeanList.size() > 0) {
@@ -45,7 +58,7 @@ public class ListAccountsActivity extends AppCompatActivity {
                 textEmptyList.setVisibility(View.VISIBLE);
         }
 
-        AppCompatImageView returnAccount = findViewById(R.id.returnAccount);
+        MaterialCardView returnAccount = findViewById(R.id.returnAccount);
         returnAccount.setOnClickListener(view -> {
             finish();
         });

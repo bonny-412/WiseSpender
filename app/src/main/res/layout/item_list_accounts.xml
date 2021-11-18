@@ -31,8 +31,9 @@
                 android:id="@+id/cardViewIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/background"
-                app:cardCornerRadius="14dp"
+                app:cardBackgroundColor="@color/background_card"
+                app:cardElevation="5dp"
+                app:cardCornerRadius="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -68,7 +69,6 @@
                     android:textColor="@color/secondary_text"
                     android:textStyle="bold"
                     android:layout_marginTop="5dp"
-                    android:text="0"
                     android:drawablePadding="5dp"
                     app:drawableStartCompat="@drawable/ic_euro_symbol"
                     android:layout_marginStart="20dp"/>

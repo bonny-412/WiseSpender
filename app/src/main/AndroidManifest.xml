@@ -32,10 +32,11 @@
         <activity
             android:name=".manager.NewEditAccountActivity"
             android:exported="false"
-            android:theme="@style/Theme.WiseSpender1">
+            android:theme="@style/Theme.WiseSpender1"
+            android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".manager.MainActivity" />
+                android:value=".manager.ListAccountsActivity" />
         </activity>
         <activity
             android:name=".manager.ListAccountsActivity"

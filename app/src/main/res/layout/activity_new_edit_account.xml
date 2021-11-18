@@ -7,89 +7,99 @@
     tools:context=".manager.NewEditAccountActivity"
     android:background="@color/background">
 
-    <View
-        android:id="@+id/viewHeaderBackground"
+    <LinearLayout
+        android:id="@+id/linearToolbar"
         android:layout_width="match_parent"
-        android:layout_height="125dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/header_background"/>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/linearTitleNewAccount"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/returnNewEditAccount"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/background"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_marginTop="5dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_arrow_back"
+                    android:tint="@color/secondary_text"
+                    android:hint="@string/come_back"
+                    app:iconGravity="textStart"
+                    android:layout_margin="16dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/titlePageNewAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title_page_new_account"
+        android:hint="@string/title_page_new_account"
+        android:textColor="@color/primary_text"
+        android:textStyle="normal"
+        app:layout_constraintTop_toBottomOf="@+id/linearToolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="25sp" />
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/btnDeleteAccount"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:cardElevation="5dp"
+        app:cardCornerRadius="5dp"
+        app:cardBackgroundColor="@color/red"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/alert_delete"
+        app:layout_constraintBottom_toTopOf="@+id/containerForm"
+        app:layout_constraintStart_toEndOf="@+id/titlePageNewAccount"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="-20dp">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:padding="10dp"
-            >
+            android:layout_height="match_parent"
+            android:gravity="center">
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/returnNewAccount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_arrow_back"
-                android:hint="@string/come_back"
-                android:tint="@color/background"
-                app:iconGravity="textStart"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:focusable="true"
-                />
-            <TextView
-                android:id="@+id/titlePageNewAccount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/title_page_new_account"
-                android:hint="@string/title_page_new_account"
-                android:layout_marginTop="5dp"
-                android:textColor="@color/background"
-                android:textStyle="normal"
-                app:layout_constraintBottom_toBottomOf="@+id/returnNewAccount"
-                app:layout_constraintTop_toTopOf="@+id/returnNewAccount"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_gravity="end"
-                android:textSize="20sp"/>
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/btnDeleteAccount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_delete"
-                android:tint="@color/background"
-                android:hint="@string/alert_delete"
-                app:iconGravity="textStart"
-                app:layout_constraintTop_toTopOf="@+id/titlePageNewAccount"
-                app:layout_constraintBottom_toBottomOf="@+id/titlePageNewAccount"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="10dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:visibility="gone"
-                />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:tint="@color/background" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
-    <com.google.android.material.card.MaterialCardView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/containerForm"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        app:cardCornerRadius="20dp"
-        android:elevation="20dp"
-        app:cardBackgroundColor="@color/background_card"
-        app:layout_constraintEnd_toEndOf="@+id/linearTitleNewAccount"
-        app:layout_constraintStart_toStartOf="@+id/linearTitleNewAccount"
-        app:layout_constraintTop_toBottomOf="@+id/linearTitleNewAccount"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titlePageNewAccount"
+        app:layout_constraintBottom_toTopOf="@+id/linear"
+        android:background="@drawable/list_accounts_background"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:layout_marginTop="20dp"
         android:padding="10dp"
-        android:orientation="vertical"
-        android:layout_marginTop="150dp">
+        android:orientation="vertical">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="10dp">
+            android:padding="20dp"
+            android:layout_marginTop="20dp">
 
                 <EditText
                     android:id="@+id/accountName"
@@ -127,6 +137,7 @@
                 android:paddingEnd="12dp"
                 android:textColor="@color/primary_text"
                 android:textSize="14sp"
+                android:imeOptions="actionDone"
                 app:layout_constraintEnd_toEndOf="@+id/accountName"
                 app:layout_constraintStart_toStartOf="@+id/accountName"
                 app:layout_constraintTop_toBottomOf="@+id/accountName"
@@ -164,7 +175,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/linearSwitch"
                     app:layout_constraintStart_toStartOf="@+id/linearSwitch"
                     app:layout_constraintEnd_toEndOf="@+id/linearSwitch"
-                    app:layout_constraintBottom_toTopOf="@+id/buttonSaveNewAccount"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginTop="10dp"
                     android:orientation="vertical">
                     <TextView
@@ -186,27 +197,34 @@
                         android:stretchMode="spacingWidthUniform"
                         android:gravity="center"/>
                 </LinearLayout>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/buttonSaveNewAccount"
-                    style="@style/Widget.MaterialComponents.Button.Icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:text="@string/save_button"
-                    android:textColor="@color/background"
-                    app:icon="@drawable/ic_save"
-                    app:iconTint="@color/background"
-                    app:iconGravity="textStart"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearIcon"
-                    android:layout_margin="16dp"
-                    />
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:id="@+id/linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/background_card"
+        android:elevation="0dp"
+        android:orientation="vertical">
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonSaveNewAccount"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="@string/save_button_account"
+            android:textColor="@color/background"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="16sp"
+            android:gravity="center"
+            app:background="@color/primary"
+            android:contentDescription="@string/save_button_account"
+            android:layout_margin="16dp"
+            app:cornerRadius="10dp"
+            />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

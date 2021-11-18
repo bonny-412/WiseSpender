@@ -14,13 +14,11 @@
     <string name="empty_list_transactions">Non ci sono transazioni recenti</string>
     <string name="type_income">Entrata</string>
     <string name="type_expense">Spesa</string>
-    <string name="new_button">Nuovo</string>
     <string name="account_bottom_sheet">Conto</string>
     <string name="content_description_radio_button">Conto selezionato</string>
     <string name="name_new_account_input">Nome conto</string>
     <string name="opening_balance_new_account_input">Saldo apertura conto</string>
     <string name="date_new_account_input">Data</string>
-    <string name="save_button">Salva</string>
     <string name="title_page_new_account">Nuovo conto</string>
     <string name="spender_text">Spendaccione</string>
     <string name="pressToExit">Premere di nuovo indietro per uscire</string>
@@ -49,4 +47,8 @@
     <string name="category_in_title">Entrate</string>
     <string name="last_month">Ultimo mese</string>
     <string name="activity">Attività</string>
+    <string name="new_button_accounts">Nuovo conto</string>
+    <string name="new_button_category">Nuova categoria</string>
+    <string name="save_button_category">Salva categoria</string>
+    <string name="save_button_account">Salva conto</string>
 </resources>

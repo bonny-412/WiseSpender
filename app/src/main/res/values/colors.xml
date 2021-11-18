@@ -3,6 +3,7 @@
     <color name="primary">#304FFE</color>
     <color name="secondary">#FFAB00</color>
     <color name="green">#00E676</color>
+    <color name="red">#FF1744</color>
 
     <color name="background">#EEF2F6</color>
     <color name="background_card">#FFFFFF</color>

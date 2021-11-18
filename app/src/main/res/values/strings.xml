@@ -25,12 +25,12 @@
 
     <!-- Bottom sheet accountBean -->
     <string name="account_bottom_sheet">Account</string>
-    <string name="new_button">New</string>
+    <string name="new_button_accounts">New accounts</string>
     <string name="content_description_radio_button">Selected accountBean</string>
     <string name="name_new_account_input">Account name</string>
     <string name="opening_balance_new_account_input">Account opening balance</string>
     <string name="date_new_account_input">Date</string>
-    <string name="save_button">Save</string>
+    <string name="save_button_account">Save account</string>
 
     <!-- Toast -->
     <string name="pressToExit">Press back again to exit</string>
@@ -68,5 +68,7 @@
     <string name="alert_delete_category_title">Are you sure you want to delete this category?</string>
     <string name="category_in_title">Income</string>
     <string name="category_out_title">Expense</string>
+    <string name="new_button_category">New category</string>
+    <string name="save_button_category">Save category</string>
 
 </resources>

@@ -19,7 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.math.BigDecimal;
@@ -36,7 +38,8 @@ import it.bonny.app.wisespender.util.Utility;
 
 public class NewEditAccountActivity extends AppCompatActivity implements TextWatcher {
 
-    private AppCompatImageView returnNewAccount, btnDeleteAccount;
+    private MaterialCardView returnNewEditAccount;
+    private MaterialCardView btnDeleteAccount;
     private GridView gridView;
     private EditText accountName;
     private CurrencyEditText accountOpeningBalance;
@@ -86,7 +89,7 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
             iconNewEditAccountAdapter.notifyDataSetChanged();
         }
 
-        returnNewAccount.setOnClickListener(view -> finish());
+        returnNewEditAccount.setOnClickListener(view -> finish());
 
         gridView.setOnItemClickListener((adapterView, view, position, l) -> {
             iconNewEditAccountAdapter.makeAllUnselect(position);
@@ -113,7 +116,7 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
             }
 
             if(accountBean.getIdIcon() == null || "".equals(accountBean.getIdIcon())) {
-                titleChooseIconNewAccount.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.secondary));
+                titleChooseIconNewAccount.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.red));
                 isError = true;
             }else {
                 titleChooseIconNewAccount.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.secondary_text));
@@ -137,11 +140,11 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
                     else
                         db.insertAccountBean(accountBean);
                     db.closeDB();
-                    Toast.makeText(getApplicationContext(), getString(R.string.saved_ok), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.saved_ok), Toast.LENGTH_SHORT).show();
                     finish();
                 }catch (Exception e) {
                     //TODO: Firebase
-                    Toast.makeText(getApplicationContext(), getString(R.string.saved_ko), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.saved_ko), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -158,7 +161,7 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
     }
 
     public void init() {
-        returnNewAccount = findViewById(R.id.returnNewAccount);
+        returnNewEditAccount = findViewById(R.id.returnNewEditAccount);
         gridView = findViewById(R.id.gridViewNewAccount);
         accountName = findViewById(R.id.accountName);
         buttonSaveNewAccount = findViewById(R.id.buttonSaveNewAccount);
