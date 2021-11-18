@@ -3,6 +3,8 @@ package it.bonny.app.wisespender.manager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
 import android.content.Context;
@@ -33,10 +35,12 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseHelper db;
     private final Utility utility = new Utility();
     private MaterialCardView btnAccounts, btnCategories;
-    private TextView accountName, showAccountListBtn;
+    private TextView accountName, showAccountListBtn, moneyAccount;
     private final Activity activity = this;
     private LinearLayout buttonTransactions, buttonActivity;
     private boolean isCheckedButtonTransactions = true;
+    private ConstraintLayout containerActivity, containerTransactions;
+    private AppCompatTextView totalIncome, totalExpense;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,11 @@ public class MainActivity extends AppCompatActivity {
         List<AccountBean> accountBeanList = db.getAllAccountBeans();
         AccountBean accountBeanSelected = db.getAccountBeanSelected();
         db.closeDB();
+
+        String totAccountString = "" + utility.convertIntInEditTextValue(accountBeanSelected.getTotMoneyIncome() - accountBeanSelected.getTotMoneyExpense());
+        moneyAccount.setText(totAccountString);
+        totalIncome.setText(String.valueOf(utility.convertIntInEditTextValue(accountBeanSelected.getTotMoneyIncome())));
+        totalExpense.setText(String.valueOf(utility.convertIntInEditTextValue(accountBeanSelected.getTotMoneyExpense())));
 
         btnAccounts.setOnClickListener(view -> {
             Intent intent = new Intent(activity, ListAccountsActivity.class);
@@ -72,6 +81,10 @@ public class MainActivity extends AppCompatActivity {
                 isCheckedButtonTransactions = true;
                 buttonTransactions.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.button_change_view_checked_background));
                 buttonActivity.setBackgroundResource(0);
+                buttonTransactions.setElevation(8);
+                buttonActivity.setElevation(0);
+                containerActivity.setVisibility(View.GONE);
+                containerTransactions.setVisibility(View.VISIBLE);
             }
         });
 
@@ -80,6 +93,10 @@ public class MainActivity extends AppCompatActivity {
                 isCheckedButtonTransactions = false;
                 buttonActivity.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.button_change_view_checked_background));
                 buttonTransactions.setBackgroundResource(0);
+                buttonActivity.setElevation(8);
+                buttonTransactions.setElevation(0);
+                containerActivity.setVisibility(View.VISIBLE);
+                containerTransactions.setVisibility(View.GONE);
             }
         });
 
@@ -94,6 +111,11 @@ public class MainActivity extends AppCompatActivity {
         buttonTransactions = findViewById(R.id.buttonTransactions);
         buttonTransactions.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.button_change_view_checked_background));
         buttonActivity = findViewById(R.id.buttonActivity);
+        containerActivity = findViewById(R.id.containerActivity);
+        containerTransactions = findViewById(R.id.containerTransactions);
+        moneyAccount = findViewById(R.id.moneyAccount);
+        totalIncome = findViewById(R.id.totalIncome);
+        totalExpense = findViewById(R.id.totalExpense);
     }
 
     //Shows the welcome alert

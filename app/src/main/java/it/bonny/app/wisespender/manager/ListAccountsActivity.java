@@ -1,6 +1,7 @@
 package it.bonny.app.wisespender.manager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -29,7 +31,9 @@ public class ListAccountsActivity extends AppCompatActivity {
 
         db = new DatabaseHelper(getApplicationContext());
         listView = findViewById(R.id.listViewAccounts);
-        MaterialButton buttonNewAccount = findViewById(R.id.buttonNewAccount);
+        listView.setDivider(null);
+        listView.setDividerHeight(0);
+        FloatingActionButton buttonNewAccount = findViewById(R.id.buttonNewAccount);
         List<AccountBean> accountBeanList = db.getAllAccountBeansNoMaster();
         db.closeDB();
         if(accountBeanList != null && accountBeanList.size() > 0) {
@@ -41,7 +45,7 @@ public class ListAccountsActivity extends AppCompatActivity {
                 textEmptyList.setVisibility(View.VISIBLE);
         }
 
-        MaterialButton returnAccount = findViewById(R.id.returnAccount);
+        AppCompatImageView returnAccount = findViewById(R.id.returnAccount);
         returnAccount.setOnClickListener(view -> {
             finish();
         });

@@ -50,6 +50,8 @@ public class ListAccountsAdapter extends ArrayAdapter<AccountBean>  {
 
             holder.iconAccount.setImageDrawable(AppCompatResources.getDrawable(activity, utility.getIdIconByAccountBean(accountBeanList.get(position))));
             holder.titleAccount.setText(accountBeanList.get(position).getName());
+            String totAccountString = "" + utility.convertIntInEditTextValue(accountBeanList.get(position).getTotMoneyIncome() - accountBeanList.get(position).getTotMoneyExpense());
+            holder.totMoneyAccount.setText(totAccountString);
            holder.btnElement.setOnClickListener(view -> {
                 Intent intent = new Intent(activity, NewEditAccountActivity.class);
                 String id = "" + accountBeanList.get(position).getId();
@@ -66,13 +68,14 @@ public class ListAccountsAdapter extends ArrayAdapter<AccountBean>  {
 
     private static class ViewHolder {
         private final AppCompatImageView iconAccount;
-        private final TextView titleAccount;
+        private final TextView titleAccount, totMoneyAccount;
         private final MaterialCardView btnElement;
 
         ViewHolder(View v) {
             iconAccount = v.findViewById(R.id.iconAccount);
             titleAccount = v.findViewById(R.id.titleAccount);
             btnElement = v.findViewById(R.id.btnElement);
+            totMoneyAccount = v.findViewById(R.id.totMoneyAccount);
         }
     }
 }

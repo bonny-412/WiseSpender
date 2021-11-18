@@ -7,65 +7,44 @@
     tools:context=".manager.ListAccountsActivity"
     android:background="@color/background">
 
-    <View
-        android:id="@+id/viewHeaderBackground"
-        android:layout_width="match_parent"
-        android:layout_height="125dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/header_background"/>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/linearTitleListAccounts"
-        android:layout_width="match_parent"
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/returnAccount"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:src="@drawable/ic_arrow_back"
+        android:tint="@color/secondary_text"
+        android:hint="@string/come_back"
+        app:iconGravity="textStart"
+        android:layout_margin="16dp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        />
+    <TextView
+        android:id="@+id/titlePageAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/accounts"
+        android:textColor="@color/primary_text"
+        android:textStyle="normal"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/returnAccount"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="10dp"
-        >
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/returnAccount"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            app:icon="@drawable/ic_arrow_back"
-            app:iconTint="@color/background"
-            android:hint="@string/come_back"
-            app:iconGravity="textStart"
-            android:background="@color/background"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-        <TextView
-            android:id="@+id/titlePageAccount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/accounts"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/background"
-            android:textStyle="normal"
-            app:layout_constraintBottom_toBottomOf="@+id/returnAccount"
-            app:layout_constraintTop_toTopOf="@+id/returnAccount"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_gravity="end"
-            android:textSize="20sp"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <com.google.android.material.card.MaterialCardView
+        android:textSize="25sp" />
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        app:cardCornerRadius="20dp"
-        android:elevation="20dp"
-        app:cardBackgroundColor="@color/background_card"
-        app:layout_constraintEnd_toEndOf="@+id/linearTitleListAccounts"
-        app:layout_constraintStart_toStartOf="@+id/linearTitleListAccounts"
-        app:layout_constraintTop_toBottomOf="@+id/linearTitleListAccounts"
-        android:padding="20dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titlePageAccount"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/list_accounts_background"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
         android:orientation="vertical"
-        android:layout_marginTop="150dp"
-        android:layout_marginBottom="20dp">
+        >
         <ListView
             android:id="@+id/listViewAccounts"
             android:layout_width="match_parent"
@@ -86,29 +65,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:visibility="gone"/>
-    </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
-        android:id="@+id/containerButtonNewAccount"
-        android:layout_width="match_parent"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/buttonNewAccount"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:src="@drawable/ic_plus_fab"
+        android:tint="@color/background"
+        android:contentDescription="@string/new_button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center"
-        android:padding="10dp">
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttonNewAccount"
-            style="@style/Widget.MaterialComponents.Button.Icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:text="@string/new_button"
-            app:icon="@drawable/ic_plus_24"
-            android:textColor="@color/background"
-            app:iconGravity="textStart"
-            android:textSize="11sp"
-            />
-    </LinearLayout>
+        android:layout_margin="16dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
