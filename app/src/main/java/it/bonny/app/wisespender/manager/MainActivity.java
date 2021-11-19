@@ -26,6 +26,7 @@ import java.util.List;
 
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
+import it.bonny.app.wisespender.bean.TypeObjectBean;
 import it.bonny.app.wisespender.db.DatabaseHelper;
 import it.bonny.app.wisespender.util.Utility;
 
@@ -41,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean isCheckedButtonTransactions = true;
     private ConstraintLayout containerActivity, containerTransactions;
     private AppCompatTextView totalIncome, totalExpense;
+    private List<AccountBean> accountBeanList;
+    private AccountBean accountBeanSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,15 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
         init();
         showWelcomeAlert();
-
-        List<AccountBean> accountBeanList = db.getAllAccountBeans();
-        AccountBean accountBeanSelected = db.getAccountBeanSelected();
-        db.closeDB();
-
-        String totAccountString = "" + utility.convertIntInEditTextValue(accountBeanSelected.getTotMoneyIncome() - accountBeanSelected.getTotMoneyExpense());
-        moneyAccount.setText(totAccountString);
-        totalIncome.setText(String.valueOf(utility.convertIntInEditTextValue(accountBeanSelected.getTotMoneyIncome())));
-        totalExpense.setText(String.valueOf(utility.convertIntInEditTextValue(accountBeanSelected.getTotMoneyExpense())));
+        getMoney();
 
         btnAccounts.setOnClickListener(view -> {
             Intent intent = new Intent(activity, ListAccountsActivity.class);
@@ -172,6 +167,27 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart(){
         super.onStart();
+        getMoney();
+    }
+
+    private void getMoney() {
+        accountBeanList = db.getAllAccountBeans();
+        accountBeanSelected = db.getAccountBeanSelected();
+        db.closeDB();
+
+        String totMoneyAccount, totMoneyAccountIncome, totMoneyAccountExpense;
+        if(accountBeanSelected.getIsMaster() == TypeObjectBean.IS_MASTER) {
+            totMoneyAccount = utility.getTotMoneyAccountByAllAccounts(accountBeanList, null);
+            totMoneyAccountIncome = utility.getTotMoneyIncomeAccountByAllAccounts(accountBeanList, null);
+            totMoneyAccountExpense = utility.getTotMoneyExpenseAccountByAllAccounts(accountBeanList, null);
+        }else {
+            totMoneyAccount = utility.getTotMoneyAccountByAllAccounts(null, accountBeanSelected);
+            totMoneyAccountIncome = utility.getTotMoneyIncomeAccountByAllAccounts(null, accountBeanSelected);
+            totMoneyAccountExpense = utility.getTotMoneyExpenseAccountByAllAccounts(null, accountBeanSelected);
+        }
+        moneyAccount.setText(totMoneyAccount);
+        totalIncome.setText(totMoneyAccountIncome);
+        totalExpense.setText(totMoneyAccountExpense);
     }
 
 }

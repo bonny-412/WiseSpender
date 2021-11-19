@@ -52,6 +52,7 @@ public class ListAccountsAdapter extends ArrayAdapter<AccountBean>  {
             holder.iconAccount.setImageDrawable(AppCompatResources.getDrawable(activity, utility.getIdIconByAccountBean(accountBeanList.get(position))));
             holder.titleAccount.setText(accountBeanList.get(position).getName());
             String totAccountString = "" + utility.convertIntInEditTextValue(accountBeanList.get(position).getOpeningBalance() + (accountBeanList.get(position).getTotMoneyIncome() - accountBeanList.get(position).getTotMoneyExpense()));
+            totAccountString = utility.formatNumberCurrency(totAccountString);
             holder.totMoneyAccount.setText(totAccountString);
            holder.btnElement.setOnClickListener(view -> {
                 Intent intent = new Intent(activity, NewEditAccountActivity.class);

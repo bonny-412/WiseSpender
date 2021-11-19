@@ -5,6 +5,7 @@ import android.content.res.Resources;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -160,6 +161,72 @@ public class Utility {
     public BigDecimal convertIntInEditTextValue(int value) {
         BigDecimal bigDecimal = new BigDecimal(value);
         return bigDecimal.divide(cent, 2, RoundingMode.CEILING);
+    }
+
+    public String formatNumberCurrency(String number) {
+        DecimalFormat format = new DecimalFormat("###,###,##0.00");
+        return format.format(Double.parseDouble(number));
+    }
+
+    public String getTotMoneyAccountByAllAccounts(List<AccountBean> accountBeans, AccountBean accountBeanSelected) {
+        String result = "";
+        int number = 0;
+        int totMoneyOpeningBalance = 0;
+        int totMoneyIncome = 0;
+        int totMoneyExpense = 0;
+        if(accountBeanSelected == null) {
+            for(AccountBean accountBean: accountBeans) {
+                totMoneyOpeningBalance = totMoneyOpeningBalance + accountBean.getOpeningBalance();
+                totMoneyIncome = totMoneyIncome + accountBean.getTotMoneyIncome();
+                totMoneyExpense = totMoneyExpense + accountBean.getTotMoneyExpense();
+            }
+        }else {
+            totMoneyOpeningBalance = accountBeanSelected.getOpeningBalance();
+            totMoneyIncome = accountBeanSelected.getTotMoneyIncome();
+            totMoneyExpense = accountBeanSelected.getTotMoneyExpense();
+        }
+        int totSum = totMoneyOpeningBalance + totMoneyIncome;
+        if(totMoneyExpense > totSum) {
+            number = totMoneyExpense - totSum;
+            result = "- ";
+        }else {
+            number = totSum - totMoneyExpense;
+        }
+        result += formatNumberCurrency(convertIntInEditTextValue(number).toString());
+        return result;
+    }
+
+    public String getTotMoneyIncomeAccountByAllAccounts(List<AccountBean> accountBeans, AccountBean accountBeanSelected) {
+        String result = "";
+        int number = 0;
+        int totMoneyOpeningBalance = 0;
+        int totMoneyIncome = 0;
+        if(accountBeanSelected == null) {
+            for(AccountBean accountBean: accountBeans) {
+                totMoneyOpeningBalance = totMoneyOpeningBalance + accountBean.getOpeningBalance();
+                totMoneyIncome = totMoneyIncome + accountBean.getTotMoneyIncome();
+            }
+        }else {
+            totMoneyOpeningBalance = accountBeanSelected.getOpeningBalance();
+            totMoneyIncome = accountBeanSelected.getTotMoneyIncome();
+        }
+        number = totMoneyOpeningBalance + totMoneyIncome;
+        result += formatNumberCurrency(convertIntInEditTextValue(number).toString());
+        return result;
+    }
+
+    public String getTotMoneyExpenseAccountByAllAccounts(List<AccountBean> accountBeans, AccountBean accountBeanSelected) {
+        String result = "";
+        int totMoneyExpense = 0;
+        if(accountBeanSelected == null) {
+            for(AccountBean accountBean: accountBeans) {
+                totMoneyExpense = totMoneyExpense + accountBean.getTotMoneyExpense();
+            }
+        }else {
+            totMoneyExpense = accountBeanSelected.getTotMoneyExpense();
+        }
+        result += formatNumberCurrency(convertIntInEditTextValue(totMoneyExpense).toString());
+        return result;
     }
 
 }
