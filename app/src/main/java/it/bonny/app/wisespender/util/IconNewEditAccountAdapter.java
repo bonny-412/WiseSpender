@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.content.res.AppCompatResources;
@@ -77,7 +78,7 @@ public class IconNewEditAccountAdapter extends BaseAdapter {
     }
 
     private static class ViewHolder {
-        AppCompatImageView imageView;
+        ImageView imageView;
         LinearLayout containerIcon;
 
         public ViewHolder(View view) {

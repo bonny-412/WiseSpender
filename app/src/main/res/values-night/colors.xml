@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#82B1FF</color>
-    <color name="secondary">#FFE57F</color>
-    <color name="green">#69F0AE</color>
-    <color name="red">#FF8A80</color>
+    <color name="primary">#45adff</color>
+    <color name="secondary">#ff8975</color>
+    <color name="green">#73ffe0</color>
+    <color name="yellow">#FFE57F</color>
 
-    <color name="background">#252e42</color>
-    <color name="background_card">#2f3b52</color>
+    <!--
+        <color name="primary">#82B1FF</color>
+    <color name="secondary">#FF8A80</color>
+    -->
 
-    <color name="primary_text">#FFFFFF</color>
+    <color name="background">#1a2744</color>
+    <color name="background_card">#2e3d60</color>
+
+    <color name="primary_text">#F5F8FA</color>
+    <color name="secondary_text">#AAB8C2</color>
+    <color name="tertiary_text">#657786</color>
+
+    <!--<color name="primary_text">#FFFFFF</color>
     <color name="secondary_text">#BEBEBE</color>
     <color name="tertiary_text">#969696</color>
+
+    <color name="background">#252e42</color>
+    <color name="background_card">#2f3b52</color>-->
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>

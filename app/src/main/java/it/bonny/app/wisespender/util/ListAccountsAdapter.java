@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -50,7 +51,7 @@ public class ListAccountsAdapter extends ArrayAdapter<AccountBean>  {
 
             holder.iconAccount.setImageDrawable(AppCompatResources.getDrawable(activity, utility.getIdIconByAccountBean(accountBeanList.get(position))));
             holder.titleAccount.setText(accountBeanList.get(position).getName());
-            String totAccountString = "" + utility.convertIntInEditTextValue(accountBeanList.get(position).getTotMoneyIncome() - accountBeanList.get(position).getTotMoneyExpense());
+            String totAccountString = "" + utility.convertIntInEditTextValue(accountBeanList.get(position).getOpeningBalance() + (accountBeanList.get(position).getTotMoneyIncome() - accountBeanList.get(position).getTotMoneyExpense()));
             holder.totMoneyAccount.setText(totAccountString);
            holder.btnElement.setOnClickListener(view -> {
                 Intent intent = new Intent(activity, NewEditAccountActivity.class);
@@ -61,6 +62,7 @@ public class ListAccountsAdapter extends ArrayAdapter<AccountBean>  {
 
         } catch (Exception e) {
             //TODO: Firebase
+            Log.e("bonny", e.toString());
         }
 
         return rowView != null ? rowView : View.inflate(getContext(), R.layout.item_list_accounts, null);

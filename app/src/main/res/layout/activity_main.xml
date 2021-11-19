@@ -147,7 +147,7 @@
                     android:id="@+id/containerIconIncome"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    app:cardBackgroundColor="@color/primary"
+                    app:cardBackgroundColor="@color/background_card"
                     app:cardCornerRadius="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -157,7 +157,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:src="@drawable/ic_arrow_up"
-                        android:tint="@color/background"
+                        android:tint="@color/primary"
                         android:layout_margin="8dp"
                         />
                 </com.google.android.material.card.MaterialCardView>
@@ -211,7 +211,7 @@
                     android:id="@+id/containerIconExpense"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    app:cardBackgroundColor="@color/secondary"
+                    app:cardBackgroundColor="@color/background_card"
                     app:cardCornerRadius="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -221,7 +221,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:src="@drawable/ic_arrow_down"
-                        android:tint="@color/background"
+                        android:tint="@color/secondary"
                         android:layout_margin="8dp"
                         />
                 </com.google.android.material.card.MaterialCardView>

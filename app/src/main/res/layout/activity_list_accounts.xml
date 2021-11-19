@@ -103,7 +103,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:elevation="10dp"
-            android:textColor="@color/background"
+            android:textColor="@color/white"
             android:text="@string/new_button_accounts"
             android:textSize="16sp"
             android:gravity="center"

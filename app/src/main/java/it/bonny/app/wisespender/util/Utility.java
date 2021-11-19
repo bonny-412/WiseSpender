@@ -30,7 +30,7 @@ public class Utility {
         accountMaster.setFlagSelected(TypeObjectBean.SELECTED);
         accountMaster.setFlagViewTotalBalance(TypeObjectBean.IS_TOTAL_BALANCE);
         accountMaster.setCurrency("EUR");
-        accountMaster.setIdIcon("ic_bank");
+        accountMaster.setIdIcon("icon_safe");
         accountMaster.setTotMoneyIncome(0);
         accountMaster.setTotMoneyExpense(0);
 
@@ -41,7 +41,7 @@ public class Utility {
         accountCash.setFlagSelected(TypeObjectBean.NO_SELECTED);
         accountCash.setFlagViewTotalBalance(TypeObjectBean.IS_TOTAL_BALANCE);
         accountCash.setCurrency("EUR");
-        accountCash.setIdIcon("ic_money");
+        accountCash.setIdIcon("icon_cash");
         accountCash.setTotMoneyIncome(0);
         accountCash.setTotMoneyExpense(0);
 
@@ -52,7 +52,7 @@ public class Utility {
         accountCash.setFlagSelected(TypeObjectBean.NO_SELECTED);
         accountCash.setFlagViewTotalBalance(TypeObjectBean.IS_TOTAL_BALANCE);
         accountCreditCard.setCurrency("EUR");
-        accountCreditCard.setIdIcon("ic_credit_card");
+        accountCreditCard.setIdIcon("icon_credit_card");
         accountCreditCard.setTotMoneyIncome(0);
         accountCreditCard.setTotMoneyExpense(0);
 
@@ -96,51 +96,64 @@ public class Utility {
 
     public int getIdIconByAccountBean(AccountBean accountBean) {
         int idIcon = 0;
-        if("ic_bank".equals(accountBean.getIdIcon())) {
-            idIcon = R.drawable.ic_bank;
-        }else if("ic_credit_card".equals(accountBean.getIdIcon())) {
-            idIcon = R.drawable.ic_credit_card;
-        }else if("ic_money".equals(accountBean.getIdIcon())) {
-            idIcon = R.drawable.ic_money;
-        }else if("ic_cash_register".equals(accountBean.getIdIcon())) {
-            idIcon = R.drawable.ic_cash_register;
+        if("icon_bank".equals(accountBean.getIdIcon())) {
+            idIcon = R.drawable.icon_bank;
+        }else if("icon_cash".equals(accountBean.getIdIcon())) {
+            idIcon = R.drawable.icon_cash;
+        }else if("icon_credit_card".equals(accountBean.getIdIcon())) {
+            idIcon = R.drawable.icon_credit_card;
+        }else if("icon_money_box".equals(accountBean.getIdIcon())) {
+            idIcon = R.drawable.icon_money_box;
+        }else if("icon_safe".equals(accountBean.getIdIcon())) {
+            idIcon = R.drawable.icon_safe;
+        }else if("icon_wallet".equals(accountBean.getIdIcon())) {
+            idIcon = R.drawable.icon_wallet;
         }
         return idIcon;
     }
 
     public static List<IconBean> getListIconToAccountBean() {
         List<IconBean> iconBeans = new ArrayList<>();
-        IconBean icBank = new IconBean(R.drawable.ic_bank, "ic_bank");
-        IconBean icCashRegister = new IconBean(R.drawable.ic_cash_register, "ic_cash_register");
-        IconBean icCreditCard = new IconBean(R.drawable.ic_credit_card, "ic_credit_card");
-        IconBean icMoney = new IconBean(R.drawable.ic_money, "ic_money");
-        iconBeans.add(icBank);
-        iconBeans.add(icCashRegister);
-        iconBeans.add(icCreditCard);
-        iconBeans.add(icMoney);
+        IconBean icon_bank = new IconBean(R.drawable.icon_bank, "icon_bank");
+        IconBean icon_cash = new IconBean(R.drawable.icon_cash, "icon_cash");
+        IconBean icon_credit_card = new IconBean(R.drawable.icon_credit_card, "icon_credit_card");
+        IconBean icon_money_box = new IconBean(R.drawable.icon_money_box, "icon_money_box");
+        IconBean icon_safe = new IconBean(R.drawable.icon_safe, "icon_safe");
+        IconBean icon_wallet = new IconBean(R.drawable.icon_wallet, "icon_wallet");
+        iconBeans.add(icon_bank);
+        iconBeans.add(icon_cash);
+        iconBeans.add(icon_credit_card);
+        iconBeans.add(icon_money_box);
+        iconBeans.add(icon_safe);
+        iconBeans.add(icon_wallet);
         return iconBeans;
     }
 
     public static int getPositionIconToAccountBean(String nameIcon) {
         int pos = -1;
-        if("ic_bank".equals(nameIcon)) {
+        if("icon_bank".equals(nameIcon)) {
             pos = 0;
-        }else if("ic_cash_register".equals(nameIcon)) {
+        }else if("icon_cash".equals(nameIcon)) {
             pos = 1;
-        }else if("ic_credit_card".equals(nameIcon)) {
+        }else if("icon_credit_card".equals(nameIcon)) {
             pos = 2;
-        }else if("ic_money".equals(nameIcon)) {
+        }else if("icon_money_box".equals(nameIcon)) {
+            pos = 3;
+        }else if("icon_safe".equals(nameIcon)) {
+            pos = 3;
+        }else if("icon_wallet".equals(nameIcon)) {
             pos = 3;
         }
         return pos;
     }
 
 
-    public int convertEditTextValueInInt(BigDecimal editTextValue) {
-        int val = 0;
-        if(editTextValue != null) {
-            val = editTextValue.multiply(cent).intValue();
-        }
+    public int convertEditTextValueInInt(String valueString) {
+        int val;
+        if(valueString.contains(","))
+            valueString = valueString.replace(",", "");
+        BigDecimal bigDecimal = new BigDecimal(valueString);
+        val = bigDecimal.multiply(cent).intValue();
         return val;
     }
 

@@ -42,6 +42,7 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
+
     <TextView
         android:id="@+id/titlePageNewAccount"
         android:layout_width="wrap_content"
@@ -54,13 +55,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:textSize="25sp" />
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/btnDeleteAccount"
         android:layout_width="48dp"
         android:layout_height="48dp"
         app:cardElevation="5dp"
         app:cardCornerRadius="5dp"
-        app:cardBackgroundColor="@color/red"
+        app:cardBackgroundColor="@color/secondary"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackgroundBorderless"
@@ -68,6 +70,7 @@
         app:layout_constraintBottom_toTopOf="@+id/containerForm"
         app:layout_constraintStart_toEndOf="@+id/titlePageNewAccount"
         app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
         android:layout_marginBottom="-20dp">
         <LinearLayout
             android:layout_width="match_parent"
@@ -101,7 +104,7 @@
             android:padding="20dp"
             android:layout_marginTop="20dp">
 
-                <EditText
+            <EditText
                     android:id="@+id/accountName"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
@@ -143,7 +146,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/accountName"
                 tools:ignore="SpeakableTextPresentCheck" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/linearSwitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -168,7 +171,7 @@
                         app:layout_constraintTop_toBottomOf="parent"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <LinearLayout
+            <LinearLayout
                     android:id="@+id/linearIcon"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -176,7 +179,6 @@
                     app:layout_constraintStart_toStartOf="@+id/linearSwitch"
                     app:layout_constraintEnd_toEndOf="@+id/linearSwitch"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginTop="10dp"
                     android:orientation="vertical">
                     <TextView
                         android:id="@+id/titleChooseIconNewAccount"
@@ -197,9 +199,9 @@
                         android:stretchMode="spacingWidthUniform"
                         android:gravity="center"/>
                 </LinearLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <LinearLayout
         android:id="@+id/linear"
         android:layout_width="match_parent"
@@ -215,7 +217,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:text="@string/save_button_account"
-            android:textColor="@color/background"
+            android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             android:textSize="16sp"
             android:gravity="center"
@@ -224,7 +226,6 @@
             android:layout_margin="16dp"
             app:cornerRadius="10dp"
             />
-
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
