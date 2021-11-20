@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -20,8 +21,15 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
+import it.bonny.app.wisespender.bean.CategoryBean;
+import it.bonny.app.wisespender.bean.IconBean;
+import it.bonny.app.wisespender.bean.TransactionBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
 import it.bonny.app.wisespender.db.DatabaseHelper;
 import it.bonny.app.wisespender.util.CurrencyEditText;
@@ -39,7 +47,7 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
     private TextView titleChooseIconNewAccount, titlePageNewAccount;
     private SwitchMaterial flagViewTotalBalance;
     private final Utility utility = new Utility();
-    private Activity activity = this;
+    private final Activity activity = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,15 +69,17 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
             String openingBalance = utility.convertIntInEditTextValue(accountBean.getOpeningBalance()).toString();
             accountOpeningBalance.setText(openingBalance);
             boolean flag = false;
-            if(accountBean.getFlagViewTotalBalance() == TypeObjectBean.IS_TOTAL_BALANCE)
+            if(accountBean.getFlagViewTotalBalance() == TypeObjectBean.NO_TOTAL_BALANCE)
                 flag = true;
             flagViewTotalBalance.setChecked(flag);
-            iconSelectedPosition = Utility.getPositionIconToAccountBean(accountBean.getIdIcon());
+            IconBean iconBean = Utility.getListIconToAccountBean().get(accountBean.getIdIcon());
+            iconSelectedPosition = iconBean.getId();
         }else {
             accountBean = new AccountBean();
             accountBean.setIsMaster(TypeObjectBean.NO_MASTER);
-            accountBean.setFlagViewTotalBalance(TypeObjectBean.NO_TOTAL_BALANCE);
+            accountBean.setFlagViewTotalBalance(TypeObjectBean.IS_TOTAL_BALANCE);
             accountBean.setFlagSelected(TypeObjectBean.NO_SELECTED);
+            accountBean.setIdIcon(-1);
             iconSelectedPosition = -1;
             accountOpeningBalance.setText("0");
         }
@@ -87,15 +97,15 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
         gridView.setOnItemClickListener((adapterView, view, position, l) -> {
             iconNewEditAccountAdapter.makeAllUnselect(position);
             iconNewEditAccountAdapter.notifyDataSetChanged();
-            accountBean.setIdIcon(Utility.getListIconToAccountBean().get(position).getName());
+            accountBean.setIdIcon(Utility.getListIconToAccountBean().get(position).getId());
             titleChooseIconNewAccount.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.secondary_text));
         });
 
         flagViewTotalBalance.setOnCheckedChangeListener((compoundButton, b) -> {
             if(b) {
-                accountBean.setFlagViewTotalBalance(TypeObjectBean.IS_TOTAL_BALANCE);
-            }else {
                 accountBean.setFlagViewTotalBalance(TypeObjectBean.NO_TOTAL_BALANCE);
+            }else {
+                accountBean.setFlagViewTotalBalance(TypeObjectBean.IS_TOTAL_BALANCE);
             }
         });
 
@@ -108,7 +118,7 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
                 accountBean.setName(accountName.getText().toString().trim());
             }
 
-            if(accountBean.getIdIcon() == null || "".equals(accountBean.getIdIcon())) {
+            if(accountBean.getIdIcon() == -1) {
                 titleChooseIconNewAccount.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.secondary));
                 isError = true;
             }else {
@@ -116,7 +126,6 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
             }
 
             int openingBalance = 0;
-            String prova = accountOpeningBalance.getText().toString();
             if(accountOpeningBalance.getText() != null &&
                     !"".equals(accountOpeningBalance.getText().toString().trim())) {
                 try {
@@ -129,27 +138,39 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
             accountBean.setOpeningBalance(openingBalance);
             if(!isError) {
                 try {
-                    if(accountBean.getId() != 0)
+                    if(accountBean.getId() != 0) {
+                        TransactionBean transactionBean = db.getAllTransactionBeansByTypeTransactionIdAccount(TypeObjectBean.TRANSACTION_OPEN_BALANCE, accountBean.getId());
+                        transactionBean.setAmount(accountBean.getOpeningBalance());
                         db.updateAccountBean(accountBean);
-                    else
-                        db.insertAccountBean(accountBean);
+                        db.updateTransactionBean(transactionBean);
+                    }else {
+                        long idAccount = db.insertAccountBean(accountBean);
+                        if(accountBean.getOpeningBalance() > 0 && idAccount > 0) {
+                            CategoryBean categoryBean = db.getCategoryBeanOpeningBalance();
+                            TransactionBean transactionBean = new TransactionBean();
+                            transactionBean.setTitle(getString(R.string.opening_balance_new_account_input));
+                            transactionBean.setAmount(accountBean.getOpeningBalance());
+                            transactionBean.setDateInsert(utility.getDateFormat(new Date()));
+                            transactionBean.setNote("");
+                            transactionBean.setTypeTransaction(TypeObjectBean.TRANSACTION_OPEN_BALANCE);
+                            transactionBean.setIdAccount(idAccount);
+                            transactionBean.setIdCategory(categoryBean.getId());
+                            db.insertTransactionBean(transactionBean);
+                        }
+                    }
                     db.closeDB();
                     Toast.makeText(getApplicationContext(), getString(R.string.saved_ok), Toast.LENGTH_SHORT).show();
                     finish();
                 }catch (Exception e) {
                     //TODO: Firebase
+                    Log.e("bonny", e.getMessage());
                     Toast.makeText(getApplicationContext(), getString(R.string.saved_ko), Toast.LENGTH_SHORT).show();
                 }
             }
 
         });
 
-        btnDeleteAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getAlertDialogDeleteListAccount(accountBean.getId());
-            }
-        });
+        btnDeleteAccount.setOnClickListener(view -> getAlertDialogDeleteListAccount(accountBean.getId()));
 
 
     }
@@ -215,8 +236,13 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
                 master.setFlagSelected(TypeObjectBean.SELECTED);
                 db.updateAccountBean(master);
             }
+            List<TransactionBean> transactionBeanList = db.getAllTransactionBeansByAccount(id);
+            if(transactionBeanList != null && transactionBeanList.size() > 0) {
+                for(TransactionBean transactionBean: transactionBeanList) {
+                    db.deleteTransactionBean(transactionBean.getId());
+                }
+            }
             boolean resultDelete = db.deleteAccountBean(id);
-            //TODO: Cancellare tutte le transazioni collegate al conto
             db.closeDB();
             if(resultDelete){
                 Toast.makeText(this, getString(R.string.delete_ok), Toast.LENGTH_SHORT).show();

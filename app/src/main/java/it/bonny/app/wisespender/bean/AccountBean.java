@@ -21,7 +21,7 @@ public class AccountBean {
     private int flagSelected;
     private int isMaster;
     private String currency;
-    private String idIcon;
+    private int idIcon;
     private int totMoneyIncome;
     private int totMoneyExpense;
 
@@ -79,10 +79,10 @@ public class AccountBean {
         this.currency = currency;
     }
 
-    public String getIdIcon() {
+    public int getIdIcon() {
         return idIcon;
     }
-    public void setIdIcon(String idIcon) {
+    public void setIdIcon(int idIcon) {
         this.idIcon = idIcon;
     }
 

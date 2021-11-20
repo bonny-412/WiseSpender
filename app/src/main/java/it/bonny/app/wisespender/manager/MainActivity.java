@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,8 +27,10 @@ import java.util.List;
 
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
+import it.bonny.app.wisespender.bean.TransactionBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
 import it.bonny.app.wisespender.db.DatabaseHelper;
+import it.bonny.app.wisespender.util.ListTransactionsAdapter;
 import it.bonny.app.wisespender.util.Utility;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,8 +45,10 @@ public class MainActivity extends AppCompatActivity {
     private boolean isCheckedButtonTransactions = true;
     private ConstraintLayout containerActivity, containerTransactions;
     private AppCompatTextView totalIncome, totalExpense;
-    private List<AccountBean> accountBeanList;
     private AccountBean accountBeanSelected;
+    private BottomSheetAccount bottomSheetAccount;
+    private ListView listTransactions;
+    private TextView listTransactionsEmpty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         init();
         showWelcomeAlert();
-        getMoney();
+        callDB();
 
         btnAccounts.setOnClickListener(view -> {
             Intent intent = new Intent(activity, ListAccountsActivity.class);
@@ -67,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        BottomSheetAccount bottomSheetAccount = new BottomSheetAccount(accountBeanList, activity);
         accountName.setText(accountBeanSelected.getName());
         showAccountListBtn.setOnClickListener(view -> bottomSheetAccount.show(getSupportFragmentManager(), "TAG"));
 
@@ -111,6 +115,8 @@ public class MainActivity extends AppCompatActivity {
         moneyAccount = findViewById(R.id.moneyAccount);
         totalIncome = findViewById(R.id.totalIncome);
         totalExpense = findViewById(R.id.totalExpense);
+        listTransactions = findViewById(R.id.listTransactions);
+        listTransactionsEmpty = findViewById(R.id.listTransactionsEmpty);
     }
 
     //Shows the welcome alert
@@ -129,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
         if(firstStart) {
             if(activity != null) {
                 utility.insertAccountDefault(db, activity);
+                utility.insertCategoryDefault(db, activity);
                 SharedPreferences.Editor editor = activity.getSharedPreferences(Utility.PREFS_NAME_FILE, Context.MODE_PRIVATE).edit();
                 editor.putBoolean("firstStart", false);
                 editor.apply();
@@ -157,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
+        callDB();
     }
 
     @Override
@@ -167,13 +175,31 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart(){
         super.onStart();
-        getMoney();
     }
 
-    private void getMoney() {
-        accountBeanList = db.getAllAccountBeans();
+    private void callDB() {
+        List<AccountBean> accountBeanList = db.getAllAccountBeans();
         accountBeanSelected = db.getAccountBeanSelected();
+        List<TransactionBean> transactionBeanList = null;
+        if(accountBeanSelected.getIsMaster() == TypeObjectBean.IS_MASTER)
+            transactionBeanList = db.getAllTransactionBeansToMainActivity(null);
+        else
+            transactionBeanList = db.getAllTransactionBeansToMainActivity(accountBeanSelected);
+
         db.closeDB();
+
+        if(transactionBeanList != null && transactionBeanList.size() > 0) {
+            listTransactions.setVisibility(View.VISIBLE);
+            listTransactionsEmpty.setVisibility(View.GONE);
+            ListTransactionsAdapter listTransactionsAdapter = new ListTransactionsAdapter(transactionBeanList, activity);
+            listTransactions.setAdapter(listTransactionsAdapter);
+            listTransactionsAdapter.notifyDataSetChanged();
+            listTransactions.setDividerHeight(0);
+            listTransactions.setDivider(null);
+        }else {
+            listTransactions.setVisibility(View.GONE);
+            listTransactionsEmpty.setVisibility(View.VISIBLE);
+        }
 
         String totMoneyAccount, totMoneyAccountIncome, totMoneyAccountExpense;
         if(accountBeanSelected.getIsMaster() == TypeObjectBean.IS_MASTER) {
@@ -188,6 +214,8 @@ public class MainActivity extends AppCompatActivity {
         moneyAccount.setText(totMoneyAccount);
         totalIncome.setText(totMoneyAccountIncome);
         totalExpense.setText(totMoneyAccountExpense);
+
+        bottomSheetAccount = new BottomSheetAccount(accountBeanList, activity);
     }
 
 }

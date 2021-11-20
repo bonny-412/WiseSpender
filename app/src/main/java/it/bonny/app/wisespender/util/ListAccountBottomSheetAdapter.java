@@ -45,7 +45,7 @@ public class ListAccountBottomSheetAdapter extends RecyclerView.Adapter<ListAcco
     public void onBindViewHolder(ViewHolder holder, int position) {
         final AccountBean accountBean = accountBeanList.get(position);
         holder.itemListAccountName.setText(accountBean.getName());
-        if(accountBeanList.get(position) != null && accountBeanList.get(position).getIdIcon() != null && !"".equals(accountBeanList.get(position).getIdIcon())) {
+        if(accountBeanList.get(position) != null) {
             try {
                 holder.itemListAccountIcon.setImageResource(utility.getIdIconByAccountBean(accountBean));
             }catch (Exception e) {

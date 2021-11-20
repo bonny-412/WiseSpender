@@ -37,8 +37,8 @@ public class ListCategoriesActivity extends AppCompatActivity {
 
         db = new DatabaseHelper(getApplicationContext());
 
-        List<CategoryBean> categoryBeanListIn = db.getAllCategoryBeansToTypeCategory(TypeObjectBean.INCOME);
-        List<CategoryBean> categoryBeanListOut = db.getAllCategoryBeansToTypeCategory(TypeObjectBean.EXPENSE);
+        List<CategoryBean> categoryBeanListIn = db.getAllCategoryBeansToTypeCategory(TypeObjectBean.CATEGORY_INCOME);
+        List<CategoryBean> categoryBeanListOut = db.getAllCategoryBeansToTypeCategory(TypeObjectBean.CATEGORY_EXPENSE);
         db.closeDB();
 
         if(categoryBeanListIn != null && categoryBeanListIn.size() > 0) {

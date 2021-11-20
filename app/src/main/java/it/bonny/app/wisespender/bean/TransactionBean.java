@@ -13,14 +13,16 @@ public class TransactionBean {
     public static final String KEY_TYPE_TRANSACTION = "type_transaction";
     public static final String KEY_ID_CATEGORY = "id_category";
     public static final String KEY_ID_ACCOUNT = "id_account";
+    public static final String KEY_TITLE = "title";
 
     private long id;
+    private String title;
     private int amount;
     private String dateInsert;
     private String note;
     private int typeTransaction;
-    private int idCategory;
-    private int idAccount;
+    private long idCategory;
+    private long idAccount;
 
     public TransactionBean() {}
 
@@ -59,18 +61,25 @@ public class TransactionBean {
         this.typeTransaction = typeTransaction;
     }
 
-    public int getIdAccount() {
+    public long getIdAccount() {
         return idAccount;
     }
-    public void setIdAccount(int idAccount) {
+    public void setIdAccount(long idAccount) {
         this.idAccount = idAccount;
     }
 
-    public int getIdCategory() {
+    public long getIdCategory() {
         return idCategory;
     }
-    public void setIdCategory(int idCategory) {
+    public void setIdCategory(long idCategory) {
         this.idCategory = idCategory;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+    public void setTitle(String title) {
+        this.title = title;
     }
 
 }

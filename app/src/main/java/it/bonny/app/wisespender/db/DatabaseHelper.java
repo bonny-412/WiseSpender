@@ -28,7 +28,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + AccountBean.KEY_FLAG_SELECTED + " INTEGER DEFAULT 0,"
             + AccountBean.KEY_IS_MASTER + " INTEGER DEFAULT 0,"
             + AccountBean.KEY_CURRENCY + " TEXT,"
-            + AccountBean.KEY_ID_ICON + " TEXT,"
+            + AccountBean.KEY_ID_ICON + " INTEGER,"
             + AccountBean.KEY_TOT_MONEY_INCOME + " INTEGER,"
             + AccountBean.KEY_TOT_MONEY_EXPENSE + " INTEGER"
             + ")";
@@ -47,7 +47,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + TransactionBean.KEY_NOTE + " TEXT,"
             + TransactionBean.KEY_TYPE_TRANSACTION + " INTEGER,"
             + TransactionBean.KEY_ID_ACCOUNT + " INTEGER,"
-            + TransactionBean.KEY_ID_CATEGORY + " INTEGER"
+            + TransactionBean.KEY_ID_CATEGORY + " INTEGER,"
+            + TransactionBean.KEY_TITLE + " TEXT"
             + ")";
 
     public DatabaseHelper(Context context) {
@@ -59,13 +60,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(CREATE_TABLE_ACCOUNT);
         sqLiteDatabase.execSQL(CREATE_TABLE_CATEGORY);
+        sqLiteDatabase.execSQL(CREATE_TABLE_TRANSACTION);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         // on upgrade drop older tables
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + AccountBean.TABLE);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + AccountBean.TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CategoryBean.TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TransactionBean.TABLE);
 
         // create new tables
         onCreate(sqLiteDatabase);
@@ -161,7 +164,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             accountBean.setId(Long.parseLong(c.getString(c.getColumnIndex(AccountBean.KEY_ID))));
             accountBean.setName(c.getString(c.getColumnIndex(AccountBean.KEY_NAME)));
             accountBean.setCurrency(c.getString(c.getColumnIndex(AccountBean.KEY_CURRENCY)));
-            accountBean.setIdIcon(c.getString(c.getColumnIndex(AccountBean.KEY_ID_ICON)));
+            accountBean.setIdIcon(c.getInt(c.getColumnIndex(AccountBean.KEY_ID_ICON)));
             accountBean.setOpeningBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_OPENING_BALANCE)));
             accountBean.setFlagViewTotalBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE)));
             accountBean.setFlagSelected(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_SELECTED)));
@@ -188,7 +191,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 accountBean.setId(Long.parseLong(c.getString(c.getColumnIndex(AccountBean.KEY_ID))));
                 accountBean.setName(c.getString(c.getColumnIndex(AccountBean.KEY_NAME)));
                 accountBean.setCurrency(c.getString(c.getColumnIndex(AccountBean.KEY_CURRENCY)));
-                accountBean.setIdIcon(c.getString(c.getColumnIndex(AccountBean.KEY_ID_ICON)));
+                accountBean.setIdIcon(c.getInt(c.getColumnIndex(AccountBean.KEY_ID_ICON)));
                 accountBean.setOpeningBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_OPENING_BALANCE)));
                 accountBean.setFlagViewTotalBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE)));
                 accountBean.setFlagSelected(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_SELECTED)));
@@ -216,7 +219,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 accountBean.setId(Long.parseLong(c.getString(c.getColumnIndex(AccountBean.KEY_ID))));
                 accountBean.setName(c.getString(c.getColumnIndex(AccountBean.KEY_NAME)));
                 accountBean.setCurrency(c.getString(c.getColumnIndex(AccountBean.KEY_CURRENCY)));
-                accountBean.setIdIcon(c.getString(c.getColumnIndex(AccountBean.KEY_ID_ICON)));
+                accountBean.setIdIcon(c.getInt(c.getColumnIndex(AccountBean.KEY_ID_ICON)));
                 accountBean.setOpeningBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_OPENING_BALANCE)));
                 accountBean.setFlagViewTotalBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE)));
                 accountBean.setFlagSelected(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_SELECTED)));
@@ -244,7 +247,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             accountBean.setId(Long.parseLong(c.getString(c.getColumnIndex(AccountBean.KEY_ID))));
             accountBean.setName(c.getString(c.getColumnIndex(AccountBean.KEY_NAME)));
             accountBean.setCurrency(c.getString(c.getColumnIndex(AccountBean.KEY_CURRENCY)));
-            accountBean.setIdIcon(c.getString(c.getColumnIndex(AccountBean.KEY_ID_ICON)));
+            accountBean.setIdIcon(c.getInt(c.getColumnIndex(AccountBean.KEY_ID_ICON)));
             accountBean.setOpeningBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_OPENING_BALANCE)));
             accountBean.setFlagViewTotalBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE)));
             accountBean.setFlagSelected(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_SELECTED)));
@@ -321,11 +324,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
+     * Getting single Category
+     */
+    public CategoryBean getCategoryBeanOpeningBalance() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        CategoryBean categoryBean = new CategoryBean();
+        String selectQuery = "SELECT * FROM " + CategoryBean.TABLE + " WHERE " + CategoryBean.KEY_TYPE_CATEGORY + " = " + TypeObjectBean.CATEGORY_OPEN_BALANCE;
+        Cursor c = db.rawQuery(selectQuery, null);
+        if(c != null) {
+            c.moveToFirst();
+            categoryBean.setId(Long.parseLong(c.getString(c.getColumnIndex(CategoryBean.KEY_ID))));
+            categoryBean.setName(c.getString(c.getColumnIndex(CategoryBean.KEY_NAME)));
+            categoryBean.setTypeCategory(c.getInt(c.getColumnIndex(CategoryBean.KEY_TYPE_CATEGORY)));
+            categoryBean.setIdIcon(c.getInt(c.getColumnIndex(CategoryBean.KEY_ID_ICON)));
+        }
+        if(c != null)
+            c.close();
+        return categoryBean;
+    }
+
+    /**
      * Getting all Categories
      */
     public List<CategoryBean> getAllCategoryBeans() {
         List<CategoryBean> categoryBeans = new ArrayList<>();
-        String selectQuery = "SELECT * FROM " + CategoryBean.TABLE;
+        String selectQuery = "SELECT * FROM " + CategoryBean.TABLE + " c WHERE c." + CategoryBean.KEY_TYPE_CATEGORY + " != " + TypeObjectBean.CATEGORY_OPEN_BALANCE + " ORDER BY c." + CategoryBean.KEY_NAME + " DESC";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
         if (c.moveToFirst()) {
@@ -347,7 +370,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public List<CategoryBean> getAllCategoryBeansToTypeCategory(int typeCategory) {
         List<CategoryBean> categoryBeans = new ArrayList<>();
-        String selectQuery = "SELECT * FROM " + CategoryBean.TABLE + " c WHERE c." + CategoryBean.KEY_TYPE_CATEGORY + " = " + typeCategory;
+        String selectQuery = "SELECT * FROM " + CategoryBean.TABLE + " c WHERE c." + CategoryBean.KEY_TYPE_CATEGORY + " = " + typeCategory + " ORDER BY c." + CategoryBean.KEY_NAME + " DESC";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
         if (c.moveToFirst()) {
@@ -363,5 +386,216 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         c.close();
         return categoryBeans;
     }
+
+    // ------------------------ "transaction" table methods ----------------//
+    /**
+     * Creating a Transaction
+     */
+    public long insertTransactionBean(TransactionBean transactionBean) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(TransactionBean.KEY_TITLE, transactionBean.getTitle());
+        values.put(TransactionBean.KEY_AMOUNT, transactionBean.getAmount());
+        values.put(TransactionBean.KEY_DATE_INSERT, transactionBean.getDateInsert());
+        values.put(TransactionBean.KEY_NOTE, transactionBean.getNote());
+        values.put(TransactionBean.KEY_TYPE_TRANSACTION, transactionBean.getTypeTransaction());
+        values.put(TransactionBean.KEY_ID_ACCOUNT, transactionBean.getIdAccount());
+        values.put(TransactionBean.KEY_ID_CATEGORY, transactionBean.getIdCategory());
+
+        return db.insertOrThrow(TransactionBean.TABLE, null, values);
+    }
+
+    /**
+     * Updating a Transaction
+     */
+    public int updateTransactionBean(TransactionBean transactionBean) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(TransactionBean.KEY_TITLE, transactionBean.getTitle());
+        values.put(TransactionBean.KEY_AMOUNT, transactionBean.getAmount());
+        values.put(TransactionBean.KEY_DATE_INSERT, transactionBean.getDateInsert());
+        values.put(TransactionBean.KEY_NOTE, transactionBean.getNote());
+        values.put(TransactionBean.KEY_TYPE_TRANSACTION, transactionBean.getTypeTransaction());
+        values.put(TransactionBean.KEY_ID_ACCOUNT, transactionBean.getIdAccount());
+        values.put(TransactionBean.KEY_ID_CATEGORY, transactionBean.getIdCategory());
+
+        return db.update(TransactionBean.TABLE, values, TransactionBean.KEY_ID + " = ?",
+                new String[] {String.valueOf(transactionBean.getId())});
+    }
+
+    /**
+     * Deleting a Transaction
+     */
+    public boolean deleteTransactionBean(long transactionId) {
+        boolean result;
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            result = db.delete(TransactionBean.TABLE, TransactionBean.KEY_ID + " = ?",new String[] {String.valueOf(transactionId)}) > 0;
+        }catch (Exception e) {
+            //TODO: Firebase
+            result = false;
+        }
+        return result;
+    }
+
+    /**
+     * Getting single Transaction
+     */
+    public TransactionBean getTransactionBean(long transactionId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        TransactionBean transactionBean = new TransactionBean();
+        String selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " WHERE " + TransactionBean.KEY_ID + " = " + transactionId;
+        Cursor c = db.rawQuery(selectQuery, null);
+        if(c != null) {
+            c.moveToFirst();
+            transactionBean.setId(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID))));
+            transactionBean.setTitle(c.getString(c.getColumnIndex(TransactionBean.KEY_TITLE)));
+            transactionBean.setAmount(c.getInt(c.getColumnIndex(TransactionBean.KEY_AMOUNT)));
+            transactionBean.setDateInsert(c.getString(c.getColumnIndex(TransactionBean.KEY_DATE_INSERT)));
+            transactionBean.setNote(c.getString(c.getColumnIndex(TransactionBean.KEY_NOTE)));
+            transactionBean.setTypeTransaction(c.getInt(c.getColumnIndex(TransactionBean.KEY_TYPE_TRANSACTION)));
+            transactionBean.setIdAccount(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_ACCOUNT))));
+            transactionBean.setIdCategory(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_CATEGORY))));
+        }
+        if(c != null)
+            c.close();
+        return transactionBean;
+    }
+
+    /**
+     * Getting all Transactions by TypeTransaction
+     */
+    public List<TransactionBean> getAllTransactionBeansToTypeTransaction(int typeTransaction) {
+        List<TransactionBean> transactionBeans = new ArrayList<>();
+        String selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t WHERE t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + typeTransaction + " ORDER BY t." + TransactionBean.KEY_ID + " DESC";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+        if (c.moveToFirst()) {
+            do {
+                TransactionBean transactionBean = new TransactionBean();
+                transactionBean.setId(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID))));
+                transactionBean.setTitle(c.getString(c.getColumnIndex(TransactionBean.KEY_TITLE)));
+                transactionBean.setAmount(c.getInt(c.getColumnIndex(TransactionBean.KEY_AMOUNT)));
+                transactionBean.setDateInsert(c.getString(c.getColumnIndex(TransactionBean.KEY_DATE_INSERT)));
+                transactionBean.setNote(c.getString(c.getColumnIndex(TransactionBean.KEY_NOTE)));
+                transactionBean.setTypeTransaction(c.getInt(c.getColumnIndex(TransactionBean.KEY_TYPE_TRANSACTION)));
+                transactionBean.setIdAccount(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_ACCOUNT))));
+                transactionBean.setIdCategory(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_CATEGORY))));
+                transactionBeans.add(transactionBean);
+            } while (c.moveToNext());
+        }
+        c.close();
+        return transactionBeans;
+    }
+
+    /**
+     * Getting all Transactions by Account
+     */
+    public List<TransactionBean> getAllTransactionBeansByAccount(long idAccount) {
+        List<TransactionBean> transactionBeans = new ArrayList<>();
+        String selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t WHERE t." + TransactionBean.KEY_ID_ACCOUNT + " = " + idAccount + " ORDER BY t." + TransactionBean.KEY_ID + " DESC";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+        if (c.moveToFirst()) {
+            do {
+                TransactionBean transactionBean = new TransactionBean();
+                transactionBean.setId(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID))));
+                transactionBean.setTitle(c.getString(c.getColumnIndex(TransactionBean.KEY_TITLE)));
+                transactionBean.setAmount(c.getInt(c.getColumnIndex(TransactionBean.KEY_AMOUNT)));
+                transactionBean.setDateInsert(c.getString(c.getColumnIndex(TransactionBean.KEY_DATE_INSERT)));
+                transactionBean.setNote(c.getString(c.getColumnIndex(TransactionBean.KEY_NOTE)));
+                transactionBean.setTypeTransaction(c.getInt(c.getColumnIndex(TransactionBean.KEY_TYPE_TRANSACTION)));
+                transactionBean.setIdAccount(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_ACCOUNT))));
+                transactionBean.setIdCategory(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_CATEGORY))));
+                transactionBeans.add(transactionBean);
+            } while (c.moveToNext());
+        }
+        c.close();
+        return transactionBeans;
+    }
+
+    /**
+     * Getting all Transactions by Category
+     */
+    public List<TransactionBean> getAllTransactionBeansByCategory(long idCategory) {
+        List<TransactionBean> transactionBeans = new ArrayList<>();
+        String selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t WHERE t." + TransactionBean.KEY_ID_CATEGORY + " = " + idCategory + " ORDER BY t." + TransactionBean.KEY_ID + " DESC";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+        if (c.moveToFirst()) {
+            do {
+                TransactionBean transactionBean = new TransactionBean();
+                transactionBean.setId(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID))));
+                transactionBean.setTitle(c.getString(c.getColumnIndex(TransactionBean.KEY_TITLE)));
+                transactionBean.setAmount(c.getInt(c.getColumnIndex(TransactionBean.KEY_AMOUNT)));
+                transactionBean.setDateInsert(c.getString(c.getColumnIndex(TransactionBean.KEY_DATE_INSERT)));
+                transactionBean.setNote(c.getString(c.getColumnIndex(TransactionBean.KEY_NOTE)));
+                transactionBean.setTypeTransaction(c.getInt(c.getColumnIndex(TransactionBean.KEY_TYPE_TRANSACTION)));
+                transactionBean.setIdAccount(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_ACCOUNT))));
+                transactionBean.setIdCategory(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_CATEGORY))));
+                transactionBeans.add(transactionBean);
+            } while (c.moveToNext());
+        }
+        c.close();
+        return transactionBeans;
+    }
+
+    /**
+     * Getting all Transactions by TypeTransaction, IdAccount
+     */
+    public TransactionBean getAllTransactionBeansByTypeTransactionIdAccount(int typeTransaction, long idAccount) {
+        TransactionBean transactionBean = new TransactionBean();
+        String selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t WHERE t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " +
+                typeTransaction + " AND t." + TransactionBean.KEY_ID_ACCOUNT + " = " + idAccount;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+        if(c != null) {
+            c.moveToFirst();
+            transactionBean.setId(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID))));
+            transactionBean.setTitle(c.getString(c.getColumnIndex(TransactionBean.KEY_TITLE)));
+            transactionBean.setAmount(c.getInt(c.getColumnIndex(TransactionBean.KEY_AMOUNT)));
+            transactionBean.setDateInsert(c.getString(c.getColumnIndex(TransactionBean.KEY_DATE_INSERT)));
+            transactionBean.setNote(c.getString(c.getColumnIndex(TransactionBean.KEY_NOTE)));
+            transactionBean.setTypeTransaction(c.getInt(c.getColumnIndex(TransactionBean.KEY_TYPE_TRANSACTION)));
+            transactionBean.setIdAccount(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_ACCOUNT))));
+            transactionBean.setIdCategory(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_CATEGORY))));
+        }
+        if(c != null)
+            c.close();
+        return transactionBean;
+    }
+
+    /**
+     * Getting all Transactions To MainActivity
+     */
+    public List<TransactionBean> getAllTransactionBeansToMainActivity(AccountBean accountBeanSelected) {
+        List<TransactionBean> transactionBeans = new ArrayList<>();
+        String selectQuery;
+        if(accountBeanSelected != null) {
+            selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t WHERE t." + TransactionBean.KEY_ID_ACCOUNT + " = " + accountBeanSelected.getId() +
+                    " ORDER BY t." + TransactionBean.KEY_ID + " DESC LIMIT 7";
+        }else {
+            selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t ORDER BY t." + TransactionBean.KEY_ID + " DESC LIMIT 7";
+        }
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+        if (c.moveToFirst()) {
+            do {
+                TransactionBean transactionBean = new TransactionBean();
+                transactionBean.setId(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID))));
+                transactionBean.setTitle(c.getString(c.getColumnIndex(TransactionBean.KEY_TITLE)));
+                transactionBean.setAmount(c.getInt(c.getColumnIndex(TransactionBean.KEY_AMOUNT)));
+                transactionBean.setDateInsert(c.getString(c.getColumnIndex(TransactionBean.KEY_DATE_INSERT)));
+                transactionBean.setNote(c.getString(c.getColumnIndex(TransactionBean.KEY_NOTE)));
+                transactionBean.setTypeTransaction(c.getInt(c.getColumnIndex(TransactionBean.KEY_TYPE_TRANSACTION)));
+                transactionBean.setIdAccount(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_ACCOUNT))));
+                transactionBean.setIdCategory(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_CATEGORY))));
+                transactionBeans.add(transactionBean);
+            } while (c.moveToNext());
+        }
+        c.close();
+        return transactionBeans;
+    }
+
 
 }
