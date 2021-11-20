@@ -73,7 +73,7 @@
                     <TextView
                         android:id="@+id/accountName"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:text="@string/name_first_account"
                         android:textColor="@color/primary_text"
                         android:textStyle="normal"
@@ -359,17 +359,27 @@
                     app:layout_constraintBottom_toBottomOf="@+id/titleLastTransactions"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/titleLastTransactions"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
             <ListView
+                android:id="@+id/listTransactions"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@+id/constraintTitleLastTransaction"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="10dp"/>
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/listTransactionsEmpty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/empty_list_transactions"
                 android:textColor="@color/tertiary_text"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/constraintTitleLastTransaction"
                 app:layout_constraintStart_toStartOf="@+id/constraintTitleLastTransaction"
@@ -550,6 +560,8 @@
         android:layout_margin="16dp"
         android:contentDescription="@string/come_back"
         android:src="@drawable/ic_plus_fab"
+        android:tint="@color/white"
+        style="@style/Cut"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

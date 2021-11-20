@@ -40,11 +40,12 @@
     <string name="account_bean_cash">Cash</string>
     <string name="account_bean_credit_card">Credit card</string>
 
+    <string name="category_bean_open_balance">Account opening balance</string>
     <string name="category_bean_hobby">Hobby</string>
     <string name="category_bean_necessity">Necessity</string>
 
     <!-- Account -->
-    <string name="new_account_included_balance">Included in the balance</string>
+    <string name="new_account_included_balance">Not included in the total balance</string>
     <string name="new_account_choose_icon">Choose an icon:</string>
     <string name="saved_ok">Saved successfully</string>
     <string name="saved_ko">Error while saving</string>
@@ -71,5 +72,18 @@
     <string name="category_out_title">Expense</string>
     <string name="new_button_category">New category</string>
     <string name="save_button_category">Save category</string>
+    
+    <string name="month_jan">Jan</string>
+    <string name="month_feb">Feb</string>
+    <string name="month_mar">Mar</string>
+    <string name="month_apr">Apr</string>
+    <string name="month_may">May</string>
+    <string name="month_jun">June</string>
+    <string name="month_july">July</string>
+    <string name="month_aug">Aug</string>
+    <string name="month_sep">Sep</string>
+    <string name="month_oct">Oct</string>
+    <string name="month_nov">Nov</string>
+    <string name="month_dec">Dec</string>
 
 </resources>

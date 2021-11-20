@@ -27,7 +27,7 @@
     <string name="account_bean_credit_card">Carta di credito</string>
     <string name="category_bean_hobby">Svago</string>
     <string name="category_bean_necessity">Necessità</string>
-    <string name="new_account_included_balance">Incluso nel saldo</string>
+    <string name="new_account_included_balance">Non incluso nel saldo totale</string>
     <string name="new_account_choose_icon">Scegli un\'icona:</string>
     <string name="saved_ok">Salvataggio avvenuto con successo</string>
     <string name="saved_ko">Errore durante il salvataggio</string>
@@ -52,4 +52,17 @@
     <string name="save_button_category">Salva categoria</string>
     <string name="save_button_account">Salva conto</string>
     <string name="title_page_edit_account">Modifica conto</string>
+    <string name="category_bean_open_balance">Saldo apertura conto</string>
+    <string name="month_jan">Gen</string>
+    <string name="month_feb">Feb</string>
+    <string name="month_mar">Mar</string>
+    <string name="month_apr">Apr</string>
+    <string name="month_may">Mag</string>
+    <string name="month_jun">Giu</string>
+    <string name="month_july">Lug</string>
+    <string name="month_aug">Ago</string>
+    <string name="month_sep">Set</string>
+    <string name="month_oct">Ott</string>
+    <string name="month_nov">Nov</string>
+    <string name="month_dec">Dic</string>
 </resources>
