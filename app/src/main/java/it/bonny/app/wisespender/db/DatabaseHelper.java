@@ -155,12 +155,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public AccountBean getAccountBean(long account_id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        AccountBean accountBean = new AccountBean();
+        AccountBean accountBean = null;
         String selectQuery = "SELECT * FROM " + AccountBean.TABLE + " WHERE " + AccountBean.KEY_ID + " = " + account_id;
         Cursor c = db.rawQuery(selectQuery, null);
         if(c != null) {
             c.moveToFirst();
-
+            accountBean = new AccountBean();
             accountBean.setId(Long.parseLong(c.getString(c.getColumnIndex(AccountBean.KEY_ID))));
             accountBean.setName(c.getString(c.getColumnIndex(AccountBean.KEY_NAME)));
             accountBean.setCurrency(c.getString(c.getColumnIndex(AccountBean.KEY_CURRENCY)));
@@ -238,12 +238,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public AccountBean getAccountBeanSelected() {
         SQLiteDatabase db = this.getReadableDatabase();
-        AccountBean accountBean = new AccountBean();
+        AccountBean accountBean = null;
         String selectQuery = "SELECT * FROM " + AccountBean.TABLE + " WHERE " + AccountBean.KEY_FLAG_SELECTED + " = " + TypeObjectBean.SELECTED;
         Cursor c = db.rawQuery(selectQuery, null);
         if(c != null) {
             c.moveToFirst();
-
+            accountBean = new AccountBean();
             accountBean.setId(Long.parseLong(c.getString(c.getColumnIndex(AccountBean.KEY_ID))));
             accountBean.setName(c.getString(c.getColumnIndex(AccountBean.KEY_NAME)));
             accountBean.setCurrency(c.getString(c.getColumnIndex(AccountBean.KEY_CURRENCY)));
@@ -308,11 +308,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public CategoryBean getCategoryBean(long categoryId) {
         SQLiteDatabase db = this.getReadableDatabase();
-        CategoryBean categoryBean = new CategoryBean();
+        CategoryBean categoryBean = null;
         String selectQuery = "SELECT * FROM " + CategoryBean.TABLE + " WHERE " + CategoryBean.KEY_ID + " = " + categoryId;
         Cursor c = db.rawQuery(selectQuery, null);
         if(c != null) {
             c.moveToFirst();
+            categoryBean = new CategoryBean();
             categoryBean.setId(Long.parseLong(c.getString(c.getColumnIndex(CategoryBean.KEY_ID))));
             categoryBean.setName(c.getString(c.getColumnIndex(CategoryBean.KEY_NAME)));
             categoryBean.setTypeCategory(c.getInt(c.getColumnIndex(CategoryBean.KEY_TYPE_CATEGORY)));
@@ -328,11 +329,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public CategoryBean getCategoryBeanOpeningBalance() {
         SQLiteDatabase db = this.getReadableDatabase();
-        CategoryBean categoryBean = new CategoryBean();
+        CategoryBean categoryBean = null;
         String selectQuery = "SELECT * FROM " + CategoryBean.TABLE + " WHERE " + CategoryBean.KEY_TYPE_CATEGORY + " = " + TypeObjectBean.CATEGORY_OPEN_BALANCE;
         Cursor c = db.rawQuery(selectQuery, null);
         if(c != null) {
             c.moveToFirst();
+            categoryBean = new CategoryBean();
             categoryBean.setId(Long.parseLong(c.getString(c.getColumnIndex(CategoryBean.KEY_ID))));
             categoryBean.setName(c.getString(c.getColumnIndex(CategoryBean.KEY_NAME)));
             categoryBean.setTypeCategory(c.getInt(c.getColumnIndex(CategoryBean.KEY_TYPE_CATEGORY)));
@@ -370,7 +372,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public List<CategoryBean> getAllCategoryBeansToTypeCategory(int typeCategory) {
         List<CategoryBean> categoryBeans = new ArrayList<>();
-        String selectQuery = "SELECT * FROM " + CategoryBean.TABLE + " c WHERE c." + CategoryBean.KEY_TYPE_CATEGORY + " = " + typeCategory + " ORDER BY c." + CategoryBean.KEY_NAME + " DESC";
+        String selectQuery = "SELECT * FROM " + CategoryBean.TABLE + " c WHERE c." + CategoryBean.KEY_TYPE_CATEGORY + " = " + typeCategory + " ORDER BY c." + CategoryBean.KEY_ID + " DESC";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
         if (c.moveToFirst()) {
@@ -443,11 +445,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public TransactionBean getTransactionBean(long transactionId) {
         SQLiteDatabase db = this.getReadableDatabase();
-        TransactionBean transactionBean = new TransactionBean();
+        TransactionBean transactionBean = null;
         String selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " WHERE " + TransactionBean.KEY_ID + " = " + transactionId;
         Cursor c = db.rawQuery(selectQuery, null);
         if(c != null) {
             c.moveToFirst();
+            transactionBean = new TransactionBean();
             transactionBean.setId(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID))));
             transactionBean.setTitle(c.getString(c.getColumnIndex(TransactionBean.KEY_TITLE)));
             transactionBean.setAmount(c.getInt(c.getColumnIndex(TransactionBean.KEY_AMOUNT)));
@@ -544,13 +547,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * Getting all Transactions by TypeTransaction, IdAccount
      */
     public TransactionBean getAllTransactionBeansByTypeTransactionIdAccount(int typeTransaction, long idAccount) {
-        TransactionBean transactionBean = new TransactionBean();
+        TransactionBean transactionBean = null;
         String selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t WHERE t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " +
                 typeTransaction + " AND t." + TransactionBean.KEY_ID_ACCOUNT + " = " + idAccount;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
         if(c != null) {
             c.moveToFirst();
+            transactionBean = new TransactionBean();
             transactionBean.setId(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID))));
             transactionBean.setTitle(c.getString(c.getColumnIndex(TransactionBean.KEY_TITLE)));
             transactionBean.setAmount(c.getInt(c.getColumnIndex(TransactionBean.KEY_AMOUNT)));

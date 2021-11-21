@@ -11,9 +11,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WiseSpender">
         <activity
-            android:name=".manager.ListCategoriesActivity"
-            android:exported="false" />
-        <activity
             android:name=".manager.SplashScreenActivity"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -40,6 +37,23 @@
         </activity>
         <activity
             android:name=".manager.ListAccountsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.WiseSpender1">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".manager.MainActivity" />
+        </activity>
+        <activity
+            android:name=".manager.NewEditCategoryActivity"
+            android:exported="false"
+            android:theme="@style/Theme.WiseSpender1"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".manager.ListCategoriesActivity" />
+        </activity>
+        <activity
+            android:name=".manager.ListCategoriesActivity"
             android:exported="false"
             android:theme="@style/Theme.WiseSpender1">
             <meta-data

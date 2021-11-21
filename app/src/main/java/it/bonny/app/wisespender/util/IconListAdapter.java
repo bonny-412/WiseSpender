@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.content.res.AppCompatResources;
-import androidx.appcompat.widget.AppCompatImageView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,14 +16,15 @@ import java.util.List;
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.IconBean;
 
-public class IconNewEditAccountAdapter extends BaseAdapter {
+public class IconListAdapter extends BaseAdapter {
 
     private final Context mContext;
-    private final List<IconBean> iconBeans = Utility.getListIconToAccountBean();
+    private final List<IconBean> iconBeans;
     public HashMap<Integer, Boolean> hashMapSelected;
 
-    public IconNewEditAccountAdapter(Context context) {
+    public IconListAdapter(List<IconBean> iconBeans, Context context) {
         this.mContext = context;
+        this.iconBeans = iconBeans;
         hashMapSelected = new HashMap<>();
         for (int i = 0; i < iconBeans.size(); i++) {
             hashMapSelected.put(i, false);
@@ -66,11 +66,10 @@ public class IconNewEditAccountAdapter extends BaseAdapter {
 
         viewHolder.imageView.setImageResource(iconBeans.get(i).getDrawableInfo());
         viewHolder.containerIcon.setBackground(AppCompatResources.getDrawable(mContext, R.drawable.icon_background_no_selected));
+        viewHolder.imageView.setImageResource(iconBeans.get(i).getDrawableInfo());
         if (hashMapSelected != null && hashMapSelected.size() > 0 && hashMapSelected.get(i)) {
-            viewHolder.imageView.setImageResource(iconBeans.get(i).getDrawableInfo());
             viewHolder.containerIcon.setBackground(AppCompatResources.getDrawable(mContext, R.drawable.selected_item_icon_new_account));
         } else {
-            viewHolder.imageView.setImageResource(iconBeans.get(i).getDrawableInfo());
             viewHolder.containerIcon.setBackground(AppCompatResources.getDrawable(mContext, R.drawable.icon_background_no_selected));
         }
 

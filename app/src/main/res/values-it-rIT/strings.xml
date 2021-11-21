@@ -65,4 +65,10 @@
     <string name="month_oct">Ott</string>
     <string name="month_nov">Nov</string>
     <string name="month_dec">Dic</string>
+    <string name="category_icon">Categoria icona</string>
+    <string name="title_page_edit_catgory">Modifica categoria</string>
+    <string name="title_page_edit_category">Modifica categoria</string>
+    <string name="name_new_category_input">Nome categoria</string>
+    <string name="alert_delete_category_text">Sei sicuro di voler cancellare la categoria e tutte le sue operazioni?</string>
+    <string name="type_category">Tipo categoria:</string>
 </resources>

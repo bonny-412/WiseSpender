@@ -89,12 +89,12 @@ public class Utility {
         CategoryBean categoryNecessityIncome = new CategoryBean();
         categoryNecessityIncome.setName(activity.getString(R.string.category_bean_necessity));
         categoryNecessityIncome.setTypeCategory(TypeObjectBean.CATEGORY_INCOME);
-        categoryNecessityIncome.setIdIcon(0);
+        categoryNecessityIncome.setIdIcon(19);
 
         CategoryBean categoryNecessityExpense = new CategoryBean();
         categoryNecessityExpense.setName(activity.getString(R.string.category_bean_necessity));
         categoryNecessityExpense.setTypeCategory(TypeObjectBean.CATEGORY_EXPENSE);
-        categoryNecessityExpense.setIdIcon(0);
+        categoryNecessityExpense.setIdIcon(19);
 
         db.insertCategoryBean(categoryOpenBalance);
         db.insertCategoryBean(categoryHobbyIncome);
@@ -244,13 +244,15 @@ public class Utility {
 
     public String getTotMoneyIncomeAccountByAllAccounts(List<AccountBean> accountBeans, AccountBean accountBeanSelected) {
         String result = "";
-        int number = 0;
+        int number;
         int totMoneyOpeningBalance = 0;
         int totMoneyIncome = 0;
         if(accountBeanSelected == null) {
             for(AccountBean accountBean: accountBeans) {
-                totMoneyOpeningBalance = totMoneyOpeningBalance + accountBean.getOpeningBalance();
-                totMoneyIncome = totMoneyIncome + accountBean.getTotMoneyIncome();
+                if(accountBean.getFlagViewTotalBalance() == TypeObjectBean.IS_TOTAL_BALANCE) {
+                    totMoneyOpeningBalance = totMoneyOpeningBalance + accountBean.getOpeningBalance();
+                    totMoneyIncome = totMoneyIncome + accountBean.getTotMoneyIncome();
+                }
             }
         }else {
             totMoneyOpeningBalance = accountBeanSelected.getOpeningBalance();
@@ -266,7 +268,8 @@ public class Utility {
         int totMoneyExpense = 0;
         if(accountBeanSelected == null) {
             for(AccountBean accountBean: accountBeans) {
-                totMoneyExpense = totMoneyExpense + accountBean.getTotMoneyExpense();
+                if(accountBean.getFlagViewTotalBalance() == TypeObjectBean.IS_TOTAL_BALANCE)
+                    totMoneyExpense = totMoneyExpense + accountBean.getTotMoneyExpense();
             }
         }else {
             totMoneyExpense = accountBeanSelected.getTotMoneyExpense();

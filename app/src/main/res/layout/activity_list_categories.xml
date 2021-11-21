@@ -7,266 +7,86 @@
     tools:context=".manager.ListCategoriesActivity"
     android:background="@color/background">
 
-    <View
-        android:id="@+id/viewHeaderBackground"
-        android:layout_width="match_parent"
-        android:layout_height="125dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/header_background"/>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/linearTitleListCategories"
+    <LinearLayout
+        android:id="@+id/linearToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="10dp"
-        >
-        <com.google.android.material.button.MaterialButton
+        app:layout_constraintTop_toTopOf="parent">
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/returnCategory"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            app:icon="@drawable/ic_arrow_back"
-            app:iconTint="@color/background"
-            android:hint="@string/come_back"
-            app:iconGravity="textStart"
-            android:background="@color/background"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-        <TextView
-            android:id="@+id/titleListPageCategories"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/categories"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/background"
-            android:textStyle="normal"
-            app:layout_constraintBottom_toBottomOf="@+id/returnCategory"
-            app:layout_constraintTop_toTopOf="@+id/returnCategory"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_gravity="end"
-            android:textSize="20sp"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/containerCategoryIn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        app:cardCornerRadius="10dp"
-        android:elevation="20dp"
-        app:cardBackgroundColor="@color/background_card"
-        app:layout_constraintEnd_toEndOf="@+id/linearTitleListCategories"
-        app:layout_constraintStart_toStartOf="@+id/linearTitleListCategories"
-        app:layout_constraintTop_toBottomOf="@+id/linearTitleListCategories"
-        android:padding="20dp"
-        android:orientation="vertical"
-        android:layout_marginTop="150dp"
-        android:layout_marginBottom="20dp">
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/containerTitleCategoryIn"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/background"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_marginTop="5dp">
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:background="@color/background_card"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackgroundBorderless">
-                <TextView
-                    android:id="@+id/textTitleCategoryIn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/category_in_title"
-                    android:textColor="@color/primary_text"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                android:layout_height="match_parent"
+                android:gravity="center">
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/iconCategoryIn"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/ic_arrow_down_close_list"
-                    app:tint="@color/primary_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/textTitleCategoryIn"
-                    app:layout_constraintBottom_toBottomOf="@+id/textTitleCategoryIn" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/containerListCategoryIn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@+id/containerTitleCategoryIn"
-                app:layout_constraintEnd_toEndOf="@+id/containerTitleCategoryIn"
-                app:layout_constraintTop_toBottomOf="@+id/containerTitleCategoryIn"
-                android:visibility="gone"
-                android:padding="10dp">
-                <View
-                    android:id="@+id/linearSeparatorIn"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/tertiary_text"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_arrow_back"
+                    android:tint="@color/secondary_text"
+                    android:hint="@string/come_back"
+                    app:iconGravity="textStart"
+                    android:layout_margin="16dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <ListView
-                    android:id="@+id/listViewCategoriesIn"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearSeparatorIn"
-                    android:layout_marginTop="10dp"
+                    app:layout_constraintTop_toTopOf="parent"
                     />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
 
-                <TextView
-                    android:id="@+id/textEmptyListIn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/empty_list"
-                    android:textColor="@color/secondary_text"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:visibility="gone"
-                    android:layout_margin="10dp"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
-
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/containerCategoryOut"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/titlePageCategories"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        app:cardCornerRadius="10dp"
-        android:elevation="10dp"
-        app:cardBackgroundColor="@color/background_card"
-        app:layout_constraintEnd_toEndOf="@+id/linearTitleListCategories"
-        app:layout_constraintStart_toStartOf="@+id/linearTitleListCategories"
-        app:layout_constraintTop_toBottomOf="@+id/containerCategoryIn"
-        android:padding="20dp"
-        android:orientation="vertical"
-        android:layout_marginTop="150dp"
-        android:layout_marginBottom="20dp">
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/containerTitleCategoryOut"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:background="@color/background_card"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackgroundBorderless">
-                <TextView
-                    android:id="@+id/textTitleCategoryOut"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/category_out_title"
-                    android:textColor="@color/primary_text"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:layout_marginStart="5dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/iconCategoryOut"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/ic_arrow_down_close_list"
-                    app:tint="@color/primary_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/textTitleCategoryOut"
-                    app:layout_constraintBottom_toBottomOf="@+id/textTitleCategoryOut" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/containerListCategoryOut"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@+id/containerTitleCategoryOut"
-                app:layout_constraintEnd_toEndOf="@+id/containerTitleCategoryOut"
-                app:layout_constraintTop_toBottomOf="@+id/containerTitleCategoryOut"
-                android:visibility="gone"
-                android:padding="10dp">
-                <View
-                    android:id="@+id/linearSeparatorOut"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/tertiary_text"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <ListView
-                    android:id="@+id/listViewCategoriesOut"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearSeparatorOut"
-                    android:layout_marginTop="10dp"
-                    />
-
-                <TextView
-                    android:id="@+id/textEmptyListOut"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/empty_list"
-                    android:textColor="@color/secondary_text"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:visibility="gone"
-                    android:layout_margin="10dp"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
-
-    <LinearLayout
-        android:id="@+id/containerButtonNewCategory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/categories"
+        android:textColor="@color/primary_text"
+        android:textStyle="normal"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/linearToolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center"
-        android:padding="10dp">
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttonNewCategory"
-            style="@style/Widget.MaterialComponents.Button.Icon"
-            android:layout_width="wrap_content"
+        android:textSize="25sp" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titlePageCategories"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/list_accounts_background"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        >
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:text="@string/new_button_category"
-            app:icon="@drawable/ic_plus_24"
-            android:textColor="@color/background"
-            app:iconGravity="textStart"
-            android:textSize="11sp"
-            />
-    </LinearLayout>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@drawable/list_accounts_background"
+            app:tabSelectedTextColor="@color/primary"
+            app:tabTextColor="@color/secondary_text" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/tabLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

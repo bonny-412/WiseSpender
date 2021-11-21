@@ -21,7 +21,6 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -33,7 +32,7 @@ import it.bonny.app.wisespender.bean.TransactionBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
 import it.bonny.app.wisespender.db.DatabaseHelper;
 import it.bonny.app.wisespender.util.CurrencyEditText;
-import it.bonny.app.wisespender.util.IconNewEditAccountAdapter;
+import it.bonny.app.wisespender.util.IconListAdapter;
 import it.bonny.app.wisespender.util.Utility;
 
 public class NewEditAccountActivity extends AppCompatActivity implements TextWatcher {
@@ -84,19 +83,19 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
             accountOpeningBalance.setText("0");
         }
 
-        IconNewEditAccountAdapter iconNewEditAccountAdapter = new IconNewEditAccountAdapter(this);
-        gridView.setAdapter(iconNewEditAccountAdapter);
+        IconListAdapter iconListAdapter = new IconListAdapter(Utility.getListIconToAccountBean(),this);
+        gridView.setAdapter(iconListAdapter);
         //Sono in modifca
         if(iconSelectedPosition != -1) {
-            iconNewEditAccountAdapter.makeAllUnselect(iconSelectedPosition);
-            iconNewEditAccountAdapter.notifyDataSetChanged();
+            iconListAdapter.makeAllUnselect(iconSelectedPosition);
+            iconListAdapter.notifyDataSetChanged();
         }
 
         returnNewEditAccount.setOnClickListener(view -> finish());
 
         gridView.setOnItemClickListener((adapterView, view, position, l) -> {
-            iconNewEditAccountAdapter.makeAllUnselect(position);
-            iconNewEditAccountAdapter.notifyDataSetChanged();
+            iconListAdapter.makeAllUnselect(position);
+            iconListAdapter.notifyDataSetChanged();
             accountBean.setIdIcon(Utility.getListIconToAccountBean().get(position).getId());
             titleChooseIconNewAccount.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.secondary_text));
         });
@@ -140,9 +139,22 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
                 try {
                     if(accountBean.getId() != 0) {
                         TransactionBean transactionBean = db.getAllTransactionBeansByTypeTransactionIdAccount(TypeObjectBean.TRANSACTION_OPEN_BALANCE, accountBean.getId());
-                        transactionBean.setAmount(accountBean.getOpeningBalance());
+                        if(transactionBean == null) {
+                            CategoryBean categoryBean = db.getCategoryBeanOpeningBalance();
+                            transactionBean = new TransactionBean();
+                            transactionBean.setTitle(getString(R.string.opening_balance_new_account_input));
+                            transactionBean.setAmount(accountBean.getOpeningBalance());
+                            transactionBean.setDateInsert(utility.getDateFormat(new Date()));
+                            transactionBean.setNote("");
+                            transactionBean.setTypeTransaction(TypeObjectBean.TRANSACTION_OPEN_BALANCE);
+                            transactionBean.setIdAccount(accountBean.getId());
+                            transactionBean.setIdCategory(categoryBean.getId());
+                            db.insertTransactionBean(transactionBean);
+                        }else {
+                            transactionBean.setAmount(accountBean.getOpeningBalance());
+                            db.updateTransactionBean(transactionBean);
+                        }
                         db.updateAccountBean(accountBean);
-                        db.updateTransactionBean(transactionBean);
                     }else {
                         long idAccount = db.insertAccountBean(accountBean);
                         if(accountBean.getOpeningBalance() > 0 && idAccount > 0) {
