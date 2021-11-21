@@ -18,13 +18,13 @@ import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.CategoryBean;
 import it.bonny.app.wisespender.manager.NewEditCategoryActivity;
 
-public class CategoryGridViewAdapter extends BaseAdapter {
+public class CategoryListViewAdapter extends BaseAdapter {
 
     private final Context mContext;
     private final List<CategoryBean> categoryBeanList;
     private final Utility utility = new Utility();
 
-    public CategoryGridViewAdapter(List<CategoryBean> categoryBeanList, Context context) {
+    public CategoryListViewAdapter(List<CategoryBean> categoryBeanList, Context context) {
         this.mContext = context;
         this.categoryBeanList = categoryBeanList;
     }

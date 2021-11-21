@@ -18,7 +18,7 @@ import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.CategoryBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
 import it.bonny.app.wisespender.db.DatabaseHelper;
-import it.bonny.app.wisespender.util.CategoryGridViewAdapter;
+import it.bonny.app.wisespender.util.CategoryListViewAdapter;
 
 public class CategoryExpenseFragment extends Fragment {
     private View root;
@@ -31,7 +31,7 @@ public class CategoryExpenseFragment extends Fragment {
         callQuery();
 
         listViewCategory = root.findViewById(R.id.listViewCategory);
-        listViewCategory.setAdapter(new CategoryGridViewAdapter(categoryBeanList, root.getContext()));
+        listViewCategory.setAdapter(new CategoryListViewAdapter(categoryBeanList, root.getContext()));
         listViewCategory.setDivider(null);
         listViewCategory.setDividerHeight(0);
 
@@ -50,7 +50,7 @@ public class CategoryExpenseFragment extends Fragment {
     public void onResume(){
         super.onResume();
         callQuery();
-        listViewCategory.setAdapter(new CategoryGridViewAdapter(categoryBeanList, root.getContext()));
+        listViewCategory.setAdapter(new CategoryListViewAdapter(categoryBeanList, root.getContext()));
     }
 
     private void callQuery() {
