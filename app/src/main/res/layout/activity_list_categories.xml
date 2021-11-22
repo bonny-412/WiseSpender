@@ -76,6 +76,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:background="@drawable/list_accounts_background"
             app:tabSelectedTextColor="@color/primary"
+            app:tabMode="fixed"
+            app:tabGravity="fill"
+            app:tabIndicatorGravity="bottom"
+            app:tabIndicatorAnimationMode="elastic"
             app:tabTextColor="@color/secondary_text" />
 
         <androidx.viewpager2.widget.ViewPager2
