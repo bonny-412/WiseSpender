@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.util.List;
 
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private BottomSheetAccount bottomSheetAccount;
     private ListView listTransactions;
     private TextView listTransactionsEmpty;
+    private ExtendedFloatingActionButton btnNewTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +101,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btnNewTransaction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, TransactionActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void init() {
@@ -117,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
         totalExpense = findViewById(R.id.totalExpense);
         listTransactions = findViewById(R.id.listTransactions);
         listTransactionsEmpty = findViewById(R.id.listTransactionsEmpty);
+        btnNewTransaction = findViewById(R.id.btnNewTransaction);
     }
 
     //Shows the welcome alert

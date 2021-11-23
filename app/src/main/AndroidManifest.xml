@@ -11,6 +11,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WiseSpender">
         <activity
+            android:name=".manager.TransactionActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
             android:name=".manager.SplashScreenActivity"
             android:exported="true"
             android:screenOrientation="portrait"

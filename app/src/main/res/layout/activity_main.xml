@@ -553,15 +553,14 @@
             />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnMinus"
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/btnNewTransaction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:contentDescription="@string/come_back"
-        android:src="@drawable/ic_plus_fab"
-        android:tint="@color/white"
-        style="@style/Cut"
+        app:icon="@drawable/ic_plus_fab"
+        app:iconTint="@color/background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

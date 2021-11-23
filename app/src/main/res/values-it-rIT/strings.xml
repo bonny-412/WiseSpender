@@ -71,4 +71,12 @@
     <string name="name_new_category_input">Nome categoria</string>
     <string name="alert_delete_category_text">Sei sicuro di voler cancellare la categoria e tutte le sue operazioni?</string>
     <string name="type_category">Tipo categoria:</string>
+    <string name="title_page_new_transaction">Nuova transazione</string>
+    <string name="title_page_edit_transaction">Modifica transazione</string>
+    <string name="save_button_transaction">Salva transazione</string>
+    <string name="input_text_name_transaction">Nome transazione</string>
+    <string name="input_text_date_transaction">Data transazione</string>
+    <string name="input_text_amount_transaction">Importo transazione</string>
+    <string name="input_text_note_transaction">Note</string>
+    <string name="text_helper_required">Obbligatorio*</string>
 </resources>
