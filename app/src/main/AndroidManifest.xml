@@ -11,9 +11,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WiseSpender">
         <activity
+            android:name=".manager.ListViewActivity"
+            android:exported="false" />
+        <activity
             android:name=".manager.TransactionActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".manager.SplashScreenActivity"
             android:exported="true"

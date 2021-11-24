@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".manager.TransactionActivity"
     android:background="@color/background">
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,7 +22,12 @@
             android:clickable="true"
             android:focusable="true"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="6dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginBottom="6dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -31,7 +36,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_arrow_back"
-                    android:tint="@color/secondary_text"
+                    android:tint="@color/primary_text"
                     android:hint="@string/come_back"
                     app:iconGravity="textStart"
                     android:layout_margin="16dp"
@@ -40,19 +45,22 @@
                     />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
-    </LinearLayout>
-    <TextView
-        android:id="@+id/titlePage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/title_page_new_transaction"
-        android:hint="@string/title_page_new_transaction"
-        android:textColor="@color/primary_text"
-        android:textStyle="normal"
-        app:layout_constraintTop_toBottomOf="@+id/linearToolbar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnDelete"
-        android:textSize="20sp" />
+        <TextView
+            android:id="@+id/titlePage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_page_new_transaction"
+            android:hint="@string/title_page_new_transaction"
+            android:textColor="@color/primary_text"
+            android:textStyle="normal"
+            app:layout_constraintTop_toTopOf="@+id/btnReturn"
+            app:layout_constraintBottom_toBottomOf="@+id/btnReturn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="20sp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/btnDelete"
         android:layout_width="48dp"
@@ -86,7 +94,7 @@
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titlePage"
+        app:layout_constraintTop_toBottomOf="@+id/linearToolbar"
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="@drawable/list_accounts_background"
         android:paddingStart="10dp"
@@ -107,7 +115,7 @@
             android:padding="5dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="20dp">
             <LinearLayout
                 android:id="@+id/btnExpense"
                 android:layout_width="0dp"
@@ -194,7 +202,7 @@
                 android:drawableStart="@drawable/ic_edit"
                 android:drawablePadding="12dp"
                 android:layout_marginTop="10dp"
-                android:maxLength="20"
+                android:maxLength="100"
                 android:textColor="@color/primary_text"
                 android:textColorHint="@color/secondary_text"
                 android:inputType="text"
@@ -236,6 +244,95 @@
             app:layout_constraintStart_toStartOf="@+id/containerNameTransaction"
             app:layout_constraintTop_toBottomOf="@+id/containerNameTransaction"
             tools:ignore="SpeakableTextPresentCheck" />
+
+        <LinearLayout
+            android:id="@+id/containerAccountCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/amountTransaction"
+            android:layout_marginTop="10dp">
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btnAccount"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/background_card"
+                android:layout_margin="5dp"
+                android:clickable="true"
+                android:focusable="true">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/custom_input"
+                    android:layout_gravity="center">
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iconAccount"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:contentDescription="@string/accounts" />
+                    <TextView
+                        android:id="@+id/nameAccount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btnCategory"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/background_card"
+                android:layout_margin="5dp"
+                android:clickable="true"
+                android:focusable="true">
+                <LinearLayout
+                    android:id="@+id/containerCategoryInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/custom_input"
+                    android:visibility="gone">
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iconCategory"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:contentDescription="@string/category_icon" />
+                    <TextView
+                        android:id="@+id/nameCategory"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/containerCategoryInfo1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/custom_input"
+                    android:layout_gravity="center">
+                    <TextView
+                        android:id="@+id/chooseCategory"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/tertiary_text"
+                        android:text="@string/choose_category"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/containerNoteTransaction"
             android:layout_width="match_parent"
@@ -243,7 +340,7 @@
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/amountTransaction"
+            app:layout_constraintTop_toBottomOf="@+id/containerAccountCategory"
             android:layout_marginTop="10dp"
             android:gravity="center">
         <EditText
@@ -262,7 +359,7 @@
             android:drawableStart="@drawable/ic_note"
             android:drawablePadding="12dp"
             android:layout_marginTop="10dp"
-            android:maxLength="150"
+            android:maxLength="300"
             android:textColor="@color/primary_text"
             android:textColorHint="@color/secondary_text"
             android:inputType="textMultiLine"
@@ -279,8 +376,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_margin="5dp"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

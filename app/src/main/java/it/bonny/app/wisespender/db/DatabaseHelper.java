@@ -234,6 +234,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
+     * Getting first Account no master
+     */
+    public List<AccountBean> getFirstAccountBeanNoMaster() {
+        List<AccountBean> accountBeans = new ArrayList<>();
+        String selectQuery = "SELECT * FROM " + AccountBean.TABLE + " a WHERE a." + AccountBean.KEY_IS_MASTER + " = " + TypeObjectBean.NO_MASTER
+            + " ORDER BY a." + AccountBean.KEY_ID + " ASC LIMIT 1";;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+        if (c.moveToFirst()) {
+            do {
+                AccountBean accountBean = new AccountBean();
+                accountBean.setId(Long.parseLong(c.getString(c.getColumnIndex(AccountBean.KEY_ID))));
+                accountBean.setName(c.getString(c.getColumnIndex(AccountBean.KEY_NAME)));
+                accountBean.setCurrency(c.getString(c.getColumnIndex(AccountBean.KEY_CURRENCY)));
+                accountBean.setIdIcon(c.getInt(c.getColumnIndex(AccountBean.KEY_ID_ICON)));
+                accountBean.setOpeningBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_OPENING_BALANCE)));
+                accountBean.setFlagViewTotalBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE)));
+                accountBean.setFlagSelected(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_SELECTED)));
+                accountBean.setIsMaster(c.getInt(c.getColumnIndex(AccountBean.KEY_IS_MASTER)));
+                accountBean.setTotMoneyIncome(c.getInt(c.getColumnIndex(AccountBean.KEY_TOT_MONEY_INCOME)));
+                accountBean.setTotMoneyExpense(c.getInt(c.getColumnIndex(AccountBean.KEY_TOT_MONEY_EXPENSE)));
+                accountBeans.add(accountBean);
+            } while (c.moveToNext());
+        }
+        c.close();
+        return accountBeans;
+    }
+
+    /**
      * Getting single Account
      */
     public AccountBean getAccountBeanSelected() {
@@ -575,7 +604,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<TransactionBean> getAllTransactionBeansToMainActivity(AccountBean accountBeanSelected) {
         List<TransactionBean> transactionBeans = new ArrayList<>();
         String selectQuery;
-        if(accountBeanSelected != null) {
+        if(accountBeanSelected != null && accountBeanSelected.getIsMaster() == TypeObjectBean.NO_MASTER) {
             selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t WHERE t." + TransactionBean.KEY_ID_ACCOUNT + " = " + accountBeanSelected.getId() +
                     " ORDER BY t." + TransactionBean.KEY_ID + " DESC LIMIT 7";
         }else {

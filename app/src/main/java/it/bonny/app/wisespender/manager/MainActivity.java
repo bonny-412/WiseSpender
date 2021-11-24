@@ -13,6 +13,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -109,6 +110,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        listTransactions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(getApplicationContext(), "CCC", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private void init() {
@@ -189,14 +197,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void callDB() {
-        List<AccountBean> accountBeanList = db.getAllAccountBeans();
+        List<AccountBean> accountBeanList = db.getAllAccountBeansNoMaster();
         accountBeanSelected = db.getAccountBeanSelected();
-        List<TransactionBean> transactionBeanList = null;
-        if(accountBeanSelected.getIsMaster() == TypeObjectBean.IS_MASTER)
-            transactionBeanList = db.getAllTransactionBeansToMainActivity(null);
-        else
-            transactionBeanList = db.getAllTransactionBeansToMainActivity(accountBeanSelected);
-
+        List<TransactionBean> transactionBeanList = db.getAllTransactionBeansToMainActivity(accountBeanSelected);
         db.closeDB();
 
         if(transactionBeanList != null && transactionBeanList.size() > 0) {
@@ -205,8 +208,6 @@ public class MainActivity extends AppCompatActivity {
             ListTransactionsAdapter listTransactionsAdapter = new ListTransactionsAdapter(transactionBeanList, activity);
             listTransactions.setAdapter(listTransactionsAdapter);
             listTransactionsAdapter.notifyDataSetChanged();
-            listTransactions.setDividerHeight(0);
-            listTransactions.setDivider(null);
         }else {
             listTransactions.setVisibility(View.GONE);
             listTransactionsEmpty.setVisibility(View.VISIBLE);
@@ -226,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
         totalIncome.setText(totMoneyAccountIncome);
         totalExpense.setText(totMoneyAccountExpense);
 
-        bottomSheetAccount = new BottomSheetAccount(accountBeanList, activity);
+        bottomSheetAccount = new BottomSheetAccount(activity);
     }
 
 }

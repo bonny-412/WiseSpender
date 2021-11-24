@@ -26,7 +26,7 @@
     <!-- Bottom sheet accountBean -->
     <string name="account_bottom_sheet">Account</string>
     <string name="new_button_accounts">New accounts</string>
-    <string name="content_description_radio_button">Selected accountBean</string>
+    <string name="content_description_radio_button">Selected</string>
     <string name="name_new_account_input">Account name</string>
     <string name="opening_balance_new_account_input">Account opening balance</string>
     <string name="date_new_account_input">Date</string>
@@ -37,8 +37,7 @@
 
     <!-- BEAN -->
     <string name="account_bean_master">All accounts</string>
-    <string name="account_bean_cash">Cash</string>
-    <string name="account_bean_credit_card">Credit card</string>
+    <string name="account_bean_main">Main</string>
 
     <string name="category_bean_open_balance">Account opening balance</string>
     <string name="category_bean_hobby">Hobby</string>
@@ -100,5 +99,9 @@
     <string name="input_text_amount_transaction">Amount transaction</string>
     <string name="input_text_note_transaction">Note</string>
     <string name="text_helper_required">Required*</string>
+    <string name="choose_category">Choose a category</string>
+    <string name="choose_account">Choose an account</string>
+    <string name="save_transaction_ok">Transaction entered</string>
+    <string name="save_transaction_ko">Error</string>
 
 </resources>

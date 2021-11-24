@@ -60,10 +60,13 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
         String idAccountString = getIntent().getStringExtra("idAccount");
         if(idAccountString != null && !"".equals(idAccountString)) {//Sono in modifca
             titlePageNewAccount.setText(getString(R.string.title_page_edit_account));
-            btnDeleteAccount.setVisibility(View.VISIBLE);
             long idAccount = Long.parseLong(idAccountString);
             accountBean = db.getAccountBean(idAccount);
             db.closeDB();
+
+            if(accountBean.getFlagSelected() == TypeObjectBean.NO_SELECTED)
+                btnDeleteAccount.setVisibility(View.VISIBLE);
+
             accountName.setText(accountBean.getName());
             String openingBalance = utility.convertIntInEditTextValue(accountBean.getOpeningBalance()).toString();
             accountOpeningBalance.setText(openingBalance);
@@ -128,7 +131,7 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
             if(accountOpeningBalance.getText() != null &&
                     !"".equals(accountOpeningBalance.getText().toString().trim())) {
                 try {
-                    openingBalance = utility.convertEditTextValueInInt(accountOpeningBalance.getText().toString());
+                    openingBalance = utility.convertEditTextValueInInt(accountOpeningBalance.getText().toString().trim());
                 }catch (Exception e) {
                     //TODO: Firebase
                 }

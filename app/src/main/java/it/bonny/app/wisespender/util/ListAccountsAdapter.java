@@ -31,7 +31,7 @@ public class ListAccountsAdapter extends ArrayAdapter<AccountBean>  {
     private final Activity activity;
     private final Utility utility = new Utility();
     public ListAccountsAdapter(List<AccountBean> accountBeanList, Activity activity) {
-        super(activity, R.layout.item_list_accounts,accountBeanList);
+        super(activity, R.layout.item_list_accounts, accountBeanList);
         this.accountBeanList = accountBeanList;
         this.activity = activity;
     }

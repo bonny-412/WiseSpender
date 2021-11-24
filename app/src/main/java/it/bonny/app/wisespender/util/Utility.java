@@ -36,12 +36,12 @@ public class Utility {
         accountMaster.setFlagSelected(TypeObjectBean.SELECTED);
         accountMaster.setFlagViewTotalBalance(TypeObjectBean.IS_TOTAL_BALANCE);
         accountMaster.setCurrency("EUR");
-        accountMaster.setIdIcon(4);
+        accountMaster.setIdIcon(-1);
         accountMaster.setTotMoneyIncome(0);
         accountMaster.setTotMoneyExpense(0);
 
         AccountBean accountCash = new AccountBean();
-        accountCash.setName(activity.getString(R.string.account_bean_cash));
+        accountCash.setName(activity.getString(R.string.account_bean_main));
         accountCash.setOpeningBalance(0);
         accountCash.setIsMaster(TypeObjectBean.NO_MASTER);
         accountCash.setFlagSelected(TypeObjectBean.NO_SELECTED);
@@ -51,20 +51,8 @@ public class Utility {
         accountCash.setTotMoneyIncome(0);
         accountCash.setTotMoneyExpense(0);
 
-        AccountBean accountCreditCard = new AccountBean();
-        accountCreditCard.setName(activity.getString(R.string.account_bean_credit_card));
-        accountCreditCard.setOpeningBalance(0);
-        accountCash.setIsMaster(TypeObjectBean.NO_MASTER);
-        accountCash.setFlagSelected(TypeObjectBean.NO_SELECTED);
-        accountCash.setFlagViewTotalBalance(TypeObjectBean.IS_TOTAL_BALANCE);
-        accountCreditCard.setCurrency("EUR");
-        accountCreditCard.setIdIcon(3);
-        accountCreditCard.setTotMoneyIncome(0);
-        accountCreditCard.setTotMoneyExpense(0);
-
-        long a = db.insertAccountBean(accountMaster);
-        long b = db.insertAccountBean(accountCash);
-        long c = db.insertAccountBean(accountCreditCard);
+        db.insertAccountBean(accountMaster);
+        db.insertAccountBean(accountCash);
 
         db.closeDB();
 
@@ -107,7 +95,13 @@ public class Utility {
     }
 
     public int getIdIconByAccountBean(AccountBean accountBean) {
-        return getListIconToAccountBean().get(accountBean.getIdIcon()).getDrawableInfo();
+        int value;
+        if(accountBean.getIsMaster() == TypeObjectBean.IS_MASTER) {
+            value = R.drawable.icon_account_main;
+        }else {
+            value = getListIconToAccountBean().get(accountBean.getIdIcon()).getDrawableInfo();
+        }
+        return value;
     }
 
     public static List<IconBean> getListIconToAccountBean() {
@@ -279,13 +273,13 @@ public class Utility {
     }
 
     public String getDateFormat(Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
         return dateFormat.format(date);
     }
 
     public String getDateToShowInPage(String date, Activity activity) {
         String result = "";
-        String[] parts = date.split("-");
+        String[] parts = date.split("/");
         String month = parts[1];
         String day = parts[2];
         int monthInt = Integer.parseInt(month);

@@ -15,7 +15,7 @@
     <string name="type_income">Entrata</string>
     <string name="type_expense">Spesa</string>
     <string name="account_bottom_sheet">Conto</string>
-    <string name="content_description_radio_button">Conto selezionato</string>
+    <string name="content_description_radio_button">Selezionato</string>
     <string name="name_new_account_input">Nome conto</string>
     <string name="opening_balance_new_account_input">Saldo apertura conto</string>
     <string name="date_new_account_input">Data</string>
@@ -23,8 +23,7 @@
     <string name="spender_text">Spendaccione</string>
     <string name="pressToExit">Premere di nuovo indietro per uscire</string>
     <string name="account_bean_master">Tutti gli account</string>
-    <string name="account_bean_cash">Contanti</string>
-    <string name="account_bean_credit_card">Carta di credito</string>
+    <string name="account_bean_main">Principale</string>
     <string name="category_bean_hobby">Svago</string>
     <string name="category_bean_necessity">Necessità</string>
     <string name="new_account_included_balance">Non incluso nel saldo totale</string>
@@ -79,4 +78,8 @@
     <string name="input_text_amount_transaction">Importo transazione</string>
     <string name="input_text_note_transaction">Note</string>
     <string name="text_helper_required">Obbligatorio*</string>
+    <string name="choose_category">Scegli una categoria</string>
+    <string name="choose_account">Scegli un conto</string>
+    <string name="save_transaction_ok">Transazione inserita</string>
+    <string name="save_transaction_ko">Errore</string>
 </resources>

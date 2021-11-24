@@ -17,14 +17,13 @@ import java.util.List;
 
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
+import it.bonny.app.wisespender.db.DatabaseHelper;
 import it.bonny.app.wisespender.util.ListAccountBottomSheetAdapter;
 
 public class BottomSheetAccount extends BottomSheetDialogFragment {
     private final Activity activity;
-    private final List<AccountBean> accountBeanList;
 
-    public BottomSheetAccount(List<AccountBean> accountBeanList, Activity activity) {
-        this.accountBeanList = accountBeanList;
+    public BottomSheetAccount(Activity activity) {
         this.activity = activity;
     }
 
@@ -33,6 +32,8 @@ public class BottomSheetAccount extends BottomSheetDialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle bundle) {
         View view = inflater.inflate(R.layout.bottom_sheet_account, container, false);
         RecyclerView listViewAccount = view.findViewById(R.id.listViewAccount);
+        DatabaseHelper db = new DatabaseHelper(activity.getApplicationContext());
+        List<AccountBean> accountBeanList = db.getAllAccountBeans();
         ListAccountBottomSheetAdapter listAccountBottomSheetAdapter = new ListAccountBottomSheetAdapter(accountBeanList, activity);
         listViewAccount.setHasFixedSize(true);
         listViewAccount.setLayoutManager(new LinearLayoutManager(getContext()));
