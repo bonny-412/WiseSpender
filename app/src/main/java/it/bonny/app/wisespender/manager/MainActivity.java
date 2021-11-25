@@ -40,10 +40,10 @@ public class MainActivity extends AppCompatActivity {
     private long backPressedTime;
     private DatabaseHelper db;
     private final Utility utility = new Utility();
-    private MaterialCardView btnAccounts, btnCategories;
+    private MaterialCardView cardViewTransaction, cardViewStatistics, cardViewAccount, cardViewCategory;
     private TextView accountName, showAccountListBtn, moneyAccount;
     private final Activity activity = this;
-    private LinearLayout buttonTransactions, buttonActivity;
+    //private LinearLayout buttonTransactions, buttonActivity;
     private boolean isCheckedButtonTransactions = true;
     private ConstraintLayout containerActivity, containerTransactions;
     private AppCompatTextView totalIncome, totalExpense;
@@ -62,52 +62,22 @@ public class MainActivity extends AppCompatActivity {
         showWelcomeAlert();
         callDB();
 
-        btnAccounts.setOnClickListener(view -> {
+        cardViewAccount.setOnClickListener(view -> {
             Intent intent = new Intent(activity, ListAccountsActivity.class);
             startActivity(intent);
         });
 
-        btnCategories.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(activity, ListCategoriesActivity.class);
-                startActivity(intent);
-            }
+        cardViewCategory.setOnClickListener(view -> {
+            Intent intent = new Intent(activity, ListCategoriesActivity.class);
+            startActivity(intent);
         });
 
         accountName.setText(accountBeanSelected.getName());
         showAccountListBtn.setOnClickListener(view -> bottomSheetAccount.show(getSupportFragmentManager(), "TAG"));
 
-        buttonTransactions.setOnClickListener(view -> {
-            if(!isCheckedButtonTransactions) {
-                isCheckedButtonTransactions = true;
-                buttonTransactions.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.button_change_view_checked_background));
-                buttonActivity.setBackgroundResource(0);
-                buttonTransactions.setElevation(8);
-                buttonActivity.setElevation(0);
-                containerActivity.setVisibility(View.GONE);
-                containerTransactions.setVisibility(View.VISIBLE);
-            }
-        });
-
-        buttonActivity.setOnClickListener(view -> {
-            if(isCheckedButtonTransactions) {
-                isCheckedButtonTransactions = false;
-                buttonActivity.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.button_change_view_checked_background));
-                buttonTransactions.setBackgroundResource(0);
-                buttonActivity.setElevation(8);
-                buttonTransactions.setElevation(0);
-                containerActivity.setVisibility(View.VISIBLE);
-                containerTransactions.setVisibility(View.GONE);
-            }
-        });
-
-        btnNewTransaction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, TransactionActivity.class);
-                startActivity(intent);
-            }
+        btnNewTransaction.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, TransactionActivity.class);
+            startActivity(intent);
         });
 
         listTransactions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -121,19 +91,19 @@ public class MainActivity extends AppCompatActivity {
 
     private void init() {
         db = new DatabaseHelper(getApplicationContext());
-        btnAccounts = findViewById(R.id.btnAccounts);
+        cardViewTransaction = findViewById(R.id.cardViewTransaction);
         showAccountListBtn = findViewById(R.id.showAccountListBtn);
         accountName = findViewById(R.id.accountName);
-        btnCategories = findViewById(R.id.btnCategories);
-        buttonTransactions = findViewById(R.id.buttonTransactions);
-        buttonTransactions.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.button_change_view_checked_background));
-        buttonActivity = findViewById(R.id.buttonActivity);
-        containerActivity = findViewById(R.id.containerActivity);
+        cardViewStatistics = findViewById(R.id.cardViewStatistics);
+        cardViewAccount = findViewById(R.id.cardViewAccount);
+        cardViewCategory = findViewById(R.id.cardViewCategory);
         containerTransactions = findViewById(R.id.containerTransactions);
         moneyAccount = findViewById(R.id.moneyAccount);
         totalIncome = findViewById(R.id.totalIncome);
         totalExpense = findViewById(R.id.totalExpense);
         listTransactions = findViewById(R.id.listTransactions);
+        listTransactions.setDivider(null);
+        listTransactions.setDividerHeight(0);
         listTransactionsEmpty = findViewById(R.id.listTransactionsEmpty);
         btnNewTransaction = findViewById(R.id.btnNewTransaction);
     }

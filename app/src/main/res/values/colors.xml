@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#008fff</color>
+    <color name="primary">#DC008FFF</color>
     <color name="secondary">#ff5436</color>
     <color name="green">#50e3c2</color>
     <color name="yellow">#FFAB00</color>
@@ -11,10 +11,10 @@
     <color name="primary_text">#2e3056</color>
     <color name="secondary_text">#a4a2b7</color>
     <color name="tertiary_text">#747474</color>
+    <color name="accent">#60606C</color>
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
-    <color name="accent">#666D7A</color>
 
     <color name="bg_input">#eaecf4</color>
     <color name="transparent">#00FFFFFF</color>

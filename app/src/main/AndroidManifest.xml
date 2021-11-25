@@ -12,11 +12,15 @@
         android:theme="@style/Theme.WiseSpender">
         <activity
             android:name=".manager.ListViewActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".manager.TransactionActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name=".manager.SplashScreenActivity"
             android:exported="true"
@@ -37,7 +41,9 @@
             android:name=".manager.NewEditAccountActivity"
             android:exported="false"
             android:theme="@style/Theme.WiseSpender1"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".manager.ListAccountsActivity" />
@@ -45,6 +51,8 @@
         <activity
             android:name=".manager.ListAccountsActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:theme="@style/Theme.WiseSpender1">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -53,6 +61,8 @@
         <activity
             android:name=".manager.NewEditCategoryActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:theme="@style/Theme.WiseSpender1"
             android:windowSoftInputMode="adjustPan">
             <meta-data
@@ -62,6 +72,8 @@
         <activity
             android:name=".manager.ListCategoriesActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:theme="@style/Theme.WiseSpender1">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
