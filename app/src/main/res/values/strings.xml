@@ -103,5 +103,12 @@
     <string name="choose_account">Choose an account</string>
     <string name="save_transaction_ok">Transaction entered</string>
     <string name="save_transaction_ko">Error</string>
+    <string name="title_page_detail_transaction">Transaction detail</string>
+    <string name="date_title_detail_transaction">Date</string>
+    <string name="type_title_detail_transaction">Type</string>
+    <string name="account_title_detail_transaction">Account</string>
+    <string name="category_title_detail_transaction">Category</string>
+    <string name="note_title_detail_transaction">Note</string>
+    <string name="amount_title_detail_transaction">Amount</string>
 
 </resources>

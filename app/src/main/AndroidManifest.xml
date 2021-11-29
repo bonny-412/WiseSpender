@@ -11,6 +11,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WiseSpender">
         <activity
+            android:name=".manager.TransactionDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".manager.ListTransactionActivity"
+            android:exported="false" />
+        <activity
             android:name=".manager.ListViewActivity"
             android:exported="false"
             android:screenOrientation="portrait"
@@ -18,9 +24,9 @@
         <activity
             android:name=".manager.TransactionActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+            android:windowSoftInputMode="adjustPan"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".manager.SplashScreenActivity"
             android:exported="true"
@@ -40,9 +46,9 @@
         <activity
             android:name=".manager.NewEditAccountActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.WiseSpender1"
             android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -52,8 +58,8 @@
             android:name=".manager.ListAccountsActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:theme="@style/Theme.WiseSpender1">
+            android:theme="@style/Theme.WiseSpender1"
+            tools:ignore="LockedOrientationActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".manager.MainActivity" />
@@ -62,9 +68,9 @@
             android:name=".manager.NewEditCategoryActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
             android:theme="@style/Theme.WiseSpender1"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan"
+            tools:ignore="LockedOrientationActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".manager.ListCategoriesActivity" />
@@ -73,8 +79,8 @@
             android:name=".manager.ListCategoriesActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:theme="@style/Theme.WiseSpender1">
+            android:theme="@style/Theme.WiseSpender1"
+            tools:ignore="LockedOrientationActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".manager.MainActivity" />

@@ -379,19 +379,21 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/buttonSave"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:background="@color/primary"
-            android:contentDescription="@string/save_button_transaction"
-            android:layout_margin="16dp"
-            android:text="@string/save_button_transaction"
-            android:textColor="@color/background"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-
-            />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonSave"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:elevation="10dp"
+        android:textColor="@color/white"
+        android:text="@string/save_button_transaction"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:contentDescription="@string/save_button_transaction"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="16dp"
+        app:elevation="20dp"
+        app:cornerRadius="10dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,7 +22,7 @@
     <string name="title_page_new_account">Nuovo conto</string>
     <string name="spender_text">Spendaccione</string>
     <string name="pressToExit">Premere di nuovo indietro per uscire</string>
-    <string name="account_bean_master">Tutti gli account</string>
+    <string name="account_bean_master">Tutti i conti</string>
     <string name="account_bean_main">Principale</string>
     <string name="category_bean_hobby">Svago</string>
     <string name="category_bean_necessity">Necessità</string>
@@ -82,4 +82,11 @@
     <string name="choose_account">Scegli un conto</string>
     <string name="save_transaction_ok">Transazione inserita</string>
     <string name="save_transaction_ko">Errore</string>
+    <string name="title_page_detail_transaction">Dettaglio transazione</string>
+    <string name="date_title_detail_transaction">Data</string>
+    <string name="type_title_detail_transaction">Tipo</string>
+    <string name="account_title_detail_transaction">Conto</string>
+    <string name="category_title_detail_transaction">Categoria</string>
+    <string name="note_title_detail_transaction">Note</string>
+    <string name="amount_title_detail_transaction">Importo</string>
 </resources>

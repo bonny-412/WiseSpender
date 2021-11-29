@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
@@ -50,7 +51,7 @@ public class TransactionActivity extends AppCompatActivity {
     private TransactionBean transactionBean;
     private EditText nameTransaction, noteTransaction;
     private CurrencyEditText amountTransaction;
-    private ExtendedFloatingActionButton buttonSave;
+    private MaterialButton buttonSave;
     private MaterialCardView btnReturn;
     private MaterialCardView btnAccount, btnCategory;
     private AppCompatImageView iconAccount, iconCategory;

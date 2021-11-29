@@ -7,9 +7,11 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,10 +27,13 @@ import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
+import it.bonny.app.wisespender.bean.CategoryBean;
 import it.bonny.app.wisespender.bean.TransactionBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
 import it.bonny.app.wisespender.db.DatabaseHelper;
@@ -40,18 +45,16 @@ public class MainActivity extends AppCompatActivity {
     private long backPressedTime;
     private DatabaseHelper db;
     private final Utility utility = new Utility();
-    private MaterialCardView cardViewTransaction, cardViewStatistics, cardViewAccount, cardViewCategory;
+    private MaterialCardView cardViewAccount, cardViewCategory;
     private TextView accountName, showAccountListBtn, moneyAccount;
     private final Activity activity = this;
-    //private LinearLayout buttonTransactions, buttonActivity;
-    private boolean isCheckedButtonTransactions = true;
-    private ConstraintLayout containerActivity, containerTransactions;
     private AppCompatTextView totalIncome, totalExpense;
     private AccountBean accountBeanSelected;
     private BottomSheetAccount bottomSheetAccount;
     private ListView listTransactions;
     private TextView listTransactionsEmpty;
     private ExtendedFloatingActionButton btnNewTransaction;
+    private List<TransactionBean> transactionBeanList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,24 +83,20 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        listTransactions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getApplicationContext(), "CCC", Toast.LENGTH_SHORT).show();
-            }
+        listTransactions.setOnItemClickListener((adapterView, view, i, l) -> {
+            Intent intent = new Intent(activity, TransactionDetailActivity.class);
+            intent.putExtra("idTransaction", transactionBeanList.get(i).getId());
+            startActivity(intent);
         });
 
     }
 
     private void init() {
         db = new DatabaseHelper(getApplicationContext());
-        cardViewTransaction = findViewById(R.id.cardViewTransaction);
         showAccountListBtn = findViewById(R.id.showAccountListBtn);
         accountName = findViewById(R.id.accountName);
-        cardViewStatistics = findViewById(R.id.cardViewStatistics);
         cardViewAccount = findViewById(R.id.cardViewAccount);
         cardViewCategory = findViewById(R.id.cardViewCategory);
-        containerTransactions = findViewById(R.id.containerTransactions);
         moneyAccount = findViewById(R.id.moneyAccount);
         totalIncome = findViewById(R.id.totalIncome);
         totalExpense = findViewById(R.id.totalExpense);
@@ -169,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
     private void callDB() {
         List<AccountBean> accountBeanList = db.getAllAccountBeansNoMaster();
         accountBeanSelected = db.getAccountBeanSelected();
-        List<TransactionBean> transactionBeanList = db.getAllTransactionBeansToMainActivity(accountBeanSelected);
+        transactionBeanList = db.getAllTransactionBeansToMainActivity(accountBeanSelected);
         db.closeDB();
 
         if(transactionBeanList != null && transactionBeanList.size() > 0) {

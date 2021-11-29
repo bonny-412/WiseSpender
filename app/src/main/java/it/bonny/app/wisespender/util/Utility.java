@@ -8,8 +8,10 @@ import androidx.appcompat.content.res.AppCompatResources;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -277,39 +279,19 @@ public class Utility {
         return dateFormat.format(date);
     }
 
-    public String getDateToShowInPage(String date, Activity activity) {
-        String result = "";
-        String[] parts = date.split("/");
-        String month = parts[1];
-        String day = parts[2];
-        int monthInt = Integer.parseInt(month);
-        if(monthInt == 1)
-            result = activity.getString(R.string.month_jan);
-        else if(monthInt == 2)
-            result = activity.getString(R.string.month_feb);
-        else if(monthInt == 3)
-            result = activity.getString(R.string.month_mar);
-        else if(monthInt == 4)
-            result = activity.getString(R.string.month_apr);
-        else if(monthInt == 5)
-            result = activity.getString(R.string.month_may);
-        else if(monthInt == 6)
-            result = activity.getString(R.string.month_jun);
-        else if(monthInt == 7)
-            result = activity.getString(R.string.month_july);
-        else if(monthInt == 8)
-            result = activity.getString(R.string.month_aug);
-        else if(monthInt == 9)
-            result = activity.getString(R.string.month_sep);
-        else if(monthInt == 10)
-            result = activity.getString(R.string.month_oct);
-        else if(monthInt == 11)
-            result = activity.getString(R.string.month_nov);
-        else if(monthInt == 12)
-            result = activity.getString(R.string.month_dec);
+    public Date convertStringInDate(String d) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
+        return format.parse(d);
+    }
 
-        result = day + " " + result;
-        return result;
+    public String getDateToShowInPage(String d, Activity activity) {
+        try {
+            Date date = convertStringInDate(d);
+            return new SimpleDateFormat("EEEE, d MMM", Locale.getDefault()).format(date);
+        }catch (Exception e) {
+            //TODO: Firebase
+        }
+        return d;
     }
 
 }
