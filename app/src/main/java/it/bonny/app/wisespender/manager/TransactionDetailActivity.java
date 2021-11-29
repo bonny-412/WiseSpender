@@ -4,11 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatImageView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
@@ -22,9 +24,9 @@ public class TransactionDetailActivity extends AppCompatActivity {
     private DatabaseHelper db;
     private final Utility utility = new Utility();
     private MaterialCardView btnReturn;
-    private AppCompatImageView iconTypeTransaction;
     private TextView titleTransaction, dateTransaction, typeTransaction,
             accountTransaction, categoryTransaction, noteTransaction, amountTransaction;
+    private ExtendedFloatingActionButton btnEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class TransactionDetailActivity extends AppCompatActivity {
         if(transactionBean != null) {
             CategoryBean categoryBean = db.getCategoryBean(transactionBean.getIdCategory());
             AccountBean accountBean = db.getAccountBean(transactionBean.getIdAccount());
+            db.closeDB();
 
             AppCompatImageView iconTypeTransaction = findViewById(R.id.iconTypeTransaction);
             titleTransaction = findViewById(R.id.titleTransaction);
@@ -68,13 +71,17 @@ public class TransactionDetailActivity extends AppCompatActivity {
             amount += utility.formatNumberCurrency(utility.convertIntInEditTextValue(transactionBean.getAmount()).toString());
             amountTransaction.setText(amount);
 
+            if(categoryBean.getTypeCategory() == TypeObjectBean.CATEGORY_OPEN_BALANCE)
+                btnEdit.setVisibility(View.GONE);
+
         }
 
-        btnReturn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
+        btnReturn.setOnClickListener(view -> finish());
+
+        btnEdit.setOnClickListener(view -> {
+            Intent intent = new Intent(TransactionDetailActivity.this, TransactionActivity.class);
+            intent.putExtra("idTransaction", idTransaction);
+            startActivity(intent);
         });
 
     }
@@ -82,7 +89,6 @@ public class TransactionDetailActivity extends AppCompatActivity {
     private void init() {
         db = new DatabaseHelper(this);
         btnReturn = findViewById(R.id.btnReturn);
-        iconTypeTransaction = findViewById(R.id.iconTypeTransaction);
         titleTransaction = findViewById(R.id.titleTransaction);
         dateTransaction = findViewById(R.id.dateTransaction);
         typeTransaction = findViewById(R.id.typeTransaction);
@@ -90,6 +96,7 @@ public class TransactionDetailActivity extends AppCompatActivity {
         categoryTransaction = findViewById( R.id.categoryTransaction);
         noteTransaction = findViewById(R.id.noteTransaction);
         amountTransaction = findViewById(R.id.amountTransaction);
+        btnEdit = findViewById(R.id.btnEdit);
     }
 
 }

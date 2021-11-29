@@ -29,6 +29,7 @@ public class ListViewActivity extends AppCompatActivity {
         int typeList = getIntent().getIntExtra("typeList", 0);//0 --> account, 1 --> category
         int typeCategory = getIntent().getIntExtra("typeCategory", -1);
         int selectedPos = getIntent().getIntExtra("selectedPos", -1);
+        long id = getIntent().getLongExtra("id", 0);
 
         MaterialCardView btnReturn = findViewById(R.id.btnReturn);
         btnReturn.setOnClickListener(view -> finish());
@@ -45,16 +46,16 @@ public class ListViewActivity extends AppCompatActivity {
         if(typeList == 0) {
             titleAlert.setText(getString(R.string.choose_account));
             accountBeans = db.getAllAccountBeansNoMaster();
-            myAdapter = new ChooseAccountCategoryAdapter(accountBeans, null, selectedPos,this);
+            myAdapter = new ChooseAccountCategoryAdapter(accountBeans, null, selectedPos, id, this);
         }else {
             titleAlert.setText(getString(R.string.choose_category));
             if(typeCategory == 0)
                 categoryBeans = db.getAllCategoryBeansToTypeCategory(TypeObjectBean.CATEGORY_INCOME);
             else
                 categoryBeans = db.getAllCategoryBeansToTypeCategory(TypeObjectBean.CATEGORY_EXPENSE);
-            myAdapter = new ChooseAccountCategoryAdapter(null, categoryBeans, selectedPos, this);
+            myAdapter = new ChooseAccountCategoryAdapter(null, categoryBeans, selectedPos, id,this);
         }
-
+        db.closeDB();
         listView.setAdapter(myAdapter);
         listView.setDividerHeight(0);
         listView.setDivider(null);

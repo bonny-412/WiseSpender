@@ -30,12 +30,14 @@ public class ChooseAccountCategoryAdapter extends BaseAdapter {
     private final List<CategoryBean> categoryBeans;
     private final Utility utility = new Utility();
     private final int positionSelected;
+    private final long id;
 
-    public ChooseAccountCategoryAdapter(List<AccountBean> accountBeans, List<CategoryBean> categoryBeans, int positionSelected, Context context) {
+    public ChooseAccountCategoryAdapter(List<AccountBean> accountBeans, List<CategoryBean> categoryBeans, int positionSelected, long id, Context context) {
         this.mContext = context;
         this.accountBeans = accountBeans;
         this.categoryBeans = categoryBeans;
         this.positionSelected = positionSelected;
+        this.id = id;
     }
 
     @Override
@@ -77,10 +79,26 @@ public class ChooseAccountCategoryAdapter extends BaseAdapter {
             viewHolder.textView.setText(categoryBeans.get(i).getName());
         }
 
-        if(positionSelected != -1 && positionSelected == i)
-            viewHolder.iconSelected.setVisibility(View.VISIBLE);
-        else
-            viewHolder.iconSelected.setVisibility(View.GONE);
+        if(id > 0) {
+            if(accountBeans != null) {
+                if(id == accountBeans.get(i).getId()) {
+                    viewHolder.iconSelected.setVisibility(View.VISIBLE);
+                }else {
+                    viewHolder.iconSelected.setVisibility(View.GONE);
+                }
+            }else {
+                if(id == categoryBeans.get(i).getId()) {
+                    viewHolder.iconSelected.setVisibility(View.VISIBLE);
+                }else {
+                    viewHolder.iconSelected.setVisibility(View.GONE);
+                }
+            }
+        }else {
+            if(positionSelected != -1 && positionSelected == i)
+                viewHolder.iconSelected.setVisibility(View.VISIBLE);
+            else
+                viewHolder.iconSelected.setVisibility(View.GONE);
+        }
 
 
         return view;

@@ -25,6 +25,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -64,6 +65,53 @@ public class TransactionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction);
         init();
+
+        long idTransaction = getIntent().getLongExtra("idTransaction", 0);
+        AccountBean accountBeanSelected;
+        if(idTransaction > 0) {
+            transactionBean = db.getTransactionBean(idTransaction);
+            CategoryBean categoryBean = db.getCategoryBean(transactionBean.getIdCategory());
+            accountBeanSelected = db.getAccountBean(transactionBean.getIdAccount());
+            db.closeDB();
+
+            iconAccount.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(), utility.getIdIconByAccountBean(accountBeanSelected)));
+            nameAccount.setText(accountBeanSelected.getName());
+            changeTypeTransaction(transactionBean.getTypeTransaction() == TypeObjectBean.TRANSACTION_EXPENSE, true);
+            nameTransaction.setText(transactionBean.getTitle());
+            amountTransaction.setText(utility.formatNumberCurrency(utility.convertIntInEditTextValue(transactionBean.getAmount()).toString()));
+            noteTransaction.setText(transactionBean.getNote());
+            countNameTransaction.setText(getCountCharacter(nameTransaction, 100));
+            countNoteTransaction.setText(getCountCharacter(noteTransaction, 300));
+            nameAccount.setText(accountBeanSelected.getName());
+            iconAccount.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(), utility.getIdIconByAccountBean(accountBeanSelected)));
+
+            nameCategory.setText(categoryBean.getName());
+            iconCategory.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(), utility.getIdIconByCategoryBean(categoryBean)));
+            containerCategoryInfo.setVisibility(View.VISIBLE);
+            containerCategoryInfo1.setVisibility(View.GONE);
+
+            try {
+                myCalendar.setTime(utility.convertStringInDate(transactionBean.getDateInsert()));
+            } catch (ParseException e) {
+                //TODO: Firebase
+                e.printStackTrace();
+            }
+        }else {
+            transactionBean = new TransactionBean();
+            transactionBean.setTypeTransaction(TypeObjectBean.TRANSACTION_EXPENSE);
+            accountBeanSelected = db.getAccountBeanSelected();
+            if(accountBeanSelected.getIsMaster() == TypeObjectBean.IS_MASTER) {
+                accountBeanSelected = db.getFirstAccountBeanNoMaster().get(0);
+            }
+            db.closeDB();
+            iconAccount.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(), utility.getIdIconByAccountBean(accountBeanSelected)));
+            nameAccount.setText(accountBeanSelected.getName());
+            transactionBean.setIdAccount(accountBeanSelected.getId());
+            amountTransaction.setText("0");
+            countNameTransaction.setText(getCountCharacter(nameTransaction, 100));
+            countNoteTransaction.setText(getCountCharacter(noteTransaction, 300));
+        }
+
         updateLabel();
 
         DatePickerDialog.OnDateSetListener date = (view, year, monthOfYear, dayOfMonth) -> {
@@ -74,43 +122,17 @@ public class TransactionActivity extends AppCompatActivity {
         };
 
         btnExpense.setOnClickListener(view -> {
-            if(transactionBean.getTypeTransaction() == TypeObjectBean.TRANSACTION_INCOME) {
-                transactionBean.setTypeTransaction(TypeObjectBean.TRANSACTION_EXPENSE);
-                btnExpense.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.button_change_view_checked_background));
-                btnIncome.setBackgroundResource(0);
-                btnExpense.setElevation(8);
-                btnIncome.setElevation(0);
-                iconCategory.setImageDrawable(null);
-                nameCategory.setText("");
-                containerCategoryInfo1.setVisibility(View.VISIBLE);
-                containerCategoryInfo.setVisibility(View.GONE);
-                categorySelectedPos = -1;
-                transactionBean.setIdCategory(0);
-            }
+            if(transactionBean.getTypeTransaction() == TypeObjectBean.TRANSACTION_INCOME)
+                changeTypeTransaction(true, false);
         });
         btnIncome.setOnClickListener(view -> {
-            if(transactionBean.getTypeTransaction() == TypeObjectBean.TRANSACTION_EXPENSE) {
-                transactionBean.setTypeTransaction(TypeObjectBean.TRANSACTION_INCOME);
-                btnIncome.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.button_change_view_checked_background));
-                btnExpense.setBackgroundResource(0);
-                btnIncome.setElevation(8);
-                btnExpense.setElevation(0);
-                iconCategory.setImageDrawable(null);
-                nameCategory.setText("");
-                containerCategoryInfo1.setVisibility(View.VISIBLE);
-                containerCategoryInfo.setVisibility(View.GONE);
-                categorySelectedPos = -1;
-                transactionBean.setIdCategory(0);
-            }
+            if(transactionBean.getTypeTransaction() == TypeObjectBean.TRANSACTION_EXPENSE)
+                changeTypeTransaction(false, false);
         });
 
         dateTransaction.setOnClickListener(view -> new DatePickerDialog(context, date, myCalendar
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH)).show());
-
-        amountTransaction.setText("0");
-        countNameTransaction.setText(getCountCharacter(nameTransaction, 100));
-        countNoteTransaction.setText(getCountCharacter(noteTransaction, 300));
 
         nameTransaction.addTextChangedListener(new TextWatcher() {
             @Override
@@ -158,6 +180,8 @@ public class TransactionActivity extends AppCompatActivity {
             Intent intent = new Intent(TransactionActivity.this, ListViewActivity.class);
             intent.putExtra("typeList", 0);
             intent.putExtra("selectedPos", accountSelectedPos);
+            if(transactionBean.getId() > 0)
+                intent.putExtra("id", transactionBean.getIdAccount());
             openSomeActivityForResult(intent);
         });
 
@@ -166,6 +190,8 @@ public class TransactionActivity extends AppCompatActivity {
             intent.putExtra("typeList", 1);
             intent.putExtra("selectedPos", categorySelectedPos);
             intent.putExtra("typeCategory", transactionBean.getTypeTransaction());
+            if(transactionBean.getId() > 0)
+                intent.putExtra("id", transactionBean.getIdCategory());
             openSomeActivityForResult(intent);
         });
 
@@ -262,8 +288,6 @@ public class TransactionActivity extends AppCompatActivity {
     });
 
     private void init() {
-        transactionBean = new TransactionBean();
-        transactionBean.setTypeTransaction(TypeObjectBean.TRANSACTION_EXPENSE);
         db = new DatabaseHelper(getApplicationContext());
 
         btnExpense = findViewById(R.id.btnExpense);
@@ -284,14 +308,6 @@ public class TransactionActivity extends AppCompatActivity {
         nameCategory = findViewById(R.id.nameCategory);
         containerCategoryInfo = findViewById(R.id.containerCategoryInfo);
         containerCategoryInfo1 = findViewById(R.id.containerCategoryInfo1);
-
-        AccountBean accountBeanSelected = db.getAccountBeanSelected();
-        if(accountBeanSelected.getIsMaster() == TypeObjectBean.IS_MASTER) {
-            accountBeanSelected = db.getFirstAccountBeanNoMaster().get(0);
-        }
-        iconAccount.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(), utility.getIdIconByAccountBean(accountBeanSelected)));
-        nameAccount.setText(accountBeanSelected.getName());
-        transactionBean.setIdAccount(accountBeanSelected.getId());
     }
 
     private void updateLabel() {
@@ -305,6 +321,30 @@ public class TransactionActivity extends AppCompatActivity {
 
     public void openSomeActivityForResult(Intent intent) {
         someActivityResultLauncher.launch(intent);
+    }
+
+    private void changeTypeTransaction(boolean isExpense, boolean isFirstLaunch) {
+        if(isExpense) {
+            transactionBean.setTypeTransaction(TypeObjectBean.TRANSACTION_EXPENSE);
+            btnExpense.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.button_change_view_checked_background));
+            btnIncome.setBackgroundResource(0);
+            btnExpense.setElevation(8);
+            btnIncome.setElevation(0);
+        }else {
+            transactionBean.setTypeTransaction(TypeObjectBean.TRANSACTION_INCOME);
+            btnIncome.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.button_change_view_checked_background));
+            btnExpense.setBackgroundResource(0);
+            btnIncome.setElevation(8);
+            btnExpense.setElevation(0);
+        }
+        if(!isFirstLaunch) {
+            iconCategory.setImageDrawable(null);
+            nameCategory.setText("");
+            containerCategoryInfo1.setVisibility(View.VISIBLE);
+            containerCategoryInfo.setVisibility(View.GONE);
+            categorySelectedPos = -1;
+            transactionBean.setIdCategory(0);
+        }
     }
 
 }
