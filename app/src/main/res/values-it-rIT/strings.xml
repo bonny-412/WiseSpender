@@ -89,4 +89,13 @@
     <string name="category_title_detail_transaction">Categoria</string>
     <string name="note_title_detail_transaction">Note</string>
     <string name="amount_title_detail_transaction">Importo</string>
+    <string name="title_page_list_transaction">Transazioni</string>
+    <string name="all_type_transaction">Tutto</string>
+    <string name="title_bottom_sheet_transaction">Scegli intervallo di tempo</string>
+    <string name="title_filter_date_today">Oggi</string>
+    <string name="title_filter_date_week">Questa settimana</string>
+    <string name="title_filter_date_month">Questo mese</string>
+    <string name="title_filter_date_year">Quest\'anno</string>
+    <string name="title_filter_date_all">Tutto</string>
+    <string name="title_filter_date_custom">Personalizzato</string>
 </resources>

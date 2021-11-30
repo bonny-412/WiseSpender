@@ -1,6 +1,8 @@
 package it.bonny.app.wisespender.util;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 
 import androidx.appcompat.content.res.AppCompatResources;
@@ -19,6 +21,7 @@ import java.util.Locale;
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
 import it.bonny.app.wisespender.bean.CategoryBean;
+import it.bonny.app.wisespender.bean.FilterTransactionBean;
 import it.bonny.app.wisespender.bean.IconBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
 import it.bonny.app.wisespender.db.DatabaseHelper;
@@ -275,12 +278,12 @@ public class Utility {
     }
 
     public String getDateFormat(Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
         return dateFormat.format(date);
     }
 
     public Date convertStringInDate(String d) throws ParseException {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
         return format.parse(d);
     }
 
@@ -292,6 +295,27 @@ public class Utility {
             //TODO: Firebase
         }
         return d;
+    }
+
+    public void saveFilterTransactionBean(FilterTransactionBean filterTransactionBean, Activity activity){
+        SharedPreferences.Editor editor = activity.getSharedPreferences(PREFS_NAME_FILE, Context.MODE_PRIVATE).edit();
+        editor.putInt("filterDate", filterTransactionBean.getFilterDate());
+        editor.putInt("filterTypeTransaction", filterTransactionBean.getFilterTypeTransaction());
+        editor.putString("dateFrom", filterTransactionBean.getDateFrom());
+        editor.putString("dateA", filterTransactionBean.getDateA());
+
+        editor.apply();
+    }
+
+    public FilterTransactionBean getFilterTransactionBeanSaved(Activity activity){
+        FilterTransactionBean bean = new FilterTransactionBean();
+        SharedPreferences sharedPreferences = activity.getSharedPreferences(PREFS_NAME_FILE, Context.MODE_PRIVATE);
+        bean.setFilterDate(sharedPreferences.getInt("filterDate", 0));
+        bean.setFilterTypeTransaction(sharedPreferences.getInt("filterTypeTransaction", 3));
+        bean.setDateFrom(sharedPreferences.getString("dateFrom", ""));
+        bean.setDateA(sharedPreferences.getString("dateA", ""));
+
+        return bean;
     }
 
 }

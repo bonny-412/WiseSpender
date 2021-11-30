@@ -110,5 +110,14 @@
     <string name="category_title_detail_transaction">Category</string>
     <string name="note_title_detail_transaction">Note</string>
     <string name="amount_title_detail_transaction">Amount</string>
+    <string name="title_page_list_transaction">Transactions</string>
+    <string name="all_type_transaction">All</string>
+    <string name="title_bottom_sheet_transaction">Choose time interval</string>
+    <string name="title_filter_date_today">Today</string>
+    <string name="title_filter_date_week">This week</string>
+    <string name="title_filter_date_month">This month</string>
+    <string name="title_filter_date_year">This year</string>
+    <string name="title_filter_date_all">All</string>
+    <string name="title_filter_date_custom">Personalized</string>
 
 </resources>

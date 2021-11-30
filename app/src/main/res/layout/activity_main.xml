@@ -39,7 +39,6 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             app:cardElevation="0dp"
-            android:layout_marginEnd="16dp"
             android:clickable="true"
             android:focusable="true"
             app:cardBackgroundColor="@color/background"
@@ -294,6 +293,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/showTransactionListBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/see_all"

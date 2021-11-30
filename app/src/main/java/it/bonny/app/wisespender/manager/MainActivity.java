@@ -45,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private long backPressedTime;
     private DatabaseHelper db;
     private final Utility utility = new Utility();
-    private MaterialCardView cardViewAccount, cardViewCategory;
-    private TextView accountName, showAccountListBtn, moneyAccount;
+    private MaterialCardView cardViewAccount, cardViewCategory, cardViewTransaction;
+    private TextView accountName, showAccountListBtn, moneyAccount, showTransactionListBtn;
     private final Activity activity = this;
     private AppCompatTextView totalIncome, totalExpense;
     private AccountBean accountBeanSelected;
@@ -75,8 +75,18 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        cardViewTransaction.setOnClickListener(view -> {
+            Intent intent = new Intent(activity, ListTransactionActivity.class);
+            startActivity(intent);
+        });
+
         accountName.setText(accountBeanSelected.getName());
         showAccountListBtn.setOnClickListener(view -> bottomSheetAccount.show(getSupportFragmentManager(), "TAG"));
+
+        showTransactionListBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(activity, ListTransactionActivity.class);
+            startActivity(intent);
+        });
 
         btnNewTransaction.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, TransactionActivity.class);
@@ -105,6 +115,8 @@ public class MainActivity extends AppCompatActivity {
         listTransactions.setDividerHeight(0);
         listTransactionsEmpty = findViewById(R.id.listTransactionsEmpty);
         btnNewTransaction = findViewById(R.id.btnNewTransaction);
+        cardViewTransaction = findViewById(R.id.cardViewTransaction);
+        showTransactionListBtn = findViewById(R.id.showTransactionListBtn);
     }
 
     //Shows the welcome alert
