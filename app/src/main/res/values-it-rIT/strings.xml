@@ -98,4 +98,6 @@
     <string name="title_filter_date_year">Quest\'anno</string>
     <string name="title_filter_date_all">Tutto</string>
     <string name="title_filter_date_custom">Personalizzato</string>
+    <string name="alert_delete_transaction_title">Sei sicuro di voler eliminare questa transazione?</string>
+    <string name="time_title_detail_transaction">Ora</string>
 </resources>

@@ -54,7 +54,7 @@ public class ListTransactionsAdapter extends ArrayAdapter<TransactionBean>  {
             holder.iconCategory.setImageDrawable(AppCompatResources.getDrawable(activity, utility.getIdIconByCategoryBean(categoryBean)));
             holder.nameCategory.setText(categoryBean.getName());
             holder.titleTransaction.setText(transactionBeanList.get(position).getTitle());
-            holder.dateTransaction.setText(utility.getDateToShowInPage(transactionBeanList.get(position).getDateInsert(), activity));
+            holder.dateTransaction.setText(utility.getDateToShowInPage(transactionBeanList.get(position).getDateInsert()));
             String amount;
             if(transactionBeanList.get(position).getTypeTransaction() == TypeObjectBean.TRANSACTION_EXPENSE) {
                 amount = "- " + utility.formatNumberCurrency(utility.convertIntInEditTextValue(transactionBeanList.get(position).getAmount()).toString());

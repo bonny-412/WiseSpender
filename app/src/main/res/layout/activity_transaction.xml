@@ -61,33 +61,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/btnDelete"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        app:cardElevation="5dp"
-        app:cardCornerRadius="5dp"
-        app:cardBackgroundColor="@color/secondary"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/alert_delete"
-        app:layout_constraintBottom_toTopOf="@+id/containerForm"
-        android:layout_marginEnd="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone"
-        android:layout_marginBottom="-20dp">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center">
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_delete"
-                android:tint="@color/background" />
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/containerForm"
         android:layout_width="match_parent"

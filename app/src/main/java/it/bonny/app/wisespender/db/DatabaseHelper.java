@@ -608,7 +608,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t WHERE t." + TransactionBean.KEY_ID_ACCOUNT + " = " + accountBeanSelected.getId() +
                     " ORDER BY t." + TransactionBean.KEY_ID + " DESC LIMIT 7";
         }else {
-            selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t ORDER BY t." + TransactionBean.KEY_ID + " DESC LIMIT 7";
+            selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t ORDER BY t." + TransactionBean.KEY_DATE_INSERT + " DESC LIMIT 7";
         }
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);

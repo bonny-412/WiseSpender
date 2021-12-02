@@ -58,7 +58,8 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
         int iconSelectedPosition;
 
         String idAccountString = getIntent().getStringExtra("idAccount");
-        if(idAccountString != null && !"".equals(idAccountString)) {//Sono in modifca
+        if(idAccountString != null && !"".equals(idAccountString)) {
+            //Edit account
             titlePageNewAccount.setText(getString(R.string.title_page_edit_account));
             long idAccount = Long.parseLong(idAccountString);
             accountBean = db.getAccountBean(idAccount);
@@ -77,6 +78,7 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
             IconBean iconBean = Utility.getListIconToAccountBean().get(accountBean.getIdIcon());
             iconSelectedPosition = iconBean.getId();
         }else {
+            //New account
             accountBean = new AccountBean();
             accountBean.setIsMaster(TypeObjectBean.NO_MASTER);
             accountBean.setFlagViewTotalBalance(TypeObjectBean.IS_TOTAL_BALANCE);
@@ -88,7 +90,7 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
 
         IconListAdapter iconListAdapter = new IconListAdapter(Utility.getListIconToAccountBean(),this);
         gridView.setAdapter(iconListAdapter);
-        //Sono in modifca
+        //Edit account
         if(iconSelectedPosition != -1) {
             iconListAdapter.makeAllUnselect(iconSelectedPosition);
             iconListAdapter.notifyDataSetChanged();

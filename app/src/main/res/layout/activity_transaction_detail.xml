@@ -177,10 +177,56 @@
                     app:layout_constraintTop_toBottomOf="@+id/containerDateTransaction"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/containerTypeTransaction"
+                    android:id="@+id/containerTimeTransaction"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@+id/separatorDateTransaction"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="20dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+                        <TextView
+                            android:id="@+id/timeTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/secondary_text"
+                            android:layout_marginStart="10dp"
+                            android:gravity="start"
+                            android:layout_weight="1"
+                            android:text="@string/time_title_detail_transaction" />
+                        <TextView
+                            android:id="@+id/timeTransaction"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/primary_text"
+                            android:textSize="16sp"
+                            android:gravity="end"
+                            android:layout_weight="3"/>
+                    </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <View
+                    android:id="@+id/separatorTimeTransaction"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/tertiary_text"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/containerTimeTransaction"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/containerTypeTransaction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/separatorTimeTransaction"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginTop="10dp">
@@ -434,18 +480,70 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/btnEdit"
-        android:layout_width="wrap_content"
+    
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:contentDescription="@string/come_back"
-        app:icon="@drawable/ic_edit"
-        app:iconTint="@color/background"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/fabViewDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@+id/fabViewEdit"
+                app:layout_constraintEnd_toEndOf="@+id/fabViewEdit"
+                app:layout_constraintStart_toStartOf="@+id/fabViewEdit"
+                android:layout_marginBottom="5dp"
+                android:clickable="true"
+                android:elevation="16dp"
+                android:focusable="true"
+                android:visibility="invisible"
+                app:backgroundTint="@color/background_card"
+                app:iconTint="@color/primary"
+                app:pressedTranslationZ="12dp"
+                app:maxImageSize="24dp"
+                android:contentDescription="@string/alert_delete"
+                app:icon="@drawable/ic_delete" />
+
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/fabViewEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@+id/fabViewPlus"
+                app:layout_constraintEnd_toEndOf="@+id/fabViewPlus"
+                app:layout_constraintStart_toStartOf="@+id/fabViewPlus"
+                android:layout_marginBottom="5dp"
+                android:clickable="true"
+                android:elevation="16dp"
+                android:focusable="true"
+                android:visibility="invisible"
+                app:maxImageSize="24dp"
+                app:backgroundTint="@color/background_card"
+                app:iconTint="@color/primary"
+                app:pressedTranslationZ="12dp"
+                android:contentDescription="@string/title_page_edit_transaction"
+                app:icon="@drawable/ic_edit" />
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/fabViewPlus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:iconTint="@color/background"
+                app:backgroundTint="@color/primary"
+                android:clickable="true"
+                android:elevation="16dp"
+                android:focusable="true"
+                android:visibility="visible"
+                app:pressedTranslationZ="12dp"
+                android:contentDescription="CIAO"
+                app:icon="@drawable/ic_plus_fab"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

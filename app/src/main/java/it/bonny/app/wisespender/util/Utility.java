@@ -3,9 +3,6 @@ package it.bonny.app.wisespender.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-
-import androidx.appcompat.content.res.AppCompatResources;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -13,7 +10,6 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -287,10 +283,20 @@ public class Utility {
         return format.parse(d);
     }
 
-    public String getDateToShowInPage(String d, Activity activity) {
+    public String getDateToShowInPage(String d) {
         try {
             Date date = convertStringInDate(d);
-            return new SimpleDateFormat("EEEE, d MMM", Locale.getDefault()).format(date);
+            d = new SimpleDateFormat("EEEE, d MMM", Locale.getDefault()).format(date);
+        }catch (Exception e) {
+            //TODO: Firebase
+        }
+        return d;
+    }
+
+    public String getTimeToShowInPage(String d) {
+        try {
+            Date date = convertStringInDate(d);
+            d = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(date);
         }catch (Exception e) {
             //TODO: Firebase
         }

@@ -23,12 +23,10 @@ import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 
 import it.bonny.app.wisespender.R;
@@ -46,6 +44,7 @@ public class TransactionActivity extends AppCompatActivity {
     private final Context context = this;
     private final Utility utility = new Utility();
     private int accountSelectedPos, categorySelectedPos = -1;
+    private int oldAmount = 0;
 
     private LinearLayout btnExpense, btnIncome;
     private TextView dateTransaction, countNameTransaction, countNoteTransaction;
@@ -73,12 +72,13 @@ public class TransactionActivity extends AppCompatActivity {
             CategoryBean categoryBean = db.getCategoryBean(transactionBean.getIdCategory());
             accountBeanSelected = db.getAccountBean(transactionBean.getIdAccount());
             db.closeDB();
+            oldAmount = transactionBean.getAmount();
 
             iconAccount.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(), utility.getIdIconByAccountBean(accountBeanSelected)));
             nameAccount.setText(accountBeanSelected.getName());
             changeTypeTransaction(transactionBean.getTypeTransaction() == TypeObjectBean.TRANSACTION_EXPENSE, true);
             nameTransaction.setText(transactionBean.getTitle());
-            amountTransaction.setText(utility.formatNumberCurrency(utility.convertIntInEditTextValue(transactionBean.getAmount()).toString()));
+            amountTransaction.setText(String.valueOf(utility.convertIntInEditTextValue(transactionBean.getAmount())));
             noteTransaction.setText(transactionBean.getNote());
             countNameTransaction.setText(getCountCharacter(nameTransaction, 100));
             countNoteTransaction.setText(getCountCharacter(noteTransaction, 300));
@@ -194,7 +194,6 @@ public class TransactionActivity extends AppCompatActivity {
                 intent.putExtra("id", transactionBean.getIdCategory());
             openSomeActivityForResult(intent);
         });
-
         btnReturn.setOnClickListener(view -> finish());
 
         buttonSave.setOnClickListener(view -> {
@@ -234,14 +233,27 @@ public class TransactionActivity extends AppCompatActivity {
             if(!isError) {
                 String result;
                 try {
-                    db.insertTransactionBean(transactionBean);
                     AccountBean accountBean = db.getAccountBean(transactionBean.getIdAccount());
-                    if(transactionBean.getTypeTransaction() == TypeObjectBean.TRANSACTION_INCOME) {
-                        int totMoneyIncome = accountBean.getTotMoneyIncome() + transactionBean.getAmount();
-                        accountBean.setTotMoneyIncome(totMoneyIncome);
+                    db.closeDB();
+                    if(transactionBean.getId() > 0) {
+                        db.updateTransactionBean(transactionBean);
+                        if(transactionBean.getTypeTransaction() == TypeObjectBean.TRANSACTION_INCOME) {
+                            int totMoneyIncome = (accountBean.getTotMoneyIncome() - oldAmount) + transactionBean.getAmount();
+                            accountBean.setTotMoneyIncome(totMoneyIncome);
+                        }else {
+                            int totMoneyExpense = (accountBean.getTotMoneyExpense() - oldAmount) + transactionBean.getAmount();
+                            accountBean.setTotMoneyExpense(totMoneyExpense);
+                        }
                     }else {
-                        int totMoneyExpense = accountBean.getTotMoneyExpense() + transactionBean.getAmount();
-                        accountBean.setTotMoneyExpense(totMoneyExpense);
+                        db.insertTransactionBean(transactionBean);
+                        db.closeDB();
+                        if(transactionBean.getTypeTransaction() == TypeObjectBean.TRANSACTION_INCOME) {
+                            int totMoneyIncome = accountBean.getTotMoneyIncome() + transactionBean.getAmount();
+                            accountBean.setTotMoneyIncome(totMoneyIncome);
+                        }else {
+                            int totMoneyExpense = accountBean.getTotMoneyExpense() + transactionBean.getAmount();
+                            accountBean.setTotMoneyExpense(totMoneyExpense);
+                        }
                     }
                     db.updateAccountBean(accountBean);
                     db.closeDB();
