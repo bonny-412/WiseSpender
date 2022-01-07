@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private AccountBean accountBeanSelected;
     private BottomSheetAccount bottomSheetAccount;
     private ListView listTransactions;
-    private TextView listTransactionsEmpty;
+    private ImageView listTransactionsEmpty;
     private ExtendedFloatingActionButton btnNewTransaction;
     private List<TransactionBean> transactionBeanList;
 
@@ -173,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
         if(transactionBeanList != null && transactionBeanList.size() > 0) {
             listTransactions.setVisibility(View.VISIBLE);
             listTransactionsEmpty.setVisibility(View.GONE);
-            ListTransactionsAdapter listTransactionsAdapter = new ListTransactionsAdapter(transactionBeanList, activity);
+            ListTransactionsAdapter listTransactionsAdapter = new ListTransactionsAdapter(transactionBeanList, activity, true);
             listTransactions.setAdapter(listTransactionsAdapter);
             listTransactionsAdapter.notifyDataSetChanged();
         }else {

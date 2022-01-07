@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -322,6 +324,70 @@ public class Utility {
         bean.setDateA(sharedPreferences.getString("dateA", ""));
 
         return bean;
+    }
+
+    public List<String> getWeekToListTransaction(Calendar c, int weekStartDay, SimpleDateFormat dateFormat) {
+        //TODO: Gestire inizio settimana dal bean delle impostazioni
+        List<String> strings = new ArrayList<>();
+        List<String> output = new ArrayList<>();
+        if(weekStartDay == TypeObjectBean.WEEK_START_MONDAY) {
+            switch(c.get(Calendar.DAY_OF_WEEK)) {
+                case Calendar.MONDAY:
+                    c.add(Calendar.DATE, -1);
+                    break;
+                case Calendar.TUESDAY:
+                    c.add(Calendar.DATE, 1);
+                    break;
+                case Calendar.WEDNESDAY:
+                    c.add(Calendar.DATE, -2);
+                    break;
+                case Calendar.THURSDAY:
+                    c.add(Calendar.DATE, -3);
+                    break;
+                case Calendar.FRIDAY:
+                    c.add(Calendar.DATE, -4);
+                    break;
+                case Calendar.SATURDAY:
+                    c.add(Calendar.DATE, -5);
+                    break;
+                case Calendar.SUNDAY:
+                    break;
+            }
+        }else if(weekStartDay == TypeObjectBean.WEEK_START_SUNDAY) {
+            switch(c.get(Calendar.DAY_OF_WEEK)) {
+                case Calendar.SUNDAY:
+                    c.add(Calendar.DATE, -1);
+                    break;
+                case Calendar.MONDAY:
+                    break;
+                case Calendar.TUESDAY:
+                    c.add(Calendar.DATE,-2);
+                    break;
+                case Calendar.WEDNESDAY:
+                    c.add(Calendar.DATE, -3);
+                    break;
+                case Calendar.THURSDAY:
+                    c.add(Calendar.DATE,-4);
+                    break;
+                case Calendar.FRIDAY:
+                    c.add(Calendar.DATE,-5);
+                    break;
+                case Calendar.SATURDAY:
+                    c.add(Calendar.DATE,-6);
+                    break;
+            }
+        }
+
+        output.add(dateFormat.format(c.getTime()));
+        for(int x = 1; x < 7; x++) {
+            c.add(Calendar.DATE, 1);
+            output.add(dateFormat.format(c.getTime()));
+        }
+
+        strings.add(output.get(0) + " 00:00");
+        strings.add(output.get(output.size() - 1) + " 23:59");
+
+        return strings;
     }
 
 }

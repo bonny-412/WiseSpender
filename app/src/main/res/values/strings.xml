@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WiseSpender</string>
+    <string name="app_name">Spender</string>
 
     <!-- Bottom Navigation Menu -->
     <string name="title_home_menu">Home</string>
@@ -114,12 +114,13 @@
     <string name="title_page_list_transaction">Transactions</string>
     <string name="all_type_transaction">All</string>
     <string name="title_bottom_sheet_transaction">Choose time interval</string>
-    <string name="title_filter_date_today">Today</string>
-    <string name="title_filter_date_week">This week</string>
-    <string name="title_filter_date_month">This month</string>
-    <string name="title_filter_date_year">This year</string>
+    <string name="title_filter_date_today">Day</string>
+    <string name="title_filter_date_week">Week</string>
+    <string name="title_filter_date_month">Month</string>
+    <string name="title_filter_date_year">Year</string>
     <string name="title_filter_date_all">All</string>
     <string name="title_filter_date_custom">Personalized</string>
     <string name="alert_delete_transaction_title">Are you sure you want to delete this transaction?</string>
+    <string name="title_date_range_picker">SELECT INTERVAL</string>
 
 </resources>

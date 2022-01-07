@@ -34,12 +34,8 @@ public class BottomSheetTransaction extends BottomSheetDialogFragment {
         init();
         changeFilter(filterType, true);
 
-        containerToday.setOnClickListener(view -> changeFilter(TypeObjectBean.FILTER_DATE_TODAY, false));
-        containerWeek.setOnClickListener(view -> changeFilter(TypeObjectBean.FILTER_DATE_WEEK, false));
-        containerMonth.setOnClickListener(view -> changeFilter(TypeObjectBean.FILTER_DATE_MONTH, false));
-        containerYear.setOnClickListener(view -> changeFilter(TypeObjectBean.FILTER_DATE_YEAR, false));
-        containerAll.setOnClickListener(view -> changeFilter(TypeObjectBean.FILTER_DATE_ALL, false));
-        containerCustom.setOnClickListener(view -> changeFilter(TypeObjectBean.FILTER_DATE_CUSTOM, false));
+        containerToday.setOnClickListener(view -> changeFilter(TypeObjectBean.FILTER_DATE_DAY, false));
+        containerWeek.setOnClickListener(view -> changeFilter(TypeObjectBean.FILTER_DATE_RANGE, false));
 
         return view;
     }
@@ -69,18 +65,10 @@ public class BottomSheetTransaction extends BottomSheetDialogFragment {
         radioButtonYear.setVisibility(View.GONE);
         radioButtonAll.setVisibility(View.GONE);
         radioButtonCustom.setVisibility(View.GONE);
-        if(filterType == TypeObjectBean.FILTER_DATE_TODAY) {
+        if(filterType == TypeObjectBean.FILTER_DATE_DAY) {
             radioButtonToday.setVisibility(View.VISIBLE);
-        }else if(filterType == TypeObjectBean.FILTER_DATE_WEEK) {
+        }else if(filterType == TypeObjectBean.FILTER_DATE_RANGE) {
             radioButtonWeek.setVisibility(View.VISIBLE);
-        }else if(filterType == TypeObjectBean.FILTER_DATE_MONTH) {
-            radioButtonMonth.setVisibility(View.VISIBLE);
-        }else if(filterType == TypeObjectBean.FILTER_DATE_YEAR) {
-            radioButtonYear.setVisibility(View.VISIBLE);
-        }else if(filterType == TypeObjectBean.FILTER_DATE_ALL) {
-            radioButtonAll.setVisibility(View.VISIBLE);
-        }else if(filterType == TypeObjectBean.FILTER_DATE_CUSTOM) {
-            radioButtonCustom.setVisibility(View.VISIBLE);
         }
 
         if(!isOpen)

@@ -1,5 +1,6 @@
 package it.bonny.app.wisespender.db;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -11,6 +12,7 @@ import java.util.List;
 
 import it.bonny.app.wisespender.bean.AccountBean;
 import it.bonny.app.wisespender.bean.CategoryBean;
+import it.bonny.app.wisespender.bean.FilterTransactionBean;
 import it.bonny.app.wisespender.bean.TransactionBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
 
@@ -153,6 +155,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Getting single Account
      */
+    @SuppressLint("Range")
     public AccountBean getAccountBean(long account_id) {
         SQLiteDatabase db = this.getReadableDatabase();
         AccountBean accountBean = null;
@@ -180,6 +183,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Getting all Accounts
      */
+    @SuppressLint("Range")
     public List<AccountBean> getAllAccountBeans() {
         List<AccountBean> accountBeans = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + AccountBean.TABLE;
@@ -208,6 +212,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Getting all Account no master
      */
+    @SuppressLint("Range")
     public List<AccountBean> getAllAccountBeansNoMaster() {
         List<AccountBean> accountBeans = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + AccountBean.TABLE + " a WHERE a." + AccountBean.KEY_IS_MASTER + " = " + TypeObjectBean.NO_MASTER;
@@ -236,6 +241,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Getting first Account no master
      */
+    @SuppressLint("Range")
     public List<AccountBean> getFirstAccountBeanNoMaster() {
         List<AccountBean> accountBeans = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + AccountBean.TABLE + " a WHERE a." + AccountBean.KEY_IS_MASTER + " = " + TypeObjectBean.NO_MASTER
@@ -265,6 +271,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Getting single Account
      */
+    @SuppressLint("Range")
     public AccountBean getAccountBeanSelected() {
         SQLiteDatabase db = this.getReadableDatabase();
         AccountBean accountBean = null;
@@ -335,6 +342,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Getting single Category
      */
+    @SuppressLint("Range")
     public CategoryBean getCategoryBean(long categoryId) {
         SQLiteDatabase db = this.getReadableDatabase();
         CategoryBean categoryBean = null;
@@ -356,6 +364,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Getting single Category
      */
+    @SuppressLint("Range")
     public CategoryBean getCategoryBeanOpeningBalance() {
         SQLiteDatabase db = this.getReadableDatabase();
         CategoryBean categoryBean = null;
@@ -377,6 +386,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Getting all Categories
      */
+    @SuppressLint("Range")
     public List<CategoryBean> getAllCategoryBeans() {
         List<CategoryBean> categoryBeans = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + CategoryBean.TABLE + " c WHERE c." + CategoryBean.KEY_TYPE_CATEGORY + " != " + TypeObjectBean.CATEGORY_OPEN_BALANCE + " ORDER BY c." + CategoryBean.KEY_NAME + " DESC";
@@ -399,6 +409,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Getting all Categories
      */
+    @SuppressLint("Range")
     public List<CategoryBean> getAllCategoryBeansToTypeCategory(int typeCategory) {
         List<CategoryBean> categoryBeans = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + CategoryBean.TABLE + " c WHERE c." + CategoryBean.KEY_TYPE_CATEGORY + " = " + typeCategory + " ORDER BY c." + CategoryBean.KEY_ID + " DESC";
@@ -472,6 +483,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Getting single Transaction
      */
+    @SuppressLint("Range")
     public TransactionBean getTransactionBean(long transactionId) {
         SQLiteDatabase db = this.getReadableDatabase();
         TransactionBean transactionBean = null;
@@ -497,6 +509,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Getting all Transactions by TypeTransaction
      */
+    @SuppressLint("Range")
     public List<TransactionBean> getAllTransactionBeansToTypeTransaction(int typeTransaction) {
         List<TransactionBean> transactionBeans = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t WHERE t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + typeTransaction + " ORDER BY t." + TransactionBean.KEY_ID + " DESC";
@@ -523,6 +536,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Getting all Transactions by Account
      */
+    @SuppressLint("Range")
     public List<TransactionBean> getAllTransactionBeansByAccount(long idAccount) {
         List<TransactionBean> transactionBeans = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t WHERE t." + TransactionBean.KEY_ID_ACCOUNT + " = " + idAccount + " ORDER BY t." + TransactionBean.KEY_ID + " DESC";
@@ -549,6 +563,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Getting all Transactions by Category
      */
+    @SuppressLint("Range")
     public List<TransactionBean> getAllTransactionBeansByCategory(long idCategory) {
         List<TransactionBean> transactionBeans = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t WHERE t." + TransactionBean.KEY_ID_CATEGORY + " = " + idCategory + " ORDER BY t." + TransactionBean.KEY_ID + " DESC";
@@ -575,6 +590,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Getting all Transactions by TypeTransaction, IdAccount
      */
+    @SuppressLint("Range")
     public TransactionBean getAllTransactionBeansByTypeTransactionIdAccount(int typeTransaction, long idAccount) {
         TransactionBean transactionBean = null;
         String selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t WHERE t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " +
@@ -601,6 +617,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Getting all Transactions To MainActivity
      */
+    @SuppressLint("Range")
     public List<TransactionBean> getAllTransactionBeansToMainActivity(AccountBean accountBeanSelected) {
         List<TransactionBean> transactionBeans = new ArrayList<>();
         String selectQuery;
@@ -614,16 +631,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor c = db.rawQuery(selectQuery, null);
         if (c.moveToFirst()) {
             do {
-                TransactionBean transactionBean = new TransactionBean();
-                transactionBean.setId(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID))));
-                transactionBean.setTitle(c.getString(c.getColumnIndex(TransactionBean.KEY_TITLE)));
-                transactionBean.setAmount(c.getInt(c.getColumnIndex(TransactionBean.KEY_AMOUNT)));
-                transactionBean.setDateInsert(c.getString(c.getColumnIndex(TransactionBean.KEY_DATE_INSERT)));
-                transactionBean.setNote(c.getString(c.getColumnIndex(TransactionBean.KEY_NOTE)));
-                transactionBean.setTypeTransaction(c.getInt(c.getColumnIndex(TransactionBean.KEY_TYPE_TRANSACTION)));
-                transactionBean.setIdAccount(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_ACCOUNT))));
-                transactionBean.setIdCategory(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_CATEGORY))));
-                transactionBeans.add(transactionBean);
+                int amount = c.getInt(c.getColumnIndex(TransactionBean.KEY_AMOUNT));
+                if(amount > 0) {
+                    TransactionBean transactionBean = new TransactionBean();
+                    transactionBean.setId(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID))));
+                    transactionBean.setTitle(c.getString(c.getColumnIndex(TransactionBean.KEY_TITLE)));
+                    transactionBean.setAmount(amount);
+                    transactionBean.setDateInsert(c.getString(c.getColumnIndex(TransactionBean.KEY_DATE_INSERT)));
+                    transactionBean.setNote(c.getString(c.getColumnIndex(TransactionBean.KEY_NOTE)));
+                    transactionBean.setTypeTransaction(c.getInt(c.getColumnIndex(TransactionBean.KEY_TYPE_TRANSACTION)));
+                    transactionBean.setIdAccount(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_ACCOUNT))));
+                    transactionBean.setIdCategory(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_CATEGORY))));
+                    transactionBeans.add(transactionBean);
+                }
             } while (c.moveToNext());
         }
         c.close();
@@ -631,24 +651,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Getting all Transactions by filter Date
+     * Getting all Transactions by filter bean
      */
-    public List<TransactionBean> getAllTransactionBeansByDateInsert(String dateFrom, String dateA, int typeTransaction, long idAccount, long idCategory) {
+    @SuppressLint("Range")
+    public List<TransactionBean> getAllTransactionBeansByFilterBean(AccountBean accountBeanSelected, FilterTransactionBean bean, String dateFrom, String dateA) {
         List<TransactionBean> transactionBeans = new ArrayList<>();
-        String selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t WHERE t." + TransactionBean.KEY_DATE_INSERT + " BETWEEN '" + dateFrom + "' AND '" + dateA +
-                "'";
-        if(typeTransaction == TypeObjectBean.TRANSACTION_INCOME) {
-            selectQuery += " AND t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + TypeObjectBean.TRANSACTION_INCOME + " OR t." +
-                    TransactionBean.KEY_TYPE_TRANSACTION + " = " + TypeObjectBean.TRANSACTION_OPEN_BALANCE;
-        }else if(typeTransaction == TypeObjectBean.TRANSACTION_EXPENSE) {
+
+        String selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t WHERE t." + TransactionBean.KEY_DATE_INSERT + " BETWEEN '" + dateFrom + "' AND '" + dateA + "'";
+
+        if(bean.getFilterTypeTransaction() == TypeObjectBean.TRANSACTION_INCOME) {
+            selectQuery += " AND (t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + TypeObjectBean.TRANSACTION_INCOME + " OR t." +
+                    TransactionBean.KEY_TYPE_TRANSACTION + " = " + TypeObjectBean.TRANSACTION_OPEN_BALANCE + ")";
+        }else if(bean.getFilterTypeTransaction() == TypeObjectBean.TRANSACTION_EXPENSE) {
             selectQuery += " AND t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + TypeObjectBean.TRANSACTION_EXPENSE;
         }
 
-        if(idAccount > 0) {
-            selectQuery += " AND t." + TransactionBean.KEY_ID_ACCOUNT + " = " + idAccount;
-        }
-        if(idCategory > 0) {
-            selectQuery += " AND t." + TransactionBean.KEY_ID_CATEGORY + " = " + idCategory;
+        if(accountBeanSelected != null && accountBeanSelected.getIsMaster() == TypeObjectBean.NO_MASTER) {
+            selectQuery += " AND t." + TransactionBean.KEY_ID_ACCOUNT + " = " + accountBeanSelected.getId();
         }
 
         selectQuery += " ORDER BY t." + TransactionBean.KEY_ID + " DESC";
@@ -656,16 +675,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor c = db.rawQuery(selectQuery, null);
         if (c.moveToFirst()) {
             do {
-                TransactionBean transactionBean = new TransactionBean();
-                transactionBean.setId(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID))));
-                transactionBean.setTitle(c.getString(c.getColumnIndex(TransactionBean.KEY_TITLE)));
-                transactionBean.setAmount(c.getInt(c.getColumnIndex(TransactionBean.KEY_AMOUNT)));
-                transactionBean.setDateInsert(c.getString(c.getColumnIndex(TransactionBean.KEY_DATE_INSERT)));
-                transactionBean.setNote(c.getString(c.getColumnIndex(TransactionBean.KEY_NOTE)));
-                transactionBean.setTypeTransaction(c.getInt(c.getColumnIndex(TransactionBean.KEY_TYPE_TRANSACTION)));
-                transactionBean.setIdAccount(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_ACCOUNT))));
-                transactionBean.setIdCategory(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_CATEGORY))));
-                transactionBeans.add(transactionBean);
+                int amount = c.getInt(c.getColumnIndex(TransactionBean.KEY_AMOUNT));
+                if(amount > 0) {
+                    TransactionBean transactionBean = new TransactionBean();
+                    transactionBean.setId(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID))));
+                    transactionBean.setTitle(c.getString(c.getColumnIndex(TransactionBean.KEY_TITLE)));
+                    transactionBean.setAmount(amount);
+                    transactionBean.setDateInsert(c.getString(c.getColumnIndex(TransactionBean.KEY_DATE_INSERT)));
+                    transactionBean.setNote(c.getString(c.getColumnIndex(TransactionBean.KEY_NOTE)));
+                    transactionBean.setTypeTransaction(c.getInt(c.getColumnIndex(TransactionBean.KEY_TYPE_TRANSACTION)));
+                    transactionBean.setIdAccount(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_ACCOUNT))));
+                    transactionBean.setIdCategory(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_CATEGORY))));
+                    transactionBeans.add(transactionBean);
+                }
             } while (c.moveToNext());
         }
         c.close();

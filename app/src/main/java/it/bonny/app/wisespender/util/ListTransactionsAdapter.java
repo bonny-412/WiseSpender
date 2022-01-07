@@ -2,6 +2,8 @@ package it.bonny.app.wisespender.util;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.google.android.material.card.MaterialCardView;
 
@@ -30,10 +33,13 @@ public class ListTransactionsAdapter extends ArrayAdapter<TransactionBean>  {
     private final List<TransactionBean> transactionBeanList;
     private final Activity activity;
     private final Utility utility = new Utility();
-    public ListTransactionsAdapter(List<TransactionBean> transactionBeanList, Activity activity) {
+    private final boolean isMainActivity;
+
+    public ListTransactionsAdapter(List<TransactionBean> transactionBeanList, Activity activity, boolean isMainActivity) {
         super(activity, R.layout.item_list_transactions,transactionBeanList);
         this.transactionBeanList = transactionBeanList;
         this.activity = activity;
+        this.isMainActivity = isMainActivity;
     }
 
     @Override
@@ -50,6 +56,10 @@ public class ListTransactionsAdapter extends ArrayAdapter<TransactionBean>  {
             }
             DatabaseHelper db = new DatabaseHelper(activity.getApplicationContext());
             CategoryBean categoryBean = db.getCategoryBean(transactionBeanList.get(position).getIdCategory());
+
+            if(!isMainActivity) {
+                holder.cardViewIcon.setCardBackgroundColor(ResourcesCompat.getColor(activity.getResources(), R.color.background, null));
+            }
 
             holder.iconCategory.setImageDrawable(AppCompatResources.getDrawable(activity, utility.getIdIconByCategoryBean(categoryBean)));
             holder.nameCategory.setText(categoryBean.getName());
@@ -76,6 +86,7 @@ public class ListTransactionsAdapter extends ArrayAdapter<TransactionBean>  {
     private static class ViewHolder {
         private final AppCompatImageView iconCategory;
         private final TextView nameCategory, titleTransaction, amountTransaction, dateTransaction;
+        private final MaterialCardView cardViewIcon;
 
         ViewHolder(View v) {
             iconCategory = v.findViewById(R.id.iconCategory);
@@ -83,6 +94,7 @@ public class ListTransactionsAdapter extends ArrayAdapter<TransactionBean>  {
             titleTransaction = v.findViewById(R.id.titleTransaction);
             amountTransaction = v.findViewById(R.id.amountTransaction);
             dateTransaction = v.findViewById(R.id.dateTransaction);
+            cardViewIcon = v.findViewById(R.id.cardViewIcon);
         }
     }
 }

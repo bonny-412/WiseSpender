@@ -34,9 +34,9 @@
                 android:layout_height="match_parent"
                 android:gravity="center">
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_arrow_back"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_close"
                     android:tint="@color/primary_text"
                     android:hint="@string/come_back"
                     app:iconGravity="textStart"
@@ -175,18 +175,19 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"
+            android:padding="5dp"
             />
-        <TextView
-            android:id="@+id/textEmptyList"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_list"
-            android:textColor="@color/secondary_text"
-            app:layout_constraintStart_toStartOf="parent"
+        <ImageView
+            android:id="@+id/imgListEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:visibility="gone"/>
+            app:layout_constraintStart_toStartOf="parent"
+            android:contentDescription="@string/empty_list"
+            android:src="@drawable/ic_list_empty"
+            android:padding="50dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,12 +22,11 @@ public class TypeObjectBean {
     public static final int TRANSACTION_EXPENSE = 1;
     public static final int TRANSACTION_OPEN_BALANCE = 2;
 
-    public static final int FILTER_DATE_TODAY = 0;
-    public static final int FILTER_DATE_WEEK = 1;
-    public static final int FILTER_DATE_MONTH = 2;
-    public static final int FILTER_DATE_YEAR = 3;
-    public static final int FILTER_DATE_ALL = 4;
-    public static final int FILTER_DATE_CUSTOM = 5;
+    public static final int FILTER_DATE_DAY = 0;
+    public static final int FILTER_DATE_RANGE = 1;
+
+    public static final int WEEK_START_MONDAY = 0;
+    public static final int WEEK_START_SUNDAY = 1;
 
     public TypeObjectBean() {}
 

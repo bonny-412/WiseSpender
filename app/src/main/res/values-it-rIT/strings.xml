@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">WiseSpender</string>
+    <string name="app_name">Spendaccione</string>
     <string name="title_home_menu">Home</string>
     <string name="title_statistics_menu">Statistiche</string>
     <string name="title_transaction_menu">Transazioni</string>
@@ -92,12 +92,13 @@
     <string name="title_page_list_transaction">Transazioni</string>
     <string name="all_type_transaction">Tutto</string>
     <string name="title_bottom_sheet_transaction">Scegli intervallo di tempo</string>
-    <string name="title_filter_date_today">Oggi</string>
-    <string name="title_filter_date_week">Questa settimana</string>
-    <string name="title_filter_date_month">Questo mese</string>
-    <string name="title_filter_date_year">Quest\'anno</string>
+    <string name="title_filter_date_today">Giorno</string>
+    <string name="title_filter_date_week">Settimana</string>
+    <string name="title_filter_date_month">Mese</string>
+    <string name="title_filter_date_year">Anno</string>
     <string name="title_filter_date_all">Tutto</string>
     <string name="title_filter_date_custom">Personalizzato</string>
     <string name="alert_delete_transaction_title">Sei sicuro di voler eliminare questa transazione?</string>
     <string name="time_title_detail_transaction">Ora</string>
+    <string name="title_date_range_picker">SELEZIONA INTERVALLO</string>
 </resources>
