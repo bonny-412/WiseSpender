@@ -625,7 +625,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t WHERE t." + TransactionBean.KEY_ID_ACCOUNT + " = " + accountBeanSelected.getId() +
                     " ORDER BY t." + TransactionBean.KEY_ID + " DESC LIMIT 7";
         }else {
-            selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t ORDER BY t." + TransactionBean.KEY_DATE_INSERT + " DESC LIMIT 7";
+            selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t ORDER BY t." + TransactionBean.KEY_ID + " DESC LIMIT 7";
         }
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
@@ -654,7 +654,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * Getting all Transactions by filter bean
      */
     @SuppressLint("Range")
-    public List<TransactionBean> getAllTransactionBeansByFilterBean(AccountBean accountBeanSelected, FilterTransactionBean bean, String dateFrom, String dateA) {
+    public List<TransactionBean> getAllTransactionBeansByFilterBean(AccountBean accountBeanSelected, FilterTransactionBean bean, String dateFrom, String dateA, long lastId) {
         List<TransactionBean> transactionBeans = new ArrayList<>();
 
         String selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t WHERE t." + TransactionBean.KEY_DATE_INSERT + " BETWEEN '" + dateFrom + "' AND '" + dateA + "'";
@@ -670,7 +670,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             selectQuery += " AND t." + TransactionBean.KEY_ID_ACCOUNT + " = " + accountBeanSelected.getId();
         }
 
-        selectQuery += " ORDER BY t." + TransactionBean.KEY_ID + " DESC";
+        if(lastId > 0)
+            selectQuery += " AND t." + TransactionBean.KEY_ID + " < " + lastId;
+
+        selectQuery += " ORDER BY t." + TransactionBean.KEY_ID + " DESC LIMIT 10";
+
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
         if (c.moveToFirst()) {

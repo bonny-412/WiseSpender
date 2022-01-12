@@ -56,6 +56,7 @@ public class ListTransactionsAdapter extends ArrayAdapter<TransactionBean>  {
             }
             DatabaseHelper db = new DatabaseHelper(activity.getApplicationContext());
             CategoryBean categoryBean = db.getCategoryBean(transactionBeanList.get(position).getIdCategory());
+            db.closeDB();
 
             if(!isMainActivity) {
                 holder.cardViewIcon.setCardBackgroundColor(ResourcesCompat.getColor(activity.getResources(), R.color.background, null));

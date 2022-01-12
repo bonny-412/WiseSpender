@@ -33,9 +33,9 @@
                 android:layout_height="match_parent"
                 android:gravity="center">
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_arrow_back"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_close"
                     android:tint="@color/primary_text"
                     android:hint="@string/come_back"
                     app:iconGravity="textStart"
@@ -59,491 +59,500 @@
             android:textSize="20sp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
-        android:id="@+id/linear1"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/materialCardView"
+        android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@+id/linearToolbar"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:background="@color/transparent"
-        android:gravity="center"
-        android:layout_marginTop="0dp"
-        android:elevation="10dp"
-        >
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/containerIconTypeTransaction"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="100dp"
-            android:padding="5dp"
-            app:cardBackgroundColor="@color/background_card">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center">
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/iconTypeTransaction"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"/>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-    </LinearLayout>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/materialCardView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/background_card"
-        app:layout_constraintTop_toBottomOf="@+id/linear1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="0dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="-36dp">
+        app:layout_constraintBottom_toBottomOf="parent">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/containerInfoTransaction"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/linear1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/materialCardView"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="36dp"
-                android:padding="10dp">
-
-                <TextView
-                    android:id="@+id/titleTransaction"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/primary_text"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:textSize="16sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/containerDateTransaction"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/titleTransaction"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginTop="20dp">
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@color/transparent"
+                android:gravity="center"
+                android:layout_marginTop="0dp"
+                android:elevation="10dp"
+                >
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/containerIconTypeTransaction"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    app:cardElevation="4dp"
+                    app:cardCornerRadius="100dp"
+                    android:padding="5dp"
+                    app:cardBackgroundColor="@color/background_card">
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:orientation="horizontal"
+                        android:layout_height="match_parent"
                         android:gravity="center">
-                        <TextView
-                            android:id="@+id/dateTitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/secondary_text"
-                            android:layout_marginStart="10dp"
-                            android:gravity="start"
-                            android:layout_weight="1"
-                            android:text="@string/date_title_detail_transaction" />
-                        <TextView
-                            android:id="@+id/dateTransaction"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/primary_text"
-                            android:textSize="16sp"
-                            android:gravity="end"
-                            android:layout_weight="3"/>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/iconTypeTransaction"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:transitionName="imageViewIconTransaction"/>
                     </LinearLayout>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-                <View
-                    android:id="@+id/separatorDateTransaction"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/tertiary_text"
-                    android:layout_marginTop="5dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/containerDateTransaction"/>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/containerTimeTransaction"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/separatorDateTransaction"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginTop="20dp">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:orientation="horizontal"
-                        android:gravity="center">
-                        <TextView
-                            android:id="@+id/timeTitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/secondary_text"
-                            android:layout_marginStart="10dp"
-                            android:gravity="start"
-                            android:layout_weight="1"
-                            android:text="@string/time_title_detail_transaction" />
-                        <TextView
-                            android:id="@+id/timeTransaction"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/primary_text"
-                            android:textSize="16sp"
-                            android:gravity="end"
-                            android:layout_weight="3"/>
-                    </LinearLayout>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-                <View
-                    android:id="@+id/separatorTimeTransaction"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/tertiary_text"
-                    android:layout_marginTop="5dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/containerTimeTransaction"/>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/containerTypeTransaction"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/separatorTimeTransaction"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginTop="10dp">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:orientation="horizontal"
-                        android:gravity="center">
-                        <TextView
-                            android:id="@+id/typeTitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/secondary_text"
-                            android:layout_weight="1"
-                            android:gravity="start"
-                            android:layout_marginStart="10dp"
-                            android:text="@string/type_title_detail_transaction" />
-                        <TextView
-                            android:id="@+id/typeTransaction"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/primary_text"
-                            android:textSize="16sp"
-                            android:layout_weight="3"
-                            android:gravity="end"/>
-                    </LinearLayout>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <View
-                    android:id="@+id/separatorTypeTransaction"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/tertiary_text"
-                    android:layout_marginTop="5dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/containerTypeTransaction"/>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/containerAccountTransaction"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/separatorTypeTransaction"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginTop="10dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:orientation="horizontal"
-                        android:gravity="center">
-                        <TextView
-                            android:id="@+id/accountTitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/secondary_text"
-                            android:layout_weight="1"
-                            android:gravity="start"
-                            android:layout_marginStart="10dp"
-                            android:text="@string/account_title_detail_transaction" />
-                        <TextView
-                            android:id="@+id/accountTransaction"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/primary_text"
-                            android:layout_weight="3"
-                            android:gravity="end"
-                            android:textSize="16sp"/>
-                    </LinearLayout>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <View
-                    android:id="@+id/separatorAccountTransaction"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/tertiary_text"
-                    android:layout_marginTop="5dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/containerAccountTransaction"/>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/containerCategoryTransaction"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/separatorAccountTransaction"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginTop="10dp">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:orientation="horizontal"
-                        android:gravity="center">
-                        <TextView
-                            android:id="@+id/categoryTitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/secondary_text"
-                            android:layout_weight="1"
-                            android:gravity="start"
-                            android:layout_marginStart="10dp"
-                            android:text="@string/category_title_detail_transaction" />
-                        <TextView
-                            android:id="@+id/categoryTransaction"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/primary_text"
-                            android:layout_weight="3"
-                            android:gravity="end"
-                            android:textSize="16sp"/>
-                    </LinearLayout>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <View
-                    android:id="@+id/separatorCategoryTransaction"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/tertiary_text"
-                    android:layout_marginTop="5dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/containerCategoryTransaction"/>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/containerNoteTransaction"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/separatorCategoryTransaction"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:orientation="horizontal"
-                        android:gravity="center">
-                        <TextView
-                            android:id="@+id/noteTitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/secondary_text"
-                            android:layout_weight="1"
-                            android:gravity="start"
-                            android:layout_marginStart="10dp"
-                            android:text="@string/note_title_detail_transaction" />
-                        <TextView
-                            android:id="@+id/noteTransaction"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/primary_text"
-                            android:layout_weight="3"
-                            android:gravity="end"
-                            android:textSize="16sp"/>
-                    </LinearLayout>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/containerLine"
-                android:layout_width="match_parent"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/materialCardView"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
+                app:cardBackgroundColor="@color/background_card"
+                app:layout_constraintTop_toBottomOf="@+id/linear1"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/containerInfoTransaction"
-                android:layout_marginTop="20dp">
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/icon_1"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:src="@drawable/ic_circle"
-                    android:tint="@color/background"
-                    android:elevation="10dp"
-                    android:layout_marginStart="-12dp"/>
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:background="@drawable/line_dashed"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/icon_1"
-                    app:layout_constraintEnd_toStartOf="@id/icon_2"/>
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/icon_2"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:src="@drawable/ic_circle"
-                    android:tint="@color/background"
-                    android:layout_marginEnd="-12dp"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/containerLine"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:paddingBottom="20dp">
-                <TextView
-                    android:id="@+id/amountTitle"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="0dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="-36dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/containerInfoTransaction"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginTop="36dp"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/titleTransaction"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/primary_text"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:textSize="16sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"/>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/containerDateTransaction"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@+id/titleTransaction"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_marginTop="20dp">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                android:orientation="horizontal"
+                                android:gravity="center">
+                                <TextView
+                                    android:id="@+id/dateTitle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/secondary_text"
+                                    android:layout_marginStart="10dp"
+                                    android:gravity="start"
+                                    android:layout_weight="1"
+                                    android:text="@string/date_title_detail_transaction" />
+                                <TextView
+                                    android:id="@+id/dateTransaction"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/primary_text"
+                                    android:textSize="16sp"
+                                    android:gravity="end"
+                                    android:layout_weight="3"/>
+                            </LinearLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                        <View
+                            android:id="@+id/separatorDateTransaction"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/tertiary_text"
+                            android:layout_marginTop="5dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/containerDateTransaction"/>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/containerTimeTransaction"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@+id/separatorDateTransaction"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_marginTop="20dp">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                android:orientation="horizontal"
+                                android:gravity="center">
+                                <TextView
+                                    android:id="@+id/timeTitle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/secondary_text"
+                                    android:layout_marginStart="10dp"
+                                    android:gravity="start"
+                                    android:layout_weight="1"
+                                    android:text="@string/time_title_detail_transaction" />
+                                <TextView
+                                    android:id="@+id/timeTransaction"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/primary_text"
+                                    android:textSize="16sp"
+                                    android:gravity="end"
+                                    android:layout_weight="3"/>
+                            </LinearLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                        <View
+                            android:id="@+id/separatorTimeTransaction"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/tertiary_text"
+                            android:layout_marginTop="5dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/containerTimeTransaction"/>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/containerTypeTransaction"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@+id/separatorTimeTransaction"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_marginTop="10dp">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                android:orientation="horizontal"
+                                android:gravity="center">
+                                <TextView
+                                    android:id="@+id/typeTitle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/secondary_text"
+                                    android:layout_weight="1"
+                                    android:gravity="start"
+                                    android:layout_marginStart="10dp"
+                                    android:text="@string/type_title_detail_transaction" />
+                                <TextView
+                                    android:id="@+id/typeTransaction"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/primary_text"
+                                    android:textSize="16sp"
+                                    android:layout_weight="3"
+                                    android:gravity="end"/>
+                            </LinearLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <View
+                            android:id="@+id/separatorTypeTransaction"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/tertiary_text"
+                            android:layout_marginTop="5dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/containerTypeTransaction"/>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/containerAccountTransaction"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@+id/separatorTypeTransaction"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_marginTop="10dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                android:orientation="horizontal"
+                                android:gravity="center">
+                                <TextView
+                                    android:id="@+id/accountTitle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/secondary_text"
+                                    android:layout_weight="1"
+                                    android:gravity="start"
+                                    android:layout_marginStart="10dp"
+                                    android:text="@string/account_title_detail_transaction" />
+                                <TextView
+                                    android:id="@+id/accountTransaction"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/primary_text"
+                                    android:layout_weight="3"
+                                    android:gravity="end"
+                                    android:textSize="16sp"/>
+                            </LinearLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <View
+                            android:id="@+id/separatorAccountTransaction"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/tertiary_text"
+                            android:layout_marginTop="5dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/containerAccountTransaction"/>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/containerCategoryTransaction"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@+id/separatorAccountTransaction"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_marginTop="10dp">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                android:orientation="horizontal"
+                                android:gravity="center">
+                                <TextView
+                                    android:id="@+id/categoryTitle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/secondary_text"
+                                    android:layout_weight="1"
+                                    android:gravity="start"
+                                    android:layout_marginStart="10dp"
+                                    android:text="@string/category_title_detail_transaction" />
+                                <TextView
+                                    android:id="@+id/categoryTransaction"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/primary_text"
+                                    android:layout_weight="3"
+                                    android:gravity="end"
+                                    android:textSize="16sp"/>
+                            </LinearLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <View
+                            android:id="@+id/separatorCategoryTransaction"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/tertiary_text"
+                            android:layout_marginTop="5dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/containerCategoryTransaction"/>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/containerNoteTransaction"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@+id/separatorCategoryTransaction"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                android:orientation="horizontal"
+                                android:gravity="center">
+                                <TextView
+                                    android:id="@+id/noteTitle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/secondary_text"
+                                    android:layout_weight="1"
+                                    android:gravity="start"
+                                    android:layout_marginStart="10dp"
+                                    android:text="@string/note_title_detail_transaction" />
+                                <TextView
+                                    android:id="@+id/noteTransaction"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/primary_text"
+                                    android:layout_weight="3"
+                                    android:gravity="end"
+                                    android:textSize="16sp"/>
+                            </LinearLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/containerLine"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/containerInfoTransaction"
+                        android:layout_marginTop="20dp">
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/icon_1"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:src="@drawable/ic_circle"
+                            android:tint="@color/background"
+                            android:elevation="10dp"
+                            android:layout_marginStart="-12dp"/>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:background="@drawable/line_dashed"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/icon_1"
+                            app:layout_constraintEnd_toStartOf="@id/icon_2"/>
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/icon_2"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:src="@drawable/ic_circle"
+                            android:tint="@color/background"
+                            android:layout_marginEnd="-12dp"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/containerLine"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:paddingBottom="20dp">
+                        <TextView
+                            android:id="@+id/amountTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/secondary_text"
+                            android:text="@string/amount_title_detail_transaction"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                        <TextView
+                            android:id="@+id/amountTransaction"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/primary_text"
+                            app:layout_constraintStart_toStartOf="@+id/amountTitle"
+                            app:layout_constraintEnd_toEndOf="@+id/amountTitle"
+                            app:layout_constraintTop_toBottomOf="@+id/amountTitle"
+                            android:textSize="20sp"
+                            android:layout_marginTop="5dp"
+                            app:drawableEndCompat="@drawable/ic_euro"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+
+                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                    android:id="@+id/fabViewDelete"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/secondary_text"
-                    android:text="@string/amount_title_detail_transaction"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-                <TextView
-                    android:id="@+id/amountTransaction"
+                    app:layout_constraintBottom_toTopOf="@+id/fabViewEdit"
+                    app:layout_constraintEnd_toEndOf="@+id/fabViewEdit"
+                    app:layout_constraintStart_toStartOf="@+id/fabViewEdit"
+                    android:layout_marginBottom="5dp"
+                    android:clickable="true"
+                    android:elevation="16dp"
+                    android:focusable="true"
+                    android:visibility="gone"
+                    app:backgroundTint="@color/primary"
+                    app:iconTint="@color/background_card"
+                    app:pressedTranslationZ="12dp"
+                    app:maxImageSize="24dp"
+                    android:contentDescription="@string/alert_delete"
+                    app:icon="@drawable/ic_delete" />
+
+
+                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                    android:id="@+id/fabViewEdit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/primary_text"
-                    app:layout_constraintStart_toStartOf="@+id/amountTitle"
-                    app:layout_constraintEnd_toEndOf="@+id/amountTitle"
-                    app:layout_constraintTop_toBottomOf="@+id/amountTitle"
-                    android:textSize="20sp"
-                    android:layout_marginTop="5dp"
-                    app:drawableEndCompat="@drawable/ic_euro"/>
+                    app:layout_constraintBottom_toTopOf="@+id/fabViewPlus"
+                    app:layout_constraintEnd_toEndOf="@+id/fabViewPlus"
+                    app:layout_constraintStart_toStartOf="@+id/fabViewPlus"
+                    android:layout_marginBottom="5dp"
+                    android:clickable="true"
+                    android:elevation="16dp"
+                    android:focusable="true"
+                    android:visibility="gone"
+                    app:maxImageSize="24dp"
+                    app:backgroundTint="@color/primary"
+                    app:iconTint="@color/background_card"
+                    app:pressedTranslationZ="12dp"
+                    android:contentDescription="@string/title_page_edit_transaction"
+                    app:icon="@drawable/ic_edit" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                    android:id="@+id/fabViewPlus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    app:iconTint="@color/background"
+                    app:backgroundTint="@color/primary"
+                    android:clickable="true"
+                    android:elevation="16dp"
+                    android:focusable="true"
+                    android:visibility="visible"
+                    app:pressedTranslationZ="12dp"
+                    android:contentDescription="CIAO"
+                    app:icon="@drawable/ic_plus_fab"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/materialCardView"
+                    android:layout_marginTop="20dp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
-    
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-                android:id="@+id/fabViewDelete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@+id/fabViewEdit"
-                app:layout_constraintEnd_toEndOf="@+id/fabViewEdit"
-                app:layout_constraintStart_toStartOf="@+id/fabViewEdit"
-                android:layout_marginBottom="5dp"
-                android:clickable="true"
-                android:elevation="16dp"
-                android:focusable="true"
-                android:visibility="invisible"
-                app:backgroundTint="@color/background_card"
-                app:iconTint="@color/primary"
-                app:pressedTranslationZ="12dp"
-                app:maxImageSize="24dp"
-                android:contentDescription="@string/alert_delete"
-                app:icon="@drawable/ic_delete" />
+    </ScrollView>
 
 
-            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-                android:id="@+id/fabViewEdit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@+id/fabViewPlus"
-                app:layout_constraintEnd_toEndOf="@+id/fabViewPlus"
-                app:layout_constraintStart_toStartOf="@+id/fabViewPlus"
-                android:layout_marginBottom="5dp"
-                android:clickable="true"
-                android:elevation="16dp"
-                android:focusable="true"
-                android:visibility="invisible"
-                app:maxImageSize="24dp"
-                app:backgroundTint="@color/background_card"
-                app:iconTint="@color/primary"
-                app:pressedTranslationZ="12dp"
-                android:contentDescription="@string/title_page_edit_transaction"
-                app:icon="@drawable/ic_edit" />
-
-            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-                android:id="@+id/fabViewPlus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:iconTint="@color/background"
-                app:backgroundTint="@color/primary"
-                android:clickable="true"
-                android:elevation="16dp"
-                android:focusable="true"
-                android:visibility="visible"
-                app:pressedTranslationZ="12dp"
-                android:contentDescription="CIAO"
-                app:icon="@drawable/ic_plus_fab"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

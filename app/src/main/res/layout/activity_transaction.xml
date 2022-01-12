@@ -33,6 +33,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center">
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imageViewClose"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:src="@drawable/ic_close"
@@ -42,6 +43,7 @@
                     android:layout_margin="16dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:transitionName="fade"
                     />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -75,298 +77,306 @@
         android:layout_marginTop="20dp"
         android:padding="10dp"
         android:orientation="vertical">
-        <LinearLayout
-            android:id="@+id/containerTypeTransaction"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_change_view_background"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:baselineAligned="false"
-            android:gravity="center"
-            android:padding="5dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="20dp">
-            <LinearLayout
-                android:id="@+id/btnExpense"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:padding="5dp"
-                android:gravity="center"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="@drawable/button_change_view_checked_background">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/type_expense"
-                    android:textColor="@color/primary_text"
-                    android:textStyle="normal"
-                    android:textSize="18sp"/>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/btnIncome"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:padding="5dp"
-                android:gravity="center"
-                android:clickable="true"
-                android:focusable="true"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/type_income"
-                    android:textColor="@color/primary_text"
-                    android:textStyle="normal"
-                    android:textSize="18sp"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/containerDateTransaction"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/containerTypeTransaction"
-            android:gravity="center"
-            android:layout_marginTop="10dp">
-            <TextView
-                android:id="@+id/dateTransaction"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:drawableStartCompat="@drawable/ic_baseline_edit_calendar_24"
-                android:textColor="@color/primary_text"
-                android:textSize="16sp"
-                android:drawablePadding="5dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?attr/selectableItemBackground" />
-        </LinearLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/containerNameTransaction"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/containerDateTransaction"
-            android:gravity="center">
-            <EditText
-                android:id="@+id/nameTransaction"
+            android:layout_height="match_parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="50dp"
-                android:ems="10"
-                android:padding="5dp"
-                android:hint="@string/input_text_name_transaction"
-                android:autofillHints="name"
-                android:textSize="14sp"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:background="@drawable/custom_input"
-                android:drawableStart="@drawable/ic_edit"
-                android:drawablePadding="12dp"
-                android:layout_marginTop="10dp"
-                android:maxLength="100"
-                android:textColor="@color/primary_text"
-                android:textColorHint="@color/secondary_text"
-                android:inputType="text"
-                android:imeOptions="actionDone"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
-            <TextView
-                android:id="@+id/countNameTransaction"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/tertiary_text"
-                app:layout_constraintTop_toBottomOf="@+id/nameTransaction"
-                app:layout_constraintEnd_toEndOf="@+id/nameTransaction"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_margin="5dp"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <it.bonny.app.wisespender.util.CurrencyEditText
-            android:id="@+id/amountTransaction"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="50dp"
-            android:layout_marginTop="10dp"
-            android:autofillHints="name"
-            android:maxLength="20"
-            android:background="@drawable/custom_input"
-            android:drawableStart="@drawable/ic_euro"
-            android:drawablePadding="12dp"
-            android:ems="10"
-            android:padding="5dp"
-            android:hint="@string/opening_balance_new_account_input"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:textColor="@color/primary_text"
-            android:textSize="14sp"
-            android:imeOptions="actionDone"
-            app:layout_constraintEnd_toEndOf="@+id/containerNameTransaction"
-            app:layout_constraintStart_toStartOf="@+id/containerNameTransaction"
-            app:layout_constraintTop_toBottomOf="@+id/containerNameTransaction"
-            tools:ignore="SpeakableTextPresentCheck" />
-
-        <LinearLayout
-            android:id="@+id/containerAccountCategory"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/amountTransaction"
-            android:layout_marginTop="10dp">
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/btnAccount"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_weight="1"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="0dp"
-                app:cardBackgroundColor="@color/background_card"
-                android:layout_margin="5dp"
-                android:clickable="true"
-                android:focusable="true">
+                android:layout_height="wrap_content">
                 <LinearLayout
+                    android:id="@+id/containerTypeTransaction"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_change_view_background"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:baselineAligned="false"
                     android:gravity="center"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/custom_input"
-                    android:layout_gravity="center">
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/iconAccount"
-                        android:layout_width="48dp"
+                    android:padding="5dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="20dp">
+                    <LinearLayout
+                        android:id="@+id/btnExpense"
+                        android:layout_width="0dp"
                         android:layout_height="48dp"
-                        android:contentDescription="@string/accounts" />
-                    <TextView
-                        android:id="@+id/nameAccount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/btnCategory"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_weight="1"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="0dp"
-                app:cardBackgroundColor="@color/background_card"
-                android:layout_margin="5dp"
-                android:clickable="true"
-                android:focusable="true">
-                <LinearLayout
-                    android:id="@+id/containerCategoryInfo"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:layout_margin="5dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/custom_input"
-                    android:visibility="gone">
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/iconCategory"
-                        android:layout_width="48dp"
+                        android:layout_weight="1"
+                        android:padding="5dp"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="@drawable/button_change_view_checked_background">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/type_expense"
+                            android:textColor="@color/primary_text"
+                            android:textStyle="normal"
+                            android:textSize="18sp"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/btnIncome"
+                        android:layout_width="0dp"
                         android:layout_height="48dp"
-                        android:contentDescription="@string/category_icon" />
-                    <TextView
-                        android:id="@+id/nameCategory"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_weight="1"
+                        android:padding="5dp"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:focusable="true"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/type_income"
+                            android:textColor="@color/primary_text"
+                            android:textStyle="normal"
+                            android:textSize="18sp"/>
+                    </LinearLayout>
                 </LinearLayout>
+
                 <LinearLayout
-                    android:id="@+id/containerCategoryInfo1"
+                    android:id="@+id/containerDateTransaction"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
+                    android:layout_height="48dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/containerTypeTransaction"
                     android:gravity="center"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/custom_input"
-                    android:layout_gravity="center">
+                    android:layout_marginTop="10dp">
                     <TextView
-                        android:id="@+id/chooseCategory"
+                        android:id="@+id/dateTransaction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:drawableStartCompat="@drawable/ic_baseline_edit_calendar_24"
+                        android:textColor="@color/primary_text"
+                        android:textSize="16sp"
+                        android:drawablePadding="5dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?attr/selectableItemBackground" />
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/containerNameTransaction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/containerDateTransaction"
+                    android:gravity="center">
+                    <EditText
+                        android:id="@+id/nameTransaction"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="50dp"
+                        android:ems="10"
+                        android:padding="5dp"
+                        android:hint="@string/input_text_name_transaction"
+                        android:autofillHints="name"
+                        android:textSize="14sp"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:background="@drawable/custom_input"
+                        android:drawableStart="@drawable/ic_edit"
+                        android:drawablePadding="12dp"
+                        android:layout_marginTop="10dp"
+                        android:maxLength="100"
+                        android:textColor="@color/primary_text"
+                        android:textColorHint="@color/secondary_text"
+                        android:inputType="text"
+                        android:imeOptions="actionDone"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+                    <TextView
+                        android:id="@+id/countNameTransaction"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/tertiary_text"
-                        android:text="@string/choose_category"/>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-        </LinearLayout>
+                        app:layout_constraintTop_toBottomOf="@+id/nameTransaction"
+                        app:layout_constraintEnd_toEndOf="@+id/nameTransaction"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_margin="5dp"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/containerNoteTransaction"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/containerAccountCategory"
-            android:layout_marginTop="10dp"
-            android:gravity="center">
-        <EditText
-            android:id="@+id/noteTransaction"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="50dp"
-            android:ems="10"
-            android:hint="@string/input_text_note_transaction"
-            android:autofillHints="name"
-            android:textSize="14sp"
-            android:paddingStart="12dp"
-            android:padding="5dp"
-            android:paddingEnd="12dp"
-            android:background="@drawable/custom_input"
-            android:drawableStart="@drawable/ic_note"
-            android:drawablePadding="12dp"
-            android:layout_marginTop="10dp"
-            android:maxLength="300"
-            android:textColor="@color/primary_text"
-            android:textColorHint="@color/secondary_text"
-            android:inputType="textMultiLine"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-            <TextView
-                android:id="@+id/countNoteTransaction"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/tertiary_text"
-                app:layout_constraintTop_toBottomOf="@+id/noteTransaction"
-                app:layout_constraintEnd_toEndOf="@+id/noteTransaction"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_margin="5dp"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <it.bonny.app.wisespender.util.CurrencyEditText
+                    android:id="@+id/amountTransaction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="50dp"
+                    android:layout_marginTop="10dp"
+                    android:autofillHints="name"
+                    android:maxLength="20"
+                    android:background="@drawable/custom_input"
+                    android:drawableStart="@drawable/ic_euro"
+                    android:drawablePadding="12dp"
+                    android:ems="10"
+                    android:padding="5dp"
+                    android:hint="@string/opening_balance_new_account_input"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:textColor="@color/primary_text"
+                    android:textSize="14sp"
+                    android:imeOptions="actionDone"
+                    app:layout_constraintEnd_toEndOf="@+id/containerNameTransaction"
+                    app:layout_constraintStart_toStartOf="@+id/containerNameTransaction"
+                    app:layout_constraintTop_toBottomOf="@+id/containerNameTransaction"
+                    tools:ignore="SpeakableTextPresentCheck" />
+
+                <LinearLayout
+                    android:id="@+id/containerAccountCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/amountTransaction"
+                    android:layout_marginTop="10dp">
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnAccount"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_weight="1"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="@color/background_card"
+                        android:layout_margin="5dp"
+                        android:clickable="true"
+                        android:focusable="true">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/custom_input"
+                            android:layout_gravity="center">
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/iconAccount"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:contentDescription="@string/accounts" />
+                            <TextView
+                                android:id="@+id/nameAccount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnCategory"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_weight="1"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="@color/background_card"
+                        android:layout_margin="5dp"
+                        android:clickable="true"
+                        android:focusable="true">
+                        <LinearLayout
+                            android:id="@+id/containerCategoryInfo"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:layout_margin="5dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/custom_input"
+                            android:visibility="gone">
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/iconCategory"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:contentDescription="@string/category_icon" />
+                            <TextView
+                                android:id="@+id/nameCategory"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/containerCategoryInfo1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/custom_input"
+                            android:layout_gravity="center">
+                            <TextView
+                                android:id="@+id/chooseCategory"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/tertiary_text"
+                                android:text="@string/choose_category"/>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/containerNoteTransaction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/containerAccountCategory"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center">
+                    <EditText
+                        android:id="@+id/noteTransaction"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="50dp"
+                        android:ems="10"
+                        android:hint="@string/input_text_note_transaction"
+                        android:autofillHints="name"
+                        android:textSize="14sp"
+                        android:paddingStart="12dp"
+                        android:padding="5dp"
+                        android:paddingEnd="12dp"
+                        android:background="@drawable/custom_input"
+                        android:drawableStart="@drawable/ic_note"
+                        android:drawablePadding="12dp"
+                        android:layout_marginTop="10dp"
+                        android:maxLength="300"
+                        android:textColor="@color/primary_text"
+                        android:textColorHint="@color/secondary_text"
+                        android:inputType="textMultiLine"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+                    <TextView
+                        android:id="@+id/countNoteTransaction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/tertiary_text"
+                        app:layout_constraintTop_toBottomOf="@+id/noteTransaction"
+                        app:layout_constraintEnd_toEndOf="@+id/noteTransaction"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_margin="5dp"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonSave"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:elevation="10dp"
+                    android:textColor="@color/white"
+                    android:text="@string/save_button_transaction"
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:contentDescription="@string/save_button_transaction"
+                    app:layout_constraintTop_toBottomOf="@+id/containerNoteTransaction"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_margin="16dp"
+                    app:cornerRadius="10dp"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonSave"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:elevation="10dp"
-        android:textColor="@color/white"
-        android:text="@string/save_button_transaction"
-        android:textSize="16sp"
-        android:gravity="center"
-        android:contentDescription="@string/save_button_transaction"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_margin="16dp"
-        app:elevation="20dp"
-        app:cornerRadius="10dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

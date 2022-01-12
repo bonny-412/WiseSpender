@@ -113,7 +113,7 @@ public class ListTransactionActivity extends AppCompatActivity {
 
     private void callQuery() {
         FilterTransactionBean bean = utility.getFilterTransactionBeanSaved(activity);
-        List<TransactionBean> transactionBeans = db.getAllTransactionBeansByFilterBean(accountBean, bean, listDateFilters.get(0) + " 00:00", listDateFilters.get(1) +  " 23:59");
+        List<TransactionBean> transactionBeans = db.getAllTransactionBeansByFilterBean(accountBean, bean, listDateFilters.get(0) + " 00:00", listDateFilters.get(1) +  " 23:59", 0);
         db.closeDB();
 
         if(transactionBeans != null && transactionBeans.size() > 0) {

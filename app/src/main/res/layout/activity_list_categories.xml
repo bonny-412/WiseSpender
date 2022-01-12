@@ -43,6 +43,7 @@
                     android:layout_margin="16dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:transitionName="transition_category_icon"
                     />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -58,7 +59,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="@+id/returnCategory"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:transitionName="transition_category_title"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

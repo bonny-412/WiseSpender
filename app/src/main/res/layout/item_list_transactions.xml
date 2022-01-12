@@ -25,7 +25,8 @@
                 android:id="@+id/iconCategory"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:layout_margin="8dp" />
+                android:layout_margin="8dp"
+                android:transitionName="imageViewIconTransaction"/>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 

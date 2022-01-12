@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.transition.Fade;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,6 +36,14 @@ public class ListAccountsActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        Fade fade = new Fade();
+        View decor = getWindow().getDecorView();
+        fade.excludeTarget(decor.findViewById(R.id.action_bar_container), true);
+        fade.excludeTarget(android.R.id.statusBarBackground, true);
+        fade.excludeTarget(android.R.id.navigationBarBackground, true);
+        getWindow().setEnterTransition(fade);
+        getWindow().setExitTransition(fade);
+
         db = new DatabaseHelper(getApplicationContext());
         listView = findViewById(R.id.listViewAccounts);
         listView.setDivider(null);
@@ -53,7 +62,7 @@ public class ListAccountsActivity extends AppCompatActivity {
 
         MaterialCardView returnAccount = findViewById(R.id.returnAccount);
         returnAccount.setOnClickListener(view -> {
-            finish();
+            supportFinishAfterTransition();
         });
 
         buttonNewAccount.setOnClickListener(view1 -> {

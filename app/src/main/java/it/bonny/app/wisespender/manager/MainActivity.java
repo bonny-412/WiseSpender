@@ -1,13 +1,18 @@
 package it.bonny.app.wisespender.manager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.transition.Fade;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -43,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageView listTransactionsEmpty;
     private ExtendedFloatingActionButton btnNewTransaction;
     private List<TransactionBean> transactionBeanList;
+    private AppCompatImageView imageViewTransactions, imageViewAccounts, imageViewCategory;
+    private TextView idTransitionTransactionTitle, idTransitionAccountTitle, idTransitionCategoryTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,19 +60,36 @@ public class MainActivity extends AppCompatActivity {
         showWelcomeAlert();
         callDB();
 
+        Fade fade = new Fade();
+        View decor = getWindow().getDecorView();
+        fade.excludeTarget(decor.findViewById(R.id.action_bar_container), true);
+        fade.excludeTarget(android.R.id.statusBarBackground, true);
+        fade.excludeTarget(android.R.id.navigationBarBackground, true);
+        getWindow().setEnterTransition(fade);
+        getWindow().setExitTransition(fade);
+
         cardViewAccount.setOnClickListener(view -> {
+            if(imageViewAccounts == null)
+                imageViewAccounts = findViewById(R.id.imageViewAccounts);
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, imageViewAccounts, "transition_account_icon");
             Intent intent = new Intent(activity, ListAccountsActivity.class);
-            startActivity(intent);
+            startActivity(intent, options.toBundle());
         });
 
         cardViewCategory.setOnClickListener(view -> {
+            if(imageViewCategory == null)
+                imageViewCategory = findViewById(R.id.imageViewCategory);
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, imageViewCategory, "transition_category_icon");
             Intent intent = new Intent(activity, ListCategoriesActivity.class);
-            startActivity(intent);
+            startActivity(intent, options.toBundle());
         });
 
         cardViewTransaction.setOnClickListener(view -> {
+            if(imageViewTransactions == null)
+                imageViewTransactions = findViewById(R.id.imageViewTransactions);
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, imageViewTransactions, "transition_transaction_icon");
             Intent intent = new Intent(activity, ListTransactionActivity.class);
-            startActivity(intent);
+            startActivity(intent, options.toBundle());
         });
 
         accountName.setText(accountBeanSelected.getName());
@@ -82,9 +106,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         listTransactions.setOnItemClickListener((adapterView, view, i, l) -> {
+            ImageView iconCategory = view.findViewById(R.id.iconCategory);
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, iconCategory, "imageViewIconTransaction");
             Intent intent = new Intent(activity, TransactionDetailActivity.class);
             intent.putExtra("idTransaction", transactionBeanList.get(i).getId());
-            startActivity(intent);
+            startActivity(intent, options.toBundle());
         });
 
     }

@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.transition.Fade;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
@@ -44,9 +46,17 @@ public class TransactionDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_transaction_detail);
         init();
 
+        Fade fade = new Fade();
+        View decor = getWindow().getDecorView();
+        fade.excludeTarget(decor.findViewById(R.id.action_bar_container), true);
+        fade.excludeTarget(android.R.id.statusBarBackground, true);
+        fade.excludeTarget(android.R.id.navigationBarBackground, true);
+        getWindow().setEnterTransition(fade);
+        getWindow().setExitTransition(fade);
+
         idTransaction = getIntent().getLongExtra("idTransaction", 0);
 
-        btnReturn.setOnClickListener(view -> finish());
+        btnReturn.setOnClickListener(view -> supportFinishAfterTransition());
 
         fabViewEdit.setOnClickListener(view -> {
             Intent intent = new Intent(TransactionDetailActivity.this, TransactionActivity.class);
@@ -171,6 +181,8 @@ public class TransactionDetailActivity extends AppCompatActivity {
     }
 
     private void openFloatList(){
+        fabViewDelete.setVisibility(View.VISIBLE);
+        fabViewEdit.setVisibility(View.VISIBLE);
         fabViewDelete.startAnimation(fab_open);
         fabViewEdit.startAnimation(fab_open);
         fabViewPlus.startAnimation(fab_rotate_clock);
