@@ -55,7 +55,6 @@ public class ListViewActivity extends AppCompatActivity {
                 categoryBeans = db.getAllCategoryBeansToTypeCategory(TypeObjectBean.CATEGORY_EXPENSE);
             myAdapter = new ChooseAccountCategoryAdapter(null, categoryBeans, selectedPos, id,this);
         }
-        db.closeDB();
         listView.setAdapter(myAdapter);
         listView.setDividerHeight(0);
         listView.setDivider(null);

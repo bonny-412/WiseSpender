@@ -16,6 +16,7 @@ import java.util.List;
 
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
+import it.bonny.app.wisespender.bean.TransactionBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
 import it.bonny.app.wisespender.db.DatabaseHelper;
 
@@ -97,7 +98,6 @@ public class ListAccountBottomSheetAdapter extends RecyclerView.Adapter<ListAcco
                 radioButtonAccount.setVisibility(View.VISIBLE);
                 db.updateAccountBean(accountBeanList.get(position));
 
-                db.closeDB();
                 activity.finish();
                 activity.startActivity(activity.getIntent());
             }

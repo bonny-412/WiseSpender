@@ -56,7 +56,6 @@ public class ListTransactionsAdapter extends ArrayAdapter<TransactionBean>  {
             }
             DatabaseHelper db = new DatabaseHelper(activity.getApplicationContext());
             CategoryBean categoryBean = db.getCategoryBean(transactionBeanList.get(position).getIdCategory());
-            db.closeDB();
 
             if(!isMainActivity) {
                 holder.cardViewIcon.setCardBackgroundColor(ResourcesCompat.getColor(activity.getResources(), R.color.background, null));
@@ -82,6 +81,12 @@ public class ListTransactionsAdapter extends ArrayAdapter<TransactionBean>  {
         }
 
         return rowView != null ? rowView : View.inflate(getContext(), R.layout.item_list_accounts, null);
+    }
+
+    public void updateTransactionsList(List<TransactionBean> newList) {
+        transactionBeanList.clear();
+        transactionBeanList.addAll(newList);
+        this.notifyDataSetChanged();
     }
 
     private static class ViewHolder {

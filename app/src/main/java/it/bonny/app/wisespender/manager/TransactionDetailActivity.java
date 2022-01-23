@@ -80,7 +80,6 @@ public class TransactionDetailActivity extends AppCompatActivity {
         if(transactionBean != null) {
             CategoryBean categoryBean = db.getCategoryBean(transactionBean.getIdCategory());
             AccountBean accountBean = db.getAccountBean(transactionBean.getIdAccount());
-            db.closeDB();
 
             AppCompatImageView iconTypeTransaction = findViewById(R.id.iconTypeTransaction);
             iconTypeTransaction.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(), utility.getIdIconByCategoryBean(categoryBean)));
@@ -164,9 +163,7 @@ public class TransactionDetailActivity extends AppCompatActivity {
                 accountBean.setTotMoneyExpense(totMoneyExpense);
             }
             boolean resultDelete = db.deleteTransactionBean(id);
-            db.closeDB();
             db.updateAccountBean(accountBean);
-            db.closeDB();
             if(resultDelete){
                 Toast.makeText(this, getString(R.string.delete_ok), Toast.LENGTH_SHORT).show();
                 finish();

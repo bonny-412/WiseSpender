@@ -4,15 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.util.Pair;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.transition.Fade;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,7 +20,10 @@ import android.widget.Toast;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
@@ -31,6 +31,7 @@ import it.bonny.app.wisespender.bean.TransactionBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
 import it.bonny.app.wisespender.db.DatabaseHelper;
 import it.bonny.app.wisespender.util.ListTransactionsAdapter;
+import it.bonny.app.wisespender.util.LoadingDialog;
 import it.bonny.app.wisespender.util.Utility;
 
 public class MainActivity extends AppCompatActivity {
@@ -47,9 +48,10 @@ public class MainActivity extends AppCompatActivity {
     private ListView listTransactions;
     private ImageView listTransactionsEmpty;
     private ExtendedFloatingActionButton btnNewTransaction;
-    private List<TransactionBean> transactionBeanList;
+    private List<TransactionBean> transactionBeanList = new ArrayList<>();
     private AppCompatImageView imageViewTransactions, imageViewAccounts, imageViewCategory;
-    private TextView idTransitionTransactionTitle, idTransitionAccountTitle, idTransitionCategoryTitle;
+    private LoadingDialog loadingDialog;
+    private ListTransactionsAdapter listTransactionsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,15 +60,6 @@ public class MainActivity extends AppCompatActivity {
 
         init();
         showWelcomeAlert();
-        callDB();
-
-        Fade fade = new Fade();
-        View decor = getWindow().getDecorView();
-        fade.excludeTarget(decor.findViewById(R.id.action_bar_container), true);
-        fade.excludeTarget(android.R.id.statusBarBackground, true);
-        fade.excludeTarget(android.R.id.navigationBarBackground, true);
-        getWindow().setEnterTransition(fade);
-        getWindow().setExitTransition(fade);
 
         cardViewAccount.setOnClickListener(view -> {
             if(imageViewAccounts == null)
@@ -92,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent, options.toBundle());
         });
 
-        accountName.setText(accountBeanSelected.getName());
         showAccountListBtn.setOnClickListener(view -> bottomSheetAccount.show(getSupportFragmentManager(), "TAG"));
 
         showTransactionListBtn.setOnClickListener(view -> {
@@ -131,6 +123,9 @@ public class MainActivity extends AppCompatActivity {
         btnNewTransaction = findViewById(R.id.btnNewTransaction);
         cardViewTransaction = findViewById(R.id.cardViewTransaction);
         showTransactionListBtn = findViewById(R.id.showTransactionListBtn);
+        loadingDialog = new LoadingDialog(MainActivity.this);
+        listTransactionsAdapter = new ListTransactionsAdapter(transactionBeanList, activity, true);
+        listTransactions.setAdapter(listTransactionsAdapter);
     }
 
     //Shows the welcome alert
@@ -192,37 +187,48 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void callDB() {
-        List<AccountBean> accountBeanList = db.getAllAccountBeansNoMaster();
-        accountBeanSelected = db.getAccountBeanSelected();
-        transactionBeanList = db.getAllTransactionBeansToMainActivity(accountBeanSelected);
-        db.closeDB();
+        loadingDialog.setTitle(getString(R.string.loading_alert_loading));
+        loadingDialog.startDialog();
 
-        if(transactionBeanList != null && transactionBeanList.size() > 0) {
-            listTransactions.setVisibility(View.VISIBLE);
-            listTransactionsEmpty.setVisibility(View.GONE);
-            ListTransactionsAdapter listTransactionsAdapter = new ListTransactionsAdapter(transactionBeanList, activity, true);
-            listTransactions.setAdapter(listTransactionsAdapter);
-            listTransactionsAdapter.notifyDataSetChanged();
-        }else {
-            listTransactions.setVisibility(View.GONE);
-            listTransactionsEmpty.setVisibility(View.VISIBLE);
-        }
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.execute(() -> {
 
-        String totMoneyAccount, totMoneyAccountIncome, totMoneyAccountExpense;
-        if(accountBeanSelected.getIsMaster() == TypeObjectBean.IS_MASTER) {
-            totMoneyAccount = utility.getTotMoneyAccountByAllAccounts(accountBeanList, null);
-            totMoneyAccountIncome = utility.getTotMoneyIncomeAccountByAllAccounts(accountBeanList, null);
-            totMoneyAccountExpense = utility.getTotMoneyExpenseAccountByAllAccounts(accountBeanList, null);
-        }else {
-            totMoneyAccount = utility.getTotMoneyAccountByAllAccounts(null, accountBeanSelected);
-            totMoneyAccountIncome = utility.getTotMoneyIncomeAccountByAllAccounts(null, accountBeanSelected);
-            totMoneyAccountExpense = utility.getTotMoneyExpenseAccountByAllAccounts(null, accountBeanSelected);
-        }
-        moneyAccount.setText(totMoneyAccount);
-        totalIncome.setText(totMoneyAccountIncome);
-        totalExpense.setText(totMoneyAccountExpense);
+            List<AccountBean> accountBeanList = db.getAllAccountBeansNoMaster();
+            accountBeanSelected = db.getAccountBeanSelected();
+            transactionBeanList = db.getAllTransactionBeansToMainActivity(accountBeanSelected);
 
-        bottomSheetAccount = new BottomSheetAccount(activity);
+            String totMoneyAccount, totMoneyAccountIncome, totMoneyAccountExpense;
+            if(accountBeanSelected.getIsMaster() == TypeObjectBean.IS_MASTER) {
+                totMoneyAccount = utility.getTotMoneyAccountByAllAccounts(accountBeanList, null);
+                totMoneyAccountIncome = utility.getTotMoneyIncomeAccountByAllAccounts(accountBeanList, null);
+                totMoneyAccountExpense = utility.getTotMoneyExpenseAccountByAllAccounts(accountBeanList, null);
+            }else {
+                totMoneyAccount = utility.getTotMoneyAccountByAllAccounts(null, accountBeanSelected);
+                totMoneyAccountIncome = utility.getTotMoneyIncomeAccountByAllAccounts(null, accountBeanSelected);
+                totMoneyAccountExpense = utility.getTotMoneyExpenseAccountByAllAccounts(null, accountBeanSelected);
+            }
+
+            runOnUiThread(() -> {
+                listTransactionsAdapter.updateTransactionsList(transactionBeanList);
+
+                accountName.setText(accountBeanSelected.getName());
+
+                if(transactionBeanList != null && transactionBeanList.size() > 0) {
+                    listTransactions.setVisibility(View.VISIBLE);
+                    listTransactionsEmpty.setVisibility(View.GONE);
+                }else {
+                    listTransactions.setVisibility(View.GONE);
+                    listTransactionsEmpty.setVisibility(View.VISIBLE);
+                }
+
+                moneyAccount.setText(totMoneyAccount);
+                totalIncome.setText(totMoneyAccountIncome);
+                totalExpense.setText(totMoneyAccountExpense);
+
+                bottomSheetAccount = new BottomSheetAccount(activity);
+                loadingDialog.dismissDialog();
+            });
+        });
     }
 
 }

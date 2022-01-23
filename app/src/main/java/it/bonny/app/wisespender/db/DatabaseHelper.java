@@ -21,38 +21,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "wiseSpender";
 
-    private static final String CREATE_TABLE_ACCOUNT = "CREATE TABLE " + AccountBean.TABLE
-            + "("
-            + AccountBean.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
-            + AccountBean.KEY_NAME + " TEXT,"
-            + AccountBean.KEY_OPENING_BALANCE + " INTEGER,"
-            + AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE + " INTEGER DEFAULT 0,"
-            + AccountBean.KEY_FLAG_SELECTED + " INTEGER DEFAULT 0,"
-            + AccountBean.KEY_IS_MASTER + " INTEGER DEFAULT 0,"
-            + AccountBean.KEY_CURRENCY + " TEXT,"
-            + AccountBean.KEY_ID_ICON + " INTEGER,"
-            + AccountBean.KEY_TOT_MONEY_INCOME + " INTEGER,"
-            + AccountBean.KEY_TOT_MONEY_EXPENSE + " INTEGER"
-            + ")";
-    private static final String CREATE_TABLE_CATEGORY = "CREATE TABLE " + CategoryBean.TABLE
-            + "("
-            + CategoryBean.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
-            + CategoryBean.KEY_NAME + " TEXT,"
-            + CategoryBean.KEY_TYPE_CATEGORY + " INTEGER,"
-            + CategoryBean.KEY_ID_ICON + " INTEGER"
-            + ")";
-    private static final String CREATE_TABLE_TRANSACTION = "CREATE TABLE " + TransactionBean.TABLE
-            + "("
-            + TransactionBean.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
-            + TransactionBean.KEY_AMOUNT + " INTEGER,"
-            + TransactionBean.KEY_DATE_INSERT + " DATETIME,"
-            + TransactionBean.KEY_NOTE + " TEXT,"
-            + TransactionBean.KEY_TYPE_TRANSACTION + " INTEGER,"
-            + TransactionBean.KEY_ID_ACCOUNT + " INTEGER,"
-            + TransactionBean.KEY_ID_CATEGORY + " INTEGER,"
-            + TransactionBean.KEY_TITLE + " TEXT"
-            + ")";
-
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -60,9 +28,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL(CREATE_TABLE_ACCOUNT);
-        sqLiteDatabase.execSQL(CREATE_TABLE_CATEGORY);
-        sqLiteDatabase.execSQL(CREATE_TABLE_TRANSACTION);
+        sqLiteDatabase.execSQL(AccountBean.CREATE_TABLE_ACCOUNT);
+        sqLiteDatabase.execSQL(CategoryBean.CREATE_TABLE_CATEGORY);
+        sqLiteDatabase.execSQL(TransactionBean.CREATE_TABLE_TRANSACTION);
     }
 
     @Override
@@ -76,13 +44,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    // closing database
-    public void closeDB() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        if (db != null && db.isOpen())
-            db.close();
-    }
-
     public List<String> getAllTableFromDB() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
@@ -94,6 +55,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 c.moveToNext();
             }
         }
+        db.close();
         return stringList;
     }
 
@@ -114,13 +76,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(AccountBean.KEY_TOT_MONEY_INCOME, accountBean.getTotMoneyIncome());
         values.put(AccountBean.KEY_TOT_MONEY_EXPENSE, accountBean.getTotMoneyExpense());
 
-        return db.insertOrThrow(AccountBean.TABLE, null, values);
+        long id = db.insertOrThrow(AccountBean.TABLE, null, values);
+        db.close();
+        return id;
     }
 
     /**
      * Updating a Account
      */
-    public int updateAccountBean(AccountBean accountBean) {
+    public void updateAccountBean(AccountBean accountBean) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(AccountBean.KEY_NAME, accountBean.getName());
@@ -133,8 +97,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(AccountBean.KEY_TOT_MONEY_INCOME, accountBean.getTotMoneyIncome());
         values.put(AccountBean.KEY_TOT_MONEY_EXPENSE, accountBean.getTotMoneyExpense());
 
-        return db.update(AccountBean.TABLE, values, AccountBean.KEY_ID + " = ?",
+        db.update(AccountBean.TABLE, values, AccountBean.KEY_ID + " = ?",
                 new String[] {String.valueOf(accountBean.getId())});
+        db.close();
     }
 
     /**
@@ -145,6 +110,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try {
             SQLiteDatabase db = this.getWritableDatabase();
             result = db.delete(AccountBean.TABLE, AccountBean.KEY_ID + " = ?",new String[] {String.valueOf(accountId)}) > 0;
+            db.close();
         }catch (Exception e) {
             //TODO: Firebase
             result = false;
@@ -177,6 +143,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }while (c.moveToNext());
         }
         c.close();
+        db.close();
         return accountBean;
     }
 
@@ -206,6 +173,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             } while (c.moveToNext());
         }
         c.close();
+        db.close();
         return accountBeans;
     }
 
@@ -307,21 +275,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(CategoryBean.KEY_TYPE_CATEGORY, categoryBean.getTypeCategory());
         values.put(CategoryBean.KEY_ID_ICON, categoryBean.getIdIcon());
 
-        return db.insertOrThrow(CategoryBean.TABLE, null, values);
+        long id = db.insertOrThrow(CategoryBean.TABLE, null, values);
+        db.close();
+        return id;
     }
 
     /**
      * Updating a Category
      */
-    public int updateCategoryBean(CategoryBean categoryBean) {
+    public void updateCategoryBean(CategoryBean categoryBean) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(CategoryBean.KEY_NAME, categoryBean.getName());
         values.put(CategoryBean.KEY_TYPE_CATEGORY, categoryBean.getTypeCategory());
         values.put(CategoryBean.KEY_ID_ICON, categoryBean.getIdIcon());
 
-        return db.update(CategoryBean.TABLE, values, CategoryBean.KEY_ID + " = ?",
+        db.update(CategoryBean.TABLE, values, CategoryBean.KEY_ID + " = ?",
                 new String[] {String.valueOf(categoryBean.getId())});
+        db.close();
     }
 
     /**
@@ -332,6 +303,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try {
             SQLiteDatabase db = this.getWritableDatabase();
             result = db.delete(CategoryBean.TABLE, CategoryBean.KEY_ID + " = ?",new String[] {String.valueOf(categoryId)}) > 0;
+            db.close();
         }catch (Exception e) {
             //TODO: Firebase
             result = false;
@@ -358,6 +330,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }while (c.moveToNext());
         }
         c.close();
+        db.close();
         return categoryBean;
     }
 
@@ -380,6 +353,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }while (c.moveToNext());
         }
         c.close();
+        db.close();
         return categoryBean;
     }
 
@@ -403,6 +377,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             } while (c.moveToNext());
         }
         c.close();
+        db.close();
         return categoryBeans;
     }
 
@@ -426,6 +401,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             } while (c.moveToNext());
         }
         c.close();
+        db.close();
         return categoryBeans;
     }
 
@@ -444,13 +420,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(TransactionBean.KEY_ID_ACCOUNT, transactionBean.getIdAccount());
         values.put(TransactionBean.KEY_ID_CATEGORY, transactionBean.getIdCategory());
 
-        return db.insertOrThrow(TransactionBean.TABLE, null, values);
+        long id = db.insertOrThrow(TransactionBean.TABLE, null, values);
+
+        return id;
     }
 
     /**
      * Updating a Transaction
      */
-    public int updateTransactionBean(TransactionBean transactionBean) {
+    public void updateTransactionBean(TransactionBean transactionBean) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(TransactionBean.KEY_TITLE, transactionBean.getTitle());
@@ -461,8 +439,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(TransactionBean.KEY_ID_ACCOUNT, transactionBean.getIdAccount());
         values.put(TransactionBean.KEY_ID_CATEGORY, transactionBean.getIdCategory());
 
-        return db.update(TransactionBean.TABLE, values, TransactionBean.KEY_ID + " = ?",
+        db.update(TransactionBean.TABLE, values, TransactionBean.KEY_ID + " = ?",
                 new String[] {String.valueOf(transactionBean.getId())});
+        db.close();
     }
 
     /**
@@ -473,6 +452,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try {
             SQLiteDatabase db = this.getWritableDatabase();
             result = db.delete(TransactionBean.TABLE, TransactionBean.KEY_ID + " = ?",new String[] {String.valueOf(transactionId)}) > 0;
+            db.close();
         }catch (Exception e) {
             //TODO: Firebase
             result = false;
@@ -503,6 +483,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }while (c.moveToNext());
         }
         c.close();
+        db.close();
         return transactionBean;
     }
 
@@ -530,6 +511,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             } while (c.moveToNext());
         }
         c.close();
+        db.close();
         return transactionBeans;
     }
 
@@ -557,6 +539,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             } while (c.moveToNext());
         }
         c.close();
+        db.close();
         return transactionBeans;
     }
 
@@ -623,9 +606,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String selectQuery;
         if(accountBeanSelected != null && accountBeanSelected.getIsMaster() == TypeObjectBean.NO_MASTER) {
             selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t WHERE t." + TransactionBean.KEY_ID_ACCOUNT + " = " + accountBeanSelected.getId() +
-                    " ORDER BY t." + TransactionBean.KEY_ID + " DESC LIMIT 7";
+                    " ORDER BY t." + TransactionBean.KEY_ID + " DESC";
         }else {
-            selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t ORDER BY t." + TransactionBean.KEY_ID + " DESC LIMIT 7";
+            selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t ORDER BY t." + TransactionBean.KEY_ID + " DESC";
         }
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
@@ -695,6 +678,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             } while (c.moveToNext());
         }
         c.close();
+        db.close();
         return transactionBeans;
     }
 

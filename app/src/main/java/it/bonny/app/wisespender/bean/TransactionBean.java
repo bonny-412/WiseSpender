@@ -82,4 +82,16 @@ public class TransactionBean {
         this.title = title;
     }
 
+    public static final String CREATE_TABLE_TRANSACTION = "CREATE TABLE " + TransactionBean.TABLE
+            + "("
+            + TransactionBean.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+            + TransactionBean.KEY_AMOUNT + " INTEGER,"
+            + TransactionBean.KEY_DATE_INSERT + " DATETIME,"
+            + TransactionBean.KEY_NOTE + " TEXT,"
+            + TransactionBean.KEY_TYPE_TRANSACTION + " INTEGER,"
+            + TransactionBean.KEY_ID_ACCOUNT + " INTEGER,"
+            + TransactionBean.KEY_ID_CATEGORY + " INTEGER,"
+            + TransactionBean.KEY_TITLE + " TEXT"
+            + ")";
+
 }

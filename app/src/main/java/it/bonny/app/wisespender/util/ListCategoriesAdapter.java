@@ -109,7 +109,6 @@ public class ListCategoriesAdapter extends ArrayAdapter<CategoryBean>  {
             }
             boolean resultDelete = db.deleteAccountBean(id);
             //TODO: Cancellare tutte le transazioni collegate al conto
-            db.closeDB();
             if(resultDelete){
                 Toast.makeText(activity, activity.getString(R.string.delete_ok), Toast.LENGTH_SHORT).show();
                 categoryBeanList.remove(position);

@@ -144,7 +144,10 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/containerTypeTransaction"
                     android:gravity="center"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="10dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackground">
                     <TextView
                         android:id="@+id/dateTransaction"
                         android:layout_width="wrap_content"
@@ -152,10 +155,7 @@
                         app:drawableStartCompat="@drawable/ic_baseline_edit_calendar_24"
                         android:textColor="@color/primary_text"
                         android:textSize="16sp"
-                        android:drawablePadding="5dp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:background="?attr/selectableItemBackground" />
+                        android:drawablePadding="5dp" />
                 </LinearLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout

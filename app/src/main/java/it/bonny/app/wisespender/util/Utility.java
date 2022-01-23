@@ -57,8 +57,6 @@ public class Utility {
         db.insertAccountBean(accountMaster);
         db.insertAccountBean(accountCash);
 
-        db.closeDB();
-
     }
 
     public void insertCategoryDefault(DatabaseHelper db, Activity activity) {
@@ -92,8 +90,6 @@ public class Utility {
         db.insertCategoryBean(categoryHobbyExpense);
         db.insertCategoryBean(categoryNecessityIncome);
         db.insertCategoryBean(categoryNecessityExpense);
-
-        db.closeDB();
 
     }
 

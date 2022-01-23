@@ -33,16 +33,15 @@
                 android:layout_height="match_parent"
                 android:gravity="center">
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/ic_close"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_arrow_back"
                     android:tint="@color/primary_text"
                     android:hint="@string/come_back"
                     app:iconGravity="textStart"
                     android:layout_margin="16dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:transitionName="transition_account_icon"
                     />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -75,7 +74,7 @@
         android:padding="10dp"
         android:orientation="vertical"
         >
-        <ListView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listViewAccounts"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -83,18 +82,29 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"
             />
-        <TextView
-            android:id="@+id/textEmptyList"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_list"
-            android:textColor="@color/secondary_text"
-            app:layout_constraintStart_toStartOf="parent"
+        <ImageView
+            android:id="@+id/listEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:contentDescription="@string/empty_list"
+            android:padding="100dp"
+            android:src="@drawable/ic_list_empty"
             android:visibility="gone"/>
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout

@@ -28,6 +28,11 @@ public class TypeObjectBean {
     public static final int WEEK_START_MONDAY = 0;
     public static final int WEEK_START_SUNDAY = 1;
 
+    public static final int RETURN_NORMAL = 0;
+    public static final int RETURN_NEW = 1;
+    public static final int RETURN_EDIT = 2;
+    public static final int RETURN_DELETE = 3;
+
     public TypeObjectBean() {}
 
 }

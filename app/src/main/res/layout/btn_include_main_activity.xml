@@ -44,7 +44,7 @@
                             android:contentDescription="@string/title_transaction_menu"
                             android:src="@drawable/ic_transactions"
                             android:tint="@color/primary_text"
-                            android:transitionName="transition_transaction_icon" />
+                            />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
                 <TextView
@@ -129,8 +129,7 @@
                             android:layout_height="32dp"
                             android:src="@drawable/ic_accounts"
                             android:tint="@color/primary_text"
-                            android:contentDescription="@string/accounts"
-                            android:transitionName="transition_account_icon"/>
+                            android:contentDescription="@string/accounts" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
                 <TextView
@@ -174,8 +173,7 @@
                             android:layout_height="32dp"
                             android:src="@drawable/ic_categories"
                             android:tint="@color/primary_text"
-                            android:contentDescription="@string/categories"
-                            android:transitionName="transition_category_icon"/>
+                            android:contentDescription="@string/categories" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
                 <TextView

@@ -71,7 +71,6 @@ public class TransactionActivity extends AppCompatActivity {
             transactionBean = db.getTransactionBean(idTransaction);
             CategoryBean categoryBean = db.getCategoryBean(transactionBean.getIdCategory());
             accountBeanSelected = db.getAccountBean(transactionBean.getIdAccount());
-            db.closeDB();
             oldAmount = transactionBean.getAmount();
 
             iconAccount.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(), utility.getIdIconByAccountBean(accountBeanSelected)));
@@ -103,7 +102,6 @@ public class TransactionActivity extends AppCompatActivity {
             if(accountBeanSelected.getIsMaster() == TypeObjectBean.IS_MASTER) {
                 accountBeanSelected = db.getFirstAccountBeanNoMaster().get(0);
             }
-            db.closeDB();
             iconAccount.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(), utility.getIdIconByAccountBean(accountBeanSelected)));
             nameAccount.setText(accountBeanSelected.getName());
             transactionBean.setIdAccount(accountBeanSelected.getId());
@@ -234,7 +232,6 @@ public class TransactionActivity extends AppCompatActivity {
                 String result;
                 try {
                     AccountBean accountBean = db.getAccountBean(transactionBean.getIdAccount());
-                    db.closeDB();
                     if(transactionBean.getId() > 0) {
                         db.updateTransactionBean(transactionBean);
                         if(transactionBean.getTypeTransaction() == TypeObjectBean.TRANSACTION_INCOME) {
@@ -246,7 +243,6 @@ public class TransactionActivity extends AppCompatActivity {
                         }
                     }else {
                         db.insertTransactionBean(transactionBean);
-                        db.closeDB();
                         if(transactionBean.getTypeTransaction() == TypeObjectBean.TRANSACTION_INCOME) {
                             int totMoneyIncome = accountBean.getTotMoneyIncome() + transactionBean.getAmount();
                             accountBean.setTotMoneyIncome(totMoneyIncome);
@@ -256,7 +252,6 @@ public class TransactionActivity extends AppCompatActivity {
                         }
                     }
                     db.updateAccountBean(accountBean);
-                    db.closeDB();
                     result = getString(R.string.save_transaction_ok);
                 }catch (Exception e){
                     //TODO: Firebase

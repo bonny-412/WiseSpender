@@ -34,16 +34,15 @@
                 android:layout_height="match_parent"
                 android:gravity="center">
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/ic_close"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_arrow_back"
                     android:tint="@color/primary_text"
                     android:hint="@string/come_back"
                     app:iconGravity="textStart"
                     android:layout_margin="16dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:transitionName="transition_category_icon"
                     />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

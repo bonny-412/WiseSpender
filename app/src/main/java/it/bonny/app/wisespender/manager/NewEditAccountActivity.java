@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
@@ -53,17 +54,14 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_edit_account);
         init();
-        AccountBean accountBean;
+
         DatabaseHelper db = new DatabaseHelper(getApplicationContext());
         int iconSelectedPosition;
 
-        String idAccountString = getIntent().getStringExtra("idAccount");
-        if(idAccountString != null && !"".equals(idAccountString)) {
+        AccountBean accountBean = getIntent().getParcelableExtra("accountBean");
+        if(accountBean.getId() > 0) {
             //Edit account
             titlePageNewAccount.setText(getString(R.string.title_page_edit_account));
-            long idAccount = Long.parseLong(idAccountString);
-            accountBean = db.getAccountBean(idAccount);
-            db.closeDB();
 
             if(accountBean.getFlagSelected() == TypeObjectBean.NO_SELECTED)
                 btnDeleteAccount.setVisibility(View.VISIBLE);
@@ -79,7 +77,6 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
             iconSelectedPosition = iconBean.getId();
         }else {
             //New account
-            accountBean = new AccountBean();
             accountBean.setIsMaster(TypeObjectBean.NO_MASTER);
             accountBean.setFlagViewTotalBalance(TypeObjectBean.IS_TOTAL_BALANCE);
             accountBean.setFlagSelected(TypeObjectBean.NO_SELECTED);
@@ -96,7 +93,12 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
             iconListAdapter.notifyDataSetChanged();
         }
 
-        returnNewEditAccount.setOnClickListener(view -> finish());
+        returnNewEditAccount.setOnClickListener(view -> {
+            Intent intent = new Intent();
+            intent.putExtra("typeAction", TypeObjectBean.RETURN_NORMAL);
+            setResult(Activity.RESULT_OK, intent);
+            finish();
+        });
 
         gridView.setOnItemClickListener((adapterView, view, position, l) -> {
             iconListAdapter.makeAllUnselect(position);
@@ -142,6 +144,7 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
             accountBean.setOpeningBalance(openingBalance);
             if(!isError) {
                 try {
+                    Intent intent = new Intent();
                     if(accountBean.getId() != 0) {
                         TransactionBean transactionBean = db.getAllTransactionBeansByTypeTransactionIdAccount(TypeObjectBean.TRANSACTION_OPEN_BALANCE, accountBean.getId());
                         if(transactionBean == null) {
@@ -160,6 +163,7 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
                             db.updateTransactionBean(transactionBean);
                         }
                         db.updateAccountBean(accountBean);
+                        intent.putExtra("typeAction", TypeObjectBean.RETURN_EDIT);
                     }else {
                         long idAccount = db.insertAccountBean(accountBean);
                         if(accountBean.getOpeningBalance() > 0 && idAccount > 0) {
@@ -174,9 +178,12 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
                             transactionBean.setIdCategory(categoryBean.getId());
                             db.insertTransactionBean(transactionBean);
                         }
+                        intent.putExtra("typeAction", TypeObjectBean.RETURN_NEW);
+                        accountBean.setId(idAccount);
                     }
-                    db.closeDB();
+                    intent.putExtra("accountBean", accountBean);
                     Toast.makeText(getApplicationContext(), getString(R.string.saved_ok), Toast.LENGTH_SHORT).show();
+                    setResult(Activity.RESULT_OK, intent);
                     finish();
                 }catch (Exception e) {
                     //TODO: Firebase
@@ -260,9 +267,11 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
                 }
             }
             boolean resultDelete = db.deleteAccountBean(id);
-            db.closeDB();
             if(resultDelete){
                 Toast.makeText(this, getString(R.string.delete_ok), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.putExtra("typeAction", TypeObjectBean.RETURN_DELETE);
+                setResult(Activity.RESULT_OK, intent);
                 finish();
             }else {
                 Toast.makeText(this, getString(R.string.delete_ko), Toast.LENGTH_SHORT).show();
@@ -271,7 +280,6 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
                 dialog.dismiss();
         });
         if(dialog != null) {
-            //dialog.create();
             dialog.show();
         }
     }

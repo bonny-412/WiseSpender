@@ -101,4 +101,5 @@
     <string name="alert_delete_transaction_title">Sei sicuro di voler eliminare questa transazione?</string>
     <string name="time_title_detail_transaction">Ora</string>
     <string name="title_date_range_picker">SELEZIONA INTERVALLO</string>
+    <string name="loading_alert_loading">Caricamento…</string>
 </resources>

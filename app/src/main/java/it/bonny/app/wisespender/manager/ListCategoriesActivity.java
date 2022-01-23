@@ -42,14 +42,6 @@ public class ListCategoriesActivity extends AppCompatActivity {
         init();
         String[] titles = new String[] {getString(R.string.type_income), getString(R.string.type_expense)};
 
-        Fade fade = new Fade();
-        View decor = getWindow().getDecorView();
-        fade.excludeTarget(decor.findViewById(R.id.action_bar_container), true);
-        fade.excludeTarget(android.R.id.statusBarBackground, true);
-        fade.excludeTarget(android.R.id.navigationBarBackground, true);
-        getWindow().setEnterTransition(fade);
-        getWindow().setExitTransition(fade);
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         MyViewPager2Adapter myAdapter = new MyViewPager2Adapter(fragmentManager, getLifecycle());
         viewPager2.setAdapter(myAdapter);
@@ -74,7 +66,7 @@ public class ListCategoriesActivity extends AppCompatActivity {
             }
         });
 
-        returnCategory.setOnClickListener(view -> supportFinishAfterTransition());
+        returnCategory.setOnClickListener(view -> finish());
 
     }
 
@@ -87,7 +79,7 @@ public class ListCategoriesActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (viewPager2.getCurrentItem() == 0) {
-            supportFinishAfterTransition();
+            finish();
         } else {
             viewPager2.setCurrentItem(viewPager2.getCurrentItem() - 1);
         }
