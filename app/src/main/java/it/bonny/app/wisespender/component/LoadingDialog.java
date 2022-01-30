@@ -1,4 +1,4 @@
-package it.bonny.app.wisespender.util;
+package it.bonny.app.wisespender.component;
 
 import android.app.Activity;
 import android.graphics.drawable.ColorDrawable;

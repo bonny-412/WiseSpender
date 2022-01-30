@@ -17,7 +17,7 @@ import it.bonny.app.wisespender.bean.AccountBean;
 import it.bonny.app.wisespender.bean.CategoryBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
 import it.bonny.app.wisespender.db.DatabaseHelper;
-import it.bonny.app.wisespender.util.ChooseAccountCategoryAdapter;
+import it.bonny.app.wisespender.component.ChooseAccountCategoryAdapter;
 
 public class ListViewActivity extends AppCompatActivity {
 

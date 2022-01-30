@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.accounts.Account;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,10 +28,10 @@ import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
 import it.bonny.app.wisespender.db.DatabaseHelper;
-import it.bonny.app.wisespender.util.AccountListAdapter;
-import it.bonny.app.wisespender.util.RecyclerViewClickAccountInterface;
+import it.bonny.app.wisespender.component.AccountListAdapter;
+import it.bonny.app.wisespender.component.RecyclerViewClickInterface;
 
-public class ListAccountsActivity extends AppCompatActivity implements RecyclerViewClickAccountInterface {
+public class ListAccountsActivity extends AppCompatActivity implements RecyclerViewClickInterface {
     private DatabaseHelper db;
     private RecyclerView listView;
     private ImageView imageView;
@@ -111,7 +110,7 @@ public class ListAccountsActivity extends AppCompatActivity implements RecyclerV
     }
 
     @Override
-    public void onItemClick(int position, AccountBean accountBean) {
+    public void onItemClick(int position) {
         pos = position;
         Intent intent = new Intent(ListAccountsActivity.this, NewEditAccountActivity.class);
         intent.putExtra("accountBean", accountListAdapter.findAccountBean(pos));

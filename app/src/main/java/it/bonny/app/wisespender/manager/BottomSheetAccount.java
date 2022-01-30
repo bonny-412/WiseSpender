@@ -21,7 +21,7 @@ import java.util.concurrent.Executors;
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
 import it.bonny.app.wisespender.db.DatabaseHelper;
-import it.bonny.app.wisespender.util.ListAccountBottomSheetAdapter;
+import it.bonny.app.wisespender.component.ListAccountBottomSheetAdapter;
 
 public class BottomSheetAccount extends BottomSheetDialogFragment {
     private final Activity activity;

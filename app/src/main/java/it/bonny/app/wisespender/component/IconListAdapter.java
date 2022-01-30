@@ -1,4 +1,4 @@
-package it.bonny.app.wisespender.util;
+package it.bonny.app.wisespender.component;
 
 import android.content.Context;
 import android.view.LayoutInflater;

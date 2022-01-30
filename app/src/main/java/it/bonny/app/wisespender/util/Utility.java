@@ -303,8 +303,8 @@ public class Utility {
 
     public void saveFilterTransactionBean(FilterTransactionBean filterTransactionBean, Activity activity){
         SharedPreferences.Editor editor = activity.getSharedPreferences(PREFS_NAME_FILE, Context.MODE_PRIVATE).edit();
-        editor.putInt("filterDate", filterTransactionBean.getFilterDate());
-        editor.putInt("filterTypeTransaction", filterTransactionBean.getFilterTypeTransaction());
+        //editor.putInt("filterDate", filterTransactionBean.getFilterDate());
+        //editor.putInt("filterTypeTransaction", filterTransactionBean.getFilterTypeTransaction());
         editor.putString("dateFrom", filterTransactionBean.getDateFrom());
         editor.putString("dateA", filterTransactionBean.getDateA());
 
@@ -314,8 +314,8 @@ public class Utility {
     public FilterTransactionBean getFilterTransactionBeanSaved(Activity activity){
         FilterTransactionBean bean = new FilterTransactionBean();
         SharedPreferences sharedPreferences = activity.getSharedPreferences(PREFS_NAME_FILE, Context.MODE_PRIVATE);
-        bean.setFilterDate(sharedPreferences.getInt("filterDate", 0));
-        bean.setFilterTypeTransaction(sharedPreferences.getInt("filterTypeTransaction", 3));
+        //bean.setFilterDate(sharedPreferences.getInt("filterDate", 0));
+        //bean.setFilterTypeTransaction(sharedPreferences.getInt("filterTypeTransaction", 3));
         bean.setDateFrom(sharedPreferences.getString("dateFrom", ""));
         bean.setDateA(sharedPreferences.getString("dateA", ""));
 

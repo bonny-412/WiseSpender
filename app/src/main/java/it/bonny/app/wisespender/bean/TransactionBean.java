@@ -1,9 +1,10 @@
 package it.bonny.app.wisespender.bean;
 
-import java.math.BigDecimal;
-import java.util.Date;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class TransactionBean {
+
+public class TransactionBean implements Parcelable {
 
     public static final String TABLE = "transaction_table";
     public static final String KEY_ID = "id";
@@ -25,6 +26,29 @@ public class TransactionBean {
     private long idAccount;
 
     public TransactionBean() {}
+
+    protected TransactionBean(Parcel in) {
+        id = in.readLong();
+        title = in.readString();
+        amount = in.readInt();
+        dateInsert = in.readString();
+        note = in.readString();
+        typeTransaction = in.readInt();
+        idCategory = in.readLong();
+        idAccount = in.readLong();
+    }
+
+    public static final Creator<TransactionBean> CREATOR = new Creator<TransactionBean>() {
+        @Override
+        public TransactionBean createFromParcel(Parcel in) {
+            return new TransactionBean(in);
+        }
+
+        @Override
+        public TransactionBean[] newArray(int size) {
+            return new TransactionBean[size];
+        }
+    };
 
     public long getId() {
         return id;
@@ -94,4 +118,20 @@ public class TransactionBean {
             + TransactionBean.KEY_TITLE + " TEXT"
             + ")";
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeLong(id);
+        parcel.writeString(title);
+        parcel.writeInt(amount);
+        parcel.writeString(dateInsert);
+        parcel.writeString(note);
+        parcel.writeInt(typeTransaction);
+        parcel.writeLong(idCategory);
+        parcel.writeLong(idAccount);
+    }
 }

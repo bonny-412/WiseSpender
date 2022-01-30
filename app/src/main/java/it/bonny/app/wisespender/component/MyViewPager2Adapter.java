@@ -1,4 +1,4 @@
-package it.bonny.app.wisespender.util;
+package it.bonny.app.wisespender.component;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

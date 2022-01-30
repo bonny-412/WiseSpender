@@ -143,7 +143,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }while (c.moveToNext());
         }
         c.close();
-        db.close();
         return accountBean;
     }
 
@@ -173,7 +172,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             } while (c.moveToNext());
         }
         c.close();
-        db.close();
         return accountBeans;
     }
 
@@ -330,7 +328,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }while (c.moveToNext());
         }
         c.close();
-        db.close();
         return categoryBean;
     }
 
@@ -353,7 +350,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }while (c.moveToNext());
         }
         c.close();
-        db.close();
         return categoryBean;
     }
 
@@ -363,7 +359,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @SuppressLint("Range")
     public List<CategoryBean> getAllCategoryBeans() {
         List<CategoryBean> categoryBeans = new ArrayList<>();
-        String selectQuery = "SELECT * FROM " + CategoryBean.TABLE + " c WHERE c." + CategoryBean.KEY_TYPE_CATEGORY + " != " + TypeObjectBean.CATEGORY_OPEN_BALANCE + " ORDER BY c." + CategoryBean.KEY_NAME + " DESC";
+        String selectQuery = "SELECT * FROM " + CategoryBean.TABLE + " c WHERE c." + CategoryBean.KEY_TYPE_CATEGORY
+                + " != " + TypeObjectBean.CATEGORY_OPEN_BALANCE + " ORDER BY c." + CategoryBean.KEY_TYPE_CATEGORY
+                + ", c." + CategoryBean.KEY_NAME + " ASC";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
         if (c.moveToFirst()) {
@@ -377,7 +375,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             } while (c.moveToNext());
         }
         c.close();
-        db.close();
         return categoryBeans;
     }
 
@@ -401,7 +398,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             } while (c.moveToNext());
         }
         c.close();
-        db.close();
         return categoryBeans;
     }
 
@@ -483,7 +479,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }while (c.moveToNext());
         }
         c.close();
-        db.close();
         return transactionBean;
     }
 
@@ -511,7 +506,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             } while (c.moveToNext());
         }
         c.close();
-        db.close();
         return transactionBeans;
     }
 
@@ -539,7 +533,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             } while (c.moveToNext());
         }
         c.close();
-        db.close();
         return transactionBeans;
     }
 
@@ -642,12 +635,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         String selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t WHERE t." + TransactionBean.KEY_DATE_INSERT + " BETWEEN '" + dateFrom + "' AND '" + dateA + "'";
 
-        if(bean.getFilterTypeTransaction() == TypeObjectBean.TRANSACTION_INCOME) {
+        /*if(bean.getFilterTypeTransaction() == TypeObjectBean.TRANSACTION_INCOME) {
             selectQuery += " AND (t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + TypeObjectBean.TRANSACTION_INCOME + " OR t." +
                     TransactionBean.KEY_TYPE_TRANSACTION + " = " + TypeObjectBean.TRANSACTION_OPEN_BALANCE + ")";
         }else if(bean.getFilterTypeTransaction() == TypeObjectBean.TRANSACTION_EXPENSE) {
             selectQuery += " AND t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + TypeObjectBean.TRANSACTION_EXPENSE;
-        }
+        }*/
 
         if(accountBeanSelected != null && accountBeanSelected.getIsMaster() == TypeObjectBean.NO_MASTER) {
             selectQuery += " AND t." + TransactionBean.KEY_ID_ACCOUNT + " = " + accountBeanSelected.getId();
@@ -678,7 +671,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             } while (c.moveToNext());
         }
         c.close();
-        db.close();
         return transactionBeans;
     }
 

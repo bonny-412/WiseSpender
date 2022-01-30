@@ -1,4 +1,4 @@
-package it.bonny.app.wisespender.util;
+package it.bonny.app.wisespender.component;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -25,6 +25,7 @@ import it.bonny.app.wisespender.bean.CategoryBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
 import it.bonny.app.wisespender.db.DatabaseHelper;
 import it.bonny.app.wisespender.manager.NewEditAccountActivity;
+import it.bonny.app.wisespender.util.Utility;
 
 public class ListCategoriesAdapter extends ArrayAdapter<CategoryBean>  {
     private final List<CategoryBean> categoryBeanList;

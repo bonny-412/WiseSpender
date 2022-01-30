@@ -1,34 +1,17 @@
 package it.bonny.app.wisespender.manager;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
-import android.transition.Fade;
-import android.view.View;
-import android.widget.ListView;
-import android.widget.TextView;
 
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import it.bonny.app.wisespender.R;
-import it.bonny.app.wisespender.bean.AccountBean;
-import it.bonny.app.wisespender.bean.CategoryBean;
-import it.bonny.app.wisespender.bean.TypeObjectBean;
-import it.bonny.app.wisespender.db.DatabaseHelper;
-import it.bonny.app.wisespender.util.MyViewPager2Adapter;
+import it.bonny.app.wisespender.component.MyViewPager2Adapter;
 
 public class ListCategoriesActivity extends AppCompatActivity {
     private TabLayout tabLayout;

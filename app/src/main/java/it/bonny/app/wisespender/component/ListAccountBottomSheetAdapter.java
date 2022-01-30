@@ -1,4 +1,4 @@
-package it.bonny.app.wisespender.util;
+package it.bonny.app.wisespender.component;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -16,9 +16,9 @@ import java.util.List;
 
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
-import it.bonny.app.wisespender.bean.TransactionBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
 import it.bonny.app.wisespender.db.DatabaseHelper;
+import it.bonny.app.wisespender.util.Utility;
 
 public class ListAccountBottomSheetAdapter extends RecyclerView.Adapter<ListAccountBottomSheetAdapter.ViewHolder>  {
     private final List<AccountBean> accountBeanList;

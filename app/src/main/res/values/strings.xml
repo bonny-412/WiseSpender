@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Spender</string>
     <string name="loading_alert_loading">Loading…</string>
+    <string name="ok">OK</string>
 
     <!-- Bottom Navigation Menu -->
     <string name="title_home_menu">Home</string>
@@ -89,7 +90,6 @@
     <string name="month_nov">Nov</string>
     <string name="month_dec">Dec</string>
     <string name="category_icon">Category icon</string>
-    <string name="title_page_edit_catgory">Edit category</string>
 
     <!-- Transaction -->
     <string name="title_page_new_transaction">New transaction</string>
@@ -123,5 +123,10 @@
     <string name="title_filter_date_custom">Personalized</string>
     <string name="alert_delete_transaction_title">Are you sure you want to delete this transaction?</string>
     <string name="title_date_range_picker">SELECT INTERVAL</string>
+    <string name="search_activity_button_type">Type</string>
+    <string name="search_activity_button_date">Date</string>
+    <string name="search_activity_button_category">Category</string>
+    <string name="search_activity_button_account">Account</string>
+    <string name="search_title_type">Choose transaction type</string>
 
 </resources>

@@ -1,4 +1,4 @@
-package it.bonny.app.wisespender.util;
+package it.bonny.app.wisespender.component;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -6,6 +6,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,14 +22,16 @@ import java.util.List;
 
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
+import it.bonny.app.wisespender.util.Utility;
 
 public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.ViewHolder>  {
     private final List<AccountBean> accountBeanList;
     private final Activity activity;
     private final Utility utility = new Utility();
-    private final RecyclerViewClickAccountInterface recyclerViewClickAccountInterface;
+    private final RecyclerViewClickInterface recyclerViewClickAccountInterface;
+    private Animation animation;
 
-    public AccountListAdapter(List<AccountBean> accountBeanList, Activity activity, RecyclerViewClickAccountInterface recyclerViewClickAccountInterface) {
+    public AccountListAdapter(List<AccountBean> accountBeanList, Activity activity, RecyclerViewClickInterface recyclerViewClickAccountInterface) {
         this.accountBeanList = accountBeanList;
         this.activity = activity;
         this.recyclerViewClickAccountInterface = recyclerViewClickAccountInterface;
@@ -50,7 +55,7 @@ public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.
             totAccountString = utility.formatNumberCurrency(totAccountString);
             holder.totMoneyAccount.setText(totAccountString);
 
-            holder.btnElement.setOnClickListener(view -> recyclerViewClickAccountInterface.onItemClick(holder.getAdapterPosition(), accountBean));
+            holder.btnElement.setOnClickListener(view -> recyclerViewClickAccountInterface.onItemClick(holder.getAdapterPosition()));
 
         } catch (Exception e) {
             //TODO: Firebase
@@ -89,10 +94,11 @@ public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.
         return this.accountBeanList.get(position);
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final AppCompatImageView iconAccount;
-        private final TextView titleAccount, totMoneyAccount;
-        private final MaterialCardView btnElement;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        AppCompatImageView iconAccount;
+        TextView titleAccount, totMoneyAccount;
+        MaterialCardView btnElement;
+        LinearLayout mainLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -100,6 +106,10 @@ public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.
             this.titleAccount = itemView.findViewById(R.id.titleAccount);
             this.totMoneyAccount = itemView.findViewById(R.id.totMoneyAccount);
             this.btnElement = itemView.findViewById(R.id.btnElement);
+            this.mainLayout = itemView.findViewById(R.id.mainLayout);
+
+            animation = AnimationUtils.loadAnimation(activity.getApplicationContext(), R.anim.translate_anim);
+            mainLayout.setAnimation(animation);
         }
 
     }

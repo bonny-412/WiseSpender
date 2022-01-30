@@ -1,4 +1,4 @@
-package it.bonny.app.wisespender.util;
+package it.bonny.app.wisespender.component;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -22,6 +22,7 @@ import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
 import it.bonny.app.wisespender.bean.CategoryBean;
 import it.bonny.app.wisespender.bean.IconBean;
+import it.bonny.app.wisespender.util.Utility;
 
 public class ChooseAccountCategoryAdapter extends BaseAdapter {
 

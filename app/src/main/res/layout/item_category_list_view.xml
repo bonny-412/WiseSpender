@@ -6,13 +6,14 @@
     android:layout_height="wrap_content"
     android:padding="10dp"
     android:orientation="horizontal"
+    android:id="@+id/mainLayout"
     >
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/btnElement"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="@color/background"
-        app:cardCornerRadius="14dp"
+        app:cardCornerRadius="10dp"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,6 +35,7 @@
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/background_card"
                 app:cardElevation="0dp"
+                android:elevation="0dp"
                 app:cardCornerRadius="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

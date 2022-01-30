@@ -29,11 +29,10 @@ import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.CategoryBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
 import it.bonny.app.wisespender.db.DatabaseHelper;
-import it.bonny.app.wisespender.util.CategoryListAdapter;
-import it.bonny.app.wisespender.util.RecyclerViewClickAccountInterface;
-import it.bonny.app.wisespender.util.RecyclerViewClickCategoryInterface;
+import it.bonny.app.wisespender.component.CategoryListAdapter;
+import it.bonny.app.wisespender.component.RecyclerViewClickInterface;
 
-public class CategoryExpenseFragment extends Fragment implements RecyclerViewClickCategoryInterface {
+public class CategoryExpenseFragment extends Fragment implements RecyclerViewClickInterface {
     private View root;
     private List<CategoryBean> categoryBeanList = new ArrayList<>();
     private RecyclerView listViewCategory;

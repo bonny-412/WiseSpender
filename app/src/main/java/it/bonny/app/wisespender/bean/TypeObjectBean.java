@@ -33,6 +33,15 @@ public class TypeObjectBean {
     public static final int RETURN_EDIT = 2;
     public static final int RETURN_DELETE = 3;
 
+    public static final int SEARCH_TRANSACTION_TYPE = 0;
+    public static final int SEARCH_TRANSACTION_DATE = 1;
+    public static final int SEARCH_TRANSACTION_ACCOUNT = 2;
+    public static final int SEARCH_TRANSACTION_CATEGORY = 3;
+
+    public static final int FILTER_SEARCH_TRANSACTION_TYPE_ALL = 0;
+    public static final int FILTER_SEARCH_TRANSACTION_TYPE_INCOME = 1;
+    public static final int FILTER_SEARCH_TRANSACTION_TYPE_EXPENSE = 2;
+
     public TypeObjectBean() {}
 
 }

@@ -2,54 +2,69 @@ package it.bonny.app.wisespender.manager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.MaterialDatePicker;
-import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
+import it.bonny.app.wisespender.bean.CategoryBean;
 import it.bonny.app.wisespender.bean.FilterTransactionBean;
 import it.bonny.app.wisespender.bean.TransactionBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
+import it.bonny.app.wisespender.component.BottomSheetListener;
+import it.bonny.app.wisespender.component.BottomSheetSearchTransaction;
+import it.bonny.app.wisespender.component.ListAccountSearchFilterAdapter;
+import it.bonny.app.wisespender.component.ListCategoryBottomSheetAdapter;
+import it.bonny.app.wisespender.component.RecyclerViewClickBottomSheetInterface;
 import it.bonny.app.wisespender.db.DatabaseHelper;
-import it.bonny.app.wisespender.util.ListTransactionsAdapter;
+import it.bonny.app.wisespender.component.RecyclerViewClickInterface;
+import it.bonny.app.wisespender.component.TransactionListAdapter;
 import it.bonny.app.wisespender.util.Utility;
 
-public class ListTransactionActivity extends AppCompatActivity {
+public class ListTransactionActivity extends AppCompatActivity implements BottomSheetListener, RecyclerViewClickInterface, RecyclerViewClickBottomSheetInterface {
 
-    private LinearLayout btnAllTransaction, btnIncomeTransaction, btnExpenseTransaction, btnFilterDateTransaction;
-    private TextView textViewAll, textViewIncome, textViewExpense;
-    private int typeTransaction;
+    private MaterialButton dateButton, categoryButton, accountButton;
+    Button typeButton;
     private FilterTransactionBean filterTransactionBean;
     private final Utility utility = new Utility();
     private final Activity activity = this;
     private MaterialCardView btnReturn;
     private DatabaseHelper db;
-    private ImageView imgListEmpty;
-    private ListView listViewCategoriesTransaction;
-    private List<String> listDateFilters;
+    private ImageView listEmpty;
+    private RecyclerView listTransactions;
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-    private Pair<Long, Long> selectionDates = null;
     private AccountBean accountBean;
+    private TransactionListAdapter transactionListAdapter;
+    private List<TransactionBean> transactionBeanList = new ArrayList<>();
+    private ProgressBar progressBar;
+    private final List<Long> idCategories = new ArrayList<>();
+    private final List<Long> idAccounts = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,123 +73,184 @@ public class ListTransactionActivity extends AppCompatActivity {
         filterTransactionBean = utility.getFilterTransactionBeanSaved(activity);
 
         init();
-        getDateMonthToDatePicker();
         accountBean = db.getAccountBeanSelected();
-        changeFilterTypeTransaction(filterTransactionBean.getFilterTypeTransaction());
 
-        btnAllTransaction.setOnClickListener(view -> changeFilterTypeTransaction(3));
-        btnIncomeTransaction.setOnClickListener(view -> changeFilterTypeTransaction(TypeObjectBean.TRANSACTION_INCOME));
-        btnExpenseTransaction.setOnClickListener(view -> changeFilterTypeTransaction(TypeObjectBean.TRANSACTION_EXPENSE));
+        typeButton.setOnClickListener(view -> {
+            BottomSheetSearchTransaction bottomSheetSearchTransaction = new BottomSheetSearchTransaction(TypeObjectBean.SEARCH_TRANSACTION_TYPE, ListTransactionActivity.this, filterTransactionBean);
+            bottomSheetSearchTransaction.show(getSupportFragmentManager(), "SEARCH_TRANSACTION");
+        });
 
-        btnFilterDateTransaction.setOnClickListener(view -> openDateRangePicker());
+        dateButton.setOnClickListener(view -> {
+            //BottomSheetSearchTransaction bottomSheetSearchTransaction = new BottomSheetSearchTransaction(TypeObjectBean.SEARCH_TRANSACTION_DATE, ListTransactionActivity.this, filterTransactionBean);
+            //bottomSheetSearchTransaction.show(getSupportFragmentManager(), "SEARCH_TRANSACTION");
+        });
+
+        categoryButton.setOnClickListener(view -> showAlertCategories());
+
+        accountButton.setOnClickListener(view -> showAlertAccounts());
 
         btnReturn.setOnClickListener(view -> finish());
 
-        callQuery();
+        //callQuery();
+        transactionListAdapter = new TransactionListAdapter(transactionBeanList, this, false, this);
+        listTransactions.setHasFixedSize(true);
+        listTransactions.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        listTransactions.setAdapter(transactionListAdapter);
 
     }
 
     private void init() {
         db = new DatabaseHelper(getApplicationContext());
-        btnAllTransaction = findViewById(R.id.btnAllTransaction);
-        btnIncomeTransaction = findViewById(R.id.btnIncomeTransaction);
-        btnExpenseTransaction = findViewById(R.id.btnExpenseTransaction);
-        btnFilterDateTransaction = findViewById(R.id.btnFilterDateTransaction);
-        textViewAll = findViewById(R.id.textViewAll);
-        textViewIncome = findViewById(R.id.textViewIncome);
-        textViewExpense = findViewById(R.id.textViewExpense);
         btnReturn = findViewById(R.id.btnReturn);
-        imgListEmpty = findViewById(R.id.imgListEmpty);
-        listViewCategoriesTransaction = findViewById(R.id.listViewCategoriesTransaction);
-    }
+        listEmpty = findViewById(R.id.listEmpty);
+        listTransactions = findViewById(R.id.listTransactions);
+        progressBar = findViewById(R.id.progressBar);
 
-    private void changeFilterTypeTransaction(int val) {
-        if(val == TypeObjectBean.TRANSACTION_INCOME) {
-            filterTransactionBean.setFilterTypeTransaction(val);
-            textViewAll.setTextColor(getColor(R.color.secondary_text));
-            textViewIncome.setTextColor(getColor(R.color.primary));
-            textViewExpense.setTextColor(getColor(R.color.secondary_text));
-        }else if(val == TypeObjectBean.TRANSACTION_EXPENSE) {
-            filterTransactionBean.setFilterTypeTransaction(val);
-            textViewAll.setTextColor(getColor(R.color.secondary_text));
-            textViewIncome.setTextColor(getColor(R.color.secondary_text));
-            textViewExpense.setTextColor(getColor(R.color.primary));
-        }else {
-            filterTransactionBean.setFilterTypeTransaction(val);
-            textViewAll.setTextColor(getColor(R.color.primary));
-            textViewIncome.setTextColor(getColor(R.color.secondary_text));
-            textViewExpense.setTextColor(getColor(R.color.secondary_text));
-        }
-        utility.saveFilterTransactionBean(filterTransactionBean, activity);
-
-        callQuery();
+        typeButton = findViewById(R.id.type_button);
+        dateButton = findViewById(R.id.date_button);
+        categoryButton = findViewById(R.id.category_button);
+        accountButton = findViewById(R.id.account_button);
     }
 
     private void callQuery() {
-        FilterTransactionBean bean = utility.getFilterTransactionBeanSaved(activity);
-        List<TransactionBean> transactionBeans = db.getAllTransactionBeansByFilterBean(accountBean, bean, listDateFilters.get(0) + " 00:00", listDateFilters.get(1) +  " 23:59", 0);
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        progressBar.setVisibility(View.VISIBLE);
+        listTransactions.setVisibility(View.GONE);
+        listEmpty.setVisibility(View.GONE);
+        executorService.execute(() -> {
 
-        if(transactionBeans != null && transactionBeans.size() > 0) {
-            imgListEmpty.setVisibility(View.GONE);
-            listViewCategoriesTransaction.setVisibility(View.VISIBLE);
+            FilterTransactionBean bean = utility.getFilterTransactionBeanSaved(activity);
+           // transactionBeanList = db.getAllTransactionBeansByFilterBean(accountBean, bean, listDateFilters.get(0) + " 00:00", listDateFilters.get(1) +  " 23:59", 0);
 
-            ListTransactionsAdapter listTransactionsAdapter = new ListTransactionsAdapter(transactionBeans, activity, false);
-            listViewCategoriesTransaction.setAdapter(listTransactionsAdapter);
-            listTransactionsAdapter.notifyDataSetChanged();
-        }else {
-            imgListEmpty.setVisibility(View.VISIBLE);
-            listViewCategoriesTransaction.setVisibility(View.GONE);
-        }
+            runOnUiThread(() -> {
+                transactionListAdapter.insertTransactionBeanList(transactionBeanList);
 
-    }
-
-    public void openDateRangePicker() {
-        MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
-        CalendarConstraints.Builder constraintsBuilder = new CalendarConstraints.Builder();
-        builder.setCalendarConstraints(constraintsBuilder.build());
-        builder.setTitleText(getString(R.string.title_date_range_picker));
-
-        if(selectionDates != null) {
-            builder.setSelection(selectionDates);
-        }
-
-        MaterialDatePicker<Pair<Long,Long>> picker = builder.build();
-        picker.show(getSupportFragmentManager(), picker.toString());
-
-        picker.addOnPositiveButtonClickListener(selection -> {
-            long firstDateLong = selection.first;
-            Date firstDate = new Date(firstDateLong);
-            long endDateLong = selection.second;
-            Date endDate = new Date(endDateLong);
-
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-
-            listDateFilters.set(0, dateFormat.format(firstDate));
-            listDateFilters.set(1, dateFormat.format(endDate));
-            selectionDates = selection;
-
-            picker.dismiss();
-            callQuery();
+                if(transactionBeanList != null && transactionBeanList.size() > 0) {
+                    listTransactions.setVisibility(View.VISIBLE);
+                    listEmpty.setVisibility(View.GONE);
+                }else {
+                    listTransactions.setVisibility(View.GONE);
+                    listEmpty.setVisibility(View.VISIBLE);
+                }
+                progressBar.setVisibility(View.GONE);
+            });
         });
 
     }
 
-    private void getDateMonthToDatePicker() {
-        Calendar cal = Calendar.getInstance();
-        listDateFilters = new ArrayList<>();
-        Date date;
+    private void showAlertCategories() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View viewInfoDialog = View.inflate(this, R.layout.bottom_sheet_search_transaction_category, null);
+        builder.setCancelable(false);
+        builder.setView(viewInfoDialog);
+        RecyclerView recyclerViewCategory = viewInfoDialog.findViewById(R.id.recyclerViewCategory);
+        ProgressBar progressBar1 = viewInfoDialog.findViewById(R.id.progressBar);
 
-        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMinimum(Calendar.DAY_OF_MONTH));
-        date = cal.getTime();
-        Long start = date.getTime();
-        listDateFilters.add(dateFormat.format(date));
+        builder.setTitle(getString(R.string.category_title_detail_transaction));
+        builder.setPositiveButton("OK", (dialogInterface, i) -> filterTransactionBean.setIdCategories(idCategories));
 
-        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
-        date = cal.getTime();
-        Long end = date.getTime();
-        listDateFilters.add(dateFormat.format(date));
+        final AlertDialog dialog = builder.create();
+        if(dialog != null){
+            if(dialog.getWindow() != null){
+                dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+            }
+        }
 
-        selectionDates = new Pair<>(start, end);
+        findAllCategories(recyclerViewCategory, progressBar1, activity, db);
+
+        if(dialog != null)
+            dialog.show();
+    }
+
+    private void showAlertAccounts() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View viewInfoDialog = View.inflate(this, R.layout.bottom_sheet_search_transaction_account, null);
+        builder.setCancelable(false);
+        builder.setView(viewInfoDialog);
+        RecyclerView recyclerViewAccount = viewInfoDialog.findViewById(R.id.recyclerViewAccount);
+        ProgressBar progressBar1 = viewInfoDialog.findViewById(R.id.progressBar);
+
+        builder.setTitle(getString(R.string.account_title_detail_transaction));
+        builder.setPositiveButton("OK", (dialogInterface, i) -> filterTransactionBean.setIdCategories(idCategories));
+
+        final AlertDialog dialog = builder.create();
+        if(dialog != null){
+            if(dialog.getWindow() != null){
+                dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+            }
+        }
+
+        findAllAccounts(recyclerViewAccount, progressBar1, activity, db);
+
+        if(dialog != null)
+            dialog.show();
+    }
+
+    private void findAllCategories(RecyclerView recyclerView, ProgressBar progressBar1, Activity mActivity, DatabaseHelper db) {
+        ExecutorService service = Executors.newSingleThreadExecutor();
+        recyclerView.setVisibility(View.GONE);
+        progressBar1.setVisibility(View.VISIBLE);
+        service.execute(() -> {
+            List<CategoryBean> categoryBeanList = db.getAllCategoryBeans();
+            ListCategoryBottomSheetAdapter listCategoryBottomSheetAdapter = new ListCategoryBottomSheetAdapter(categoryBeanList, idCategories, this);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(new LinearLayoutManager(mActivity.getApplicationContext()));
+            recyclerView.setAdapter(listCategoryBottomSheetAdapter);
+
+            mActivity.runOnUiThread(() -> {
+                recyclerView.setVisibility(View.VISIBLE);
+                progressBar1.setVisibility(View.GONE);
+            });
+        });
+    }
+
+    private void findAllAccounts(RecyclerView recyclerView, ProgressBar progressBar1, Activity mActivity, DatabaseHelper db) {
+        ExecutorService service = Executors.newSingleThreadExecutor();
+        recyclerView.setVisibility(View.GONE);
+        progressBar1.setVisibility(View.VISIBLE);
+        service.execute(() -> {
+            List<AccountBean> accountBeans = db.getAllAccountBeansNoMaster();
+            ListAccountSearchFilterAdapter listAccountSearchFilterAdapter = new ListAccountSearchFilterAdapter(accountBeans, idAccounts, this);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(new LinearLayoutManager(mActivity.getApplicationContext()));
+            recyclerView.setAdapter(listAccountSearchFilterAdapter);
+
+            mActivity.runOnUiThread(() -> {
+                recyclerView.setVisibility(View.VISIBLE);
+                progressBar1.setVisibility(View.GONE);
+            });
+        });
+    }
+
+    /**
+     *METHOD INTERFACE
+     */
+
+    @Override
+    public void onItemClick(long idElement, boolean isCategory) {
+        if(isCategory) {
+            if(idCategories.contains(idElement)) {
+                idCategories.remove(idElement);
+            }else {
+                idCategories.add(idElement);
+            }
+        }else {
+            if(idAccounts.contains(idElement)) {
+                idAccounts.remove(idElement);
+            }else {
+                idAccounts.add(idElement);
+            }
+        }
+    }
+
+    @Override
+    public void onFilterClick(FilterTransactionBean filterTransactionBean) {
+        this.filterTransactionBean.copyElement(filterTransactionBean);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+
     }
 
 }

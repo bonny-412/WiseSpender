@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.app.ActivityOptionsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,7 +15,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,28 +31,29 @@ import it.bonny.app.wisespender.bean.AccountBean;
 import it.bonny.app.wisespender.bean.TransactionBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
 import it.bonny.app.wisespender.db.DatabaseHelper;
-import it.bonny.app.wisespender.util.ListTransactionsAdapter;
-import it.bonny.app.wisespender.util.LoadingDialog;
+import it.bonny.app.wisespender.component.RecyclerViewClickInterface;
+import it.bonny.app.wisespender.component.TransactionListAdapter;
+import it.bonny.app.wisespender.component.LoadingDialog;
 import it.bonny.app.wisespender.util.Utility;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecyclerViewClickInterface  {
 
     private long backPressedTime;
     private DatabaseHelper db;
     private final Utility utility = new Utility();
     private MaterialCardView cardViewAccount, cardViewCategory, cardViewTransaction;
     private TextView accountName, showAccountListBtn, moneyAccount, showTransactionListBtn;
-    private final Activity activity = this;
+    private final Activity mActivity = this;
     private AppCompatTextView totalIncome, totalExpense;
     private AccountBean accountBeanSelected;
     private BottomSheetAccount bottomSheetAccount;
-    private ListView listTransactions;
+    private RecyclerView listTransactions;
     private ImageView listTransactionsEmpty;
     private ExtendedFloatingActionButton btnNewTransaction;
     private List<TransactionBean> transactionBeanList = new ArrayList<>();
     private AppCompatImageView imageViewTransactions, imageViewAccounts, imageViewCategory;
     private LoadingDialog loadingDialog;
-    private ListTransactionsAdapter listTransactionsAdapter;
+    private TransactionListAdapter transactionListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +63,16 @@ public class MainActivity extends AppCompatActivity {
         init();
         showWelcomeAlert();
 
+        transactionListAdapter = new TransactionListAdapter(transactionBeanList, mActivity, true, this);
+        listTransactions.setHasFixedSize(true);
+        listTransactions.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        listTransactions.setAdapter(transactionListAdapter);
+
         cardViewAccount.setOnClickListener(view -> {
             if(imageViewAccounts == null)
                 imageViewAccounts = findViewById(R.id.imageViewAccounts);
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, imageViewAccounts, "transition_account_icon");
-            Intent intent = new Intent(activity, ListAccountsActivity.class);
+            Intent intent = new Intent(mActivity, ListAccountsActivity.class);
             startActivity(intent, options.toBundle());
         });
 
@@ -73,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
             if(imageViewCategory == null)
                 imageViewCategory = findViewById(R.id.imageViewCategory);
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, imageViewCategory, "transition_category_icon");
-            Intent intent = new Intent(activity, ListCategoriesActivity.class);
+            Intent intent = new Intent(mActivity, ListCategoriesActivity.class);
             startActivity(intent, options.toBundle());
         });
 
@@ -81,28 +88,21 @@ public class MainActivity extends AppCompatActivity {
             if(imageViewTransactions == null)
                 imageViewTransactions = findViewById(R.id.imageViewTransactions);
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, imageViewTransactions, "transition_transaction_icon");
-            Intent intent = new Intent(activity, ListTransactionActivity.class);
+            Intent intent = new Intent(mActivity, ListTransactionActivity.class);
             startActivity(intent, options.toBundle());
         });
 
         showAccountListBtn.setOnClickListener(view -> bottomSheetAccount.show(getSupportFragmentManager(), "TAG"));
 
         showTransactionListBtn.setOnClickListener(view -> {
-            Intent intent = new Intent(activity, ListTransactionActivity.class);
+            Intent intent = new Intent(mActivity, ListTransactionActivity.class);
             startActivity(intent);
         });
 
         btnNewTransaction.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, TransactionActivity.class);
+            intent.putExtra("transactionBean", new TransactionBean());
             startActivity(intent);
-        });
-
-        listTransactions.setOnItemClickListener((adapterView, view, i, l) -> {
-            ImageView iconCategory = view.findViewById(R.id.iconCategory);
-            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, iconCategory, "imageViewIconTransaction");
-            Intent intent = new Intent(activity, TransactionDetailActivity.class);
-            intent.putExtra("idTransaction", transactionBeanList.get(i).getId());
-            startActivity(intent, options.toBundle());
         });
 
     }
@@ -117,15 +117,13 @@ public class MainActivity extends AppCompatActivity {
         totalIncome = findViewById(R.id.totalIncome);
         totalExpense = findViewById(R.id.totalExpense);
         listTransactions = findViewById(R.id.listTransactions);
-        listTransactions.setDivider(null);
-        listTransactions.setDividerHeight(0);
+
         listTransactionsEmpty = findViewById(R.id.listTransactionsEmpty);
         btnNewTransaction = findViewById(R.id.btnNewTransaction);
         cardViewTransaction = findViewById(R.id.cardViewTransaction);
         showTransactionListBtn = findViewById(R.id.showTransactionListBtn);
         loadingDialog = new LoadingDialog(MainActivity.this);
-        listTransactionsAdapter = new ListTransactionsAdapter(transactionBeanList, activity, true);
-        listTransactions.setAdapter(listTransactionsAdapter);
+
     }
 
     //Shows the welcome alert
@@ -142,10 +140,10 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         if(firstStart) {
-            if(activity != null) {
-                utility.insertAccountDefault(db, activity);
-                utility.insertCategoryDefault(db, activity);
-                SharedPreferences.Editor editor = activity.getSharedPreferences(Utility.PREFS_NAME_FILE, Context.MODE_PRIVATE).edit();
+            if(mActivity != null) {
+                utility.insertAccountDefault(db, mActivity);
+                utility.insertCategoryDefault(db, mActivity);
+                SharedPreferences.Editor editor = mActivity.getSharedPreferences(Utility.PREFS_NAME_FILE, Context.MODE_PRIVATE).edit();
                 editor.putBoolean("firstStart", false);
                 editor.apply();
             }
@@ -209,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             runOnUiThread(() -> {
-                listTransactionsAdapter.updateTransactionsList(transactionBeanList);
+                transactionListAdapter.insertTransactionBeanList(transactionBeanList);
 
                 accountName.setText(accountBeanSelected.getName());
 
@@ -225,10 +223,16 @@ public class MainActivity extends AppCompatActivity {
                 totalIncome.setText(totMoneyAccountIncome);
                 totalExpense.setText(totMoneyAccountExpense);
 
-                bottomSheetAccount = new BottomSheetAccount(activity);
+                bottomSheetAccount = new BottomSheetAccount(mActivity);
                 loadingDialog.dismissDialog();
             });
         });
     }
 
+    @Override
+    public void onItemClick(int position) {
+        Intent intent = new Intent(mActivity, TransactionDetailActivity.class);
+        intent.putExtra("transactionBean", transactionListAdapter.findTransactionBean(position).getId());
+        startActivity(intent);
+    }
 }

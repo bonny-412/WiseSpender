@@ -65,10 +65,9 @@ public class TransactionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_transaction);
         init();
 
-        long idTransaction = getIntent().getLongExtra("idTransaction", 0);
+        transactionBean = getIntent().getParcelableExtra("transactionBean");
         AccountBean accountBeanSelected;
-        if(idTransaction > 0) {
-            transactionBean = db.getTransactionBean(idTransaction);
+        if(transactionBean.getId() > 0) {
             CategoryBean categoryBean = db.getCategoryBean(transactionBean.getIdCategory());
             accountBeanSelected = db.getAccountBean(transactionBean.getIdAccount());
             oldAmount = transactionBean.getAmount();
@@ -96,7 +95,6 @@ public class TransactionActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }else {
-            transactionBean = new TransactionBean();
             transactionBean.setTypeTransaction(TypeObjectBean.TRANSACTION_EXPENSE);
             accountBeanSelected = db.getAccountBeanSelected();
             if(accountBeanSelected.getIsMaster() == TypeObjectBean.IS_MASTER) {

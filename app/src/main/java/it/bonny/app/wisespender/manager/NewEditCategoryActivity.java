@@ -29,7 +29,7 @@ import it.bonny.app.wisespender.bean.IconBean;
 import it.bonny.app.wisespender.bean.TransactionBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
 import it.bonny.app.wisespender.db.DatabaseHelper;
-import it.bonny.app.wisespender.util.IconListAdapter;
+import it.bonny.app.wisespender.component.IconListAdapter;
 import it.bonny.app.wisespender.util.Utility;
 
 public class NewEditCategoryActivity extends AppCompatActivity implements TextWatcher {

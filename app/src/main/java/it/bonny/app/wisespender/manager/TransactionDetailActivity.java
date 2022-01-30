@@ -38,7 +38,6 @@ public class TransactionDetailActivity extends AppCompatActivity {
     private TransactionBean transactionBean;
     private boolean isOpen;
     private Animation fab_open, fab_close, fab_rotate_antiClock, fab_rotate_clock;
-    long idTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,21 +45,13 @@ public class TransactionDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_transaction_detail);
         init();
 
-        Fade fade = new Fade();
-        View decor = getWindow().getDecorView();
-        fade.excludeTarget(decor.findViewById(R.id.action_bar_container), true);
-        fade.excludeTarget(android.R.id.statusBarBackground, true);
-        fade.excludeTarget(android.R.id.navigationBarBackground, true);
-        getWindow().setEnterTransition(fade);
-        getWindow().setExitTransition(fade);
-
-        idTransaction = getIntent().getLongExtra("idTransaction", 0);
+        transactionBean = getIntent().getParcelableExtra("transactionBean");
 
         btnReturn.setOnClickListener(view -> supportFinishAfterTransition());
 
         fabViewEdit.setOnClickListener(view -> {
             Intent intent = new Intent(TransactionDetailActivity.this, TransactionActivity.class);
-            intent.putExtra("idTransaction", idTransaction);
+            intent.putExtra("transactionBean", transactionBean);
             startActivity(intent);
         });
 
@@ -200,7 +191,6 @@ public class TransactionDetailActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        transactionBean = db.getTransactionBean(idTransaction);
         if(isOpen)
             closeFloatList();
         setElements();

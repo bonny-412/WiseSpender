@@ -307,7 +307,7 @@
                     android:background="?attr/selectableItemBackground"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
-            <ListView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/listTransactions"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -315,7 +315,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                android:padding="10dp"/>
             <ImageView
                 android:id="@+id/listTransactionsEmpty"
                 android:layout_width="match_parent"
@@ -324,7 +325,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:contentDescription="@string/empty_list"
-                android:padding="100dp"
+                android:padding="70dp"
                 android:src="@drawable/ic_list_empty"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
