@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#DC008FFF</color>
-    <color name="secondary">#ff5436</color>
-    <color name="green">#50e3c2</color>
-    <color name="yellow">#FFAB00</color>
+    <color name="primary">#50a8e8</color>
+    <color name="secondary">#FFE85050</color>
+    <color name="green">#50E869</color>
 
-    <color name="background">#f3f3f3</color>
-    <color name="background_card">#fcfcfc</color>
+    <color name="background">#f0f0f0</color>
+    <color name="background_card">#ffffff</color>
 
-    <color name="primary_text">#2e3056</color>
-    <color name="secondary_text">#a4a2b7</color>
-    <color name="tertiary_text">#747474</color>
-    <color name="accent">#60606C</color>
+    <color name="primary_text">#363636</color>
+    <color name="secondary_text">#7d7d7d</color>
+    <color name="tertiary_text">#bbbbbb</color>
+    <color name="accent">#bbbbbb</color>
 
     <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
 
-    <color name="bg_input">#eaecf4</color>
     <color name="transparent">#00FFFFFF</color>
 
 </resources>

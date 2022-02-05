@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -76,7 +77,7 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
             }
             holder.amountTransaction.setText(amount);
 
-            holder.mainLayout.setOnClickListener(view -> transactionInterface.onItemClick(holder.getAdapterPosition()));
+            holder.btnElement.setOnClickListener(view -> transactionInterface.onItemClick(holder.getAdapterPosition()));
         } catch (Exception e) {
             //TODO: Firebase
             Log.e("bonny", e.toString());
@@ -119,7 +120,8 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
         AppCompatImageView iconCategory;
         TextView nameCategory, titleTransaction, amountTransaction, dateTransaction;
         MaterialCardView cardViewIcon;
-        ConstraintLayout mainLayout;
+        LinearLayout mainLayout;
+        MaterialCardView btnElement;
 
         public ViewHolder(View v) {
             super(v);
@@ -130,6 +132,7 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
             dateTransaction = v.findViewById(R.id.dateTransaction);
             cardViewIcon = v.findViewById(R.id.cardViewIcon);
             mainLayout = v.findViewById(R.id.mainLayout);
+            btnElement = v.findViewById(R.id.btnElement);
 
             animation = AnimationUtils.loadAnimation(activity.getApplicationContext(), R.anim.translate_anim);
             mainLayout.setAnimation(animation);

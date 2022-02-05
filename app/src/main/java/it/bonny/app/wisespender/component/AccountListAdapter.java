@@ -29,7 +29,6 @@ public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.
     private final Activity activity;
     private final Utility utility = new Utility();
     private final RecyclerViewClickInterface recyclerViewClickAccountInterface;
-    private Animation animation;
 
     public AccountListAdapter(List<AccountBean> accountBeanList, Activity activity, RecyclerViewClickInterface recyclerViewClickAccountInterface) {
         this.accountBeanList = accountBeanList;
@@ -108,7 +107,7 @@ public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.
             this.btnElement = itemView.findViewById(R.id.btnElement);
             this.mainLayout = itemView.findViewById(R.id.mainLayout);
 
-            animation = AnimationUtils.loadAnimation(activity.getApplicationContext(), R.anim.translate_anim);
+            Animation animation = AnimationUtils.loadAnimation(activity.getApplicationContext(), R.anim.translate_anim);
             mainLayout.setAnimation(animation);
         }
 

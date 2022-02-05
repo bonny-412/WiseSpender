@@ -50,7 +50,7 @@ public class Utility {
         accountCash.setFlagSelected(TypeObjectBean.NO_SELECTED);
         accountCash.setFlagViewTotalBalance(TypeObjectBean.IS_TOTAL_BALANCE);
         accountCash.setCurrency("EUR");
-        accountCash.setIdIcon(6);
+        accountCash.setIdIcon(7);
         accountCash.setTotMoneyIncome(0);
         accountCash.setTotMoneyExpense(0);
 
@@ -68,22 +68,22 @@ public class Utility {
         CategoryBean categoryHobbyIncome = new CategoryBean();
         categoryHobbyIncome.setName(activity.getString(R.string.category_bean_hobby));
         categoryHobbyIncome.setTypeCategory(TypeObjectBean.CATEGORY_INCOME);
-        categoryHobbyIncome.setIdIcon(23);
+        categoryHobbyIncome.setIdIcon(76);
 
         CategoryBean categoryHobbyExpense = new CategoryBean();
         categoryHobbyExpense.setName(activity.getString(R.string.category_bean_hobby));
         categoryHobbyExpense.setTypeCategory(TypeObjectBean.CATEGORY_EXPENSE);
-        categoryHobbyExpense.setIdIcon(23);
+        categoryHobbyExpense.setIdIcon(76);
 
         CategoryBean categoryNecessityIncome = new CategoryBean();
         categoryNecessityIncome.setName(activity.getString(R.string.category_bean_necessity));
         categoryNecessityIncome.setTypeCategory(TypeObjectBean.CATEGORY_INCOME);
-        categoryNecessityIncome.setIdIcon(19);
+        categoryNecessityIncome.setIdIcon(50);
 
         CategoryBean categoryNecessityExpense = new CategoryBean();
         categoryNecessityExpense.setName(activity.getString(R.string.category_bean_necessity));
         categoryNecessityExpense.setTypeCategory(TypeObjectBean.CATEGORY_EXPENSE);
-        categoryNecessityExpense.setIdIcon(19);
+        categoryNecessityExpense.setIdIcon(50);
 
         db.insertCategoryBean(categoryOpenBalance);
         db.insertCategoryBean(categoryHobbyIncome);
@@ -96,7 +96,7 @@ public class Utility {
     public int getIdIconByAccountBean(AccountBean accountBean) {
         int value;
         if(accountBean.getIsMaster() == TypeObjectBean.IS_MASTER) {
-            value = R.drawable.icon_account_main;
+            value = R.drawable.ic_new_account_19;
         }else {
             value = getListIconToAccountBean().get(accountBean.getIdIcon()).getDrawableInfo();
         }
@@ -105,73 +105,109 @@ public class Utility {
 
     public static List<IconBean> getListIconToAccountBean() {
         List<IconBean> iconBeans = new ArrayList<>();
-        iconBeans.add(new IconBean(0, R.drawable.icon_bank, "icon_bank"));
-        iconBeans.add(new IconBean(1, R.drawable.icon_clutch_bag, "icon_clutch_bag"));
-        iconBeans.add(new IconBean(2, R.drawable.icon_coin, "icon_coin"));
-        iconBeans.add(new IconBean(3, R.drawable.icon_credit_card, "icon_credit_card"));
-        iconBeans.add(new IconBean(4, R.drawable.icon_dollar, "icon_dollar"));
-        iconBeans.add(new IconBean(5, R.drawable.icon_dollar_banknote, "icon_dollar_banknote"));
-        iconBeans.add(new IconBean(6, R.drawable.icon_euro_banknote, "icon_euro_banknote"));
-        iconBeans.add(new IconBean(7, R.drawable.icon_money_bag, "icon_money_bag"));
-        iconBeans.add(new IconBean(8, R.drawable.icon_purse, "icon_purse"));
-        iconBeans.add(new IconBean(9, R.drawable.icon_safe, "icon_safe"));
-        iconBeans.add(new IconBean(10, R.drawable.icon_wallet, "icon_wallet"));
+        iconBeans.add(new IconBean(0, R.drawable.ic_new_account_1, "ic_new_account_1"));
+        iconBeans.add(new IconBean(1, R.drawable.ic_new_account_2, "ic_new_account_2"));
+        iconBeans.add(new IconBean(2, R.drawable.ic_new_account_3, "ic_new_account_3"));
+        iconBeans.add(new IconBean(3, R.drawable.ic_new_account_4, "ic_new_account_4"));
+        iconBeans.add(new IconBean(4, R.drawable.ic_new_account_5, "ic_new_account_5"));
+        iconBeans.add(new IconBean(5, R.drawable.ic_new_account_6, "ic_new_account_6"));
+        iconBeans.add(new IconBean(6, R.drawable.ic_new_account_7, "ic_new_account_7"));
+        iconBeans.add(new IconBean(7, R.drawable.ic_new_account_8, "ic_new_account_8"));
+        iconBeans.add(new IconBean(8, R.drawable.ic_new_account_9, "ic_new_account_9"));
+        iconBeans.add(new IconBean(9, R.drawable.ic_new_account_10, "ic_new_account_10"));
+        iconBeans.add(new IconBean(10, R.drawable.ic_new_account_11, "ic_new_account_11"));
+        iconBeans.add(new IconBean(10, R.drawable.ic_new_account_12, "ic_new_account_12"));
+        iconBeans.add(new IconBean(10, R.drawable.ic_new_account_13, "ic_new_account_13"));
+        iconBeans.add(new IconBean(10, R.drawable.ic_new_account_14, "ic_new_account_14"));
+        iconBeans.add(new IconBean(10, R.drawable.ic_new_account_15, "ic_new_account_15"));
+        iconBeans.add(new IconBean(10, R.drawable.ic_new_account_16, "ic_new_account_16"));
+        iconBeans.add(new IconBean(10, R.drawable.ic_new_account_17, "ic_new_account_17"));
+        iconBeans.add(new IconBean(10, R.drawable.ic_new_account_18, "ic_new_account_18"));
+
 
         return iconBeans;
     }
 
     public static List<IconBean> getListIconToCategoryBean() {
         List<IconBean> iconBeans = new ArrayList<>();
-        iconBeans.add(new IconBean(0, R.drawable.icon_animal, "icon_animal"));
-        iconBeans.add(new IconBean(1, R.drawable.icon_animal_1, "icon_animal_1"));
-        iconBeans.add(new IconBean(2, R.drawable.icon_baby, "icon_baby"));
-        iconBeans.add(new IconBean(3,R.drawable.icon_baby_1, "icon_baby_1"));
-        iconBeans.add(new IconBean(4, R.drawable.icon_beauty, "icon_beauty"));
-        iconBeans.add(new IconBean(5, R.drawable.icon_beauty_1, "icon_beauty_1"));
-        iconBeans.add(new IconBean(6, R.drawable.icon_beauty_2, "icon_beauty_2"));
-        iconBeans.add(new IconBean(7, R.drawable.icon_beauty_3, "icon_beauty_3"));
-        iconBeans.add(new IconBean(8, R.drawable.icon_beauty_4, "icon_beauty_4"));
-        iconBeans.add(new IconBean(9, R.drawable.icon_food, "icon_food"));
-        iconBeans.add(new IconBean(10, R.drawable.icon_food_1, "icon_food_1"));
-        iconBeans.add(new IconBean(11, R.drawable.icon_food_2, "icon_food_2"));
-        iconBeans.add(new IconBean(12, R.drawable.icon_food_3, "icon_food_3"));
-        iconBeans.add(new IconBean(13, R.drawable.icon_food_4, "icon_food_4"));
-        iconBeans.add(new IconBean(14, R.drawable.icon_health, "icon_health"));
-        iconBeans.add(new IconBean(15, R.drawable.icon_health_1, "icon_health_1"));
-        iconBeans.add(new IconBean(16, R.drawable.icon_house, "icon_house"));
-        iconBeans.add(new IconBean(17, R.drawable.icon_love, "icon_love"));
-        iconBeans.add(new IconBean(18, R.drawable.icon_motor, "icon_motor"));
-        iconBeans.add(new IconBean(19, R.drawable.icon_motor_1, "icon_motor_1"));
-        iconBeans.add(new IconBean(20, R.drawable.icon_motor_2, "icon_motor_2"));
-        iconBeans.add(new IconBean(21, R.drawable.icon_motor_3, "icon_motor_3"));
-        iconBeans.add(new IconBean(22, R.drawable.icon_party, "icon_party"));
-        iconBeans.add(new IconBean(23, R.drawable.icon_party_1, "icon_party_1"));
-        iconBeans.add(new IconBean(24, R.drawable.icon_shop, "icon_shop"));
-        iconBeans.add(new IconBean(25, R.drawable.icon_shop_1, "icon_shop_1"));
-        iconBeans.add(new IconBean(26, R.drawable.icon_shop_4, "icon_shop_4"));
-        iconBeans.add(new IconBean(27, R.drawable.icon_shop_15, "icon_shop_15"));
-        iconBeans.add(new IconBean(28, R.drawable.icon_shop_2, "icon_shop_2"));
-        iconBeans.add(new IconBean(29, R.drawable.icon_shop_11, "icon_shop_11"));
-        iconBeans.add(new IconBean(30, R.drawable.icon_shop_5, "icon_shop_5"));
-        iconBeans.add(new IconBean(31, R.drawable.icon_shop_6, "icon_shop_6"));
-        iconBeans.add(new IconBean(32, R.drawable.icon_shop_7, "icon_shop_7"));
-        iconBeans.add(new IconBean(33, R.drawable.icon_shop_9, "icon_shop_9"));
-        iconBeans.add(new IconBean(34, R.drawable.icon_shop_10, "icon_shop_10"));
-        iconBeans.add(new IconBean(35, R.drawable.icon_shop_12, "icon_shop_12"));
-        iconBeans.add(new IconBean(36, R.drawable.icon_shop_17, "icon_shop_17"));
-        iconBeans.add(new IconBean(37, R.drawable.icon_shop_18, "icon_shop_18"));
-        iconBeans.add(new IconBean(38, R.drawable.icon_sport, "icon_sport"));
-        iconBeans.add(new IconBean(39, R.drawable.icon_sport_5, "icon_sport_5"));
-        iconBeans.add(new IconBean(40, R.drawable.icon_sport_1, "icon_sport_1"));
-        iconBeans.add(new IconBean(41, R.drawable.icon_sport_2, "icon_sport_2"));
-        iconBeans.add(new IconBean(42, R.drawable.icon_sport_3, "icon_sport_3"));
-        iconBeans.add(new IconBean(43, R.drawable.icon_sport_4, "icon_sport_4"));
-        iconBeans.add(new IconBean(44, R.drawable.icon_trips, "icon_trips"));
-        iconBeans.add(new IconBean(45, R.drawable.icon_trips_1, "icon_trips_1"));
-        iconBeans.add(new IconBean(46, R.drawable.icon_trips_7, "icon_trips_7"));
-        iconBeans.add(new IconBean(47, R.drawable.icon_trips_3, "icon_trips_3"));
-        iconBeans.add(new IconBean(48, R.drawable.icon_trips_4, "icon_trips_4"));
-        iconBeans.add(new IconBean(49, R.drawable.icon_atm, "icon_atm"));
+        iconBeans.add(new IconBean(0, R.drawable.ic_new_category_84, "ic_new_category_84"));
+        iconBeans.add(new IconBean(1, R.drawable.ic_new_category_2, "ic_new_category_2"));
+        iconBeans.add(new IconBean(2, R.drawable.ic_new_category_3, "ic_new_category_3"));
+        iconBeans.add(new IconBean(3,R.drawable.ic_new_category_4, "ic_new_category_4"));
+        iconBeans.add(new IconBean(4, R.drawable.ic_new_category_5, "ic_new_category_5"));
+        iconBeans.add(new IconBean(5, R.drawable.ic_new_category_6, "ic_new_category_6"));
+        iconBeans.add(new IconBean(6, R.drawable.ic_new_category_7, "ic_new_category_7"));
+        iconBeans.add(new IconBean(7, R.drawable.ic_new_category_8, "ic_new_category_8"));
+        iconBeans.add(new IconBean(8, R.drawable.ic_new_category_9, "ic_new_category_9"));
+        iconBeans.add(new IconBean(9, R.drawable.ic_new_category_10, "ic_new_category_10"));
+        iconBeans.add(new IconBean(10, R.drawable.ic_new_category_11, "ic_new_category_11"));
+        iconBeans.add(new IconBean(11, R.drawable.ic_new_category_12, "ic_new_category_12"));
+        iconBeans.add(new IconBean(12, R.drawable.ic_new_category_13, "ic_new_category_13"));
+        iconBeans.add(new IconBean(13, R.drawable.ic_new_category_14, "ic_new_category_14"));
+        iconBeans.add(new IconBean(14, R.drawable.ic_new_category_15, "ic_new_category_15"));
+        iconBeans.add(new IconBean(15, R.drawable.ic_new_category_16, "ic_new_category_16"));
+        iconBeans.add(new IconBean(16, R.drawable.ic_new_category_17, "ic_new_category_17"));
+        iconBeans.add(new IconBean(17, R.drawable.ic_new_category_18, "ic_new_category_18"));
+        iconBeans.add(new IconBean(18, R.drawable.ic_new_category_19, "ic_new_category_19"));
+        iconBeans.add(new IconBean(19, R.drawable.ic_new_category_20, "ic_new_category_20"));
+        iconBeans.add(new IconBean(20, R.drawable.ic_new_category_21, "ic_new_category_21"));
+        iconBeans.add(new IconBean(21, R.drawable.ic_new_category_22, "ic_new_category_22"));
+        iconBeans.add(new IconBean(22, R.drawable.ic_new_category_23, "ic_new_category_23"));
+        iconBeans.add(new IconBean(23, R.drawable.ic_new_category_24, "ic_new_category_24"));
+        iconBeans.add(new IconBean(24, R.drawable.ic_new_category_25, "ic_new_category_25"));
+        iconBeans.add(new IconBean(25, R.drawable.ic_new_category_26, "ic_new_category_26"));
+        iconBeans.add(new IconBean(27, R.drawable.ic_new_category_28, "ic_new_category_28"));
+        iconBeans.add(new IconBean(28, R.drawable.ic_new_category_29, "ic_new_category_29"));
+        iconBeans.add(new IconBean(29, R.drawable.ic_new_category_30, "ic_new_category_30"));
+        iconBeans.add(new IconBean(30, R.drawable.ic_new_category_31, "ic_new_category_31"));
+        iconBeans.add(new IconBean(31, R.drawable.ic_new_category_32, "ic_new_category_32"));
+        iconBeans.add(new IconBean(32, R.drawable.ic_new_category_33, "ic_new_category_33"));
+        iconBeans.add(new IconBean(33, R.drawable.ic_new_category_34, "ic_new_category_34"));
+        iconBeans.add(new IconBean(34, R.drawable.ic_new_category_35, "ic_new_category_35"));
+        iconBeans.add(new IconBean(35, R.drawable.ic_new_category_37, "ic_new_category_37"));
+        iconBeans.add(new IconBean(36, R.drawable.ic_new_category_38, "ic_new_category_38"));
+        iconBeans.add(new IconBean(37, R.drawable.ic_new_category_39, "ic_new_category_39"));
+        iconBeans.add(new IconBean(38, R.drawable.ic_new_category_40, "ic_new_category_40"));
+        iconBeans.add(new IconBean(39, R.drawable.ic_new_category_41, "ic_new_category_41"));
+        iconBeans.add(new IconBean(40, R.drawable.ic_new_category_42, "ic_new_category_42"));
+        iconBeans.add(new IconBean(42, R.drawable.ic_new_category_44, "ic_new_category_44"));
+        iconBeans.add(new IconBean(43, R.drawable.ic_new_category_45, "ic_new_category_45"));
+        iconBeans.add(new IconBean(44, R.drawable.ic_new_category_46, "ic_new_category_46"));
+        iconBeans.add(new IconBean(45, R.drawable.ic_new_category_47, "ic_new_category_47"));
+        iconBeans.add(new IconBean(46, R.drawable.ic_new_category_48, "ic_new_category_48"));
+        iconBeans.add(new IconBean(47, R.drawable.ic_new_category_49, "ic_new_category_49"));
+        iconBeans.add(new IconBean(48, R.drawable.ic_new_category_51, "ic_new_category_51"));
+        iconBeans.add(new IconBean(49, R.drawable.ic_new_category_52, "ic_new_category_52"));
+        iconBeans.add(new IconBean(50, R.drawable.ic_new_category_54, "ic_new_category_54"));
+        iconBeans.add(new IconBean(51, R.drawable.ic_new_category_55, "ic_new_category_55"));
+        iconBeans.add(new IconBean(52, R.drawable.ic_new_category_56, "ic_new_category_56"));
+        iconBeans.add(new IconBean(53, R.drawable.ic_new_category_57, "ic_new_category_57"));
+        iconBeans.add(new IconBean(54, R.drawable.ic_new_category_58, "ic_new_category_58"));
+        iconBeans.add(new IconBean(55, R.drawable.ic_new_category_59, "ic_new_category_59"));
+        iconBeans.add(new IconBean(56, R.drawable.ic_new_category_61, "ic_new_category_61"));
+        iconBeans.add(new IconBean(57, R.drawable.ic_new_category_62, "ic_new_category_62"));
+        iconBeans.add(new IconBean(58, R.drawable.ic_new_category_63, "ic_new_category_63"));
+        iconBeans.add(new IconBean(59, R.drawable.ic_new_category_65, "ic_new_category_65"));
+        iconBeans.add(new IconBean(60, R.drawable.ic_new_category_68, "ic_new_category_68"));
+        iconBeans.add(new IconBean(61, R.drawable.ic_new_category_69, "ic_new_category_69"));
+        iconBeans.add(new IconBean(62, R.drawable.ic_new_category_70, "ic_new_category_70"));
+        iconBeans.add(new IconBean(63, R.drawable.ic_new_category_71, "ic_new_category_71"));
+        iconBeans.add(new IconBean(64, R.drawable.ic_new_category_72, "ic_new_category_72"));
+        iconBeans.add(new IconBean(65, R.drawable.ic_new_category_73, "ic_new_category_73"));
+        iconBeans.add(new IconBean(66, R.drawable.ic_new_category_74, "ic_new_category_74"));
+        iconBeans.add(new IconBean(67, R.drawable.ic_new_category_74_1, "ic_new_category_74_1"));
+        iconBeans.add(new IconBean(68, R.drawable.ic_new_category_78, "ic_new_category_78"));
+        iconBeans.add(new IconBean(69, R.drawable.ic_new_category_79, "ic_new_category_79"));
+        iconBeans.add(new IconBean(70, R.drawable.ic_new_category_80, "ic_new_category_80"));
+        iconBeans.add(new IconBean(71, R.drawable.ic_new_category_81, "ic_new_category_81"));
+        iconBeans.add(new IconBean(72, R.drawable.ic_new_category_82, "ic_new_category_82"));
+        iconBeans.add(new IconBean(73, R.drawable.ic_new_category_83, "ic_new_category_83"));
+        iconBeans.add(new IconBean(74, R.drawable.ic_new_category_1, "ic_new_category_1"));
+        iconBeans.add(new IconBean(75, R.drawable.ic_new_category_85, "ic_new_category_85"));
+        iconBeans.add(new IconBean(76, R.drawable.ic_new_category_86, "ic_new_category_86"));
+
+
+
 
         return iconBeans;
     }
@@ -179,7 +215,7 @@ public class Utility {
     public int getIdIconByCategoryBean(CategoryBean categoryBean) {
         int value;
         if(categoryBean.getTypeCategory() == TypeObjectBean.CATEGORY_OPEN_BALANCE) {
-            value = R.drawable.icon_open_balance;
+            value = R.drawable.ic_new_category_84;
         }else {
             value = getListIconToCategoryBean().get(categoryBean.getIdIcon()).getDrawableInfo();
         }

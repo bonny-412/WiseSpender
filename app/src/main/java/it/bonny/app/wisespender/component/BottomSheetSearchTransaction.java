@@ -116,7 +116,7 @@ public class BottomSheetSearchTransaction extends BottomSheetDialogFragment {
         dismiss();
     }
 
-    /*@Override
+    @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
@@ -126,7 +126,7 @@ public class BottomSheetSearchTransaction extends BottomSheetDialogFragment {
             throw new ClassCastException(context.toString()
                     + " must implement BottomSheetListener");
         }
-    }*/
+    }
 
     private void initTransactionType() {
         containerIncome = view.findViewById(R.id.containerIncome);
@@ -135,6 +135,16 @@ public class BottomSheetSearchTransaction extends BottomSheetDialogFragment {
         checkBoxExpense = view.findViewById(R.id.checkBoxExpense);
         btnOk = view.findViewById(R.id.btnOk);
         btnCancel = view.findViewById(R.id.btnCancel);
+
+        if(filterTransactionBean.getTypeFilter() == TypeObjectBean.FILTER_SEARCH_TRANSACTION_TYPE_INCOME) {
+            checkBoxIncome.setChecked(true);
+        }else if(filterTransactionBean.getTypeFilter() == TypeObjectBean.FILTER_SEARCH_TRANSACTION_TYPE_EXPENSE) {
+            checkBoxExpense.setChecked(true);
+        }else if(filterTransactionBean.getTypeFilter() == TypeObjectBean.FILTER_SEARCH_TRANSACTION_TYPE_ALL) {
+            checkBoxIncome.setChecked(true);
+            checkBoxExpense.setChecked(true);
+        }
+
     }
 
 }

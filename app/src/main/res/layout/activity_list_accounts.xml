@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".manager.ListAccountsActivity"
-    android:background="@color/background">
+    android:background="@color/background_card">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearToolbar"
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             app:cardElevation="0dp"
-            app:cardBackgroundColor="@color/background"
+            app:cardBackgroundColor="@color/background_card"
             android:clickable="true"
             android:layout_marginStart="6dp"
             android:layout_marginBottom="6dp"
@@ -114,7 +114,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@color/background_card"
+        android:background="@color/background"
         android:elevation="0dp">
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonNewAccount"

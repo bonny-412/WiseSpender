@@ -41,6 +41,7 @@ public class TypeObjectBean {
     public static final int FILTER_SEARCH_TRANSACTION_TYPE_ALL = 0;
     public static final int FILTER_SEARCH_TRANSACTION_TYPE_INCOME = 1;
     public static final int FILTER_SEARCH_TRANSACTION_TYPE_EXPENSE = 2;
+    public static final int FILTER_SEARCH_TRANSACTION_TYPE_ALL_NO_CHECKED = 0;
 
     public TypeObjectBean() {}
 

@@ -133,25 +133,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/alert_cancel"
-            style="@style/Widget.MaterialComponents.Button"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btnOk"
-            android:backgroundTint="@color/background"
             android:textColor="@color/primary_text"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             />
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnOk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ok"
-            android:textColor="@color/background"
             app:layout_constraintTop_toTopOf="@+id/btnCancel"
             app:layout_constraintBottom_toBottomOf="@+id/btnCancel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/btnCancel"
-            style="@style/Widget.MaterialComponents.Button"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

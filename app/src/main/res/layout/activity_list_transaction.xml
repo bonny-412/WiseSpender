@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".manager.ListTransactionActivity"
-    android:background="@color/background">
+    android:background="@color/background_card">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearToolbar"
@@ -19,7 +19,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             app:cardElevation="0dp"
-            app:cardBackgroundColor="@color/background"
+            app:cardBackgroundColor="@color/background_card"
             android:clickable="true"
             android:layout_marginStart="6dp"
             android:layout_marginBottom="6dp"
@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/type_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -90,15 +90,14 @@
                     app:iconPadding="0dp"
                     android:padding="1dp"
                     android:layout_marginStart="10dp"
-                    android:backgroundTint="@color/background_card"
                     android:textColor="@color/primary_text"
                     app:iconTint="@color/primary_text"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     />
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/date_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/Widget.MaterialComponents.Button.Icon"
                     android:text="@string/search_activity_button_date"
                     app:icon="@drawable/ic_arrow_down_close_list"
                     app:iconGravity="end"
@@ -108,19 +107,19 @@
                     android:backgroundTint="@color/background_card"
                     android:textColor="@color/primary_text"
                     app:iconTint="@color/primary_text"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     />
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/category_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/Widget.MaterialComponents.Button.Icon"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:text="@string/search_activity_button_category"
                     app:icon="@drawable/ic_arrow_down_close_list"
                     app:iconGravity="end"
                     app:iconPadding="0dp"
                     android:padding="1dp"
                     android:layout_marginStart="10dp"
-                    android:backgroundTint="@color/background_card"
                     android:textColor="@color/primary_text"
                     app:iconTint="@color/primary_text"
                     />
@@ -128,14 +127,13 @@
                     android:id="@+id/account_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/Widget.MaterialComponents.Button.Icon"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:text="@string/search_activity_button_account"
                     app:icon="@drawable/ic_arrow_down_close_list"
                     app:iconGravity="end"
                     app:iconPadding="0dp"
                     android:padding="1dp"
                     android:layout_marginStart="10dp"
-                    android:backgroundTint="@color/background_card"
                     android:textColor="@color/primary_text"
                     app:iconTint="@color/primary_text"
                     />

@@ -65,6 +65,8 @@ public class ListTransactionActivity extends AppCompatActivity implements Bottom
     private ProgressBar progressBar;
     private final List<Long> idCategories = new ArrayList<>();
     private final List<Long> idAccounts = new ArrayList<>();
+    private List<CategoryBean> categoryBeanList = null;
+    private List<AccountBean> accountBeans = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,10 +158,10 @@ public class ListTransactionActivity extends AppCompatActivity implements Bottom
             }
         }
 
-        findAllCategories(recyclerViewCategory, progressBar1, activity, db);
-
         if(dialog != null)
             dialog.show();
+
+        findAllCategories(recyclerViewCategory, progressBar1, activity, db);
     }
 
     private void showAlertAccounts() {
@@ -180,10 +182,10 @@ public class ListTransactionActivity extends AppCompatActivity implements Bottom
             }
         }
 
-        findAllAccounts(recyclerViewAccount, progressBar1, activity, db);
-
         if(dialog != null)
             dialog.show();
+
+        findAllAccounts(recyclerViewAccount, progressBar1, activity, db);
     }
 
     private void findAllCategories(RecyclerView recyclerView, ProgressBar progressBar1, Activity mActivity, DatabaseHelper db) {
@@ -191,7 +193,8 @@ public class ListTransactionActivity extends AppCompatActivity implements Bottom
         recyclerView.setVisibility(View.GONE);
         progressBar1.setVisibility(View.VISIBLE);
         service.execute(() -> {
-            List<CategoryBean> categoryBeanList = db.getAllCategoryBeans();
+            if(categoryBeanList == null || categoryBeanList.size() > 0)
+                categoryBeanList = db.getAllCategoryBeans();
             ListCategoryBottomSheetAdapter listCategoryBottomSheetAdapter = new ListCategoryBottomSheetAdapter(categoryBeanList, idCategories, this);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(mActivity.getApplicationContext()));
@@ -209,7 +212,8 @@ public class ListTransactionActivity extends AppCompatActivity implements Bottom
         recyclerView.setVisibility(View.GONE);
         progressBar1.setVisibility(View.VISIBLE);
         service.execute(() -> {
-            List<AccountBean> accountBeans = db.getAllAccountBeansNoMaster();
+            if(accountBeans == null || accountBeans.size() > 0)
+                accountBeans = db.getAllAccountBeansNoMaster();
             ListAccountSearchFilterAdapter listAccountSearchFilterAdapter = new ListAccountSearchFilterAdapter(accountBeans, idAccounts, this);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(mActivity.getApplicationContext()));

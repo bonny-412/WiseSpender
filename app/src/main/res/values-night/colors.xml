@@ -3,32 +3,17 @@
     <color name="primary">#45adff</color>
     <color name="secondary">#ff8975</color>
     <color name="green">#73ffe0</color>
-    <color name="yellow">#FFE57F</color>
 
-    <!--
-        <color name="primary">#82B1FF</color>
-    <color name="secondary">#FF8A80</color>
-    -->
-
-    <color name="background">#1a2744</color>
-    <color name="background_card">#2e3d60</color>
+    <color name="background">#2B2E38</color>
+    <color name="background_card">#334356</color>
 
     <color name="primary_text">#F2F2F3</color>
     <color name="secondary_text">#CACACE</color>
     <color name="tertiary_text">#93939F</color>
     <color name="accent">#60606C</color>
 
-    <!--<color name="primary_text">#FFFFFF</color>
-    <color name="secondary_text">#BEBEBE</color>
-    <color name="tertiary_text">#969696</color>
-
-    <color name="background">#252e42</color>
-    <color name="background_card">#2f3b52</color>-->
-
     <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
 
-    <color name="bg_input">#2f3b52</color>
     <color name="transparent">#00FFFFFF</color>
 
 </resources>
