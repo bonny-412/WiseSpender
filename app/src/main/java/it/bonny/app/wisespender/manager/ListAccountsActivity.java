@@ -37,7 +37,7 @@ public class ListAccountsActivity extends AppCompatActivity implements RecyclerV
     private ImageView imageView;
     private ProgressBar progressBar;
     private MaterialButton buttonNewAccount;
-    private MaterialCardView returnAccount;
+    private MaterialButton returnAccount;
     private AccountListAdapter accountListAdapter;
     private List<AccountBean> accountBeanList = new ArrayList<>();
     private int pos = -1;

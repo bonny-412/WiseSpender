@@ -14,38 +14,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-        <com.google.android.material.card.MaterialCardView
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/returnNewEditAccount"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="48dp"
+            app:cornerRadius="10dp"
             android:layout_height="48dp"
-            app:cardElevation="0dp"
-            app:cardBackgroundColor="@color/background"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:layout_marginTop="6dp"
-            android:layout_marginStart="6dp"
-            android:layout_marginBottom="6dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:layout_margin="16dp"
+            app:iconTint="@color/primary_text"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            app:icon="@drawable/ic_arrow_back"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center">
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_arrow_back"
-                    android:tint="@color/primary_text"
-                    android:hint="@string/come_back"
-                    app:iconGravity="textStart"
-                    android:layout_margin="16dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
         <TextView
             android:id="@+id/titlePageNewAccount"
             android:layout_width="wrap_content"
@@ -97,7 +84,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearToolbar"
         app:layout_constraintBottom_toTopOf="@+id/linear"
-        android:background="@drawable/list_accounts_background"
+        android:background="@drawable/new_edit_background"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:layout_marginTop="20dp"
@@ -221,7 +208,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:text="@string/save_button_account"
-            android:textColor="@color/white"
+            android:textColor="@color/text_button"
             app:layout_constraintStart_toStartOf="parent"
             android:textSize="16sp"
             android:gravity="center"

@@ -6,6 +6,7 @@ public class IconBean {
     private int id;
 
     public IconBean() {}
+
     public IconBean(int id, Integer drawableInfo, String name) {
         this.id = id;
         this.drawableInfo = drawableInfo;
@@ -32,5 +33,4 @@ public class IconBean {
     public void setDrawableInfo(Integer drawableInfo) {
         this.drawableInfo = drawableInfo;
     }
-
 }

@@ -13,7 +13,7 @@
         <activity
             android:name=".manager.TransactionDetailActivity"
             android:exported="false"
-            android:theme="@style/Theme.WiseSpender1"/>
+            android:theme="@style/Theme.WiseSpender"/>
         <activity
             android:name=".manager.ListTransactionActivity"
             android:exported="false"
@@ -30,7 +30,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             tools:ignore="LockedOrientationActivity"
-            android:theme="@style/Theme.WiseSpender1"/>
+            android:theme="@style/Theme.WiseSpender"/>
         <activity
             android:name=".manager.SplashScreenActivity"
             android:exported="true"
@@ -52,7 +52,7 @@
             android:name=".manager.NewEditAccountActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.WiseSpender1"
+            android:theme="@style/Theme.WiseSpender"
             android:windowSoftInputMode="adjustPan"
             tools:ignore="LockedOrientationActivity">
             <meta-data
@@ -73,7 +73,7 @@
             android:name=".manager.NewEditCategoryActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.WiseSpender1"
+            android:theme="@style/Theme.WiseSpender"
             android:windowSoftInputMode="adjustPan"
             tools:ignore="LockedOrientationActivity">
             <meta-data

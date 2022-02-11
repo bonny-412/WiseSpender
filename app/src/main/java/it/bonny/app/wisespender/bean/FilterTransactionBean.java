@@ -1,5 +1,6 @@
 package it.bonny.app.wisespender.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FilterTransactionBean {
@@ -55,11 +56,61 @@ public class FilterTransactionBean {
     }
 
     public void copyElement(FilterTransactionBean bean) {
-        this.setTypeFilter(bean.getTypeFilter());
-        this.setIdCategories(bean.getIdCategories());
-        this.setIdAccounts(bean.getIdAccounts());
-        this.setDateFrom(bean.getDateFrom());
-        this.setDateA(bean.getDateA());
+        setTypeFilter(bean.getTypeFilter());
+        setIdCategories(new ArrayList<>(bean.getIdCategories()));
+        setIdAccounts(new ArrayList<>(bean.getIdAccounts()));
+        setDateFrom(bean.getDateFrom());
+        setDateA(bean.getDateA());
+    }
+
+    public boolean isChanged(FilterTransactionBean filterTransactionBean) {
+        if(!this.dateFrom.equals(filterTransactionBean.getDateFrom()))
+            return true;
+
+        if(!this.dateA.equals(filterTransactionBean.getDateA()))
+            return true;
+
+        if(this.typeFilter != filterTransactionBean.getTypeFilter())
+            return true;
+
+        if(!this.idCategories.equals(filterTransactionBean.getIdCategories()))
+            return true;
+
+        return !this.idAccounts.equals(filterTransactionBean.getIdAccounts());
+    }
+
+    public String getIdCategoriesToQuery() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for(Long aLong: idCategories) {
+            stringBuilder.append("").append(aLong).append(", ");
+        }
+        String result = stringBuilder.toString().trim();
+        result = result.substring(0, result.length() - 1);
+        return result;
+    }
+
+    public String getIdAccountsToQuery() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for(Long aLong: idAccounts) {
+            stringBuilder.append("").append(aLong).append(", ");
+        }
+        String result = stringBuilder.toString().trim();
+        result = result.substring(0, result.length() - 1);
+        return result;
+    }
+
+    public String getDateFromToQuery() {
+        String result;
+        String[] strings = dateFrom.split("/");
+        result = strings[2] + "-" + strings[1] + "-" + strings[0] + " 00:00 ";
+        return result;
+    }
+
+    public String getDateAToQuery() {
+        String result;
+        String[] strings = dateA.split("/");
+        result = strings[2] + "-" + strings[1] + "-" + strings[0] + " 23:59 ";
+        return result;
     }
 
 }

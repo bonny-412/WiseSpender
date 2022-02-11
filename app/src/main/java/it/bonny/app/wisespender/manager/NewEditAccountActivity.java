@@ -38,7 +38,7 @@ import it.bonny.app.wisespender.util.Utility;
 
 public class NewEditAccountActivity extends AppCompatActivity implements TextWatcher {
 
-    private MaterialCardView returnNewEditAccount;
+    private MaterialButton returnNewEditAccount;
     private MaterialCardView btnDeleteAccount;
     private GridView gridView;
     private EditText accountName;

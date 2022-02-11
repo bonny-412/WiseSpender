@@ -7,10 +7,12 @@ import android.content.SharedPreferences;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -420,6 +422,33 @@ public class Utility {
         strings.add(output.get(output.size() - 1) + " 23:59");
 
         return strings;
+    }
+
+    public String getNameMonthYearByCalendar(Calendar calendar) {
+        String s;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
+        s = dateFormat.format(calendar.getTime());
+        return s;
+    }
+
+    public List<String> getShortNameMonth() {
+        List<String> months = new ArrayList<>();
+        String[] shortMonths = new DateFormatSymbols(Locale.getDefault()).getShortMonths();
+        if(shortMonths != null && shortMonths.length > 0) {
+            for(String s: shortMonths) {
+                // get First letter of the string
+                String firstLetStr = s.substring(0, 1);
+                // Get remaining letter using substring
+                String remLetStr = s.substring(1);
+                // convert the first letter of String to uppercase
+                firstLetStr = firstLetStr.toUpperCase();
+                // concantenate the first letter and remaining string
+                String firstLetterCapitalizedName = firstLetStr + remLetStr;
+
+                months.add(firstLetterCapitalizedName);
+            }
+        }
+        return months;
     }
 
 }

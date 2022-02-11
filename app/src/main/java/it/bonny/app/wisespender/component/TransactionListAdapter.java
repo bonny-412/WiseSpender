@@ -73,7 +73,7 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
                 holder.amountTransaction.setTextColor(activity.getColor(R.color.secondary));
             }else {
                 amount = "+ " + utility.formatNumberCurrency(utility.convertIntInEditTextValue(transactionBean.getAmount()).toString());
-                holder.amountTransaction.setTextColor(activity.getColor(R.color.green));
+                holder.amountTransaction.setTextColor(activity.getColor(R.color.primary));
             }
             holder.amountTransaction.setText(amount);
 
@@ -119,7 +119,7 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
     public class ViewHolder extends RecyclerView.ViewHolder {
         AppCompatImageView iconCategory;
         TextView nameCategory, titleTransaction, amountTransaction, dateTransaction;
-        MaterialCardView cardViewIcon;
+        LinearLayout cardViewIcon;
         LinearLayout mainLayout;
         MaterialCardView btnElement;
 

@@ -55,9 +55,9 @@ public class ListCategoryBottomSheetAdapter extends RecyclerView.Adapter<ListCat
         holder.checkBox.setOnClickListener(view -> categoryInterface.onItemClick(categoryBean.getId(), true));
 
         if(categoryBean.getTypeCategory() == TypeObjectBean.CATEGORY_INCOME) {
-            holder.iconTypeCategory.setImageResource(R.drawable.ic_arrow_up_open_list);
+            holder.iconTypeCategory.setImageResource(R.drawable.ic_arrow_income);
         }else {
-            holder.iconTypeCategory.setImageResource(R.drawable.ic_arrow_down_close_list);
+            holder.iconTypeCategory.setImageResource(R.drawable.ic_arrow_expense);
         }
 
     }

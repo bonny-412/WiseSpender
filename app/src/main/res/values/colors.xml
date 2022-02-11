@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#50a8e8</color>
-    <color name="secondary">#FFE85050</color>
-    <color name="green">#50E869</color>
+    <color name="primary">#000000</color>
+    <color name="secondary">#72a5d4</color>
 
-    <color name="background">#f0f0f0</color>
+    <color name="background">#eeeeee</color>
     <color name="background_card">#ffffff</color>
 
-    <color name="primary_text">#363636</color>
-    <color name="secondary_text">#7d7d7d</color>
+    <color name="icon_color">#000000</color>
+    <color name="icon_main_color">#ffffff</color>
+
+    <color name="primary_text">#000000</color>
+    <color name="secondary_text">#86878C</color>
     <color name="tertiary_text">#bbbbbb</color>
     <color name="accent">#bbbbbb</color>
+    <color name="text_button">#FFFFFF</color>
 
     <color name="white">#FFFFFF</color>
 

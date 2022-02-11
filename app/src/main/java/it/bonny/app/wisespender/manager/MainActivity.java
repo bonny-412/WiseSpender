@@ -1,6 +1,7 @@
 package it.bonny.app.wisespender.manager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.app.ActivityOptionsCompat;
@@ -15,14 +16,20 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
+import java.text.DateFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -30,21 +37,23 @@ import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
 import it.bonny.app.wisespender.bean.TransactionBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
+import it.bonny.app.wisespender.component.BottomSheetPeriod;
+import it.bonny.app.wisespender.component.BottomSheetPeriodListener;
 import it.bonny.app.wisespender.db.DatabaseHelper;
 import it.bonny.app.wisespender.component.RecyclerViewClickInterface;
 import it.bonny.app.wisespender.component.TransactionListAdapter;
-import it.bonny.app.wisespender.component.LoadingDialog;
 import it.bonny.app.wisespender.util.Utility;
 
-public class MainActivity extends AppCompatActivity implements RecyclerViewClickInterface  {
+public class MainActivity extends AppCompatActivity implements RecyclerViewClickInterface, BottomSheetPeriodListener {
 
     private long backPressedTime;
     private DatabaseHelper db;
     private final Utility utility = new Utility();
-    private MaterialCardView cardViewAccount, cardViewCategory, cardViewTransaction;
-    private TextView accountName, showAccountListBtn, moneyAccount, showTransactionListBtn;
+    private MaterialButton cardViewAccount, cardViewCategory, cardViewTransaction, cardViewChangeAccount, showTransactionListBtn, btnDate;
+    private TextView accountName, moneyAccount;
     private final Activity mActivity = this;
     private AppCompatTextView totalIncome, totalExpense;
+    private AppCompatImageView iconAccount;
     private AccountBean accountBeanSelected;
     private BottomSheetAccount bottomSheetAccount;
     private RecyclerView listTransactions;
@@ -52,8 +61,11 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
     private ExtendedFloatingActionButton btnNewTransaction;
     private List<TransactionBean> transactionBeanList = new ArrayList<>();
     private AppCompatImageView imageViewTransactions, imageViewAccounts, imageViewCategory;
-    private LoadingDialog loadingDialog;
     private TransactionListAdapter transactionListAdapter;
+    private final Calendar calendar = Calendar.getInstance();
+    private int yearSelected, monthSelected;
+    private List<String> months;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,30 +81,21 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
         listTransactions.setAdapter(transactionListAdapter);
 
         cardViewAccount.setOnClickListener(view -> {
-            if(imageViewAccounts == null)
-                imageViewAccounts = findViewById(R.id.imageViewAccounts);
-            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, imageViewAccounts, "transition_account_icon");
             Intent intent = new Intent(mActivity, ListAccountsActivity.class);
-            startActivity(intent, options.toBundle());
+            startActivity(intent);
         });
 
         cardViewCategory.setOnClickListener(view -> {
-            if(imageViewCategory == null)
-                imageViewCategory = findViewById(R.id.imageViewCategory);
-            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, imageViewCategory, "transition_category_icon");
             Intent intent = new Intent(mActivity, ListCategoriesActivity.class);
-            startActivity(intent, options.toBundle());
+            startActivity(intent);
         });
 
         cardViewTransaction.setOnClickListener(view -> {
-            if(imageViewTransactions == null)
-                imageViewTransactions = findViewById(R.id.imageViewTransactions);
-            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, imageViewTransactions, "transition_transaction_icon");
             Intent intent = new Intent(mActivity, ListTransactionActivity.class);
-            startActivity(intent, options.toBundle());
+            startActivity(intent);
         });
 
-        showAccountListBtn.setOnClickListener(view -> bottomSheetAccount.show(getSupportFragmentManager(), "TAG"));
+        cardViewChangeAccount.setOnClickListener(view -> bottomSheetAccount.show(getSupportFragmentManager(), "CHANGE_ACCOUNT"));
 
         showTransactionListBtn.setOnClickListener(view -> {
             Intent intent = new Intent(mActivity, ListTransactionActivity.class);
@@ -105,11 +108,17 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
             startActivity(intent);
         });
 
+        btnDate.setOnClickListener(view -> {
+            BottomSheetPeriod bottomSheetPeriod = new BottomSheetPeriod(monthSelected, yearSelected, months, MainActivity.this);
+            bottomSheetPeriod.show(getSupportFragmentManager(), "SELECT_PERIOD");
+        });
+
     }
 
     private void init() {
         db = new DatabaseHelper(getApplicationContext());
-        showAccountListBtn = findViewById(R.id.showAccountListBtn);
+        months = utility.getShortNameMonth();
+
         accountName = findViewById(R.id.accountName);
         cardViewAccount = findViewById(R.id.cardViewAccount);
         cardViewCategory = findViewById(R.id.cardViewCategory);
@@ -117,12 +126,20 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
         totalIncome = findViewById(R.id.totalIncome);
         totalExpense = findViewById(R.id.totalExpense);
         listTransactions = findViewById(R.id.listTransactions);
+        cardViewChangeAccount = findViewById(R.id.cardViewChangeAccount);
+        iconAccount = findViewById(R.id.iconAccount);
+        btnDate = findViewById(R.id.btnDate);
+
+        String textDate = utility.getNameMonthYearByCalendar(calendar);
+        btnDate.setText(textDate);
+        yearSelected = calendar.get(Calendar.YEAR);
+        monthSelected = calendar.get(Calendar.MONTH);
 
         listTransactionsEmpty = findViewById(R.id.listTransactionsEmpty);
         btnNewTransaction = findViewById(R.id.btnNewTransaction);
         cardViewTransaction = findViewById(R.id.cardViewTransaction);
         showTransactionListBtn = findViewById(R.id.showTransactionListBtn);
-        loadingDialog = new LoadingDialog(MainActivity.this);
+        progressBar = findViewById(R.id.progressBar);
 
     }
 
@@ -185,15 +202,30 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
     }
 
     private void callDB() {
-        loadingDialog.setTitle(getString(R.string.loading_alert_loading));
-        loadingDialog.startDialog();
+        progressBar.setVisibility(View.VISIBLE);
+        listTransactions.setVisibility(View.GONE);
+        listTransactionsEmpty.setVisibility(View.GONE);
 
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         executorService.execute(() -> {
 
             List<AccountBean> accountBeanList = db.getAllAccountBeansNoMaster();
             accountBeanSelected = db.getAccountBeanSelected();
-            transactionBeanList = db.getAllTransactionBeansToMainActivity(accountBeanSelected);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
+            Calendar firstDayMonth = Calendar.getInstance();
+            firstDayMonth.set(Calendar.DAY_OF_MONTH, 1);
+            firstDayMonth.set(Calendar.MONTH, monthSelected);
+            firstDayMonth.set(Calendar.YEAR, yearSelected);
+
+            Calendar lastDayMonth = Calendar.getInstance();
+            lastDayMonth.set(Calendar.MONTH, monthSelected);
+            lastDayMonth.set(Calendar.YEAR, yearSelected);
+            lastDayMonth.set(Calendar.DAY_OF_MONTH, lastDayMonth.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+            String from = dateFormat.format(firstDayMonth.getTime()) + " 00:00 ";
+            String a = dateFormat.format(lastDayMonth.getTime()) + " 23:59 ";
+            transactionBeanList = db.getAllTransactionBeansToMainActivity(accountBeanSelected, from, a);
 
             String totMoneyAccount, totMoneyAccountIncome, totMoneyAccountExpense;
             if(accountBeanSelected.getIsMaster() == TypeObjectBean.IS_MASTER) {
@@ -210,7 +242,16 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
                 transactionListAdapter.insertTransactionBeanList(transactionBeanList);
 
                 accountName.setText(accountBeanSelected.getName());
+                iconAccount.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(), utility.getIdIconByAccountBean(accountBeanSelected)));
 
+
+                moneyAccount.setText(totMoneyAccount);
+                totalIncome.setText(totMoneyAccountIncome);
+                totalExpense.setText(totMoneyAccountExpense);
+
+                bottomSheetAccount = new BottomSheetAccount(mActivity);
+
+                progressBar.setVisibility(View.GONE);
                 if(transactionBeanList != null && transactionBeanList.size() > 0) {
                     listTransactions.setVisibility(View.VISIBLE);
                     listTransactionsEmpty.setVisibility(View.GONE);
@@ -218,13 +259,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
                     listTransactions.setVisibility(View.GONE);
                     listTransactionsEmpty.setVisibility(View.VISIBLE);
                 }
-
-                moneyAccount.setText(totMoneyAccount);
-                totalIncome.setText(totMoneyAccountIncome);
-                totalExpense.setText(totMoneyAccountExpense);
-
-                bottomSheetAccount = new BottomSheetAccount(mActivity);
-                loadingDialog.dismissDialog();
             });
         });
     }
@@ -232,7 +266,18 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
     @Override
     public void onItemClick(int position) {
         Intent intent = new Intent(mActivity, TransactionDetailActivity.class);
-        intent.putExtra("transactionBean", transactionListAdapter.findTransactionBean(position).getId());
+        TransactionBean transactionBean = transactionListAdapter.findTransactionBean(position);
+        intent.putExtra("transactionBean", transactionBean);
         startActivity(intent);
+    }
+
+    @Override
+    public void onReturnMonth(int month, int year) {
+        monthSelected = month;
+        yearSelected = year;
+        String monthText = months.get(month);
+        String textButton = monthText + " " + year;
+        btnDate.setText(textButton);
+        callDB();
     }
 }

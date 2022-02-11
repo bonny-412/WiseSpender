@@ -74,6 +74,7 @@
                     android:textStyle="bold"
                     android:layout_marginTop="5dp"
                     android:drawablePadding="5dp"
+                    app:drawableTint="@color/secondary_text"
                     app:drawableStartCompat="@drawable/ic_euro_symbol"
                     android:layout_marginStart="20dp"/>
             </LinearLayout>

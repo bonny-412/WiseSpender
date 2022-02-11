@@ -5,7 +5,7 @@
     <string name="title_transaction_menu">Transazioni</string>
     <string name="title_transactions">Ultime transazioni</string>
     <string name="see_all">Vedi tutto</string>
-    <string name="hello_text">Ciao</string>
+    <string name="hello_text">Ciao,</string>
     <string name="more_text">Altro</string>
     <string name="name_first_account">Conto principale</string>
     <string name="money_account">0</string>
@@ -70,5 +70,12 @@
     <string name="search_activity_button_category">Categoria</string>
     <string name="search_activity_button_account">Conto</string>
     <string name="ok">OK</string>
-    <string name="search_title_type">Scegli tipo transazione</string>
+    <string name="search_title_type">Filtra per tipo</string>
+    <string name="search_title_date">Filtra per data</string>
+    <string name="search_title_category">Filtra per categoria</string>
+    <string name="search_title_account">Filtra per conto</string>
+    <string name="search_filter_date_start">Inizio</string>
+    <string name="search_filter_date_end">Fine</string>
+    <string name="balance">Saldo</string>
+    <string name="change_account">Cambia conto</string>
 </resources>

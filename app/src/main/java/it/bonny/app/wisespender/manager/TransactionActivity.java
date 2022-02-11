@@ -52,7 +52,7 @@ public class TransactionActivity extends AppCompatActivity {
     private EditText nameTransaction, noteTransaction;
     private CurrencyEditText amountTransaction;
     private MaterialButton buttonSave;
-    private MaterialCardView btnReturn;
+    private MaterialButton btnReturn;
     private MaterialCardView btnAccount, btnCategory;
     private AppCompatImageView iconAccount, iconCategory;
     private TextView nameAccount, nameCategory;

@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -594,15 +595,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * Getting all Transactions To MainActivity
      */
     @SuppressLint("Range")
-    public List<TransactionBean> getAllTransactionBeansToMainActivity(AccountBean accountBeanSelected) {
+    public List<TransactionBean> getAllTransactionBeansToMainActivity(AccountBean accountBeanSelected, String from, String a) {
         List<TransactionBean> transactionBeans = new ArrayList<>();
-        String selectQuery;
+        String selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t WHERE t." + TransactionBean.KEY_DATE_INSERT + " BETWEEN '" + from + "' AND '" + a + "' ";
         if(accountBeanSelected != null && accountBeanSelected.getIsMaster() == TypeObjectBean.NO_MASTER) {
-            selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t WHERE t." + TransactionBean.KEY_ID_ACCOUNT + " = " + accountBeanSelected.getId() +
-                    " ORDER BY t." + TransactionBean.KEY_ID + " DESC";
-        }else {
-            selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t ORDER BY t." + TransactionBean.KEY_ID + " DESC";
+            selectQuery += " AND t." + TransactionBean.KEY_ID_ACCOUNT + " = " + accountBeanSelected.getId();
         }
+        selectQuery += "ORDER BY t." + TransactionBean.KEY_ID + " DESC LIMIT 7";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
         if (c.moveToFirst()) {
@@ -630,20 +629,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * Getting all Transactions by filter bean
      */
     @SuppressLint("Range")
-    public List<TransactionBean> getAllTransactionBeansByFilterBean(AccountBean accountBeanSelected, FilterTransactionBean bean, String dateFrom, String dateA, long lastId) {
+    public List<TransactionBean> getAllTransactionBeansByFilterBean(FilterTransactionBean filterTransactionBean, long lastId) {
         List<TransactionBean> transactionBeans = new ArrayList<>();
 
-        String selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t WHERE t." + TransactionBean.KEY_DATE_INSERT + " BETWEEN '" + dateFrom + "' AND '" + dateA + "'";
+        String selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t WHERE t." + TransactionBean.KEY_DATE_INSERT + " BETWEEN '"
+                + filterTransactionBean.getDateFromToQuery() + "' AND '" + filterTransactionBean.getDateAToQuery() + "' ";
 
-        /*if(bean.getFilterTypeTransaction() == TypeObjectBean.TRANSACTION_INCOME) {
-            selectQuery += " AND (t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + TypeObjectBean.TRANSACTION_INCOME + " OR t." +
-                    TransactionBean.KEY_TYPE_TRANSACTION + " = " + TypeObjectBean.TRANSACTION_OPEN_BALANCE + ")";
-        }else if(bean.getFilterTypeTransaction() == TypeObjectBean.TRANSACTION_EXPENSE) {
-            selectQuery += " AND t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + TypeObjectBean.TRANSACTION_EXPENSE;
-        }*/
+        if(filterTransactionBean.getTypeFilter() == TypeObjectBean.FILTER_SEARCH_TRANSACTION_TYPE_INCOME) {
+            selectQuery += "AND t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + TypeObjectBean.TRANSACTION_INCOME + " ";
+        }else if(filterTransactionBean.getTypeFilter() == TypeObjectBean.FILTER_SEARCH_TRANSACTION_TYPE_EXPENSE) {
+            selectQuery += "AND t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + TypeObjectBean.TRANSACTION_EXPENSE + " ";
+        }
 
-        if(accountBeanSelected != null && accountBeanSelected.getIsMaster() == TypeObjectBean.NO_MASTER) {
-            selectQuery += " AND t." + TransactionBean.KEY_ID_ACCOUNT + " = " + accountBeanSelected.getId();
+        if(filterTransactionBean.getIdCategories() != null && filterTransactionBean.getIdCategories().size() > 0) {
+            selectQuery += "AND t." + TransactionBean.KEY_ID_CATEGORY + " IN (" + filterTransactionBean.getIdCategoriesToQuery() + ") ";
+        }
+
+        if(filterTransactionBean.getIdAccounts() != null && filterTransactionBean.getIdAccounts().size() > 0) {
+            selectQuery += "AND t." + TransactionBean.KEY_ID_ACCOUNT + " IN (" + filterTransactionBean.getIdAccountsToQuery() + ") ";
         }
 
         if(lastId > 0)

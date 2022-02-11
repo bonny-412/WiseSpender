@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable-hdpi/line_vertical.xml" value="0.26458333333333334" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable-ldpi/new_edit_background.xml" value="0.1755" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable-mdpi/_f4b5.xml" value="0.140625" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable-v24/header_background.xml" value="0.11770833333333333" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable-v24/ic_calendar_focused.xml" value="0.19814814814814816" />
@@ -15,6 +16,7 @@
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/alternative_page_background.xml" value="0.11770833333333333" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/background_button.xml" value="0.14010416666666667" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/border_background.xml" value="0.26458333333333334" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/border_background_1.xml" value="0.1755" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/bottom_navigation_background.xml" value="0.1527777777777778" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/bottom_navigation_color_selector.xml" value="0.1527777777777778" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/bottom_sheet_background.xml" value="0.14010416666666667" />
@@ -27,15 +29,21 @@
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/custom_input.xml" value="0.19814814814814816" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/custom_input_error.xml" value="0.18981481481481483" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/custom_transfer_bottom.xml" value="0.1" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/dash_border.xml" value="0.1755" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/divider_list_view.xml" value="0.26458333333333334" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/fab_square.xml" value="0.1527777777777778" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/home_page_background.xml" value="0.13645833333333332" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_accounts.xml" value="0.1755" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_arrow_back.xml" value="0.2605128205128205" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_arrow_close_list.xml" value="0.26458333333333334" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_arrow_down.xml" value="0.26458333333333334" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_arrow_down_close_list.xml" value="0.14010416666666667" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_arrow_expense.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_arrow_income.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_arrow_left.xml" value="0.1755" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_arrow_up_open_list.xml" value="0.140625" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_bank.xml" value="0.1" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_baseline_edit_calendar_24.xml" value="0.1755" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_baseline_notifications_24.xml" value="0.14010416666666667" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_calendar.xml" value="0.19814814814814816" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_calendar_year.xml" value="0.26458333333333334" />
@@ -43,7 +51,9 @@
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_cash_money.xml" value="0.1" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_cash_out.xml" value="0.19166666666666668" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_cash_register.xml" value="0.1925925925925926" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_categories.xml" value="0.1755" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_circle.xml" value="0.26458333333333334" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_close.xml" value="0.1755" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_credit_card.xml" value="0.1925925925925926" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_delete.xml" value="0.140625" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_edit.xml" value="0.19814814814814816" />
@@ -52,18 +62,71 @@
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_euro_symbol.xml" value="0.19814814814814816" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_euro_symbol_focused.xml" value="0.19814814814814816" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_icon_arrow_1.xml" value="0.26458333333333334" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_icon_arrow_right_item_list.xml" value="0.1755" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_icon_categories_list_in.xml" value="0.26458333333333334" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_icon_trips_7.xml" value="0.26458333333333334" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_list_empty.xml" value="0.13541666666666666" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_logo_ab.xml" value="0.1527777777777778" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_logo_ab_white.xml" value="0.1527777777777778" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_menu_down.xml" value="0.1755" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_minus.xml" value="0.14010416666666667" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_money.xml" value="0.1755" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_name.xml" value="0.19814814814814816" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_account_1.xml" value="0.1" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_account_10.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_account_11.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_account_12.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_account_13.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_account_14.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_account_15.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_account_16.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_account_17.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_account_18.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_account_19.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_account_2.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_account_3.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_account_4.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_account_5.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_account_6.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_account_7.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_account_8.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_account_9.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_category_1.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_category_10.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_category_11.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_category_12.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_category_13.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_category_14.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_category_15.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_category_16.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_category_17.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_category_18.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_category_19.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_category_2.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_category_20.xml" value="0.112" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_category_21.xml" value="0.112" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_category_22.xml" value="0.112" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_category_23.xml" value="0.112" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_category_24.xml" value="0.112" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_category_25.xml" value="0.112" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_category_26.xml" value="0.112" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_category_28.xml" value="0.112" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_category_29.xml" value="0.112" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_category_3.xml" value="0.112" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_category_30.xml" value="0.116" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_category_32.xml" value="0.116" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_category_34.xml" value="0.116" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_category_37.xml" value="0.116" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_category_85.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_category_86.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_new_category_9.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_note.xml" value="0.1755" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_plus.xml" value="0.14010416666666667" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_plus_24.xml" value="0.13333333333333333" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_plus_fab.xml" value="0.18055555555555555" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_radio_button_checked.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_settings.xml" value="0.1755" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_transactions.xml" value="0.116" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_transfer.xml" value="0.18518518518518517" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/ic_wallet_in.xml" value="0.26458333333333334" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/icon_background.xml" value="0.1" />
@@ -76,6 +139,7 @@
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/item_transaction_list_background_card.xml" value="0.26458333333333334" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/line_dashed.xml" value="0.26458333333333334" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/list_accounts_background.xml" value="0.1" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/rounded_bottom_sheet.xml" value="0.1755" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/rounded_button.xml" value="0.1390625" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/selected_item_icon_new_account.xml" value="0.18981481481481483" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/drawable/sheet_line_background.xml" value="0.14010416666666667" />
@@ -102,9 +166,11 @@
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/bottom_sheet_account.xml" value="0.12395833333333334" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/bottom_sheet_search_transaction_account.xml" value="0.2484375" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/bottom_sheet_search_transaction_category.xml" value="0.2484375" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/bottom_sheet_search_transaction_date.xml" value="0.2484375" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/bottom_sheet_search_transaction_type.xml" value="0.2484375" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/bottom_sheet_select_period.xml" value="0.2484375" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/bottom_sheet_transaction.xml" value="0.2484375" />
-        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/btn_include_main_activity.xml" value="0.2484375" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/btn_include_main_activity.xml" value="0.264" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/button_account_home_fragment.xml" value="0.2484375" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/button_category_home_fragment.xml" value="0.2484375" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/custom_loading_dialog.xml" value="0.2484375" />
@@ -118,6 +184,7 @@
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/info_income.xml" value="0.264" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/item_bottom_sheet_search_transaction_account.xml" value="0.2484375" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/item_bottom_sheet_search_transaction_category.xml" value="0.2484375" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/item_bottom_sheet_select_period.xml" value="0.2484375" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/item_bs_search_type.xml" value="0.2484375" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/item_category_grid_view.xml" value="0.4" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseSpender/app/src/main/res/layout/item_category_list_view.xml" value="0.2484375" />

@@ -31,7 +31,7 @@ import it.bonny.app.wisespender.util.Utility;
 public class TransactionDetailActivity extends AppCompatActivity {
     private DatabaseHelper db;
     private final Utility utility = new Utility();
-    private MaterialCardView btnReturn;
+    private MaterialButton btnReturn;
     private TextView titleTransaction, dateTransaction, typeTransaction,
             accountTransaction, categoryTransaction, noteTransaction, amountTransaction, timeTransaction;
     private ExtendedFloatingActionButton fabViewPlus, fabViewDelete, fabViewEdit;

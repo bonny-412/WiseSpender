@@ -34,10 +34,10 @@ import it.bonny.app.wisespender.util.Utility;
 
 public class NewEditCategoryActivity extends AppCompatActivity implements TextWatcher {
 
-    private MaterialCardView returnNewEditCategory, btnDeleteCategory;
+    private MaterialCardView btnDeleteCategory;
     private GridView gridView;
     private EditText categoryName;
-    private MaterialButton buttonSaveCategory;
+    private MaterialButton buttonSaveCategory, returnNewEditCategory;
     private TextView titleChooseIconCategory, titlePageCategory;
     private TextView textViewTypeCategory;
     private final Activity activity = this;

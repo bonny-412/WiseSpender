@@ -3,15 +3,41 @@
         <item name="colorPrimary">@color/primary</item>
         <item name="colorSecondary">@color/primary</item>
         <item name="android:statusBarColor" tools:targetApi="l">@color/background</item>
+
+        <item name="bottomSheetDialogTheme">@style/BottomSheetDialogTheme</item>
     </style>
     <style name="Theme.WiseSpender1" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorSecondary">@color/primary</item>
         <item name="android:statusBarColor" tools:targetApi="l">@color/background_card</item>
+
+        <item name="bottomSheetDialogTheme">@style/BottomSheetDialogTheme</item>
     </style>
     <style name="DialogAnimation">
         <item name="android:windowEnterAnimation">@android:anim/slide_in_left</item>
         <item name="android:windowExitAnimation">@android:anim/slide_out_right</item>
     </style>
+
+    <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/rounded_bottom_sheet</item>
+    </style>
+
+    <style name="BaseBottomSheetDialog" parent="@style/Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="bottomSheetStyle">@style/BottomSheet</item>
+    </style>
+
+    <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog" />
+
+    <style name="Widget.App.Button.OutlinedButton.IconOnly" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="iconPadding">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:minHeight">48dp</item>
+    </style>
+
 
 </resources>
