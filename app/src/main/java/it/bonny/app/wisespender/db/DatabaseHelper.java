@@ -263,6 +263,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return accountBean;
     }
 
+    /**
+     * Get all idAccount no Master
+     */
+    @SuppressLint("Range")
+    public String getAllIdAccountNoMaster() {
+        StringBuilder stringBuilder = new StringBuilder();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT " + AccountBean.KEY_ID + " AS id FROM " + AccountBean.TABLE + " WHERE " + AccountBean.KEY_IS_MASTER + " = " + TypeObjectBean.NO_MASTER;
+        Cursor c = db.rawQuery(selectQuery, null);
+        if(c.moveToFirst()) {
+            do {
+                stringBuilder.append("").append(c.getString(c.getColumnIndex("id"))).append(",");
+            }while (c.moveToNext());
+        }
+        c.close();
+        String ids = stringBuilder.toString();
+        ids = ids.substring(0, ids.length() - 1);
+        return ids;
+    }
+
     // ------------------------ "category" table methods ----------------//
     /**
      * Creating a Category
@@ -623,6 +643,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         c.close();
         return transactionBeans;
+    }
+
+    @SuppressLint("Range")
+    public int getSumTransactionsByAccountAndType(long idAccountBeanSelected, String ids, String from, String a, int typeTransaction) {
+        int total = 0;
+        String selectQuery = "SELECT SUM(" + TransactionBean.KEY_AMOUNT + ") AS total FROM " + TransactionBean.TABLE + " t WHERE t." + TransactionBean.KEY_DATE_INSERT +
+                " BETWEEN '" + from + "' AND '" + a + "' ";
+
+        selectQuery += "AND t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + typeTransaction + " ";
+
+        if(ids != null) {
+            selectQuery += "AND t." + TransactionBean.KEY_ID_ACCOUNT + " IN (" + ids + ") ";
+        }else {
+            selectQuery += "AND t." + TransactionBean.KEY_ID_ACCOUNT + " = " + idAccountBeanSelected + " ";
+        }
+
+        selectQuery += "ORDER BY t." + TransactionBean.KEY_ID + "";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+        if (c.moveToFirst()) {
+            //do {
+                total = c.getInt(c.getColumnIndex("total"));
+            //} while (c.moveToNext());
+        }
+        c.close();
+        return total;
     }
 
     /**

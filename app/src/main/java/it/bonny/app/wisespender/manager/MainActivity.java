@@ -67,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
     private List<String> months;
     private ProgressBar progressBar;
 
+    private String totMoneyAccount = "", totMoneyAccountIncome, totMoneyAccountExpense;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -227,15 +229,18 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
             String a = dateFormat.format(lastDayMonth.getTime()) + " 23:59";
             transactionBeanList = db.getAllTransactionBeansToMainActivity(accountBeanSelected, from, a);
 
-            String totMoneyAccount, totMoneyAccountIncome, totMoneyAccountExpense;
+
             if(accountBeanSelected.getIsMaster() == TypeObjectBean.IS_MASTER) {
-                totMoneyAccount = utility.getTotMoneyAccountByAllAccounts(accountBeanList, null);
-                totMoneyAccountIncome = utility.getTotMoneyIncomeAccountByAllAccounts(accountBeanList, null);
-                totMoneyAccountExpense = utility.getTotMoneyExpenseAccountByAllAccounts(accountBeanList, null);
+                String ids = db.getAllIdAccountNoMaster();
+                int totMoneyIncomeInt = db.getSumTransactionsByAccountAndType(0, ids, from, a, TypeObjectBean.TRANSACTION_INCOME);
+                int totMoneyExpenseInt = db.getSumTransactionsByAccountAndType(0, ids, from, a, TypeObjectBean.TRANSACTION_EXPENSE);
+
+                calculateAmount(totMoneyIncomeInt, totMoneyExpenseInt, 0);
             }else {
-                totMoneyAccount = utility.getTotMoneyAccountByAllAccounts(null, accountBeanSelected);
-                totMoneyAccountIncome = utility.getTotMoneyIncomeAccountByAllAccounts(null, accountBeanSelected);
-                totMoneyAccountExpense = utility.getTotMoneyExpenseAccountByAllAccounts(null, accountBeanSelected);
+                int totMoneyIncomeInt = db.getSumTransactionsByAccountAndType(accountBeanSelected.getId(), null, from, a, TypeObjectBean.TRANSACTION_INCOME);
+                int totMoneyExpenseInt = db.getSumTransactionsByAccountAndType(accountBeanSelected.getId(), null, from, a, TypeObjectBean.TRANSACTION_EXPENSE);
+
+                calculateAmount(totMoneyIncomeInt, totMoneyExpenseInt, 0);
             }
 
             runOnUiThread(() -> {
@@ -261,6 +266,20 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
                 }
             });
         });
+    }
+
+    private void calculateAmount(int totMoneyIncomeInt, int totMoneyExpenseInt, int totMoney) {
+        if(totMoneyExpenseInt > totMoneyIncomeInt) {
+            totMoneyAccount = "- ";
+            totMoney = totMoneyExpenseInt - totMoneyIncomeInt;
+        }else {
+            totMoneyAccount = "";
+            totMoney = totMoneyIncomeInt - totMoneyExpenseInt;
+        }
+
+        totMoneyAccount += utility.formatNumberCurrency(utility.convertIntInEditTextValue(totMoney).toString());
+        totMoneyAccountIncome = utility.formatNumberCurrency(utility.convertIntInEditTextValue(totMoneyIncomeInt).toString());
+        totMoneyAccountExpense = utility.formatNumberCurrency(utility.convertIntInEditTextValue(totMoneyExpenseInt).toString());
     }
 
     @Override
