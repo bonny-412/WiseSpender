@@ -599,7 +599,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<TransactionBean> transactionBeans = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t WHERE t." + TransactionBean.KEY_DATE_INSERT + " BETWEEN '" + from + "' AND '" + a + "' ";
         if(accountBeanSelected != null && accountBeanSelected.getIsMaster() == TypeObjectBean.NO_MASTER) {
-            selectQuery += " AND t." + TransactionBean.KEY_ID_ACCOUNT + " = " + accountBeanSelected.getId();
+            selectQuery += " AND t." + TransactionBean.KEY_ID_ACCOUNT + " = " + accountBeanSelected.getId() + " ";
         }
         selectQuery += "ORDER BY t." + TransactionBean.KEY_ID + " DESC LIMIT 7";
         SQLiteDatabase db = this.getReadableDatabase();

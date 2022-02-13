@@ -223,8 +223,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
             lastDayMonth.set(Calendar.YEAR, yearSelected);
             lastDayMonth.set(Calendar.DAY_OF_MONTH, lastDayMonth.getActualMaximum(Calendar.DAY_OF_MONTH));
 
-            String from = dateFormat.format(firstDayMonth.getTime()) + " 00:00 ";
-            String a = dateFormat.format(lastDayMonth.getTime()) + " 23:59 ";
+            String from = dateFormat.format(firstDayMonth.getTime()) + " 00:00";
+            String a = dateFormat.format(lastDayMonth.getTime()) + " 23:59";
             transactionBeanList = db.getAllTransactionBeansToMainActivity(accountBeanSelected, from, a);
 
             String totMoneyAccount, totMoneyAccountIncome, totMoneyAccountExpense;

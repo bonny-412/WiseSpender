@@ -34,17 +34,21 @@ import it.bonny.app.wisespender.bean.AccountBean;
 import it.bonny.app.wisespender.bean.CategoryBean;
 import it.bonny.app.wisespender.bean.TransactionBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
+import it.bonny.app.wisespender.component.BottomSheetNewEditTransaction;
+import it.bonny.app.wisespender.component.BottomSheetNewEditTransactionListener;
+import it.bonny.app.wisespender.component.BottomSheetSearchTransaction;
 import it.bonny.app.wisespender.db.DatabaseHelper;
 import it.bonny.app.wisespender.util.CurrencyEditText;
 import it.bonny.app.wisespender.util.Utility;
 
-public class TransactionActivity extends AppCompatActivity {
+public class TransactionActivity extends AppCompatActivity implements BottomSheetNewEditTransactionListener  {
 
     private final Calendar myCalendar = Calendar.getInstance();
     private final Context context = this;
     private final Utility utility = new Utility();
-    private int accountSelectedPos, categorySelectedPos = -1;
     private int oldAmount = 0;
+    private long idAccountSelected, idCategorySelected;
+    private boolean isExpense = true;
 
     private LinearLayout btnExpense, btnIncome;
     private TextView dateTransaction, countNameTransaction, countNoteTransaction;
@@ -71,6 +75,7 @@ public class TransactionActivity extends AppCompatActivity {
             CategoryBean categoryBean = db.getCategoryBean(transactionBean.getIdCategory());
             accountBeanSelected = db.getAccountBean(transactionBean.getIdAccount());
             oldAmount = transactionBean.getAmount();
+            idCategorySelected = categoryBean.getId();
 
             iconAccount.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(), utility.getIdIconByAccountBean(accountBeanSelected)));
             nameAccount.setText(accountBeanSelected.getName());
@@ -108,6 +113,8 @@ public class TransactionActivity extends AppCompatActivity {
             countNoteTransaction.setText(getCountCharacter(noteTransaction, 300));
         }
 
+        idAccountSelected = accountBeanSelected.getId();
+
         updateLabel();
 
         DatePickerDialog.OnDateSetListener date = (view, year, monthOfYear, dayOfMonth) -> {
@@ -118,12 +125,16 @@ public class TransactionActivity extends AppCompatActivity {
         };
 
         btnExpense.setOnClickListener(view -> {
-            if(transactionBean.getTypeTransaction() == TypeObjectBean.TRANSACTION_INCOME)
+            if(transactionBean.getTypeTransaction() == TypeObjectBean.TRANSACTION_INCOME) {
                 changeTypeTransaction(true, false);
+                idCategorySelected = 0;
+            }
         });
         btnIncome.setOnClickListener(view -> {
-            if(transactionBean.getTypeTransaction() == TypeObjectBean.TRANSACTION_EXPENSE)
+            if(transactionBean.getTypeTransaction() == TypeObjectBean.TRANSACTION_EXPENSE) {
                 changeTypeTransaction(false, false);
+                idCategorySelected = 0;
+            }
         });
 
         dateTransaction.setOnClickListener(view -> new DatePickerDialog(context, date, myCalendar
@@ -173,22 +184,13 @@ public class TransactionActivity extends AppCompatActivity {
         });
 
         btnAccount.setOnClickListener(view -> {
-            Intent intent = new Intent(TransactionActivity.this, ListViewActivity.class);
-            intent.putExtra("typeList", 0);
-            intent.putExtra("selectedPos", accountSelectedPos);
-            if(transactionBean.getId() > 0)
-                intent.putExtra("id", transactionBean.getIdAccount());
-            openSomeActivityForResult(intent);
+            BottomSheetNewEditTransaction bottomSheet = new BottomSheetNewEditTransaction(TransactionActivity.this, false, idAccountSelected, isExpense);
+            bottomSheet.show(getSupportFragmentManager(), "NEW_EDIT_TRANSACTION");
         });
 
         btnCategory.setOnClickListener(view -> {
-            Intent intent = new Intent(TransactionActivity.this, ListViewActivity.class);
-            intent.putExtra("typeList", 1);
-            intent.putExtra("selectedPos", categorySelectedPos);
-            intent.putExtra("typeCategory", transactionBean.getTypeTransaction());
-            if(transactionBean.getId() > 0)
-                intent.putExtra("id", transactionBean.getIdCategory());
-            openSomeActivityForResult(intent);
+            BottomSheetNewEditTransaction bottomSheet = new BottomSheetNewEditTransaction(TransactionActivity.this, true, idCategorySelected, isExpense);
+            bottomSheet.show(getSupportFragmentManager(), "NEW_EDIT_TRANSACTION");
         });
         btnReturn.setOnClickListener(view -> finish());
 
@@ -256,41 +258,15 @@ public class TransactionActivity extends AppCompatActivity {
                     result = getString(R.string.save_transaction_ko);
                 }
                 Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.putExtra("transactionBean", transactionBean);
+                setResult(Activity.RESULT_OK, intent);
                 finish();
             }
 
         });
     }
 
-
-    ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-        @Override
-        public void onActivityResult(ActivityResult result) {
-            if (result.getResultCode() == Activity.RESULT_OK) {
-                Intent data = result.getData();
-                if(data != null) {
-                    int typeList = data.getIntExtra("typeList", -1);
-                    long id = data.getLongExtra("_id", 0);
-                    if (typeList == 0) {
-                        accountSelectedPos = data.getIntExtra("position", 0);
-                        AccountBean accountBean = db.getAccountBean(id);
-                        nameAccount.setText(accountBean.getName());
-                        iconAccount.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(), utility.getIdIconByAccountBean(accountBean)));
-                        transactionBean.setIdAccount(accountBean.getId());
-                    }else if(typeList == 1) {
-                        categorySelectedPos = data.getIntExtra("position", 0);
-                        CategoryBean categoryBean = db.getCategoryBean(id);
-                        nameCategory.setText(categoryBean.getName());
-                        iconCategory.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(), utility.getIdIconByCategoryBean(categoryBean)));
-                        containerCategoryInfo.setVisibility(View.VISIBLE);
-                        containerCategoryInfo1.setVisibility(View.GONE);
-                        transactionBean.setIdCategory(categoryBean.getId());
-                    }
-                }
-
-            }
-        }
-    });
 
     private void init() {
         db = new DatabaseHelper(getApplicationContext());
@@ -324,10 +300,6 @@ public class TransactionActivity extends AppCompatActivity {
         return editText.length() + "/" + length;
     }
 
-    public void openSomeActivityForResult(Intent intent) {
-        someActivityResultLauncher.launch(intent);
-    }
-
     private void changeTypeTransaction(boolean isExpense, boolean isFirstLaunch) {
         if(isExpense) {
             transactionBean.setTypeTransaction(TypeObjectBean.TRANSACTION_EXPENSE);
@@ -335,21 +307,40 @@ public class TransactionActivity extends AppCompatActivity {
             btnIncome.setBackgroundResource(0);
             btnExpense.setElevation(8);
             btnIncome.setElevation(0);
+            this.isExpense = true;
         }else {
             transactionBean.setTypeTransaction(TypeObjectBean.TRANSACTION_INCOME);
             btnIncome.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.button_change_view_checked_background));
             btnExpense.setBackgroundResource(0);
             btnIncome.setElevation(8);
             btnExpense.setElevation(0);
+            this.isExpense = false;
         }
         if(!isFirstLaunch) {
             iconCategory.setImageDrawable(null);
             nameCategory.setText("");
             containerCategoryInfo1.setVisibility(View.VISIBLE);
             containerCategoryInfo.setVisibility(View.GONE);
-            categorySelectedPos = -1;
             transactionBean.setIdCategory(0);
         }
     }
 
+    @Override
+    public void onItemClick(long idElement, boolean isCategory) {
+        if (!isCategory) {
+            AccountBean accountBean = db.getAccountBean(idElement);
+            nameAccount.setText(accountBean.getName());
+            iconAccount.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(), utility.getIdIconByAccountBean(accountBean)));
+            transactionBean.setIdAccount(accountBean.getId());
+            idAccountSelected = idElement;
+        }else {
+            CategoryBean categoryBean = db.getCategoryBean(idElement);
+            nameCategory.setText(categoryBean.getName());
+            iconCategory.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(), utility.getIdIconByCategoryBean(categoryBean)));
+            containerCategoryInfo.setVisibility(View.VISIBLE);
+            containerCategoryInfo1.setVisibility(View.GONE);
+            transactionBean.setIdCategory(categoryBean.getId());
+            idCategorySelected = idElement;
+        }
+    }
 }

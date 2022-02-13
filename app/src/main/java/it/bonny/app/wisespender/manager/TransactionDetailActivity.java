@@ -1,9 +1,14 @@
 package it.bonny.app.wisespender.manager;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatImageView;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -52,7 +57,7 @@ public class TransactionDetailActivity extends AppCompatActivity {
         fabViewEdit.setOnClickListener(view -> {
             Intent intent = new Intent(TransactionDetailActivity.this, TransactionActivity.class);
             intent.putExtra("transactionBean", transactionBean);
-            startActivity(intent);
+            openSomeActivityForResult(intent);
         });
 
         fabViewDelete.setOnClickListener(view -> getAlertDialogDeleteListAccount(transactionBean.getId()));
@@ -66,6 +71,23 @@ public class TransactionDetailActivity extends AppCompatActivity {
         });
 
     }
+
+    ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if (result.getResultCode() == Activity.RESULT_OK) {
+                Intent data = result.getData();
+                if(data != null) {
+                    transactionBean = data.getParcelableExtra("transactionBean");
+                }
+            }
+        }
+    });
+
+    public void openSomeActivityForResult(Intent intent) {
+        someActivityResultLauncher.launch(intent);
+    }
+
 
     private void setElements() {
         if(transactionBean != null) {

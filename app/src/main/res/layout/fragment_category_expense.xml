@@ -14,6 +14,7 @@
         app:layout_constraintEnd_toEndOf="@+id/linear"
         app:layout_constraintBottom_toTopOf="@+id/linear"
         android:visibility="gone"
+        android:overScrollMode="never"
         />
 
     <ImageView
