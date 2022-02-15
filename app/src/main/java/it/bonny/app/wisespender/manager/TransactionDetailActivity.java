@@ -168,16 +168,7 @@ public class TransactionDetailActivity extends AppCompatActivity {
                 dialog.dismiss();
         });
         btnDelete.setOnClickListener(v -> {
-            AccountBean accountBean = db.getAccountBean(transactionBean.getIdAccount());
-            if(transactionBean.getTypeTransaction() == TypeObjectBean.TRANSACTION_INCOME) {
-                int totMoneyIncome = accountBean.getTotMoneyIncome() - transactionBean.getAmount();
-                accountBean.setTotMoneyIncome(totMoneyIncome);
-            }else {
-                int totMoneyExpense = accountBean.getTotMoneyExpense() - transactionBean.getAmount();
-                accountBean.setTotMoneyExpense(totMoneyExpense);
-            }
             boolean resultDelete = db.deleteTransactionBean(id);
-            db.updateAccountBean(accountBean);
             if(resultDelete){
                 Toast.makeText(this, getString(R.string.delete_ok), Toast.LENGTH_SHORT).show();
                 finish();

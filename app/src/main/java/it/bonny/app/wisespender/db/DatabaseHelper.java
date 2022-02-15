@@ -20,7 +20,7 @@ import it.bonny.app.wisespender.bean.TypeObjectBean;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "wiseSpender";
+    private static final String DATABASE_NAME = "WiseSpender";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -68,14 +68,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(AccountBean.KEY_NAME, accountBean.getName());
-        values.put(AccountBean.KEY_CURRENCY, accountBean.getCurrency());
         values.put(AccountBean.KEY_OPENING_BALANCE, accountBean.getOpeningBalance());
-        values.put(AccountBean.KEY_FLAG_SELECTED, accountBean.getFlagSelected());
-        values.put(AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE, accountBean.getFlagViewTotalBalance());
+        values.put(AccountBean.KEY_IS_SELECTED, accountBean.getIsSelected());
+        values.put(AccountBean.KEY_IS_INCLUDED_BALANCE, accountBean.getIsIncludedBalance());
         values.put(AccountBean.KEY_IS_MASTER, accountBean.getIsMaster());
         values.put(AccountBean.KEY_ID_ICON, accountBean.getIdIcon());
-        values.put(AccountBean.KEY_TOT_MONEY_INCOME, accountBean.getTotMoneyIncome());
-        values.put(AccountBean.KEY_TOT_MONEY_EXPENSE, accountBean.getTotMoneyExpense());
 
         long id = db.insertOrThrow(AccountBean.TABLE, null, values);
         db.close();
@@ -89,14 +86,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(AccountBean.KEY_NAME, accountBean.getName());
-        values.put(AccountBean.KEY_CURRENCY, accountBean.getCurrency());
         values.put(AccountBean.KEY_OPENING_BALANCE, accountBean.getOpeningBalance());
-        values.put(AccountBean.KEY_FLAG_SELECTED, accountBean.getFlagSelected());
-        values.put(AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE, accountBean.getFlagViewTotalBalance());
+        values.put(AccountBean.KEY_IS_SELECTED, accountBean.getIsSelected());
+        values.put(AccountBean.KEY_IS_INCLUDED_BALANCE, accountBean.getIsIncludedBalance());
         values.put(AccountBean.KEY_IS_MASTER, accountBean.getIsMaster());
         values.put(AccountBean.KEY_ID_ICON, accountBean.getIdIcon());
-        values.put(AccountBean.KEY_TOT_MONEY_INCOME, accountBean.getTotMoneyIncome());
-        values.put(AccountBean.KEY_TOT_MONEY_EXPENSE, accountBean.getTotMoneyExpense());
 
         db.update(AccountBean.TABLE, values, AccountBean.KEY_ID + " = ?",
                 new String[] {String.valueOf(accountBean.getId())});
@@ -133,14 +127,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 accountBean = new AccountBean();
                 accountBean.setId(Long.parseLong(c.getString(c.getColumnIndex(AccountBean.KEY_ID))));
                 accountBean.setName(c.getString(c.getColumnIndex(AccountBean.KEY_NAME)));
-                accountBean.setCurrency(c.getString(c.getColumnIndex(AccountBean.KEY_CURRENCY)));
                 accountBean.setIdIcon(c.getInt(c.getColumnIndex(AccountBean.KEY_ID_ICON)));
                 accountBean.setOpeningBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_OPENING_BALANCE)));
-                accountBean.setFlagViewTotalBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE)));
-                accountBean.setFlagSelected(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_SELECTED)));
+                accountBean.setIsIncludedBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_IS_INCLUDED_BALANCE)));
+                accountBean.setIsSelected(c.getInt(c.getColumnIndex(AccountBean.KEY_IS_SELECTED)));
                 accountBean.setIsMaster(c.getInt(c.getColumnIndex(AccountBean.KEY_IS_MASTER)));
-                accountBean.setTotMoneyIncome(c.getInt(c.getColumnIndex(AccountBean.KEY_TOT_MONEY_INCOME)));
-                accountBean.setTotMoneyExpense(c.getInt(c.getColumnIndex(AccountBean.KEY_TOT_MONEY_EXPENSE)));
             }while (c.moveToNext());
         }
         c.close();
@@ -161,14 +152,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 AccountBean accountBean = new AccountBean();
                 accountBean.setId(Long.parseLong(c.getString(c.getColumnIndex(AccountBean.KEY_ID))));
                 accountBean.setName(c.getString(c.getColumnIndex(AccountBean.KEY_NAME)));
-                accountBean.setCurrency(c.getString(c.getColumnIndex(AccountBean.KEY_CURRENCY)));
                 accountBean.setIdIcon(c.getInt(c.getColumnIndex(AccountBean.KEY_ID_ICON)));
                 accountBean.setOpeningBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_OPENING_BALANCE)));
-                accountBean.setFlagViewTotalBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE)));
-                accountBean.setFlagSelected(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_SELECTED)));
+                accountBean.setIsIncludedBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_IS_INCLUDED_BALANCE)));
+                accountBean.setIsSelected(c.getInt(c.getColumnIndex(AccountBean.KEY_IS_SELECTED)));
                 accountBean.setIsMaster(c.getInt(c.getColumnIndex(AccountBean.KEY_IS_MASTER)));
-                accountBean.setTotMoneyIncome(c.getInt(c.getColumnIndex(AccountBean.KEY_TOT_MONEY_INCOME)));
-                accountBean.setTotMoneyExpense(c.getInt(c.getColumnIndex(AccountBean.KEY_TOT_MONEY_EXPENSE)));
                 accountBeans.add(accountBean);
             } while (c.moveToNext());
         }
@@ -190,14 +178,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 AccountBean accountBean = new AccountBean();
                 accountBean.setId(Long.parseLong(c.getString(c.getColumnIndex(AccountBean.KEY_ID))));
                 accountBean.setName(c.getString(c.getColumnIndex(AccountBean.KEY_NAME)));
-                accountBean.setCurrency(c.getString(c.getColumnIndex(AccountBean.KEY_CURRENCY)));
                 accountBean.setIdIcon(c.getInt(c.getColumnIndex(AccountBean.KEY_ID_ICON)));
                 accountBean.setOpeningBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_OPENING_BALANCE)));
-                accountBean.setFlagViewTotalBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE)));
-                accountBean.setFlagSelected(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_SELECTED)));
+                accountBean.setIsIncludedBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_IS_INCLUDED_BALANCE)));
+                accountBean.setIsSelected(c.getInt(c.getColumnIndex(AccountBean.KEY_IS_SELECTED)));
                 accountBean.setIsMaster(c.getInt(c.getColumnIndex(AccountBean.KEY_IS_MASTER)));
-                accountBean.setTotMoneyIncome(c.getInt(c.getColumnIndex(AccountBean.KEY_TOT_MONEY_INCOME)));
-                accountBean.setTotMoneyExpense(c.getInt(c.getColumnIndex(AccountBean.KEY_TOT_MONEY_EXPENSE)));
                 accountBeans.add(accountBean);
             } while (c.moveToNext());
         }
@@ -220,14 +205,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 AccountBean accountBean = new AccountBean();
                 accountBean.setId(Long.parseLong(c.getString(c.getColumnIndex(AccountBean.KEY_ID))));
                 accountBean.setName(c.getString(c.getColumnIndex(AccountBean.KEY_NAME)));
-                accountBean.setCurrency(c.getString(c.getColumnIndex(AccountBean.KEY_CURRENCY)));
                 accountBean.setIdIcon(c.getInt(c.getColumnIndex(AccountBean.KEY_ID_ICON)));
                 accountBean.setOpeningBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_OPENING_BALANCE)));
-                accountBean.setFlagViewTotalBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE)));
-                accountBean.setFlagSelected(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_SELECTED)));
+                accountBean.setIsIncludedBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_IS_INCLUDED_BALANCE)));
+                accountBean.setIsSelected(c.getInt(c.getColumnIndex(AccountBean.KEY_IS_SELECTED)));
                 accountBean.setIsMaster(c.getInt(c.getColumnIndex(AccountBean.KEY_IS_MASTER)));
-                accountBean.setTotMoneyIncome(c.getInt(c.getColumnIndex(AccountBean.KEY_TOT_MONEY_INCOME)));
-                accountBean.setTotMoneyExpense(c.getInt(c.getColumnIndex(AccountBean.KEY_TOT_MONEY_EXPENSE)));
                 accountBeans.add(accountBean);
             } while (c.moveToNext());
         }
@@ -242,21 +224,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public AccountBean getAccountBeanSelected() {
         SQLiteDatabase db = this.getReadableDatabase();
         AccountBean accountBean = null;
-        String selectQuery = "SELECT * FROM " + AccountBean.TABLE + " WHERE " + AccountBean.KEY_FLAG_SELECTED + " = " + TypeObjectBean.SELECTED;
+        String selectQuery = "SELECT * FROM " + AccountBean.TABLE + " WHERE " + AccountBean.KEY_IS_SELECTED + " = " + TypeObjectBean.SELECTED;
         Cursor c = db.rawQuery(selectQuery, null);
         if(c.moveToFirst()) {
             do {
                 accountBean = new AccountBean();
                 accountBean.setId(Long.parseLong(c.getString(c.getColumnIndex(AccountBean.KEY_ID))));
                 accountBean.setName(c.getString(c.getColumnIndex(AccountBean.KEY_NAME)));
-                accountBean.setCurrency(c.getString(c.getColumnIndex(AccountBean.KEY_CURRENCY)));
                 accountBean.setIdIcon(c.getInt(c.getColumnIndex(AccountBean.KEY_ID_ICON)));
                 accountBean.setOpeningBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_OPENING_BALANCE)));
-                accountBean.setFlagViewTotalBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_VIEW_TOTAL_BALANCE)));
-                accountBean.setFlagSelected(c.getInt(c.getColumnIndex(AccountBean.KEY_FLAG_SELECTED)));
+                accountBean.setIsIncludedBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_IS_INCLUDED_BALANCE)));
+                accountBean.setIsSelected(c.getInt(c.getColumnIndex(AccountBean.KEY_IS_SELECTED)));
                 accountBean.setIsMaster(c.getInt(c.getColumnIndex(AccountBean.KEY_IS_MASTER)));
-                accountBean.setTotMoneyIncome(c.getInt(c.getColumnIndex(AccountBean.KEY_TOT_MONEY_INCOME)));
-                accountBean.setTotMoneyExpense(c.getInt(c.getColumnIndex(AccountBean.KEY_TOT_MONEY_EXPENSE)));
             }while (c.moveToNext());
         }
         c.close();
@@ -270,7 +249,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public String getAllIdAccountNoMaster() {
         StringBuilder stringBuilder = new StringBuilder();
         SQLiteDatabase db = this.getReadableDatabase();
-        String selectQuery = "SELECT " + AccountBean.KEY_ID + " AS id FROM " + AccountBean.TABLE + " WHERE " + AccountBean.KEY_IS_MASTER + " = " + TypeObjectBean.NO_MASTER;
+        String selectQuery = "SELECT a." + AccountBean.KEY_ID + " AS id FROM " + AccountBean.TABLE + " a "
+                + "WHERE a." + AccountBean.KEY_IS_MASTER + " = " + TypeObjectBean.NO_MASTER + " "
+                + "AND a." + AccountBean.KEY_IS_INCLUDED_BALANCE + " = " + TypeObjectBean.IS_INCLUDED_BALANCE;
         Cursor c = db.rawQuery(selectQuery, null);
         if(c.moveToFirst()) {
             do {
@@ -591,7 +572,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public TransactionBean getAllTransactionBeansByTypeTransactionIdAccount(int typeTransaction, long idAccount) {
         TransactionBean transactionBean = null;
         String selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t WHERE t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " +
-                typeTransaction + " AND t." + TransactionBean.KEY_ID_ACCOUNT + " = " + idAccount;
+                typeTransaction + " OR t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + TypeObjectBean.TRANSACTION_OPEN_BALANCE + " " +
+                "AND t." + TransactionBean.KEY_ID_ACCOUNT + " = " + idAccount;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
         if(c.moveToFirst()) {
@@ -617,11 +599,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @SuppressLint("Range")
     public List<TransactionBean> getAllTransactionBeansToMainActivity(AccountBean accountBeanSelected, String from, String a) {
         List<TransactionBean> transactionBeans = new ArrayList<>();
-        String selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t WHERE t." + TransactionBean.KEY_DATE_INSERT + " BETWEEN '" + from + "' AND '" + a + "' ";
-        if(accountBeanSelected != null && accountBeanSelected.getIsMaster() == TypeObjectBean.NO_MASTER) {
-            selectQuery += " AND t." + TransactionBean.KEY_ID_ACCOUNT + " = " + accountBeanSelected.getId() + " ";
-        }
+        String selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t ";
+
+        if(accountBeanSelected != null && accountBeanSelected.getIsMaster() == TypeObjectBean.IS_MASTER)
+            selectQuery += "LEFT OUTER JOIN " + AccountBean.TABLE + " a ON a." + AccountBean.KEY_ID + " = t." + TransactionBean.KEY_ID_ACCOUNT + " ";
+
+        selectQuery += "WHERE t." + TransactionBean.KEY_DATE_INSERT + " BETWEEN '" + from + "' AND '" + a + "' ";
+
+        if(accountBeanSelected != null && accountBeanSelected.getIsMaster() == TypeObjectBean.IS_MASTER)
+            selectQuery += "AND a." + AccountBean.KEY_IS_INCLUDED_BALANCE + " = " + TypeObjectBean.IS_INCLUDED_BALANCE + " ";
+
+        if(accountBeanSelected != null && accountBeanSelected.getIsMaster() == TypeObjectBean.NO_MASTER)
+            selectQuery += "AND t." + TransactionBean.KEY_ID_ACCOUNT + " = " + accountBeanSelected.getId() + " ";
+
         selectQuery += "ORDER BY t." + TransactionBean.KEY_ID + " DESC LIMIT 7";
+
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
         if (c.moveToFirst()) {
@@ -651,7 +643,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String selectQuery = "SELECT SUM(" + TransactionBean.KEY_AMOUNT + ") AS total FROM " + TransactionBean.TABLE + " t WHERE t." + TransactionBean.KEY_DATE_INSERT +
                 " BETWEEN '" + from + "' AND '" + a + "' ";
 
-        selectQuery += "AND t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + typeTransaction + " ";
+        if(typeTransaction == TypeObjectBean.TRANSACTION_INCOME) {
+            selectQuery += "AND (t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + typeTransaction + " "
+                    + "OR t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + TypeObjectBean.TRANSACTION_OPEN_BALANCE + ") ";
+        }else
+            selectQuery += "AND t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + typeTransaction + " ";
 
         if(ids != null) {
             selectQuery += "AND t." + TransactionBean.KEY_ID_ACCOUNT + " IN (" + ids + ") ";
@@ -664,9 +660,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
         if (c.moveToFirst()) {
-            //do {
-                total = c.getInt(c.getColumnIndex("total"));
-            //} while (c.moveToNext());
+            total = c.getInt(c.getColumnIndex("total"));
         }
         c.close();
         return total;
@@ -683,7 +677,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + filterTransactionBean.getDateFromToQuery() + "' AND '" + filterTransactionBean.getDateAToQuery() + "' ";
 
         if(filterTransactionBean.getTypeFilter() == TypeObjectBean.FILTER_SEARCH_TRANSACTION_TYPE_INCOME) {
-            selectQuery += "AND t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + TypeObjectBean.TRANSACTION_INCOME + " ";
+            selectQuery += "AND (t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + TypeObjectBean.TRANSACTION_INCOME + " "
+                    + "OR t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + TypeObjectBean.TRANSACTION_OPEN_BALANCE + ") ";
         }else if(filterTransactionBean.getTypeFilter() == TypeObjectBean.FILTER_SEARCH_TRANSACTION_TYPE_EXPENSE) {
             selectQuery += "AND t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + TypeObjectBean.TRANSACTION_EXPENSE + " ";
         }

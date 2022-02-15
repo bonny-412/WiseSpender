@@ -51,9 +51,9 @@ public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.
         try {
             holder.iconAccount.setImageDrawable(AppCompatResources.getDrawable(activity, utility.getIdIconByAccountBean(accountBean)));
             holder.titleAccount.setText(accountBean.getName());
-            String totAccountString = "" + utility.convertIntInEditTextValue(accountBean.getOpeningBalance() + (accountBean.getTotMoneyIncome() - accountBean.getTotMoneyExpense()));
-            totAccountString = utility.formatNumberCurrency(totAccountString);
-            holder.totMoneyAccount.setText(totAccountString);
+            //String totAccountString = "Gestire" + utility.convertIntInEditTextValue(accountBean.getOpeningBalance() + (accountBean.getTotMoneyIncome() - accountBean.getTotMoneyExpense()));
+            //totAccountString = utility.formatNumberCurrency(totAccountString);
+            holder.totMoneyAccount.setText("Gestire");
 
             holder.btnElement.setOnClickListener(view -> recyclerViewClickAccountInterface.onItemClick(holder.getAdapterPosition()));
 

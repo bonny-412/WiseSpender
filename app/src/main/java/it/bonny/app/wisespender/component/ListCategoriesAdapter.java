@@ -103,9 +103,9 @@ public class ListCategoriesAdapter extends ArrayAdapter<CategoryBean>  {
         });
         btnDelete.setOnClickListener(v -> {
             AccountBean accountBean = db.getAccountBean(id);
-            if(accountBean.getFlagSelected() == TypeObjectBean.SELECTED) {
+            if(accountBean.getIsSelected() == TypeObjectBean.SELECTED) {
                 AccountBean master = db.getAccountBean(1);//Id Master Account
-                master.setFlagSelected(TypeObjectBean.SELECTED);
+                master.setIsSelected(TypeObjectBean.SELECTED);
                 db.updateAccountBean(master);
             }
             boolean resultDelete = db.deleteAccountBean(id);

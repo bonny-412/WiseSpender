@@ -56,10 +56,10 @@ public class ListAccountBottomSheetAdapter extends RecyclerView.Adapter<ListAcco
         }
         if(position == selectedPosition){
             holder.radioButtonAccount.setVisibility(View.VISIBLE);
-            accountBeanList.get(position).setFlagSelected(TypeObjectBean.SELECTED);
+            accountBeanList.get(position).setIsSelected(TypeObjectBean.SELECTED);
         }else {
             holder.radioButtonAccount.setVisibility(View.GONE);
-            accountBeanList.get(position).setFlagSelected(TypeObjectBean.NO_SELECTED);
+            accountBeanList.get(position).setIsSelected(TypeObjectBean.NO_SELECTED);
         }
         if(accountBeanList.size() > 0) {
             holder.itemListAccount.setOnClickListener(onStateChangedListener(holder.radioButtonAccount, position));
@@ -88,14 +88,14 @@ public class ListAccountBottomSheetAdapter extends RecyclerView.Adapter<ListAcco
 
     private View.OnClickListener onStateChangedListener(final ImageView radioButtonAccount, final int position) {
         return v -> {
-            if (accountBeanList.get(position).getFlagSelected() == TypeObjectBean.NO_SELECTED) {
+            if (accountBeanList.get(position).getIsSelected() == TypeObjectBean.NO_SELECTED) {
                 notifyItemChanged(selectedPosition);
-                accountBeanList.get(selectedPosition).setFlagSelected(TypeObjectBean.NO_SELECTED);
+                accountBeanList.get(selectedPosition).setIsSelected(TypeObjectBean.NO_SELECTED);
                 db.updateAccountBean(accountBeanList.get(selectedPosition));
 
                 notifyItemChanged(position);
                 selectedPosition = position;
-                accountBeanList.get(position).setFlagSelected(TypeObjectBean.SELECTED);
+                accountBeanList.get(position).setIsSelected(TypeObjectBean.SELECTED);
                 radioButtonAccount.setVisibility(View.VISIBLE);
                 db.updateAccountBean(accountBeanList.get(position));
 
@@ -108,7 +108,7 @@ public class ListAccountBottomSheetAdapter extends RecyclerView.Adapter<ListAcco
     private void findSelectedTimer() {
         for(int i = 0; i < accountBeanList.size(); i++){
             AccountBean accountBean = accountBeanList.get(i);
-            if(accountBean.getFlagSelected() == TypeObjectBean.SELECTED){
+            if(accountBean.getIsSelected() == TypeObjectBean.SELECTED){
                 selectedPosition = i;
             }
         }

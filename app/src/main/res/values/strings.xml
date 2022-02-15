@@ -5,6 +5,7 @@
     <!-- Bottom Navigation Menu -->
     <string name="title_statistics_menu">Statistics</string>
     <string name="title_transaction_menu">Transactions</string>
+    <string name="title_transfer_menu">Transfer</string>
 
     <string name="hello_text">Hello,</string>
     <string name="spender_text">Spender</string>
@@ -34,11 +35,12 @@
     <string name="account_bean_main">Main</string>
 
     <string name="category_bean_open_balance">Account opening balance</string>
+    <string name="category_bean_transfer">Transfer</string>
     <string name="category_bean_hobby">Hobby</string>
     <string name="category_bean_necessity">Necessity</string>
 
     <!-- Account -->
-    <string name="new_account_included_balance">Not included in the total balance</string>
+    <string name="new_account_included_balance">Included in the balance</string>
     <string name="new_account_choose_icon">Choose an icon:</string>
     <string name="saved_ok">Saved successfully</string>
     <string name="saved_ko">Error while saving</string>

@@ -219,27 +219,11 @@ public class TransactionActivity extends AppCompatActivity implements BottomShee
             if(!isError) {
                 String result;
                 try {
-                    AccountBean accountBean = db.getAccountBean(transactionBean.getIdAccount());
                     if(transactionBean.getId() > 0) {
                         db.updateTransactionBean(transactionBean);
-                        if(transactionBean.getTypeTransaction() == TypeObjectBean.TRANSACTION_INCOME) {
-                            int totMoneyIncome = (accountBean.getTotMoneyIncome() - oldAmount) + transactionBean.getAmount();
-                            accountBean.setTotMoneyIncome(totMoneyIncome);
-                        }else {
-                            int totMoneyExpense = (accountBean.getTotMoneyExpense() - oldAmount) + transactionBean.getAmount();
-                            accountBean.setTotMoneyExpense(totMoneyExpense);
-                        }
                     }else {
                         db.insertTransactionBean(transactionBean);
-                        if(transactionBean.getTypeTransaction() == TypeObjectBean.TRANSACTION_INCOME) {
-                            int totMoneyIncome = accountBean.getTotMoneyIncome() + transactionBean.getAmount();
-                            accountBean.setTotMoneyIncome(totMoneyIncome);
-                        }else {
-                            int totMoneyExpense = accountBean.getTotMoneyExpense() + transactionBean.getAmount();
-                            accountBean.setTotMoneyExpense(totMoneyExpense);
-                        }
                     }
-                    db.updateAccountBean(accountBean);
                     result = getString(R.string.save_transaction_ok);
                 }catch (Exception e){
                     //TODO: Firebase

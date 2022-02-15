@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
     private List<String> months;
     private ProgressBar progressBar;
     private LinearLayout containerAccountName;
+    private MaterialButton btnSettings, btnTransfer;
 
     private String totMoneyAccount = "", totMoneyAccountIncome, totMoneyAccountExpense;
 
@@ -115,6 +116,20 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
             bottomSheetPeriod.show(getSupportFragmentManager(), "SELECT_PERIOD");
         });
 
+        btnTransfer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        btnSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
     }
 
     private void init() {
@@ -130,6 +145,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
         listTransactions = findViewById(R.id.listTransactions);
         iconAccount = findViewById(R.id.iconAccount);
         btnDate = findViewById(R.id.btnDate);
+        btnSettings = findViewById(R.id.btnSettings);
+        btnTransfer = findViewById(R.id.btnTransfer);
 
         String textDate = utility.getNameMonthYearByCalendar(calendar);
         btnDate.setText(textDate);
@@ -218,7 +235,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         executorService.execute(() -> {
 
-            List<AccountBean> accountBeanList = db.getAllAccountBeansNoMaster();
             accountBeanSelected = db.getAccountBeanSelected();
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
@@ -235,7 +251,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
             String from = dateFormat.format(firstDayMonth.getTime()) + " 00:00";
             String a = dateFormat.format(lastDayMonth.getTime()) + " 23:59";
             transactionBeanList = db.getAllTransactionBeansToMainActivity(accountBeanSelected, from, a);
-
 
             if(accountBeanSelected.getIsMaster() == TypeObjectBean.IS_MASTER) {
                 String ids = db.getAllIdAccountNoMaster();

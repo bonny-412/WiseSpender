@@ -63,23 +63,21 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
             //Edit account
             titlePageNewAccount.setText(getString(R.string.title_page_edit_account));
 
-            if(accountBean.getFlagSelected() == TypeObjectBean.NO_SELECTED)
+            if(accountBean.getIsSelected() == TypeObjectBean.NO_SELECTED)
                 btnDeleteAccount.setVisibility(View.VISIBLE);
 
             accountName.setText(accountBean.getName());
             String openingBalance = utility.convertIntInEditTextValue(accountBean.getOpeningBalance()).toString();
             accountOpeningBalance.setText(openingBalance);
-            boolean flag = false;
-            if(accountBean.getFlagViewTotalBalance() == TypeObjectBean.NO_TOTAL_BALANCE)
-                flag = true;
+            boolean flag = accountBean.getIsIncludedBalance() == TypeObjectBean.IS_INCLUDED_BALANCE;
             flagViewTotalBalance.setChecked(flag);
             IconBean iconBean = Utility.getListIconToAccountBean().get(accountBean.getIdIcon());
             iconSelectedPosition = iconBean.getId();
         }else {
             //New account
             accountBean.setIsMaster(TypeObjectBean.NO_MASTER);
-            accountBean.setFlagViewTotalBalance(TypeObjectBean.IS_TOTAL_BALANCE);
-            accountBean.setFlagSelected(TypeObjectBean.NO_SELECTED);
+            accountBean.setIsIncludedBalance(TypeObjectBean.IS_INCLUDED_BALANCE);
+            accountBean.setIsSelected(TypeObjectBean.NO_SELECTED);
             accountBean.setIdIcon(-1);
             iconSelectedPosition = -1;
             accountOpeningBalance.setText("0");
@@ -109,9 +107,9 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
 
         flagViewTotalBalance.setOnCheckedChangeListener((compoundButton, b) -> {
             if(b) {
-                accountBean.setFlagViewTotalBalance(TypeObjectBean.NO_TOTAL_BALANCE);
+                accountBean.setIsIncludedBalance(TypeObjectBean.IS_INCLUDED_BALANCE);
             }else {
-                accountBean.setFlagViewTotalBalance(TypeObjectBean.IS_TOTAL_BALANCE);
+                accountBean.setIsIncludedBalance(TypeObjectBean.NO_INCLUDED_BALANCE);
             }
         });
 
@@ -255,9 +253,9 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
         });
         btnDelete.setOnClickListener(v -> {
             AccountBean accountBean = db.getAccountBean(id);
-            if(accountBean.getFlagSelected() == TypeObjectBean.SELECTED) {
+            if(accountBean.getIsSelected() == TypeObjectBean.SELECTED) {
                 AccountBean master = db.getAccountBean(1);//Id Master Account
-                master.setFlagSelected(TypeObjectBean.SELECTED);
+                master.setIsSelected(TypeObjectBean.SELECTED);
                 db.updateAccountBean(master);
             }
             List<TransactionBean> transactionBeanList = db.getAllTransactionBeansByAccount(id);

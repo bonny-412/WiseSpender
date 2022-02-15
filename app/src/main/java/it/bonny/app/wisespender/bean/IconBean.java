@@ -2,15 +2,13 @@ package it.bonny.app.wisespender.bean;
 
 public class IconBean {
     private Integer drawableInfo;
-    private String name;
     private int id;
 
     public IconBean() {}
 
-    public IconBean(int id, Integer drawableInfo, String name) {
+    public IconBean(int id, Integer drawableInfo) {
         this.id = id;
         this.drawableInfo = drawableInfo;
-        this.name = name;
     }
 
     public int getId() {
@@ -18,13 +16,6 @@ public class IconBean {
     }
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Integer getDrawableInfo() {

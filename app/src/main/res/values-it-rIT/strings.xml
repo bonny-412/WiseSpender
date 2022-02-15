@@ -21,7 +21,7 @@
     <string name="account_bean_main">Principale</string>
     <string name="category_bean_hobby">Svago</string>
     <string name="category_bean_necessity">Necessità</string>
-    <string name="new_account_included_balance">Non incluso nel saldo totale</string>
+    <string name="new_account_included_balance">Incluso nel saldo</string>
     <string name="new_account_choose_icon">Scegli un\'icona:</string>
     <string name="saved_ok">Salvataggio avvenuto con successo</string>
     <string name="saved_ko">Errore durante il salvataggio</string>
@@ -75,4 +75,6 @@
     <string name="search_filter_date_start">Inizio</string>
     <string name="search_filter_date_end">Fine</string>
     <string name="balance">Saldo</string>
+    <string name="category_bean_transfer">Trasferimento</string>
+    <string name="title_transfer_menu">Trasferimento</string>
 </resources>
