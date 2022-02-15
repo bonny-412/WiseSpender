@@ -2,6 +2,7 @@ package it.bonny.app.wisespender.component;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -104,6 +105,12 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             iconCategory = itemView.findViewById(R.id.iconCategory);
             textView = itemView.findViewById(R.id.textView);
             mainLayout = itemView.findViewById(R.id.mainLayout);
+
+            textView.setSelected(true);
+            textView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+            textView.setHorizontallyScrolling(true);
+            textView.setSingleLine(true);
+            textView.setLines(1);
 
             translateAnim = AnimationUtils.loadAnimation(activity.getApplicationContext(), R.anim.translate_anim);
             mainLayout.setAnimation(translateAnim);

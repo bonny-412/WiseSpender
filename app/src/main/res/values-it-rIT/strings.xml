@@ -6,7 +6,6 @@
     <string name="title_transactions">Ultime transazioni</string>
     <string name="see_all">Vedi tutto</string>
     <string name="hello_text">Ciao,</string>
-    <string name="more_text">Altro</string>
     <string name="name_first_account">Conto principale</string>
     <string name="money_account">0</string>
     <string name="type_income">Entrata</string>
@@ -64,7 +63,6 @@
     <string name="title_page_list_transaction">Transazioni</string>
     <string name="alert_delete_transaction_title">Sei sicuro di voler eliminare questa transazione?</string>
     <string name="time_title_detail_transaction">Ora</string>
-    <string name="loading_alert_loading">Caricamento…</string>
     <string name="search_activity_button_type">Tipo</string>
     <string name="search_activity_button_date">Data</string>
     <string name="search_activity_button_category">Categoria</string>
@@ -77,5 +75,4 @@
     <string name="search_filter_date_start">Inizio</string>
     <string name="search_filter_date_end">Fine</string>
     <string name="balance">Saldo</string>
-    <string name="change_account">Cambia conto</string>
 </resources>

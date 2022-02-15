@@ -34,7 +34,6 @@
             app:layout_constraintStart_toStartOf="parent"
             />
         <TextView
-            android:id="@+id/titlePage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/title_page_list_transaction"
@@ -139,7 +138,7 @@
         android:background="@drawable/list_accounts_background"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:padding="10dp"
         android:orientation="vertical"
         >

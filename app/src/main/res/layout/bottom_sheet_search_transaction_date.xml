@@ -97,7 +97,6 @@
                 app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
         <View
-            android:id="@+id/lineStart"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginBottom="8dp"
@@ -165,7 +164,6 @@
                 app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
         <View
-            android:id="@+id/lineEnd"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginBottom="8dp"
@@ -180,7 +178,6 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/container_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"

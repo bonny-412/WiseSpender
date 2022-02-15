@@ -39,21 +39,30 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColor="@color/primary_text"
         app:layout_constraintTop_toTopOf="@+id/cardViewIcon"
         app:layout_constraintBottom_toBottomOf="@+id/cardViewIcon"
         app:layout_constraintStart_toEndOf="@+id/cardViewIcon"
+        app:layout_constraintEnd_toStartOf="@+id/iconType"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="5dp"
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        android:ellipsize="marquee"
+        android:lines="1"
+        android:fadingEdge="horizontal"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"/>
 
     <LinearLayout
+        android:id="@+id/iconType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/textView"
-        app:layout_constraintBottom_toBottomOf="@id/textView"
+        app:layout_constraintTop_toTopOf="@id/cardViewIcon"
+        app:layout_constraintBottom_toBottomOf="@id/cardViewIcon"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView"
         android:gravity="center">
         <ImageView
             android:id="@+id/iconTypeCategory"

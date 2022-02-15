@@ -13,6 +13,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.transition.Fade;
 import android.view.View;
 import android.view.animation.Animation;

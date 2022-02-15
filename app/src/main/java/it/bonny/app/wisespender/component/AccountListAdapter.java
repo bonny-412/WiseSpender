@@ -2,6 +2,7 @@ package it.bonny.app.wisespender.component;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -106,6 +107,12 @@ public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.
             this.totMoneyAccount = itemView.findViewById(R.id.totMoneyAccount);
             this.btnElement = itemView.findViewById(R.id.btnElement);
             this.mainLayout = itemView.findViewById(R.id.mainLayout);
+
+            titleAccount.setSelected(true);
+            titleAccount.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+            titleAccount.setHorizontallyScrolling(true);
+            titleAccount.setSingleLine(true);
+            titleAccount.setLines(1);
 
             Animation animation = AnimationUtils.loadAnimation(activity.getApplicationContext(), R.anim.translate_anim);
             mainLayout.setAnimation(animation);

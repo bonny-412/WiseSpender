@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,18 +12,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
-import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -49,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
     private long backPressedTime;
     private DatabaseHelper db;
     private final Utility utility = new Utility();
-    private MaterialButton cardViewAccount, cardViewCategory, cardViewTransaction, cardViewChangeAccount, showTransactionListBtn, btnDate;
+    private MaterialButton cardViewAccount, cardViewCategory, cardViewTransaction, showTransactionListBtn, btnDate;
     private TextView accountName, moneyAccount;
     private final Activity mActivity = this;
     private AppCompatTextView totalIncome, totalExpense;
@@ -66,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
     private int yearSelected, monthSelected;
     private List<String> months;
     private ProgressBar progressBar;
+    private LinearLayout containerAccountName;
 
     private String totMoneyAccount = "", totMoneyAccountIncome, totMoneyAccountExpense;
 
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
             startActivity(intent);
         });
 
-        cardViewChangeAccount.setOnClickListener(view -> bottomSheetAccount.show(getSupportFragmentManager(), "CHANGE_ACCOUNT"));
+        containerAccountName.setOnClickListener(view -> bottomSheetAccount.show(getSupportFragmentManager(), "CHANGE_ACCOUNT"));
 
         showTransactionListBtn.setOnClickListener(view -> {
             Intent intent = new Intent(mActivity, ListTransactionActivity.class);
@@ -128,7 +128,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
         totalIncome = findViewById(R.id.totalIncome);
         totalExpense = findViewById(R.id.totalExpense);
         listTransactions = findViewById(R.id.listTransactions);
-        cardViewChangeAccount = findViewById(R.id.cardViewChangeAccount);
         iconAccount = findViewById(R.id.iconAccount);
         btnDate = findViewById(R.id.btnDate);
 
@@ -142,6 +141,14 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
         cardViewTransaction = findViewById(R.id.cardViewTransaction);
         showTransactionListBtn = findViewById(R.id.showTransactionListBtn);
         progressBar = findViewById(R.id.progressBar);
+
+        containerAccountName = findViewById(R.id.containerAccountName);
+
+        accountName.setSelected(true);
+        accountName.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        accountName.setHorizontallyScrolling(true);
+        accountName.setSingleLine(true);
+        accountName.setLines(1);
 
     }
 
@@ -235,12 +242,12 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
                 int totMoneyIncomeInt = db.getSumTransactionsByAccountAndType(0, ids, from, a, TypeObjectBean.TRANSACTION_INCOME);
                 int totMoneyExpenseInt = db.getSumTransactionsByAccountAndType(0, ids, from, a, TypeObjectBean.TRANSACTION_EXPENSE);
 
-                calculateAmount(totMoneyIncomeInt, totMoneyExpenseInt, 0);
+                calculateAmount(totMoneyIncomeInt, totMoneyExpenseInt);
             }else {
                 int totMoneyIncomeInt = db.getSumTransactionsByAccountAndType(accountBeanSelected.getId(), null, from, a, TypeObjectBean.TRANSACTION_INCOME);
                 int totMoneyExpenseInt = db.getSumTransactionsByAccountAndType(accountBeanSelected.getId(), null, from, a, TypeObjectBean.TRANSACTION_EXPENSE);
 
-                calculateAmount(totMoneyIncomeInt, totMoneyExpenseInt, 0);
+                calculateAmount(totMoneyIncomeInt, totMoneyExpenseInt);
             }
 
             runOnUiThread(() -> {
@@ -268,7 +275,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
         });
     }
 
-    private void calculateAmount(int totMoneyIncomeInt, int totMoneyExpenseInt, int totMoney) {
+    private void calculateAmount(int totMoneyIncomeInt, int totMoneyExpenseInt) {
+        int totMoney;
         if(totMoneyExpenseInt > totMoneyIncomeInt) {
             totMoneyAccount = "- ";
             totMoney = totMoneyExpenseInt - totMoneyIncomeInt;

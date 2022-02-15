@@ -51,7 +51,7 @@ public class TransactionActivity extends AppCompatActivity implements BottomShee
     private boolean isExpense = true;
 
     private LinearLayout btnExpense, btnIncome;
-    private TextView dateTransaction, countNameTransaction, countNoteTransaction;
+    private TextView dateTransaction;
     private TransactionBean transactionBean;
     private EditText nameTransaction, noteTransaction;
     private CurrencyEditText amountTransaction;
@@ -83,8 +83,6 @@ public class TransactionActivity extends AppCompatActivity implements BottomShee
             nameTransaction.setText(transactionBean.getTitle());
             amountTransaction.setText(String.valueOf(utility.convertIntInEditTextValue(transactionBean.getAmount())));
             noteTransaction.setText(transactionBean.getNote());
-            countNameTransaction.setText(getCountCharacter(nameTransaction, 100));
-            countNoteTransaction.setText(getCountCharacter(noteTransaction, 300));
             nameAccount.setText(accountBeanSelected.getName());
             iconAccount.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(), utility.getIdIconByAccountBean(accountBeanSelected)));
 
@@ -109,8 +107,6 @@ public class TransactionActivity extends AppCompatActivity implements BottomShee
             nameAccount.setText(accountBeanSelected.getName());
             transactionBean.setIdAccount(accountBeanSelected.getId());
             amountTransaction.setText("0");
-            countNameTransaction.setText(getCountCharacter(nameTransaction, 100));
-            countNoteTransaction.setText(getCountCharacter(noteTransaction, 300));
         }
 
         idAccountSelected = accountBeanSelected.getId();
@@ -143,14 +139,10 @@ public class TransactionActivity extends AppCompatActivity implements BottomShee
 
         nameTransaction.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                countNameTransaction.setText(getCountCharacter(nameTransaction, 100));
-            }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
 
             @Override
             public void afterTextChanged(Editable editable) {
@@ -164,14 +156,10 @@ public class TransactionActivity extends AppCompatActivity implements BottomShee
 
         noteTransaction.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                countNoteTransaction.setText(getCountCharacter(noteTransaction, 300));
-            }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
 
             @Override
             public void afterTextChanged(Editable editable) {
@@ -277,9 +265,7 @@ public class TransactionActivity extends AppCompatActivity implements BottomShee
         nameTransaction = findViewById(R.id.nameTransaction);
         amountTransaction = findViewById(R.id.amountTransaction);
         buttonSave = findViewById(R.id.buttonSave);
-        countNameTransaction = findViewById(R.id.countNameTransaction);
         noteTransaction = findViewById(R.id.noteTransaction);
-        countNoteTransaction = findViewById(R.id.countNoteTransaction);
         btnReturn = findViewById(R.id.btnReturn);
         btnAccount = findViewById(R.id.btnAccount);
         btnCategory = findViewById(R.id.btnCategory);
@@ -294,10 +280,6 @@ public class TransactionActivity extends AppCompatActivity implements BottomShee
     private void updateLabel() {
         transactionBean.setDateInsert(utility.getDateFormat(myCalendar.getTime()));
         dateTransaction.setText(new SimpleDateFormat("EEEE, d MMM", Locale.getDefault()).format(myCalendar.getTime()));
-    }
-
-    private String getCountCharacter(EditText editText, int length) {
-        return editText.length() + "/" + length;
     }
 
     private void changeTypeTransaction(boolean isExpense, boolean isFirstLaunch) {

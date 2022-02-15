@@ -36,7 +36,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     />
                 <TextView
-                    android:id="@+id/id_transition_transaction_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/title_transaction_menu"
@@ -102,7 +101,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     />
                 <TextView
-                    android:id="@+id/id_transition_account_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/accounts"
@@ -136,7 +134,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     />
                 <TextView
-                    android:id="@+id/id_transition_category_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/categories"

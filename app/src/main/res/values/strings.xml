@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Spender</string>
-    <string name="loading_alert_loading">Loading…</string>
     <string name="ok">OK</string>
 
     <!-- Bottom Navigation Menu -->
@@ -9,7 +8,6 @@
 
     <string name="hello_text">Hello,</string>
     <string name="spender_text">Spender</string>
-    <string name="more_text">More</string>
     <string name="name_first_account">Main accountBean</string>
     <string name="money_account">0</string>
 
@@ -59,7 +57,6 @@
     <string name="come_back">Come back</string>
 
     <string name="balance">Balance</string>
-    <string name="change_account">Change account</string>
 
     <!-- Category -->
     <string name="new_button_category">New category</string>

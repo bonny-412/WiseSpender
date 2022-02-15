@@ -33,7 +33,6 @@
             app:layout_constraintStart_toStartOf="parent"
             />
         <TextView
-            android:id="@+id/titlePage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/title_page_new_transaction"
@@ -65,7 +64,12 @@
         android:orientation="vertical">
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            >
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -144,56 +148,38 @@
                         android:drawablePadding="5dp" />
                 </LinearLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/containerNameTransaction"
+                <EditText
+                    android:id="@+id/nameTransaction"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:minHeight="50dp"
+                    android:ems="10"
+                    android:padding="5dp"
+                    android:hint="@string/input_text_name_transaction"
+                    android:autofillHints="name"
+                    android:textSize="14sp"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:background="@drawable/custom_input"
+                    android:drawableStart="@drawable/ic_edit"
+                    android:drawablePadding="12dp"
+                    android:layout_marginTop="10dp"
+                    android:maxLength="100"
+                    android:textColor="@color/primary_text"
+                    android:textColorHint="@color/secondary_text"
+                    android:inputType="text"
+                    android:imeOptions="actionDone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/containerDateTransaction"
-                    android:gravity="center">
-                    <EditText
-                        android:id="@+id/nameTransaction"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minHeight="50dp"
-                        android:ems="10"
-                        android:padding="5dp"
-                        android:hint="@string/input_text_name_transaction"
-                        android:autofillHints="name"
-                        android:textSize="14sp"
-                        android:paddingStart="12dp"
-                        android:paddingEnd="12dp"
-                        android:background="@drawable/custom_input"
-                        android:drawableStart="@drawable/ic_edit"
-                        android:drawablePadding="12dp"
-                        android:layout_marginTop="10dp"
-                        android:maxLength="100"
-                        android:textColor="@color/primary_text"
-                        android:textColorHint="@color/secondary_text"
-                        android:inputType="text"
-                        android:imeOptions="actionDone"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"/>
-                    <TextView
-                        android:id="@+id/countNameTransaction"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/tertiary_text"
-                        app:layout_constraintTop_toBottomOf="@+id/nameTransaction"
-                        app:layout_constraintEnd_toEndOf="@+id/nameTransaction"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_margin="5dp"/>
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    app:layout_constraintBottom_toTopOf="@+id/amountTransaction"/>
 
                 <it.bonny.app.wisespender.util.CurrencyEditText
                     android:id="@+id/amountTransaction"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="50dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="16dp"
                     android:autofillHints="name"
                     android:maxLength="20"
                     android:background="@drawable/custom_input"
@@ -207,9 +193,10 @@
                     android:textColor="@color/primary_text"
                     android:textSize="14sp"
                     android:imeOptions="actionDone"
-                    app:layout_constraintEnd_toEndOf="@+id/containerNameTransaction"
-                    app:layout_constraintStart_toStartOf="@+id/containerNameTransaction"
-                    app:layout_constraintTop_toBottomOf="@+id/containerNameTransaction"
+                    app:layout_constraintEnd_toEndOf="@+id/nameTransaction"
+                    app:layout_constraintStart_toStartOf="@+id/nameTransaction"
+                    app:layout_constraintTop_toBottomOf="@+id/nameTransaction"
+                    app:layout_constraintBottom_toTopOf="@+id/containerAccountCategory"
                     tools:ignore="SpeakableTextPresentCheck" />
 
                 <LinearLayout
@@ -219,7 +206,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/amountTransaction"
-                    android:layout_marginTop="10dp">
+                    app:layout_constraintBottom_toTopOf="@+id/noteTransaction"
+                    android:layout_marginTop="16dp">
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/btnAccount"
                         android:layout_width="120dp"
@@ -247,7 +235,14 @@
                             <TextView
                                 android:id="@+id/nameAccount"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="2dp"
+                                android:layout_marginEnd="2dp"
+                                android:ellipsize="marquee"
+                                android:lines="1"
+                                android:fadingEdge="horizontal"
+                                android:marqueeRepeatLimit="marquee_forever"
+                                android:scrollHorizontally="true"/>
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
                     <com.google.android.material.card.MaterialCardView
@@ -270,7 +265,8 @@
                             android:layout_margin="5dp"
                             android:layout_gravity="center"
                             android:background="@drawable/custom_input"
-                            android:visibility="gone">
+                            android:visibility="gone"
+                            android:padding="6dp">
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:id="@+id/iconCategory"
                                 android:layout_width="48dp"
@@ -279,7 +275,14 @@
                             <TextView
                                 android:id="@+id/nameCategory"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:ellipsize="marquee"
+                                android:lines="1"
+                                android:fadingEdge="horizontal"
+                                android:layout_marginStart="2dp"
+                                android:layout_marginEnd="2dp"
+                                android:marqueeRepeatLimit="marquee_forever"
+                                android:scrollHorizontally="true"/>
                         </LinearLayout>
                         <LinearLayout
                             android:id="@+id/containerCategoryInfo1"
@@ -291,7 +294,6 @@
                             android:background="@drawable/custom_input"
                             android:layout_gravity="center">
                             <TextView
-                                android:id="@+id/chooseCategory"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/tertiary_text"
@@ -300,63 +302,47 @@
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/containerNoteTransaction"
+                <EditText
+                    android:id="@+id/noteTransaction"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:minHeight="50dp"
+                    android:ems="10"
+                    android:hint="@string/input_text_note_transaction"
+                    android:autofillHints="name"
+                    android:textSize="14sp"
+                    android:paddingStart="12dp"
+                    android:padding="5dp"
+                    android:paddingEnd="12dp"
+                    android:background="@drawable/custom_input"
+                    android:drawableStart="@drawable/ic_note"
+                    android:drawablePadding="12dp"
+                    android:layout_marginTop="16dp"
+                    android:maxLength="300"
+                    android:textColor="@color/primary_text"
+                    android:textColorHint="@color/secondary_text"
+                    android:inputType="textMultiLine"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/containerAccountCategory"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center">
-                    <EditText
-                        android:id="@+id/noteTransaction"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minHeight="50dp"
-                        android:ems="10"
-                        android:hint="@string/input_text_note_transaction"
-                        android:autofillHints="name"
-                        android:textSize="14sp"
-                        android:paddingStart="12dp"
-                        android:padding="5dp"
-                        android:paddingEnd="12dp"
-                        android:background="@drawable/custom_input"
-                        android:drawableStart="@drawable/ic_note"
-                        android:drawablePadding="12dp"
-                        android:layout_marginTop="10dp"
-                        android:maxLength="300"
-                        android:textColor="@color/primary_text"
-                        android:textColorHint="@color/secondary_text"
-                        android:inputType="textMultiLine"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"/>
-                    <TextView
-                        android:id="@+id/countNoteTransaction"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/tertiary_text"
-                        app:layout_constraintTop_toBottomOf="@+id/noteTransaction"
-                        app:layout_constraintEnd_toEndOf="@+id/noteTransaction"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_margin="5dp"/>
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    app:layout_constraintBottom_toTopOf="@+id/buttonSave"
+                    app:layout_constraintTop_toBottomOf="@+id/containerAccountCategory"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/buttonSave"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:minWidth="48dp"
                     android:elevation="10dp"
                     android:textColor="@color/text_button"
                     android:text="@string/save_button_transaction"
                     android:textSize="16sp"
                     android:gravity="center"
                     android:contentDescription="@string/save_button_transaction"
-                    app:layout_constraintTop_toBottomOf="@+id/containerNoteTransaction"
+                    app:layout_constraintTop_toBottomOf="@+id/noteTransaction"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_margin="16dp"
                     app:cornerRadius="10dp"/>
 
