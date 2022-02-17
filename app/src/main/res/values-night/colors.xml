@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="primary">#ffffff</color>
-    <color name="secondary">#72a5d4</color>
+    <color name="secondary">#7293D4</color>
+    <color name="error">#D47272</color>
 
     <color name="background">#182b3a</color>
     <color name="background_card">#244058</color>

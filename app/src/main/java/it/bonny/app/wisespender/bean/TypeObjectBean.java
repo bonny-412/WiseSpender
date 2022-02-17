@@ -22,6 +22,8 @@ public class TypeObjectBean {
     public static final int TRANSACTION_INCOME = 0;
     public static final int TRANSACTION_EXPENSE = 1;
     public static final int TRANSACTION_OPEN_BALANCE = 2;
+    public static final int TRANSACTION_TRANSFER_IN = 3;
+    public static final int TRANSACTION_TRANSFER_OUT = 4;
 
     public static final int FILTER_DATE_DAY = 0;
     public static final int FILTER_DATE_RANGE = 1;

@@ -1,5 +1,6 @@
 package it.bonny.app.wisespender.manager;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatImageView;
@@ -15,6 +16,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -69,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
     private MaterialButton btnSettings, btnTransfer;
 
     private String totMoneyAccount = "", totMoneyAccountIncome, totMoneyAccountExpense;
+    private int countAccount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
 
         init();
         showWelcomeAlert();
+        
+        countAccount = db.countAccountNoMaster();
 
         transactionListAdapter = new TransactionListAdapter(transactionBeanList, mActivity, true, this);
         listTransactions.setHasFixedSize(true);
@@ -119,7 +125,14 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
         btnTransfer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if(countAccount > 1) {
+                    Intent intent = new Intent(mActivity, TransferActivity.class);
+                    startActivity(intent);
+                }else {
+                    Animation shake = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shakeanimation);
+                    btnTransfer.startAnimation(shake);
+                    Toast.makeText(mActivity, getString(R.string.transfer_count_account_problem), Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -127,6 +140,18 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
             @Override
             public void onClick(View view) {
 
+            }
+        });
+
+        listTransactions.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0 && btnNewTransaction.getVisibility() == View.VISIBLE) {
+                    btnNewTransaction.hide();
+                } else if (dy < 0 && btnNewTransaction.getVisibility() != View.VISIBLE) {
+                    btnNewTransaction.show();
+                }
             }
         });
 
@@ -208,13 +233,14 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
 
     @Override
     public void onDestroy() {
+        db.close();
         super.onDestroy();
     }
 
     @Override
     public void onResume(){
-        super.onResume();
         callDB();
+        super.onResume();
     }
 
     @Override
@@ -322,4 +348,5 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
         btnDate.setText(textButton);
         callDB();
     }
+
 }

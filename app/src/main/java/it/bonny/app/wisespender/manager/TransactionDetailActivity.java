@@ -26,6 +26,8 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.lang.reflect.Type;
+
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
 import it.bonny.app.wisespender.bean.CategoryBean;
@@ -56,12 +58,23 @@ public class TransactionDetailActivity extends AppCompatActivity {
         btnReturn.setOnClickListener(view -> supportFinishAfterTransition());
 
         fabViewEdit.setOnClickListener(view -> {
-            Intent intent = new Intent(TransactionDetailActivity.this, TransactionActivity.class);
+            Intent intent;
+            if(transactionBean.getTypeTransaction() != TypeObjectBean.TRANSACTION_TRANSFER_IN && transactionBean.getTypeTransaction() != TypeObjectBean.TRANSACTION_TRANSFER_OUT) {
+                intent = new Intent(TransactionDetailActivity.this, TransactionActivity.class);
+            }else {
+                intent = new Intent(TransactionDetailActivity.this, TransferActivity.class);
+            }
             intent.putExtra("transactionBean", transactionBean);
             openSomeActivityForResult(intent);
         });
 
-        fabViewDelete.setOnClickListener(view -> getAlertDialogDeleteListAccount(transactionBean.getId()));
+        fabViewDelete.setOnClickListener(view -> {
+            if(transactionBean.getTypeTransaction() != TypeObjectBean.TRANSACTION_TRANSFER_IN && transactionBean.getTypeTransaction() != TypeObjectBean.TRANSACTION_TRANSFER_OUT) {
+                getAlertDialogDeleteListAccount(transactionBean.getId(), -1);
+            }else {
+                getAlertDialogDeleteListAccount(transactionBean.getId(), transactionBean.getIdTransactionTransfer());
+            }
+        });
 
         fabViewPlus.setOnClickListener(v -> {
             if(isOpen){
@@ -100,12 +113,12 @@ public class TransactionDetailActivity extends AppCompatActivity {
             titleTransaction.setText(transactionBean.getTitle());
             dateTransaction.setText(utility.getDateToShowInPage(transactionBean.getDateInsert()));
             timeTransaction.setText(utility.getTimeToShowInPage(transactionBean.getDateInsert()));
-            String type;
-            String amount;
-            if(transactionBean.getTypeTransaction() == TypeObjectBean.TRANSACTION_INCOME) {
+            String type = "";
+            String amount = "";
+            if(transactionBean.getTypeTransaction() == TypeObjectBean.TRANSACTION_INCOME || transactionBean.getTypeTransaction() == TypeObjectBean.TRANSACTION_TRANSFER_IN) {
                 type = getString(R.string.type_income);
                 amount = "+ ";
-            } else {
+            }else if(transactionBean.getTypeTransaction() == TypeObjectBean.TRANSACTION_EXPENSE || transactionBean.getTypeTransaction() == TypeObjectBean.TRANSACTION_TRANSFER_OUT){
                 type = getString(R.string.type_expense);
                 amount = "- ";
             }
@@ -146,7 +159,7 @@ public class TransactionDetailActivity extends AppCompatActivity {
         fab_rotate_antiClock = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_rotate_anticlock);
     }
 
-    private void getAlertDialogDeleteListAccount(final long id){
+    private void getAlertDialogDeleteListAccount(final long id, final long idTransactionTransfer){
         final DatabaseHelper db = new DatabaseHelper(this);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View viewInfoDialog = View.inflate(this, R.layout.alert_delete, null);
@@ -169,6 +182,8 @@ public class TransactionDetailActivity extends AppCompatActivity {
         });
         btnDelete.setOnClickListener(v -> {
             boolean resultDelete = db.deleteTransactionBean(id);
+            if(idTransactionTransfer > 0)
+                db.deleteTransactionBean(idTransactionTransfer);
             if(resultDelete){
                 Toast.makeText(this, getString(R.string.delete_ok), Toast.LENGTH_SHORT).show();
                 finish();
@@ -204,9 +219,17 @@ public class TransactionDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        super.onResume();
-        if(isOpen)
+        if(isOpen) {
             closeFloatList();
+        }
         setElements();
+        super.onResume();
     }
+
+    @Override
+    protected void onDestroy() {
+        db.close();
+        super.onDestroy();
+    }
+
 }

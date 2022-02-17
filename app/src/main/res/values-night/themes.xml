@@ -2,6 +2,7 @@
     <style name="Theme.WiseSpender" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorSecondary">@color/primary</item>
+        <item name="colorAccent">@color/primary</item>
         <item name="android:statusBarColor" tools:targetApi="l">@color/background</item>
 
         <item name="bottomSheetDialogTheme">@style/BottomSheetDialogTheme</item>
@@ -9,6 +10,7 @@
     <style name="Theme.WiseSpender1" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorSecondary">@color/primary</item>
+        <item name="colorAccent">@color/primary</item>
         <item name="android:statusBarColor" tools:targetApi="l">@color/background_card</item>
 
         <item name="bottomSheetDialogTheme">@style/BottomSheetDialogTheme</item>

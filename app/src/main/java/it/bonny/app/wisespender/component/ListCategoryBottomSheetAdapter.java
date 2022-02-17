@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.checkbox.MaterialCheckBox;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 import it.bonny.app.wisespender.R;
@@ -56,7 +57,7 @@ public class ListCategoryBottomSheetAdapter extends RecyclerView.Adapter<ListCat
 
         if(categoryBean.getTypeCategory() == TypeObjectBean.CATEGORY_INCOME) {
             holder.iconTypeCategory.setImageResource(R.drawable.ic_arrow_income);
-        }else {
+        }else if(categoryBean.getTypeCategory() == TypeObjectBean.CATEGORY_EXPENSE){
             holder.iconTypeCategory.setImageResource(R.drawable.ic_arrow_expense);
         }
 

@@ -68,7 +68,7 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
             holder.titleTransaction.setText(transactionBean.getTitle());
             holder.dateTransaction.setText(utility.getDateToShowInPage(transactionBean.getDateInsert()));
             String amount;
-            if(transactionBean.getTypeTransaction() == TypeObjectBean.TRANSACTION_EXPENSE) {
+            if(transactionBean.getTypeTransaction() == TypeObjectBean.TRANSACTION_EXPENSE || transactionBean.getTypeTransaction() == TypeObjectBean.TRANSACTION_TRANSFER_OUT) {
                 amount = "- " + utility.formatNumberCurrency(utility.convertIntInEditTextValue(transactionBean.getAmount()).toString());
                 holder.amountTransaction.setTextColor(activity.getColor(R.color.secondary));
             }else {

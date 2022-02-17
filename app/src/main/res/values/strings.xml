@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Spender</string>
     <string name="ok">OK</string>
+    <string name="close_page_btn">Close page</string>
 
     <!-- Bottom Navigation Menu -->
     <string name="title_statistics_menu">Statistics</string>
@@ -99,5 +100,17 @@
     <string name="search_title_account">Filter by account</string>
     <string name="search_filter_date_start">Start</string>
     <string name="search_filter_date_end">End</string>
+
+    <!-- TRANSFER -->
+    <string name="title_page_new_transfer">New transfer</string>
+    <string name="title_page_edit_transfer">Edit transfer</string>
+    <string name="save_button_transfer">Save transfer</string>
+    <string name="transfer_from">Transfer from</string>
+    <string name="transfer_to">Transfer to</string>
+    <string name="transfer_error_equal_account">The accounts must be different</string>
+    <string name="transfer_from_short">From</string>
+    <string name="transfer_to_short">To</string>
+    <string name="transfer_save_ok">Transfer executed</string>
+    <string name="transfer_count_account_problem">Create at least two accounts</string>
 
 </resources>

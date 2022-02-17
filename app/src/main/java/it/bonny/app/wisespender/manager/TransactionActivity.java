@@ -16,6 +16,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -234,6 +236,9 @@ public class TransactionActivity extends AppCompatActivity implements BottomShee
                 intent.putExtra("transactionBean", transactionBean);
                 setResult(Activity.RESULT_OK, intent);
                 finish();
+            }else {
+                Animation shake = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shakeanimation);
+                buttonSave.startAnimation(shake);
             }
 
         });

@@ -296,6 +296,8 @@ public class BottomSheetSearchTransaction extends BottomSheetDialogFragment impl
         progressBar1.setVisibility(View.VISIBLE);
         service.execute(() -> {
             List<CategoryBean> categoryBeanList = db.getAllCategoryBeans();
+            CategoryBean categoryTransfer = db.getCategoryBeanTransfer();
+            categoryBeanList.add(0, categoryTransfer);
             ListCategoryBottomSheetAdapter listCategoryBottomSheetAdapter = new ListCategoryBottomSheetAdapter(categoryBeanList, filterTransactionBean.getIdCategories(), BottomSheetSearchTransaction.this);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(mActivity.getApplicationContext()));

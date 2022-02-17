@@ -74,7 +74,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(AccountBean.KEY_IS_MASTER, accountBean.getIsMaster());
         values.put(AccountBean.KEY_ID_ICON, accountBean.getIdIcon());
 
-        long id = db.insertOrThrow(AccountBean.TABLE, null, values);
+        long id = db.insert(AccountBean.TABLE, null, values);
         db.close();
         return id;
     }
@@ -92,8 +92,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(AccountBean.KEY_IS_MASTER, accountBean.getIsMaster());
         values.put(AccountBean.KEY_ID_ICON, accountBean.getIdIcon());
 
-        db.update(AccountBean.TABLE, values, AccountBean.KEY_ID + " = ?",
-                new String[] {String.valueOf(accountBean.getId())});
+        db.update(AccountBean.TABLE, values, AccountBean.KEY_ID + "=?",
+                new String[] {Long.toString(accountBean.getId())});
         db.close();
     }
 
@@ -104,7 +104,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         boolean result;
         try {
             SQLiteDatabase db = this.getWritableDatabase();
-            result = db.delete(AccountBean.TABLE, AccountBean.KEY_ID + " = ?",new String[] {String.valueOf(accountId)}) > 0;
+            result = db.delete(AccountBean.TABLE, AccountBean.KEY_ID + "=?",new String[] {Long.toString(accountId)}) > 0;
             db.close();
         }catch (Exception e) {
             //TODO: Firebase
@@ -125,7 +125,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if(c.moveToFirst()) {
             do {
                 accountBean = new AccountBean();
-                accountBean.setId(Long.parseLong(c.getString(c.getColumnIndex(AccountBean.KEY_ID))));
+                accountBean.setId(c.getLong(c.getColumnIndex(AccountBean.KEY_ID)));
                 accountBean.setName(c.getString(c.getColumnIndex(AccountBean.KEY_NAME)));
                 accountBean.setIdIcon(c.getInt(c.getColumnIndex(AccountBean.KEY_ID_ICON)));
                 accountBean.setOpeningBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_OPENING_BALANCE)));
@@ -150,7 +150,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (c.moveToFirst()) {
             do {
                 AccountBean accountBean = new AccountBean();
-                accountBean.setId(Long.parseLong(c.getString(c.getColumnIndex(AccountBean.KEY_ID))));
+                accountBean.setId(c.getLong(c.getColumnIndex(AccountBean.KEY_ID)));
                 accountBean.setName(c.getString(c.getColumnIndex(AccountBean.KEY_NAME)));
                 accountBean.setIdIcon(c.getInt(c.getColumnIndex(AccountBean.KEY_ID_ICON)));
                 accountBean.setOpeningBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_OPENING_BALANCE)));
@@ -176,7 +176,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (c.moveToFirst()) {
             do {
                 AccountBean accountBean = new AccountBean();
-                accountBean.setId(Long.parseLong(c.getString(c.getColumnIndex(AccountBean.KEY_ID))));
+                accountBean.setId(c.getLong(c.getColumnIndex(AccountBean.KEY_ID)));
                 accountBean.setName(c.getString(c.getColumnIndex(AccountBean.KEY_NAME)));
                 accountBean.setIdIcon(c.getInt(c.getColumnIndex(AccountBean.KEY_ID_ICON)));
                 accountBean.setOpeningBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_OPENING_BALANCE)));
@@ -203,7 +203,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (c.moveToFirst()) {
             do {
                 AccountBean accountBean = new AccountBean();
-                accountBean.setId(Long.parseLong(c.getString(c.getColumnIndex(AccountBean.KEY_ID))));
+                accountBean.setId(c.getLong(c.getColumnIndex(AccountBean.KEY_ID)));
                 accountBean.setName(c.getString(c.getColumnIndex(AccountBean.KEY_NAME)));
                 accountBean.setIdIcon(c.getInt(c.getColumnIndex(AccountBean.KEY_ID_ICON)));
                 accountBean.setOpeningBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_OPENING_BALANCE)));
@@ -229,7 +229,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if(c.moveToFirst()) {
             do {
                 accountBean = new AccountBean();
-                accountBean.setId(Long.parseLong(c.getString(c.getColumnIndex(AccountBean.KEY_ID))));
+                accountBean.setId(c.getLong(c.getColumnIndex(AccountBean.KEY_ID)));
                 accountBean.setName(c.getString(c.getColumnIndex(AccountBean.KEY_NAME)));
                 accountBean.setIdIcon(c.getInt(c.getColumnIndex(AccountBean.KEY_ID_ICON)));
                 accountBean.setOpeningBalance(c.getInt(c.getColumnIndex(AccountBean.KEY_OPENING_BALANCE)));
@@ -264,6 +264,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return ids;
     }
 
+    /**
+     * Get count Account no Master
+     */
+    @SuppressLint("Range")
+    public int countAccountNoMaster() {
+        int countAccount = 0;
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT COUNT(*) AS countAccount FROM " + AccountBean.TABLE + " a " +
+                "WHERE a." + AccountBean.KEY_IS_MASTER + "=" + TypeObjectBean.NO_MASTER;
+        Cursor c = db.rawQuery(selectQuery, null);
+        if(c.moveToFirst()) {
+            countAccount = c.getInt(c.getColumnIndex("countAccount"));
+        }
+        c.close();
+        return countAccount;
+    }
+
     // ------------------------ "category" table methods ----------------//
     /**
      * Creating a Category
@@ -275,7 +292,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(CategoryBean.KEY_TYPE_CATEGORY, categoryBean.getTypeCategory());
         values.put(CategoryBean.KEY_ID_ICON, categoryBean.getIdIcon());
 
-        long id = db.insertOrThrow(CategoryBean.TABLE, null, values);
+        long id = db.insert(CategoryBean.TABLE, null, values);
         db.close();
         return id;
     }
@@ -290,8 +307,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(CategoryBean.KEY_TYPE_CATEGORY, categoryBean.getTypeCategory());
         values.put(CategoryBean.KEY_ID_ICON, categoryBean.getIdIcon());
 
-        db.update(CategoryBean.TABLE, values, CategoryBean.KEY_ID + " = ?",
-                new String[] {String.valueOf(categoryBean.getId())});
+        db.update(CategoryBean.TABLE, values, CategoryBean.KEY_ID + "=?",
+                new String[] {Long.toString(categoryBean.getId())});
         db.close();
     }
 
@@ -302,7 +319,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         boolean result;
         try {
             SQLiteDatabase db = this.getWritableDatabase();
-            result = db.delete(CategoryBean.TABLE, CategoryBean.KEY_ID + " = ?",new String[] {String.valueOf(categoryId)}) > 0;
+            result = db.delete(CategoryBean.TABLE, CategoryBean.KEY_ID + "=?",new String[] {Long.toString(categoryId)}) > 0;
             db.close();
         }catch (Exception e) {
             //TODO: Firebase
@@ -323,7 +340,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if(c.moveToFirst()) {
             do {
                 categoryBean = new CategoryBean();
-                categoryBean.setId(Long.parseLong(c.getString(c.getColumnIndex(CategoryBean.KEY_ID))));
+                categoryBean.setId(c.getLong(c.getColumnIndex(CategoryBean.KEY_ID)));
                 categoryBean.setName(c.getString(c.getColumnIndex(CategoryBean.KEY_NAME)));
                 categoryBean.setTypeCategory(c.getInt(c.getColumnIndex(CategoryBean.KEY_TYPE_CATEGORY)));
                 categoryBean.setIdIcon(c.getInt(c.getColumnIndex(CategoryBean.KEY_ID_ICON)));
@@ -345,7 +362,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if(c.moveToFirst()) {
             do {
                 categoryBean = new CategoryBean();
-                categoryBean.setId(Long.parseLong(c.getString(c.getColumnIndex(CategoryBean.KEY_ID))));
+                categoryBean.setId(c.getLong(c.getColumnIndex(CategoryBean.KEY_ID)));
+                categoryBean.setName(c.getString(c.getColumnIndex(CategoryBean.KEY_NAME)));
+                categoryBean.setTypeCategory(c.getInt(c.getColumnIndex(CategoryBean.KEY_TYPE_CATEGORY)));
+                categoryBean.setIdIcon(c.getInt(c.getColumnIndex(CategoryBean.KEY_ID_ICON)));
+            }while (c.moveToNext());
+        }
+        c.close();
+        return categoryBean;
+    }
+
+    /**
+     * Getting single Category
+     */
+    @SuppressLint("Range")
+    public CategoryBean getCategoryBeanTransfer() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        CategoryBean categoryBean = null;
+        String selectQuery = "SELECT * FROM " + CategoryBean.TABLE + " WHERE " + CategoryBean.KEY_TYPE_CATEGORY + " = " + TypeObjectBean.CATEGORY_TRANSFER;
+        Cursor c = db.rawQuery(selectQuery, null);
+        if(c.moveToFirst()) {
+            do {
+                categoryBean = new CategoryBean();
+                categoryBean.setId(c.getLong(c.getColumnIndex(CategoryBean.KEY_ID)));
                 categoryBean.setName(c.getString(c.getColumnIndex(CategoryBean.KEY_NAME)));
                 categoryBean.setTypeCategory(c.getInt(c.getColumnIndex(CategoryBean.KEY_TYPE_CATEGORY)));
                 categoryBean.setIdIcon(c.getInt(c.getColumnIndex(CategoryBean.KEY_ID_ICON)));
@@ -361,15 +400,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @SuppressLint("Range")
     public List<CategoryBean> getAllCategoryBeans() {
         List<CategoryBean> categoryBeans = new ArrayList<>();
-        String selectQuery = "SELECT * FROM " + CategoryBean.TABLE + " c WHERE c." + CategoryBean.KEY_TYPE_CATEGORY
-                + " != " + TypeObjectBean.CATEGORY_OPEN_BALANCE + " ORDER BY c." + CategoryBean.KEY_TYPE_CATEGORY
+        String selectQuery = "SELECT * FROM " + CategoryBean.TABLE + " c WHERE c."
+                + CategoryBean.KEY_TYPE_CATEGORY + " != " + TypeObjectBean.CATEGORY_OPEN_BALANCE
+                + " AND c." + CategoryBean.KEY_TYPE_CATEGORY + " != " + TypeObjectBean.CATEGORY_TRANSFER
+                + " ORDER BY c." + CategoryBean.KEY_TYPE_CATEGORY
                 + ", c." + CategoryBean.KEY_NAME + " ASC";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
         if (c.moveToFirst()) {
             do {
                 CategoryBean categoryBean = new CategoryBean();
-                categoryBean.setId(Long.parseLong(c.getString(c.getColumnIndex(CategoryBean.KEY_ID))));
+                categoryBean.setId(c.getLong(c.getColumnIndex(CategoryBean.KEY_ID)));
                 categoryBean.setName(c.getString(c.getColumnIndex(CategoryBean.KEY_NAME)));
                 categoryBean.setTypeCategory(c.getInt(c.getColumnIndex(CategoryBean.KEY_TYPE_CATEGORY)));
                 categoryBean.setIdIcon(c.getInt(c.getColumnIndex(CategoryBean.KEY_ID_ICON)));
@@ -392,7 +433,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (c.moveToFirst()) {
             do {
                 CategoryBean categoryBean = new CategoryBean();
-                categoryBean.setId(Long.parseLong(c.getString(c.getColumnIndex(CategoryBean.KEY_ID))));
+                categoryBean.setId(c.getLong(c.getColumnIndex(CategoryBean.KEY_ID)));
                 categoryBean.setName(c.getString(c.getColumnIndex(CategoryBean.KEY_NAME)));
                 categoryBean.setTypeCategory(c.getInt(c.getColumnIndex(CategoryBean.KEY_TYPE_CATEGORY)));
                 categoryBean.setIdIcon(c.getInt(c.getColumnIndex(CategoryBean.KEY_ID_ICON)));
@@ -416,17 +457,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(TransactionBean.KEY_NOTE, transactionBean.getNote());
         values.put(TransactionBean.KEY_TYPE_TRANSACTION, transactionBean.getTypeTransaction());
         values.put(TransactionBean.KEY_ID_ACCOUNT, transactionBean.getIdAccount());
+        values.put(TransactionBean.KEY_ID_TRANSACTION_TRANSFER, transactionBean.getIdTransactionTransfer());
         values.put(TransactionBean.KEY_ID_CATEGORY, transactionBean.getIdCategory());
 
-        long id = db.insertOrThrow(TransactionBean.TABLE, null, values);
-
+        long id = db.insert(TransactionBean.TABLE, null, values);
+        db.close();
         return id;
     }
 
     /**
      * Updating a Transaction
      */
-    public void updateTransactionBean(TransactionBean transactionBean) {
+    public int updateTransactionBean(TransactionBean transactionBean) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(TransactionBean.KEY_TITLE, transactionBean.getTitle());
@@ -435,11 +477,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(TransactionBean.KEY_NOTE, transactionBean.getNote());
         values.put(TransactionBean.KEY_TYPE_TRANSACTION, transactionBean.getTypeTransaction());
         values.put(TransactionBean.KEY_ID_ACCOUNT, transactionBean.getIdAccount());
+        values.put(TransactionBean.KEY_ID_TRANSACTION_TRANSFER, transactionBean.getIdTransactionTransfer());
         values.put(TransactionBean.KEY_ID_CATEGORY, transactionBean.getIdCategory());
 
-        db.update(TransactionBean.TABLE, values, TransactionBean.KEY_ID + " = ?",
-                new String[] {String.valueOf(transactionBean.getId())});
+        int a = db.update(TransactionBean.TABLE, values, TransactionBean.KEY_ID + "=?",
+                new String[] {Long.toString(transactionBean.getId())});
         db.close();
+        return a;
     }
 
     /**
@@ -449,7 +493,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         boolean result;
         try {
             SQLiteDatabase db = this.getWritableDatabase();
-            result = db.delete(TransactionBean.TABLE, TransactionBean.KEY_ID + " = ?",new String[] {String.valueOf(transactionId)}) > 0;
+            result = db.delete(TransactionBean.TABLE, TransactionBean.KEY_ID + "=?",new String[] {Long.toString(transactionId)}) > 0;
             db.close();
         }catch (Exception e) {
             //TODO: Firebase
@@ -470,14 +514,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if(c.moveToFirst()) {
             do {
                 transactionBean = new TransactionBean();
-                transactionBean.setId(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID))));
+                transactionBean.setId(c.getLong(c.getColumnIndex(TransactionBean.KEY_ID)));
                 transactionBean.setTitle(c.getString(c.getColumnIndex(TransactionBean.KEY_TITLE)));
                 transactionBean.setAmount(c.getInt(c.getColumnIndex(TransactionBean.KEY_AMOUNT)));
                 transactionBean.setDateInsert(c.getString(c.getColumnIndex(TransactionBean.KEY_DATE_INSERT)));
                 transactionBean.setNote(c.getString(c.getColumnIndex(TransactionBean.KEY_NOTE)));
                 transactionBean.setTypeTransaction(c.getInt(c.getColumnIndex(TransactionBean.KEY_TYPE_TRANSACTION)));
-                transactionBean.setIdAccount(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_ACCOUNT))));
-                transactionBean.setIdCategory(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_CATEGORY))));
+                transactionBean.setIdAccount(c.getLong(c.getColumnIndex(TransactionBean.KEY_ID_ACCOUNT)));
+                transactionBean.setIdTransactionTransfer(c.getLong(c.getColumnIndex(TransactionBean.KEY_ID_TRANSACTION_TRANSFER)));
+                transactionBean.setIdCategory(c.getLong(c.getColumnIndex(TransactionBean.KEY_ID_CATEGORY)));
             }while (c.moveToNext());
         }
         c.close();
@@ -496,14 +541,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (c.moveToFirst()) {
             do {
                 TransactionBean transactionBean = new TransactionBean();
-                transactionBean.setId(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID))));
+                transactionBean.setId(c.getLong(c.getColumnIndex(TransactionBean.KEY_ID)));
                 transactionBean.setTitle(c.getString(c.getColumnIndex(TransactionBean.KEY_TITLE)));
                 transactionBean.setAmount(c.getInt(c.getColumnIndex(TransactionBean.KEY_AMOUNT)));
                 transactionBean.setDateInsert(c.getString(c.getColumnIndex(TransactionBean.KEY_DATE_INSERT)));
                 transactionBean.setNote(c.getString(c.getColumnIndex(TransactionBean.KEY_NOTE)));
                 transactionBean.setTypeTransaction(c.getInt(c.getColumnIndex(TransactionBean.KEY_TYPE_TRANSACTION)));
-                transactionBean.setIdAccount(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_ACCOUNT))));
-                transactionBean.setIdCategory(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_CATEGORY))));
+                transactionBean.setIdAccount(c.getLong(c.getColumnIndex(TransactionBean.KEY_ID_ACCOUNT)));
+                transactionBean.setIdTransactionTransfer(c.getLong(c.getColumnIndex(TransactionBean.KEY_ID_TRANSACTION_TRANSFER)));
+                transactionBean.setIdCategory(c.getLong(c.getColumnIndex(TransactionBean.KEY_ID_CATEGORY)));
                 transactionBeans.add(transactionBean);
             } while (c.moveToNext());
         }
@@ -523,14 +569,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (c.moveToFirst()) {
             do {
                 TransactionBean transactionBean = new TransactionBean();
-                transactionBean.setId(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID))));
+                transactionBean.setId(c.getLong(c.getColumnIndex(TransactionBean.KEY_ID)));
                 transactionBean.setTitle(c.getString(c.getColumnIndex(TransactionBean.KEY_TITLE)));
                 transactionBean.setAmount(c.getInt(c.getColumnIndex(TransactionBean.KEY_AMOUNT)));
                 transactionBean.setDateInsert(c.getString(c.getColumnIndex(TransactionBean.KEY_DATE_INSERT)));
                 transactionBean.setNote(c.getString(c.getColumnIndex(TransactionBean.KEY_NOTE)));
                 transactionBean.setTypeTransaction(c.getInt(c.getColumnIndex(TransactionBean.KEY_TYPE_TRANSACTION)));
-                transactionBean.setIdAccount(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_ACCOUNT))));
-                transactionBean.setIdCategory(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_CATEGORY))));
+                transactionBean.setIdAccount(c.getLong(c.getColumnIndex(TransactionBean.KEY_ID_ACCOUNT)));
+                transactionBean.setIdTransactionTransfer(c.getLong(c.getColumnIndex(TransactionBean.KEY_ID_TRANSACTION_TRANSFER)));
+                transactionBean.setIdCategory(c.getLong(c.getColumnIndex(TransactionBean.KEY_ID_CATEGORY)));
                 transactionBeans.add(transactionBean);
             } while (c.moveToNext());
         }
@@ -550,14 +597,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (c.moveToFirst()) {
             do {
                 TransactionBean transactionBean = new TransactionBean();
-                transactionBean.setId(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID))));
+                transactionBean.setId(c.getLong(c.getColumnIndex(TransactionBean.KEY_ID)));
                 transactionBean.setTitle(c.getString(c.getColumnIndex(TransactionBean.KEY_TITLE)));
                 transactionBean.setAmount(c.getInt(c.getColumnIndex(TransactionBean.KEY_AMOUNT)));
                 transactionBean.setDateInsert(c.getString(c.getColumnIndex(TransactionBean.KEY_DATE_INSERT)));
                 transactionBean.setNote(c.getString(c.getColumnIndex(TransactionBean.KEY_NOTE)));
                 transactionBean.setTypeTransaction(c.getInt(c.getColumnIndex(TransactionBean.KEY_TYPE_TRANSACTION)));
-                transactionBean.setIdAccount(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_ACCOUNT))));
-                transactionBean.setIdCategory(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_CATEGORY))));
+                transactionBean.setIdAccount(c.getLong(c.getColumnIndex(TransactionBean.KEY_ID_ACCOUNT)));
+                transactionBean.setIdTransactionTransfer(c.getLong(c.getColumnIndex(TransactionBean.KEY_ID_TRANSACTION_TRANSFER)));
+                transactionBean.setIdCategory(c.getLong(c.getColumnIndex(TransactionBean.KEY_ID_CATEGORY)));
                 transactionBeans.add(transactionBean);
             } while (c.moveToNext());
         }
@@ -579,14 +627,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if(c.moveToFirst()) {
             do {
                 transactionBean = new TransactionBean();
-                transactionBean.setId(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID))));
+                transactionBean.setId(c.getLong(c.getColumnIndex(TransactionBean.KEY_ID)));
                 transactionBean.setTitle(c.getString(c.getColumnIndex(TransactionBean.KEY_TITLE)));
                 transactionBean.setAmount(c.getInt(c.getColumnIndex(TransactionBean.KEY_AMOUNT)));
                 transactionBean.setDateInsert(c.getString(c.getColumnIndex(TransactionBean.KEY_DATE_INSERT)));
                 transactionBean.setNote(c.getString(c.getColumnIndex(TransactionBean.KEY_NOTE)));
                 transactionBean.setTypeTransaction(c.getInt(c.getColumnIndex(TransactionBean.KEY_TYPE_TRANSACTION)));
-                transactionBean.setIdAccount(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_ACCOUNT))));
-                transactionBean.setIdCategory(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_CATEGORY))));
+                transactionBean.setIdAccount(c.getLong(c.getColumnIndex(TransactionBean.KEY_ID_ACCOUNT)));
+                transactionBean.setIdTransactionTransfer(c.getLong(c.getColumnIndex(TransactionBean.KEY_ID_TRANSACTION_TRANSFER)));
+                transactionBean.setIdCategory(c.getLong(c.getColumnIndex(TransactionBean.KEY_ID_CATEGORY)));
             }while (c.moveToNext());
         }
         c.close();
@@ -599,10 +648,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @SuppressLint("Range")
     public List<TransactionBean> getAllTransactionBeansToMainActivity(AccountBean accountBeanSelected, String from, String a) {
         List<TransactionBean> transactionBeans = new ArrayList<>();
-        String selectQuery = "SELECT * FROM " + TransactionBean.TABLE + " t ";
+        String columns = "t." + TransactionBean.KEY_ID + ", t." + TransactionBean.KEY_AMOUNT + ", t." + TransactionBean.KEY_TYPE_TRANSACTION + ", t."
+                + TransactionBean.KEY_ID_TRANSACTION_TRANSFER + ", t." + TransactionBean.KEY_TITLE + ", t." + TransactionBean.KEY_ID_ACCOUNT + ", t."
+                + TransactionBean.KEY_DATE_INSERT + ", t." + TransactionBean.KEY_ID_CATEGORY  + ", t." + TransactionBean.KEY_NOTE;
+        String selectQuery = "SELECT " + columns + " FROM " + TransactionBean.TABLE + " t ";
 
         if(accountBeanSelected != null && accountBeanSelected.getIsMaster() == TypeObjectBean.IS_MASTER)
-            selectQuery += "LEFT OUTER JOIN " + AccountBean.TABLE + " a ON a." + AccountBean.KEY_ID + " = t." + TransactionBean.KEY_ID_ACCOUNT + " ";
+            selectQuery += "INNER JOIN " + AccountBean.TABLE + " a ON a." + AccountBean.KEY_ID + " = t." + TransactionBean.KEY_ID_ACCOUNT + " ";
 
         selectQuery += "WHERE t." + TransactionBean.KEY_DATE_INSERT + " BETWEEN '" + from + "' AND '" + a + "' ";
 
@@ -621,14 +673,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 int amount = c.getInt(c.getColumnIndex(TransactionBean.KEY_AMOUNT));
                 if(amount > 0) {
                     TransactionBean transactionBean = new TransactionBean();
-                    transactionBean.setId(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID))));
+                    long b = c.getLong(c.getColumnIndex(TransactionBean.KEY_ID));
+                    transactionBean.setId(c.getLong(c.getColumnIndex(TransactionBean.KEY_ID)));
                     transactionBean.setTitle(c.getString(c.getColumnIndex(TransactionBean.KEY_TITLE)));
                     transactionBean.setAmount(amount);
                     transactionBean.setDateInsert(c.getString(c.getColumnIndex(TransactionBean.KEY_DATE_INSERT)));
                     transactionBean.setNote(c.getString(c.getColumnIndex(TransactionBean.KEY_NOTE)));
                     transactionBean.setTypeTransaction(c.getInt(c.getColumnIndex(TransactionBean.KEY_TYPE_TRANSACTION)));
-                    transactionBean.setIdAccount(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_ACCOUNT))));
-                    transactionBean.setIdCategory(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_CATEGORY))));
+                    transactionBean.setIdAccount(c.getLong(c.getColumnIndex(TransactionBean.KEY_ID_ACCOUNT)));
+                    transactionBean.setIdTransactionTransfer(c.getLong(c.getColumnIndex(TransactionBean.KEY_ID_TRANSACTION_TRANSFER)));
+                    transactionBean.setIdCategory(c.getLong(c.getColumnIndex(TransactionBean.KEY_ID_CATEGORY)));
                     transactionBeans.add(transactionBean);
                 }
             } while (c.moveToNext());
@@ -645,9 +699,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if(typeTransaction == TypeObjectBean.TRANSACTION_INCOME) {
             selectQuery += "AND (t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + typeTransaction + " "
-                    + "OR t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + TypeObjectBean.TRANSACTION_OPEN_BALANCE + ") ";
+                    + "OR t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + TypeObjectBean.TRANSACTION_OPEN_BALANCE + " " +
+                    "OR t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + TypeObjectBean.TRANSACTION_TRANSFER_IN + " ) ";
         }else
-            selectQuery += "AND t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + typeTransaction + " ";
+            selectQuery += "AND (t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + typeTransaction + " " +
+                    "OR t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + TypeObjectBean.TRANSACTION_TRANSFER_OUT + ") ";
 
         if(ids != null) {
             selectQuery += "AND t." + TransactionBean.KEY_ID_ACCOUNT + " IN (" + ids + ") ";
@@ -678,9 +734,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if(filterTransactionBean.getTypeFilter() == TypeObjectBean.FILTER_SEARCH_TRANSACTION_TYPE_INCOME) {
             selectQuery += "AND (t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + TypeObjectBean.TRANSACTION_INCOME + " "
-                    + "OR t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + TypeObjectBean.TRANSACTION_OPEN_BALANCE + ") ";
+                    + "OR t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + TypeObjectBean.TRANSACTION_OPEN_BALANCE
+                    + "OR t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + TypeObjectBean.TRANSACTION_TRANSFER_IN
+                    + ") ";
         }else if(filterTransactionBean.getTypeFilter() == TypeObjectBean.FILTER_SEARCH_TRANSACTION_TYPE_EXPENSE) {
-            selectQuery += "AND t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + TypeObjectBean.TRANSACTION_EXPENSE + " ";
+            selectQuery += "AND (t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + TypeObjectBean.TRANSACTION_EXPENSE + " " +
+                    "OR t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + TypeObjectBean.TRANSACTION_TRANSFER_OUT + ") ";
         }
 
         if(filterTransactionBean.getIdCategories() != null && filterTransactionBean.getIdCategories().size() > 0) {
@@ -703,14 +762,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 int amount = c.getInt(c.getColumnIndex(TransactionBean.KEY_AMOUNT));
                 if(amount > 0) {
                     TransactionBean transactionBean = new TransactionBean();
-                    transactionBean.setId(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID))));
+                    transactionBean.setId(c.getLong(c.getColumnIndex(TransactionBean.KEY_ID)));
                     transactionBean.setTitle(c.getString(c.getColumnIndex(TransactionBean.KEY_TITLE)));
                     transactionBean.setAmount(amount);
                     transactionBean.setDateInsert(c.getString(c.getColumnIndex(TransactionBean.KEY_DATE_INSERT)));
                     transactionBean.setNote(c.getString(c.getColumnIndex(TransactionBean.KEY_NOTE)));
                     transactionBean.setTypeTransaction(c.getInt(c.getColumnIndex(TransactionBean.KEY_TYPE_TRANSACTION)));
-                    transactionBean.setIdAccount(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_ACCOUNT))));
-                    transactionBean.setIdCategory(Long.parseLong(c.getString(c.getColumnIndex(TransactionBean.KEY_ID_CATEGORY))));
+                    transactionBean.setIdAccount(c.getLong(c.getColumnIndex(TransactionBean.KEY_ID_ACCOUNT)));
+                    transactionBean.setIdTransactionTransfer(c.getLong(c.getColumnIndex(TransactionBean.KEY_ID_TRANSACTION_TRANSFER)));
+                    transactionBean.setIdCategory(c.getLong(c.getColumnIndex(TransactionBean.KEY_ID_CATEGORY)));
                     transactionBeans.add(transactionBean);
                 }
             } while (c.moveToNext());

@@ -14,6 +14,7 @@ public class TransactionBean implements Parcelable {
     public static final String KEY_TYPE_TRANSACTION = "type_transaction";
     public static final String KEY_ID_CATEGORY = "id_category";
     public static final String KEY_ID_ACCOUNT = "id_account";
+    public static final String KEY_ID_TRANSACTION_TRANSFER = "id_transaction_transfer";
     public static final String KEY_TITLE = "title";
 
     private long id;
@@ -24,6 +25,15 @@ public class TransactionBean implements Parcelable {
     private int typeTransaction;
     private long idCategory;
     private long idAccount;
+    private long idTransactionTransfer;//Id transaction transfer
+
+    public long getIdTransactionTransfer() {
+        return idTransactionTransfer;
+    }
+
+    public void setIdTransactionTransfer(long idTransactionTransfer) {
+        this.idTransactionTransfer = idTransactionTransfer;
+    }
 
     public TransactionBean() {}
 
@@ -36,6 +46,7 @@ public class TransactionBean implements Parcelable {
         typeTransaction = in.readInt();
         idCategory = in.readLong();
         idAccount = in.readLong();
+        idTransactionTransfer = in.readLong();
     }
 
     public static final Creator<TransactionBean> CREATOR = new Creator<TransactionBean>() {
@@ -115,6 +126,7 @@ public class TransactionBean implements Parcelable {
             + TransactionBean.KEY_TYPE_TRANSACTION + " INTEGER,"
             + TransactionBean.KEY_ID_ACCOUNT + " INTEGER,"
             + TransactionBean.KEY_ID_CATEGORY + " INTEGER,"
+            + TransactionBean.KEY_ID_TRANSACTION_TRANSFER + " INTEGER,"
             + TransactionBean.KEY_TITLE + " TEXT"
             + ")";
 
@@ -133,5 +145,6 @@ public class TransactionBean implements Parcelable {
         parcel.writeInt(typeTransaction);
         parcel.writeLong(idCategory);
         parcel.writeLong(idAccount);
+        parcel.writeLong(idTransactionTransfer);
     }
 }

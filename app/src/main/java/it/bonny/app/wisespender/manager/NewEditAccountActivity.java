@@ -13,6 +13,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -123,7 +125,7 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
             }
 
             if(accountBean.getIdIcon() == -1) {
-                titleChooseIconNewAccount.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.secondary));
+                titleChooseIconNewAccount.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.error));
                 isError = true;
             }else {
                 titleChooseIconNewAccount.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.secondary_text));
@@ -188,6 +190,9 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
                     Log.e("bonny", e.getMessage());
                     Toast.makeText(getApplicationContext(), getString(R.string.saved_ko), Toast.LENGTH_SHORT).show();
                 }
+            }else {
+                Animation shake = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shakeanimation);
+                buttonSaveNewAccount.startAnimation(shake);
             }
 
         });
