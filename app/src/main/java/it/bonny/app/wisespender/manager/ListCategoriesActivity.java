@@ -1,6 +1,7 @@
 package it.bonny.app.wisespender.manager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -12,7 +13,10 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import it.bonny.app.wisespender.R;
+import it.bonny.app.wisespender.bean.SettingsBean;
+import it.bonny.app.wisespender.bean.TypeObjectBean;
 import it.bonny.app.wisespender.component.MyViewPager2Adapter;
+import it.bonny.app.wisespender.util.Utility;
 
 public class ListCategoriesActivity extends AppCompatActivity {
     private TabLayout tabLayout;
@@ -23,6 +27,15 @@ public class ListCategoriesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_categories);
+        Utility utility = new Utility();
+        SettingsBean settingsBean = utility.getSettingsBeanSaved(this);
+        if(settingsBean.getTheme() == TypeObjectBean.SETTING_THEME_DARK_MODE) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }else if(settingsBean.getTheme() == TypeObjectBean.SETTING_THEME_LIGHT_MODE) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        }
         init();
         String[] titles = new String[] {getString(R.string.type_income), getString(R.string.type_expense)};
 

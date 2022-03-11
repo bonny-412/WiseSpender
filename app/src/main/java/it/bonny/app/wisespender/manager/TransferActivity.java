@@ -1,15 +1,15 @@
 package it.bonny.app.wisespender.manager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatImageView;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -20,6 +20,9 @@ import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,31 +30,33 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
 import it.bonny.app.wisespender.bean.CategoryBean;
+import it.bonny.app.wisespender.bean.SettingsBean;
 import it.bonny.app.wisespender.bean.TransactionBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
 import it.bonny.app.wisespender.component.BottomSheetNewEditTransactionListener;
 import it.bonny.app.wisespender.component.BottomSheetNewEditTransfer;
 import it.bonny.app.wisespender.db.DatabaseHelper;
 import it.bonny.app.wisespender.util.CurrencyEditText;
+import it.bonny.app.wisespender.util.DecimalDigitsInputFilter;
 import it.bonny.app.wisespender.util.Utility;
 
 public class TransferActivity extends AppCompatActivity implements BottomSheetNewEditTransactionListener  {
 
     private final Calendar myCalendar = Calendar.getInstance();
-    private final Context context = this;
     private final Utility utility = new Utility();
     private long idAccountSelectedTransferOut, idAccountSelectedTransferIn;
     private String nameAccountSelectedTransferOut = "", nameAccountSelectedTransferIn = "", dateInsert = "";
     private TextView dateTransfer, nameAccountTransferOut, nameAccountTransferIn;
     private TransactionBean transferIn, transferOut;
-    private EditText noteTransfer;
-    private CurrencyEditText amountTransfer;
+    private TextInputLayout noteTransfer;
+    private TextInputLayout amountTransfer;
     private MaterialButton buttonSave;
     private MaterialButton btnReturn;
     private DatabaseHelper db;
@@ -61,11 +66,22 @@ public class TransferActivity extends AppCompatActivity implements BottomSheetNe
     private AppCompatImageView iconAccountTransferOut, iconAccountTransferIn;
     private boolean isNewTransfer = true;
     private TransactionBean beanApp;
+    private final MaterialDatePicker.Builder<Long> materialDateBuilder = MaterialDatePicker.Builder.datePicker();
+    private final MaterialDatePicker<Long> materialDatePicker = materialDateBuilder.build();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transfer);
+        SettingsBean settingsBean = utility.getSettingsBeanSaved(this);
+        if(settingsBean.getTheme() == TypeObjectBean.SETTING_THEME_DARK_MODE) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }else if(settingsBean.getTheme() == TypeObjectBean.SETTING_THEME_LIGHT_MODE) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        }
+
         init();
         findAllAccounts();
 
@@ -82,8 +98,8 @@ public class TransferActivity extends AppCompatActivity implements BottomSheetNe
                 transferIn = db.getTransactionBean(beanApp.getId());
                 transferOut = db.getTransactionBean(beanApp.getIdTransactionTransfer());
             }
-            noteTransfer.setText(transferIn.getNote());
-            amountTransfer.setText(String.valueOf(utility.convertIntInEditTextValue(transferIn.getAmount())));
+            Objects.requireNonNull(noteTransfer.getEditText()).setText(transferIn.getNote());
+            Objects.requireNonNull(amountTransfer.getEditText()).setText(String.valueOf(utility.convertIntInEditTextValue(transferIn.getAmount())));
 
             accountTransferOut = db.getAccountBean(transferOut.getIdAccount());
             nameAccountTransferOut.setText(accountTransferOut.getName());
@@ -109,25 +125,22 @@ public class TransferActivity extends AppCompatActivity implements BottomSheetNe
 
             transferOut.setTypeTransaction(TypeObjectBean.TRANSACTION_TRANSFER_OUT);
             transferIn.setTypeTransaction(TypeObjectBean.TRANSACTION_TRANSFER_IN);
-            amountTransfer.setText("0");
+
+            Objects.requireNonNull(amountTransfer.getEditText()).setText("0");
         }
 
         updateLabel();
 
-        DatePickerDialog.OnDateSetListener date = (view, year, monthOfYear, dayOfMonth) -> {
-            myCalendar.set(Calendar.YEAR, year);
-            myCalendar.set(Calendar.MONTH, monthOfYear);
-            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            updateLabel();
-        };
+        containerDateTransfer.setOnClickListener(view -> materialDatePicker.show(getSupportFragmentManager(), "MATERIAL_DATE_PICKER"));
 
-        containerDateTransfer.setOnClickListener(view -> new DatePickerDialog(context, date, myCalendar
-                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                myCalendar.get(Calendar.DAY_OF_MONTH)).show());
+        materialDatePicker.addOnPositiveButtonClickListener(selection -> {
+            myCalendar.setTimeInMillis(selection);
+            updateLabel();
+        });
 
         btnReturn.setOnClickListener(view -> finish());
 
-        noteTransfer.addTextChangedListener(new TextWatcher() {
+        /*Objects.requireNonNull(noteTransfer.getEditText()).addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
 
@@ -136,13 +149,13 @@ public class TransferActivity extends AppCompatActivity implements BottomSheetNe
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(noteTransfer.length() > 0) {
+                if(noteTransfer.getEditText().length() > 0) {
                     noteTransfer.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.custom_input));
                 }else {
                     noteTransfer.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.custom_input_error));
                 }
             }
-        });
+        });*/
 
         btnAccountTransferOut.setOnClickListener(view -> {
             BottomSheetNewEditTransfer bottomSheet = new BottomSheetNewEditTransfer(TransferActivity.this, idAccountSelectedTransferOut, accountBeanList, true);
@@ -159,13 +172,13 @@ public class TransferActivity extends AppCompatActivity implements BottomSheetNe
             int amount = 0;
             String noteTransferTxt = "";
 
-            if(amountTransfer.getText() != null && !"".equals(amountTransfer.getText().toString().trim())) {
+            if(Objects.requireNonNull(amountTransfer.getEditText()).getText() != null && !"".equals(amountTransfer.getEditText().getText().toString().trim())) {
                 try {
-                    amount = utility.convertEditTextValueInInt(amountTransfer.getText().toString().trim());
+                    amount = utility.convertEditTextValueInInt(amountTransfer.getEditText().getText().toString().trim());
                     if(amount > 0) {
-                        amountTransfer.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.custom_input));
+                        amountTransfer.setError(null);
                     }else {
-                        amountTransfer.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.custom_input_error));
+                        amountTransfer.setError(getString(R.string.required_field_amount));
                         isError = true;
                     }
                 }catch (Exception e) {
@@ -173,8 +186,8 @@ public class TransferActivity extends AppCompatActivity implements BottomSheetNe
                 }
             }
 
-            if(noteTransfer.getText() != null && !"".equals(noteTransfer.getText().toString().trim())) {
-                noteTransferTxt = noteTransfer.getText().toString();
+            if(Objects.requireNonNull(noteTransfer.getEditText()).getText() != null && !"".equals(noteTransfer.getEditText().getText().toString().trim())) {
+                noteTransferTxt = noteTransfer.getEditText().getText().toString();
             }
 
             if(idAccountSelectedTransferOut == idAccountSelectedTransferIn) {
@@ -242,10 +255,12 @@ public class TransferActivity extends AppCompatActivity implements BottomSheetNe
                 Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent();
-                if(beanApp.getTypeTransaction() == TypeObjectBean.TRANSACTION_TRANSFER_OUT) {
-                    intent.putExtra("transactionBean", transferOut);
-                }else {
-                    intent.putExtra("transactionBean", transferIn);
+                if(beanApp != null) {
+                    if(beanApp.getTypeTransaction() == TypeObjectBean.TRANSACTION_TRANSFER_OUT) {
+                        intent.putExtra("transactionBean", transferOut);
+                    }else {
+                        intent.putExtra("transactionBean", transferIn);
+                    }
                 }
                 setResult(Activity.RESULT_OK, intent);
                 finish();
@@ -273,6 +288,8 @@ public class TransferActivity extends AppCompatActivity implements BottomSheetNe
         btnAccountTransferIn = findViewById(R.id.btnAccountTransferIn);
         nameAccountTransferIn = findViewById(R.id.nameAccountTransferIn);
         iconAccountTransferIn = findViewById(R.id.iconAccountTransferIn);
+
+        Objects.requireNonNull(amountTransfer.getEditText()).setFilters(new InputFilter[]{new DecimalDigitsInputFilter(10, 2)});
     }
 
     private void updateLabel() {

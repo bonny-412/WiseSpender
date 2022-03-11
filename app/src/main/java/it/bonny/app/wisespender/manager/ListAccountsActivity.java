@@ -6,6 +6,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,10 +27,12 @@ import java.util.concurrent.Executors;
 
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
+import it.bonny.app.wisespender.bean.SettingsBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
 import it.bonny.app.wisespender.db.DatabaseHelper;
 import it.bonny.app.wisespender.component.AccountListAdapter;
 import it.bonny.app.wisespender.component.RecyclerViewClickInterface;
+import it.bonny.app.wisespender.util.Utility;
 
 public class ListAccountsActivity extends AppCompatActivity implements RecyclerViewClickInterface {
     private DatabaseHelper db;
@@ -44,9 +47,17 @@ public class ListAccountsActivity extends AppCompatActivity implements RecyclerV
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_accounts);
+        Utility utility = new Utility();
+        SettingsBean settingsBean = utility.getSettingsBeanSaved(this);
+        if(settingsBean.getTheme() == TypeObjectBean.SETTING_THEME_DARK_MODE) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }else if(settingsBean.getTheme() == TypeObjectBean.SETTING_THEME_LIGHT_MODE) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        }
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -56,7 +67,7 @@ public class ListAccountsActivity extends AppCompatActivity implements RecyclerV
 
         init();
         callDB();
-        accountListAdapter = new AccountListAdapter(accountBeanList, ListAccountsActivity.this, this);
+        accountListAdapter = new AccountListAdapter(accountBeanList, ListAccountsActivity.this, settingsBean.getCurrency(),this);
         listView.setHasFixedSize(true);
         listView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         listView.setAdapter(accountListAdapter);

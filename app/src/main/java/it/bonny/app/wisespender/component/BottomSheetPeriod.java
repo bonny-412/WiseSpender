@@ -8,10 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,19 +24,17 @@ import com.google.android.material.button.MaterialButton;
 import java.util.List;
 
 import it.bonny.app.wisespender.R;
+import it.bonny.app.wisespender.bean.TypeObjectBean;
 import it.bonny.app.wisespender.util.Utility;
 
 public class BottomSheetPeriod extends BottomSheetDialogFragment {
     private final Activity mActivity;
     private BottomSheetPeriodListener bottomSheetPeriodListener;
-    private int monthSelected;
-    private int yearSelected;
-    private final List<String> months;
+    private int periodSelected;
+    ConstraintLayout containerDay, containerMonth, containerYear, containerAll, containerInterval, containerDate;
 
-    public BottomSheetPeriod(int monthSelected, int yearSelected, List<String> months, Activity mActivity) {
-        this.monthSelected = monthSelected;
-        this.yearSelected = yearSelected;
-        this.months = months;
+    public BottomSheetPeriod(int periodSelected, Activity mActivity) {
+        this.periodSelected = periodSelected;
         this.mActivity = mActivity;
     }
 
@@ -43,40 +43,74 @@ public class BottomSheetPeriod extends BottomSheetDialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle bundle) {
         View view = inflater.inflate(R.layout.bottom_sheet_select_period, container, false);
 
-        GridView gridViewMonth = view.findViewById(R.id.gridViewMonth);
-        TextView yearSelectedElm = view.findViewById(R.id.yearSelected);
-        MaterialButton btnLastYear = view.findViewById(R.id.btnLastYear);
-        MaterialButton btnNextYear = view.findViewById(R.id.btnNextYear);
+        init(view);
 
-        yearSelectedElm.setText(convertIntToString(yearSelected));
-
-        ListMonthSelectPeriodAdapter listMonthSelectPeriodAdapter = new ListMonthSelectPeriodAdapter(months, monthSelected, getContext());
-        gridViewMonth.setAdapter(listMonthSelectPeriodAdapter);
-        listMonthSelectPeriodAdapter.makeAllUnselect(monthSelected);
-        listMonthSelectPeriodAdapter.notifyDataSetChanged();
-
-        btnLastYear.setOnClickListener(view1 -> {
-            yearSelected = yearSelected - 1;
-            yearSelectedElm.setText(convertIntToString(yearSelected));
+        containerDay.setOnClickListener(view12 -> {
+            periodSelected = TypeObjectBean.PERIOD_SELECTED_DAY;
+            bottomSheetPeriodListener.onReturnMonth(periodSelected);
+            dismiss();
         });
 
-        btnNextYear.setOnClickListener(view1 -> {
-            yearSelected = yearSelected + 1;
-            yearSelectedElm.setText(convertIntToString(yearSelected));
+        containerMonth.setOnClickListener(view12 -> {
+            periodSelected = TypeObjectBean.PERIOD_SELECTED_MONTH;
+            bottomSheetPeriodListener.onReturnMonth(periodSelected);
+            dismiss();
         });
 
-        gridViewMonth.setOnItemClickListener((adapterView, view1, position, l) -> {
-            listMonthSelectPeriodAdapter.makeAllUnselect(position);
-            listMonthSelectPeriodAdapter.notifyDataSetChanged();
-            monthSelected = position;
+        containerYear.setOnClickListener(view12 -> {
+            periodSelected = TypeObjectBean.PERIOD_SELECTED_YEAR;
+            bottomSheetPeriodListener.onReturnMonth(periodSelected);
+            dismiss();
         });
 
+        containerAll.setOnClickListener(view12 -> {
+            periodSelected = TypeObjectBean.PERIOD_SELECTED_ALL;
+            bottomSheetPeriodListener.onReturnMonth(periodSelected);
+            dismiss();
+        });
+
+        containerInterval.setOnClickListener(view12 -> {
+            periodSelected = TypeObjectBean.PERIOD_SELECTED_INTERVAL;
+            bottomSheetPeriodListener.onReturnMonth(periodSelected);
+            dismiss();
+        });
+
+        containerDate.setOnClickListener(view12 -> {
+            periodSelected = TypeObjectBean.PERIOD_SELECTED_DATE;
+            bottomSheetPeriodListener.onReturnMonth(periodSelected);
+            dismiss();
+        });
 
         return view;
     }
 
-    private String convertIntToString(int a) {
-        return "" + a;
+    private void init(View view) {
+        containerDay = view.findViewById(R.id.containerDay);
+        containerMonth = view.findViewById(R.id.containerMonth);
+        containerYear = view.findViewById(R.id.containerYear);
+        containerAll = view.findViewById(R.id.containerAll);
+        containerInterval = view.findViewById(R.id.containerInterval);
+        containerDate = view.findViewById(R.id.containerDate);
+
+        if(periodSelected == TypeObjectBean.PERIOD_SELECTED_DAY) {
+            containerDay.setBackgroundColor(mActivity.getColor(R.color.background_card));
+            containerDay.setElevation(6);
+        }else if(periodSelected == TypeObjectBean.PERIOD_SELECTED_MONTH) {
+            containerMonth.setBackgroundColor(mActivity.getColor(R.color.background_card));
+            containerMonth.setElevation(6);
+        }else if(periodSelected == TypeObjectBean.PERIOD_SELECTED_YEAR) {
+            containerYear.setBackgroundColor(mActivity.getColor(R.color.background_card));
+            containerYear.setElevation(6);
+        }else if(periodSelected == TypeObjectBean.PERIOD_SELECTED_ALL) {
+            containerAll.setBackgroundColor(mActivity.getColor(R.color.background_card));
+            containerAll.setElevation(6);
+        }else if(periodSelected == TypeObjectBean.PERIOD_SELECTED_INTERVAL) {
+            containerInterval.setBackgroundColor(mActivity.getColor(R.color.background_card));
+            containerInterval.setElevation(6);
+        }else if(periodSelected == TypeObjectBean.PERIOD_SELECTED_DATE) {
+            containerDate.setBackgroundColor(mActivity.getColor(R.color.background_card));
+            containerDate.setElevation(6);
+        }
     }
 
     /**
@@ -96,7 +130,7 @@ public class BottomSheetPeriod extends BottomSheetDialogFragment {
 
     @Override
     public void onCancel(@NonNull DialogInterface dialog) {
-        bottomSheetPeriodListener.onReturnMonth(monthSelected, yearSelected);
+        bottomSheetPeriodListener.onReturnMonth(periodSelected);
         super.onCancel(dialog);
     }
 

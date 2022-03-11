@@ -9,7 +9,14 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name=".util.App"
         android:theme="@style/Theme.WiseSpender">
+        <activity
+            android:name=".manager.SettingsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name=".manager.TransferActivity"
             android:exported="false"
@@ -20,11 +27,17 @@
         <activity
             android:name=".manager.TransactionDetailActivity"
             android:exported="false"
-            android:theme="@style/Theme.WiseSpender" />
+            android:theme="@style/Theme.WiseSpender"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name=".manager.ListTransactionActivity"
             android:exported="false"
-            android:theme="@style/Theme.WiseSpender1" />
+            android:theme="@style/Theme.WiseSpender1"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name=".manager.ListViewActivity"
             android:exported="false"

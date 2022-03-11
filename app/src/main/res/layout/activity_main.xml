@@ -14,35 +14,60 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/containerLine"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="@+id/btnSettings"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="@+id/btnSettings"
-            android:gravity="center_horizontal"
-            android:layout_marginStart="16dp"
-            >
-            <TextView
-                android:id="@+id/titleTextHello"
+            app:layout_constraintTop_toTopOf="@+id/btnTransfer"
+            app:layout_constraintBottom_toBottomOf="@+id/btnTransfer"
+            app:layout_constraintEnd_toStartOf="@+id/btnTransfer"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp">
+            <LinearLayout
+                android:id="@+id/containerAccountName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/hello_text"
-                android:textColor="@color/secondary_text"
-                android:textSize="13sp"
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/spender_text"
-                android:layout_marginStart="6dp"
-                android:textColor="@color/primary_text"
-                app:layout_constraintStart_toEndOf="@+id/titleTextHello"
-                app:layout_constraintTop_toTopOf="@+id/titleTextHello"
-                app:layout_constraintBottom_toBottomOf="@+id/titleTextHello"/>
-        </LinearLayout>
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iconAccount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/accountName"
+                    app:layout_constraintBottom_toBottomOf="@+id/accountName"
+                    android:tint="@color/primary"
+                    />
+                <TextView
+                    android:id="@+id/accountName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/name_first_account"
+                    android:textColor="@color/primary_text"
+                    android:textStyle="bold"
+                    android:layout_marginStart="4dp"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toEndOf="@+id/iconAccount"
+                    app:layout_constraintTop_toTopOf="@+id/btnDate"
+                    app:layout_constraintBottom_toBottomOf="@+id/btnDate"
+                    app:drawableEndCompat="@drawable/ic_menu_down"
+                    app:drawableTint="@color/primary_text"
+                    android:ellipsize="marquee"
+                    android:lines="1"
+                    android:fadingEdge="horizontal"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:scrollHorizontally="true"/>
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSettings"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -118,76 +143,92 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/containerLine"
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:id="@+id/containerButtonPeriodSelected"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/btnDate"
-                        android:layout_marginEnd="22dp">
-                        <LinearLayout
-                            android:id="@+id/containerAccountName"
-                            android:layout_width="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/pcj"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:minWidth="48dp"
-                            android:minHeight="48dp"
-                            android:gravity="center"
-                            android:orientation="horizontal"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:background="?attr/selectableItemBackground"
-                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_weight="2"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent">
-                            <androidx.appcompat.widget.AppCompatImageView
-                                android:id="@+id/iconAccount"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/btnSelectPeriod"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_marginEnd="16dp">
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/lastPeriodSelected"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                style="@style/Widget.MaterialComponents.Button.TextButton"
+                                app:icon="@drawable/ic_left"
+                                android:insetLeft="0dp"
+                                android:insetTop="0dp"
+                                android:insetRight="0dp"
+                                android:insetBottom="0dp"
+                                app:iconPadding="0dp"
+                                app:iconGravity="textStart"
+                                app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="@+id/accountName"
-                                app:layout_constraintBottom_toBottomOf="@+id/accountName"
-                                />
+                                app:layout_constraintBottom_toBottomOf="parent"/>
+
                             <TextView
-                                android:id="@+id/accountName"
+                                android:id="@+id/titlePeriodSelected"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/name_first_account"
                                 android:textColor="@color/primary_text"
+                                android:textSize="14sp"
                                 android:textStyle="bold"
-                                android:layout_marginStart="4dp"
-                                android:textSize="16sp"
-                                app:layout_constraintStart_toEndOf="@+id/iconAccount"
-                                app:layout_constraintTop_toTopOf="@+id/btnDate"
-                                app:layout_constraintBottom_toBottomOf="@+id/btnDate"
-                                app:drawableEndCompat="@drawable/ic_menu_down"
-                                app:drawableTint="@color/primary_text"
+                                android:gravity="center"
+                                app:layout_constraintTop_toTopOf="@+id/lastPeriodSelected"
+                                app:layout_constraintBottom_toBottomOf="@+id/lastPeriodSelected"
+                                app:layout_constraintStart_toEndOf="@+id/lastPeriodSelected"
+                                app:layout_constraintEnd_toStartOf="@+id/nextPeriodSelected"
 
                                 android:ellipsize="marquee"
                                 android:lines="1"
                                 android:fadingEdge="horizontal"
                                 android:marqueeRepeatLimit="marquee_forever"
                                 android:scrollHorizontally="true"/>
-                        </LinearLayout>
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/nextPeriodSelected"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                style="@style/Widget.MaterialComponents.Button.TextButton"
+                                app:icon="@drawable/ic_right"
+                                android:insetLeft="0dp"
+                                android:insetTop="0dp"
+                                android:insetRight="0dp"
+                                android:insetBottom="0dp"
+                                app:iconPadding="0dp"
+                                app:iconGravity="textStart"
+                                app:layout_constraintTop_toTopOf="@+id/lastPeriodSelected"
+                                app:layout_constraintBottom_toBottomOf="@+id/lastPeriodSelected"
+                                app:layout_constraintEnd_toEndOf="parent"/>
 
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="48dp"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/containerLine"
-                        android:textColor="@color/secondary"
-                        app:icon="@drawable/ic_menu_down"
-                        app:iconTint="@color/secondary"
-                        app:iconGravity="end"
-                        android:padding="0dp"
-                        app:iconPadding="0dp"
-                        android:textSize="12sp"
-                        android:textStyle="italic" />
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnSelectPeriod"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_weight="1"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:textColor="@color/background_card"
+                            android:contentDescription="@string/button_custom_period"
+                            app:layout_constraintStart_toEndOf="@+id/pcj"
+                            android:padding="1dp"
+                            app:iconPadding="0dp"
+                            android:textSize="11sp"
+                            android:textStyle="italic" />
+
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/textBalance"
@@ -197,8 +238,8 @@
                         android:text="@string/balance"
                         android:textStyle="bold"
                         android:layout_marginTop="10dp"
-                        app:layout_constraintStart_toStartOf="@+id/containerLine"
-                        app:layout_constraintTop_toBottomOf="@+id/containerLine" />
+                        app:layout_constraintStart_toStartOf="@+id/containerButtonPeriodSelected"
+                        app:layout_constraintTop_toBottomOf="@+id/containerButtonPeriodSelected" />
 
                     <LinearLayout
                         android:id="@+id/containerAccount"
@@ -218,14 +259,19 @@
                             android:textColor="@color/primary_text"
                             android:text="@string/money_account"
                             android:textStyle="bold"
-                            android:textSize="22sp" />
+                            android:textSize="22sp"
+                            android:ellipsize="marquee"
+                            android:lines="1"
+                            android:fadingEdge="horizontal"
+                            android:marqueeRepeatLimit="marquee_forever"
+                            android:scrollHorizontally="true"/>
                         <TextView
+                            android:id="@+id/currencySymbol"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/primary_text"
                             android:textStyle="bold"
-                            android:textSize="22sp"
-                            android:text="$" />
+                            android:textSize="22sp" />
                     </LinearLayout>
 
                     <View

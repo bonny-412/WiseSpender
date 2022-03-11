@@ -46,6 +46,18 @@ public class TypeObjectBean {
     public static final int FILTER_SEARCH_TRANSACTION_TYPE_EXPENSE = 2;
     public static final int FILTER_SEARCH_TRANSACTION_TYPE_ALL_NO_CHECKED = 3;
 
+    public static final int PERIOD_SELECTED_DAY = 0;
+    public static final int PERIOD_SELECTED_MONTH = 1;
+    public static final int PERIOD_SELECTED_YEAR = 2;
+    public static final int PERIOD_SELECTED_ALL = 3;
+    public static final int PERIOD_SELECTED_INTERVAL = 4;
+    public static final int PERIOD_SELECTED_DATE = 5;
+
+    public static final int SETTING_THEME_LIGHT_MODE = 0;
+    public static final int SETTING_THEME_DARK_MODE = 1;
+    public static final int SETTING_THEME_SYSTEM_DEFAULT_MODE = 2;
+
+
     public TypeObjectBean() {}
 
 }

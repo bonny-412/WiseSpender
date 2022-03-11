@@ -116,27 +116,28 @@
                     android:textColor="@color/primary"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <EditText
-                    android:id="@+id/categoryName"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/categoryName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/name_new_category_input"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/containerTypeCategory"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                android:layout_marginTop="16dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:startIconDrawable="@drawable/ic_edit"
+                app:errorEnabled="true"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:imeOptions="actionDone">
+                <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:ems="10"
-                    android:hint="@string/name_new_category_input"
-                    android:autofillHints="name"
-                    android:textSize="14sp"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    android:background="@drawable/custom_input"
-                    android:drawableStart="@drawable/custom_ic_edit"
-                    android:drawablePadding="12dp"
-                    android:textColor="@color/primary_text"
-                    android:textColorHint="@color/secondary_text"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/containerTypeCategory"
-                    android:inputType="textCapWords"
-                    android:layout_marginTop="20dp"
-                    android:imeOptions="actionDone"/>
+                    android:layout_height="wrap_content"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

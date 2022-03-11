@@ -30,11 +30,13 @@ public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.
     private final Activity activity;
     private final Utility utility = new Utility();
     private final RecyclerViewClickInterface recyclerViewClickAccountInterface;
+    private final String currencyTxt;
 
-    public AccountListAdapter(List<AccountBean> accountBeanList, Activity activity, RecyclerViewClickInterface recyclerViewClickAccountInterface) {
+    public AccountListAdapter(List<AccountBean> accountBeanList, Activity activity, String currencyTxt, RecyclerViewClickInterface recyclerViewClickAccountInterface) {
         this.accountBeanList = accountBeanList;
         this.activity = activity;
         this.recyclerViewClickAccountInterface = recyclerViewClickAccountInterface;
+        this.currencyTxt = currencyTxt;
     }
 
     @NonNull
@@ -54,6 +56,7 @@ public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.
             //String totAccountString = "Gestire" + utility.convertIntInEditTextValue(accountBean.getOpeningBalance() + (accountBean.getTotMoneyIncome() - accountBean.getTotMoneyExpense()));
             //totAccountString = utility.formatNumberCurrency(totAccountString);
             holder.totMoneyAccount.setText("Gestire");
+            holder.currency.setText(currencyTxt);
 
             holder.btnElement.setOnClickListener(view -> recyclerViewClickAccountInterface.onItemClick(holder.getAdapterPosition()));
 
@@ -96,7 +99,7 @@ public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         AppCompatImageView iconAccount;
-        TextView titleAccount, totMoneyAccount;
+        TextView titleAccount, totMoneyAccount, currency;
         MaterialCardView btnElement;
         LinearLayout mainLayout;
 
@@ -107,6 +110,7 @@ public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.
             this.totMoneyAccount = itemView.findViewById(R.id.totMoneyAccount);
             this.btnElement = itemView.findViewById(R.id.btnElement);
             this.mainLayout = itemView.findViewById(R.id.mainLayout);
+            this.currency = itemView.findViewById(R.id.currency);
 
             titleAccount.setSelected(true);
             titleAccount.setEllipsize(TextUtils.TruncateAt.MARQUEE);

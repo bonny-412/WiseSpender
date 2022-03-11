@@ -2,13 +2,16 @@ package it.bonny.app.wisespender.manager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.util.Pair;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,20 +28,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
+import it.bonny.app.wisespender.bean.PeriodSelectedBean;
+import it.bonny.app.wisespender.bean.SettingsBean;
 import it.bonny.app.wisespender.bean.TransactionBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
+import it.bonny.app.wisespender.component.BottomSheetNewEditTransactionListener;
 import it.bonny.app.wisespender.component.BottomSheetPeriod;
 import it.bonny.app.wisespender.component.BottomSheetPeriodListener;
 import it.bonny.app.wisespender.db.DatabaseHelper;
@@ -46,13 +52,13 @@ import it.bonny.app.wisespender.component.RecyclerViewClickInterface;
 import it.bonny.app.wisespender.component.TransactionListAdapter;
 import it.bonny.app.wisespender.util.Utility;
 
-public class MainActivity extends AppCompatActivity implements RecyclerViewClickInterface, BottomSheetPeriodListener {
+public class MainActivity extends AppCompatActivity implements RecyclerViewClickInterface, BottomSheetPeriodListener, BottomSheetNewEditTransactionListener {
 
     private long backPressedTime;
     private DatabaseHelper db;
     private final Utility utility = new Utility();
-    private MaterialButton cardViewAccount, cardViewCategory, cardViewTransaction, showTransactionListBtn, btnDate;
-    private TextView accountName, moneyAccount;
+    private MaterialButton cardViewAccount, cardViewCategory, cardViewTransaction, showTransactionListBtn;
+    private TextView accountName, moneyAccount, currencySymbol;
     private final Activity mActivity = this;
     private AppCompatTextView totalIncome, totalExpense;
     private AppCompatImageView iconAccount;
@@ -62,27 +68,33 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
     private ImageView listTransactionsEmpty;
     private ExtendedFloatingActionButton btnNewTransaction;
     private List<TransactionBean> transactionBeanList = new ArrayList<>();
-    private AppCompatImageView imageViewTransactions, imageViewAccounts, imageViewCategory;
     private TransactionListAdapter transactionListAdapter;
-    private final Calendar calendar = Calendar.getInstance();
-    private int yearSelected, monthSelected;
-    private List<String> months;
+    private Calendar calendar = Calendar.getInstance();
     private ProgressBar progressBar;
     private LinearLayout containerAccountName;
     private MaterialButton btnSettings, btnTransfer;
+    private long idAccountSelected;
 
     private String totMoneyAccount = "", totMoneyAccountIncome, totMoneyAccountExpense;
     private int countAccount = 0;
+    private SettingsBean settingsBean;
+    private PeriodSelectedBean periodSelectedBean;
+    private MaterialButton btnSelectPeriod;
+    private TextView titlePeriodSelected;
+    private MaterialButton lastPeriodSelected, nextPeriodSelected;
+    private Calendar cal2 = Calendar.getInstance();
+
+    public MainActivity() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        periodSelectedBean = new PeriodSelectedBean();
+        periodSelectedBean.setPeriodSelectedMain(TypeObjectBean.PERIOD_SELECTED_MONTH);
         init();
         showWelcomeAlert();
-        
-        countAccount = db.countAccountNoMaster();
 
         transactionListAdapter = new TransactionListAdapter(transactionBeanList, mActivity, true, this);
         listTransactions.setHasFixedSize(true);
@@ -117,30 +129,25 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
             startActivity(intent);
         });
 
-        btnDate.setOnClickListener(view -> {
-            BottomSheetPeriod bottomSheetPeriod = new BottomSheetPeriod(monthSelected, yearSelected, months, MainActivity.this);
+        btnSelectPeriod.setOnClickListener(view -> {
+            BottomSheetPeriod bottomSheetPeriod = new BottomSheetPeriod(periodSelectedBean.getPeriodSelectedMain(), MainActivity.this);
             bottomSheetPeriod.show(getSupportFragmentManager(), "SELECT_PERIOD");
         });
 
-        btnTransfer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(countAccount > 1) {
-                    Intent intent = new Intent(mActivity, TransferActivity.class);
-                    startActivity(intent);
-                }else {
-                    Animation shake = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shakeanimation);
-                    btnTransfer.startAnimation(shake);
-                    Toast.makeText(mActivity, getString(R.string.transfer_count_account_problem), Toast.LENGTH_SHORT).show();
-                }
+        btnTransfer.setOnClickListener(view -> {
+            if(countAccount > 1) {
+                Intent intent = new Intent(mActivity, TransferActivity.class);
+                startActivity(intent);
+            }else {
+                Animation shake = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shakeanimation);
+                btnTransfer.startAnimation(shake);
+                Toast.makeText(mActivity, getString(R.string.transfer_count_account_problem), Toast.LENGTH_SHORT).show();
             }
         });
 
-        btnSettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
+        btnSettings.setOnClickListener(view -> {
+            Intent intent = new Intent(mActivity, SettingsActivity.class);
+            startActivity(intent);
         });
 
         listTransactions.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -155,11 +162,68 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
             }
         });
 
+        lastPeriodSelected.setOnClickListener(view -> {
+            if(nextPeriodSelected.getVisibility() == View.INVISIBLE)
+                nextPeriodSelected.setVisibility(View.VISIBLE);
+
+            int periodSelected = periodSelectedBean.getPeriodSelectedMain();
+            if(periodSelected == TypeObjectBean.PERIOD_SELECTED_DAY) {
+                int numDay = calendar.get(Calendar.DAY_OF_MONTH);
+                numDay = numDay - 1;
+                calendar.set(Calendar.DAY_OF_MONTH, numDay);
+                callDB();
+            }else if(periodSelected == TypeObjectBean.PERIOD_SELECTED_MONTH) {
+                int numMonth = calendar.get(Calendar.MONTH);
+                numMonth = numMonth - 1;
+                calendar.set(Calendar.MONTH, numMonth);
+                if(numMonth == 0)
+                    lastPeriodSelected.setVisibility(View.INVISIBLE);
+                callDB();
+            }else if(periodSelected == TypeObjectBean.PERIOD_SELECTED_YEAR) {
+                int numYear = calendar.get(Calendar.YEAR);
+                numYear = numYear - 1;
+                calendar.set(Calendar.YEAR, numYear);
+                callDB();
+            }else if(periodSelected == TypeObjectBean.PERIOD_SELECTED_DATE){
+                callDatePicker();
+            }else if(periodSelected == TypeObjectBean.PERIOD_SELECTED_INTERVAL) {
+                callDatePickerRange();
+            }
+        });
+
+        nextPeriodSelected.setOnClickListener(view -> {
+            if(lastPeriodSelected.getVisibility() == View.INVISIBLE)
+                lastPeriodSelected.setVisibility(View.VISIBLE);
+
+            int periodSelected = periodSelectedBean.getPeriodSelectedMain();
+            if(periodSelected == TypeObjectBean.PERIOD_SELECTED_DAY) {
+                int numDay = calendar.get(Calendar.DAY_OF_MONTH);
+                numDay = numDay + 1;
+                calendar.set(Calendar.DAY_OF_MONTH, numDay);
+                callDB();
+            }else if(periodSelected == TypeObjectBean.PERIOD_SELECTED_MONTH) {
+                int numMonth = calendar.get(Calendar.MONTH);
+                numMonth = numMonth + 1;
+                calendar.set(Calendar.MONTH, numMonth);
+                if(numMonth == 11)
+                    nextPeriodSelected.setVisibility(View.INVISIBLE);
+                callDB();
+            }else if(periodSelected == TypeObjectBean.PERIOD_SELECTED_YEAR) {
+                int numYear = calendar.get(Calendar.YEAR);
+                numYear = numYear + 1;
+                calendar.set(Calendar.YEAR, numYear);
+                callDB();
+            }else if(periodSelected == TypeObjectBean.PERIOD_SELECTED_DATE){
+                callDatePicker();
+            }else if(periodSelected == TypeObjectBean.PERIOD_SELECTED_INTERVAL) {
+                callDatePickerRange();
+            }
+        });
+
     }
 
     private void init() {
         db = new DatabaseHelper(getApplicationContext());
-        months = utility.getShortNameMonth();
 
         accountName = findViewById(R.id.accountName);
         cardViewAccount = findViewById(R.id.cardViewAccount);
@@ -169,20 +233,22 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
         totalExpense = findViewById(R.id.totalExpense);
         listTransactions = findViewById(R.id.listTransactions);
         iconAccount = findViewById(R.id.iconAccount);
-        btnDate = findViewById(R.id.btnDate);
+        btnSelectPeriod = findViewById(R.id.btnSelectPeriod);
         btnSettings = findViewById(R.id.btnSettings);
         btnTransfer = findViewById(R.id.btnTransfer);
+        titlePeriodSelected = findViewById(R.id.titlePeriodSelected);
+        currencySymbol = findViewById(R.id.currencySymbol);
 
-        String textDate = utility.getNameMonthYearByCalendar(calendar);
-        btnDate.setText(textDate);
-        yearSelected = calendar.get(Calendar.YEAR);
-        monthSelected = calendar.get(Calendar.MONTH);
+        String textDate = utility.getNameToPeriodSelectedToButton(periodSelectedBean.getPeriodSelectedMain(), mActivity);
+        btnSelectPeriod.setText(textDate);
 
         listTransactionsEmpty = findViewById(R.id.listTransactionsEmpty);
         btnNewTransaction = findViewById(R.id.btnNewTransaction);
         cardViewTransaction = findViewById(R.id.cardViewTransaction);
         showTransactionListBtn = findViewById(R.id.showTransactionListBtn);
         progressBar = findViewById(R.id.progressBar);
+        nextPeriodSelected = findViewById(R.id.nextPeriodSelected);
+        lastPeriodSelected = findViewById(R.id.lastPeriodSelected);
 
         containerAccountName = findViewById(R.id.containerAccountName);
 
@@ -192,6 +258,11 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
         accountName.setSingleLine(true);
         accountName.setLines(1);
 
+        titlePeriodSelected.setSelected(true);
+        titlePeriodSelected.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        titlePeriodSelected.setHorizontallyScrolling(true);
+        titlePeriodSelected.setSingleLine(true);
+        titlePeriodSelected.setLines(1);
     }
 
     //Shows the welcome alert
@@ -239,6 +310,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
 
     @Override
     public void onResume(){
+        settingsBean = utility.getSettingsBeanSaved(mActivity);
+        currencySymbol.setText(settingsBean.getCurrency());
         callDB();
         super.onResume();
     }
@@ -254,6 +327,10 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
     }
 
     private void callDB() {
+        callDB(null);
+    }
+
+    private void callDB(Calendar cal2) {
         progressBar.setVisibility(View.VISIBLE);
         listTransactions.setVisibility(View.GONE);
         listTransactionsEmpty.setVisibility(View.GONE);
@@ -261,34 +338,27 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         executorService.execute(() -> {
 
+            countAccount = db.countAccountNoMaster();
+
             accountBeanSelected = db.getAccountBeanSelected();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            idAccountSelected = accountBeanSelected.getId();
 
-            Calendar firstDayMonth = Calendar.getInstance();
-            firstDayMonth.set(Calendar.DAY_OF_MONTH, 1);
-            firstDayMonth.set(Calendar.MONTH, monthSelected);
-            firstDayMonth.set(Calendar.YEAR, yearSelected);
-
-            Calendar lastDayMonth = Calendar.getInstance();
-            lastDayMonth.set(Calendar.MONTH, monthSelected);
-            lastDayMonth.set(Calendar.YEAR, yearSelected);
-            lastDayMonth.set(Calendar.DAY_OF_MONTH, lastDayMonth.getActualMaximum(Calendar.DAY_OF_MONTH));
-
-            String from = dateFormat.format(firstDayMonth.getTime()) + " 00:00";
-            String a = dateFormat.format(lastDayMonth.getTime()) + " 23:59";
-            transactionBeanList = db.getAllTransactionBeansToMainActivity(accountBeanSelected, from, a);
+            utility.getDateFromToPeriodSelected(periodSelectedBean, calendar, cal2, getApplicationContext());
 
             if(accountBeanSelected.getIsMaster() == TypeObjectBean.IS_MASTER) {
                 String ids = db.getAllIdAccountNoMaster();
-                int totMoneyIncomeInt = db.getSumTransactionsByAccountAndType(0, ids, from, a, TypeObjectBean.TRANSACTION_INCOME);
-                int totMoneyExpenseInt = db.getSumTransactionsByAccountAndType(0, ids, from, a, TypeObjectBean.TRANSACTION_EXPENSE);
+                int totMoneyIncomeInt = db.getSumTransactionsByAccountAndType(0, ids, periodSelectedBean.getDateFrom(), periodSelectedBean.getDateTo(), TypeObjectBean.TRANSACTION_INCOME);
+                int totMoneyExpenseInt = db.getSumTransactionsByAccountAndType(0, ids, periodSelectedBean.getDateFrom(), periodSelectedBean.getDateTo(), TypeObjectBean.TRANSACTION_EXPENSE);
 
                 calculateAmount(totMoneyIncomeInt, totMoneyExpenseInt);
+
+                transactionBeanList = db.getAllTransactionBeansToMainActivity(0, ids, periodSelectedBean.getDateFrom(), periodSelectedBean.getDateTo());
             }else {
-                int totMoneyIncomeInt = db.getSumTransactionsByAccountAndType(accountBeanSelected.getId(), null, from, a, TypeObjectBean.TRANSACTION_INCOME);
-                int totMoneyExpenseInt = db.getSumTransactionsByAccountAndType(accountBeanSelected.getId(), null, from, a, TypeObjectBean.TRANSACTION_EXPENSE);
+                int totMoneyIncomeInt = db.getSumTransactionsByAccountAndType(accountBeanSelected.getId(), null, periodSelectedBean.getDateFrom(), periodSelectedBean.getDateTo(), TypeObjectBean.TRANSACTION_INCOME);
+                int totMoneyExpenseInt = db.getSumTransactionsByAccountAndType(accountBeanSelected.getId(), null, periodSelectedBean.getDateFrom(), periodSelectedBean.getDateTo(), TypeObjectBean.TRANSACTION_EXPENSE);
 
                 calculateAmount(totMoneyIncomeInt, totMoneyExpenseInt);
+                transactionBeanList = db.getAllTransactionBeansToMainActivity(accountBeanSelected.getId(), null, periodSelectedBean.getDateFrom(), periodSelectedBean.getDateTo());
             }
 
             runOnUiThread(() -> {
@@ -297,12 +367,13 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
                 accountName.setText(accountBeanSelected.getName());
                 iconAccount.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(), utility.getIdIconByAccountBean(accountBeanSelected)));
 
+                titlePeriodSelected.setText(periodSelectedBean.getTextPeriodSelected());
 
                 moneyAccount.setText(totMoneyAccount);
                 totalIncome.setText(totMoneyAccountIncome);
                 totalExpense.setText(totMoneyAccountExpense);
 
-                bottomSheetAccount = new BottomSheetAccount(mActivity);
+                bottomSheetAccount = new BottomSheetAccount(idAccountSelected, mActivity);
 
                 progressBar.setVisibility(View.GONE);
                 if(transactionBeanList != null && transactionBeanList.size() > 0) {
@@ -340,13 +411,67 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
     }
 
     @Override
-    public void onReturnMonth(int month, int year) {
-        monthSelected = month;
-        yearSelected = year;
-        String monthText = months.get(month);
-        String textButton = monthText + " " + year;
-        btnDate.setText(textButton);
-        callDB();
+    public void onReturnMonth(int periodSelected) {
+        resetPeriodSelected(periodSelected);
     }
 
+    private void resetPeriodSelected(int periodSelected) {
+        calendar = Calendar.getInstance();
+        cal2 = Calendar.getInstance();
+        periodSelectedBean.setPeriodSelectedMain(periodSelected);
+        String text = utility.getNameToPeriodSelectedToButton(periodSelected, mActivity);
+        btnSelectPeriod.setText(text);
+
+        if(periodSelected == TypeObjectBean.PERIOD_SELECTED_ALL) {
+            lastPeriodSelected.setVisibility(View.INVISIBLE);
+            nextPeriodSelected.setVisibility(View.INVISIBLE);
+        }else {
+            if(lastPeriodSelected.getVisibility() == View.INVISIBLE)
+                lastPeriodSelected.setVisibility(View.VISIBLE);
+            if(nextPeriodSelected.getVisibility() == View.INVISIBLE)
+                nextPeriodSelected.setVisibility(View.VISIBLE);
+        }
+
+        if(periodSelected == TypeObjectBean.PERIOD_SELECTED_INTERVAL) {
+            callDatePickerRange();
+        }else if(periodSelected == TypeObjectBean.PERIOD_SELECTED_DATE) {
+            callDatePicker();
+        }else {
+            callDB();
+        }
+    }
+
+    private void callDatePicker() {
+        MaterialDatePicker.Builder<Long> materialDateBuilder = MaterialDatePicker.Builder.datePicker();
+        MaterialDatePicker<Long> materialDatePicker = materialDateBuilder.build();
+        materialDatePicker.setCancelable(false);
+        materialDateBuilder.setSelection(calendar.getTimeInMillis());
+        materialDatePicker.show(getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
+        materialDatePicker.addOnPositiveButtonClickListener(selection -> {
+            calendar.setTimeInMillis(selection);
+            callDB();
+        });
+        materialDatePicker.addOnNegativeButtonClickListener(view -> resetPeriodSelected(TypeObjectBean.PERIOD_SELECTED_MONTH));
+    }
+
+    private void callDatePickerRange() {
+        MaterialDatePicker.Builder<Pair<Long, Long>> materialDateBuilder = MaterialDatePicker.Builder.dateRangePicker();
+        MaterialDatePicker<Pair<Long, Long>> materialDatePicker = materialDateBuilder.build();
+        materialDatePicker.setCancelable(false);
+        materialDateBuilder.setSelection(new Pair<>(calendar.getTimeInMillis(), cal2.getTimeInMillis()));
+        materialDatePicker.show(getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
+        materialDatePicker.addOnPositiveButtonClickListener(selection -> {
+            calendar.setTimeInMillis(selection.first);
+            Calendar cal2 = Calendar.getInstance();
+            cal2.setTimeInMillis(selection.second);
+            callDB(cal2);
+        });
+        materialDatePicker.addOnNegativeButtonClickListener(view -> resetPeriodSelected(TypeObjectBean.PERIOD_SELECTED_MONTH));
+    }
+
+    @Override
+    public void onItemClick(long idElement, boolean isCategory) {
+        this.idAccountSelected = idElement;
+        callDB();
+    }
 }

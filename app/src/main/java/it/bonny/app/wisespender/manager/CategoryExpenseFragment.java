@@ -14,6 +14,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,10 +28,12 @@ import java.util.concurrent.Executors;
 
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.CategoryBean;
+import it.bonny.app.wisespender.bean.SettingsBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
 import it.bonny.app.wisespender.db.DatabaseHelper;
 import it.bonny.app.wisespender.component.CategoryListAdapter;
 import it.bonny.app.wisespender.component.RecyclerViewClickInterface;
+import it.bonny.app.wisespender.util.Utility;
 
 public class CategoryExpenseFragment extends Fragment implements RecyclerViewClickInterface {
     private View root;

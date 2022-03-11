@@ -5,6 +5,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatImageView;
 
@@ -31,6 +32,7 @@ import java.lang.reflect.Type;
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
 import it.bonny.app.wisespender.bean.CategoryBean;
+import it.bonny.app.wisespender.bean.SettingsBean;
 import it.bonny.app.wisespender.bean.TransactionBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
 import it.bonny.app.wisespender.db.DatabaseHelper;
@@ -41,16 +43,27 @@ public class TransactionDetailActivity extends AppCompatActivity {
     private final Utility utility = new Utility();
     private MaterialButton btnReturn;
     private TextView titleTransaction, dateTransaction, typeTransaction,
-            accountTransaction, categoryTransaction, noteTransaction, amountTransaction, timeTransaction;
+            accountTransaction, categoryTransaction, noteTransaction, amountTransaction, timeTransaction, currency;
     private ExtendedFloatingActionButton fabViewPlus, fabViewDelete, fabViewEdit;
     private TransactionBean transactionBean;
     private boolean isOpen;
     private Animation fab_open, fab_close, fab_rotate_antiClock, fab_rotate_clock;
+    private SettingsBean settingsBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction_detail);
+        settingsBean = utility.getSettingsBeanSaved(this);
+
+        if(settingsBean.getTheme() == TypeObjectBean.SETTING_THEME_DARK_MODE) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }else if(settingsBean.getTheme() == TypeObjectBean.SETTING_THEME_LIGHT_MODE) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        }
+
         init();
 
         transactionBean = getIntent().getParcelableExtra("transactionBean");
@@ -153,10 +166,14 @@ public class TransactionDetailActivity extends AppCompatActivity {
         fabViewEdit = findViewById(R.id.fabViewEdit);
         fabViewDelete = findViewById(R.id.fabViewDelete);
 
+        currency = findViewById(R.id.currency);
+
         fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
         fab_rotate_clock = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_rotate_clock);
         fab_rotate_antiClock = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_rotate_anticlock);
+
+        currency.setText(settingsBean.getCurrency());
     }
 
     private void getAlertDialogDeleteListAccount(final long id, final long idTransactionTransfer){

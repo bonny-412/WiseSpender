@@ -1,19 +1,15 @@
 package it.bonny.app.wisespender.manager;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatImageView;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.animation.Animation;
@@ -25,11 +21,14 @@ import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Objects;
 
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
@@ -38,25 +37,23 @@ import it.bonny.app.wisespender.bean.TransactionBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
 import it.bonny.app.wisespender.component.BottomSheetNewEditTransaction;
 import it.bonny.app.wisespender.component.BottomSheetNewEditTransactionListener;
-import it.bonny.app.wisespender.component.BottomSheetSearchTransaction;
 import it.bonny.app.wisespender.db.DatabaseHelper;
 import it.bonny.app.wisespender.util.CurrencyEditText;
+import it.bonny.app.wisespender.util.DecimalDigitsInputFilter;
 import it.bonny.app.wisespender.util.Utility;
 
 public class TransactionActivity extends AppCompatActivity implements BottomSheetNewEditTransactionListener  {
 
     private final Calendar myCalendar = Calendar.getInstance();
-    private final Context context = this;
     private final Utility utility = new Utility();
-    private int oldAmount = 0;
     private long idAccountSelected, idCategorySelected;
     private boolean isExpense = true;
 
     private LinearLayout btnExpense, btnIncome;
     private TextView dateTransaction;
     private TransactionBean transactionBean;
-    private EditText nameTransaction, noteTransaction;
-    private CurrencyEditText amountTransaction;
+    private TextInputLayout nameTransaction, amountTransaction, noteTransaction;
+    //private CurrencyEditText amountTransaction;
     private MaterialButton buttonSave;
     private MaterialButton btnReturn;
     private MaterialCardView btnAccount, btnCategory;
@@ -64,6 +61,8 @@ public class TransactionActivity extends AppCompatActivity implements BottomShee
     private TextView nameAccount, nameCategory;
     private DatabaseHelper db;
     private LinearLayout containerCategoryInfo, containerCategoryInfo1;
+    private final MaterialDatePicker.Builder<Long> materialDateBuilder = MaterialDatePicker.Builder.datePicker();
+    private final MaterialDatePicker<Long> materialDatePicker = materialDateBuilder.build();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,15 +75,14 @@ public class TransactionActivity extends AppCompatActivity implements BottomShee
         if(transactionBean.getId() > 0) {
             CategoryBean categoryBean = db.getCategoryBean(transactionBean.getIdCategory());
             accountBeanSelected = db.getAccountBean(transactionBean.getIdAccount());
-            oldAmount = transactionBean.getAmount();
             idCategorySelected = categoryBean.getId();
 
             iconAccount.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(), utility.getIdIconByAccountBean(accountBeanSelected)));
             nameAccount.setText(accountBeanSelected.getName());
             changeTypeTransaction(transactionBean.getTypeTransaction() == TypeObjectBean.TRANSACTION_EXPENSE, true);
-            nameTransaction.setText(transactionBean.getTitle());
-            amountTransaction.setText(String.valueOf(utility.convertIntInEditTextValue(transactionBean.getAmount())));
-            noteTransaction.setText(transactionBean.getNote());
+            Objects.requireNonNull(nameTransaction.getEditText()).setText(transactionBean.getTitle());
+            Objects.requireNonNull(amountTransaction.getEditText()).setText(String.valueOf(utility.convertIntInEditTextValue(transactionBean.getAmount())));
+            Objects.requireNonNull(noteTransaction.getEditText()).setText(transactionBean.getNote());
             nameAccount.setText(accountBeanSelected.getName());
             iconAccount.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(), utility.getIdIconByAccountBean(accountBeanSelected)));
 
@@ -108,19 +106,13 @@ public class TransactionActivity extends AppCompatActivity implements BottomShee
             iconAccount.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(), utility.getIdIconByAccountBean(accountBeanSelected)));
             nameAccount.setText(accountBeanSelected.getName());
             transactionBean.setIdAccount(accountBeanSelected.getId());
-            amountTransaction.setText("0");
+
+            Objects.requireNonNull(amountTransaction.getEditText()).setText("0");
         }
 
         idAccountSelected = accountBeanSelected.getId();
 
         updateLabel();
-
-        DatePickerDialog.OnDateSetListener date = (view, year, monthOfYear, dayOfMonth) -> {
-            myCalendar.set(Calendar.YEAR, year);
-            myCalendar.set(Calendar.MONTH, monthOfYear);
-            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            updateLabel();
-        };
 
         btnExpense.setOnClickListener(view -> {
             if(transactionBean.getTypeTransaction() == TypeObjectBean.TRANSACTION_INCOME) {
@@ -135,11 +127,14 @@ public class TransactionActivity extends AppCompatActivity implements BottomShee
             }
         });
 
-        dateTransaction.setOnClickListener(view -> new DatePickerDialog(context, date, myCalendar
-                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                myCalendar.get(Calendar.DAY_OF_MONTH)).show());
+        dateTransaction.setOnClickListener(view -> materialDatePicker.show(getSupportFragmentManager(), "MATERIAL_DATE_PICKER"));
 
-        nameTransaction.addTextChangedListener(new TextWatcher() {
+        materialDatePicker.addOnPositiveButtonClickListener(selection -> {
+            myCalendar.setTimeInMillis(selection);
+            updateLabel();
+        });
+
+        Objects.requireNonNull(nameTransaction.getEditText()).addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
 
@@ -148,15 +143,17 @@ public class TransactionActivity extends AppCompatActivity implements BottomShee
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(nameTransaction.length() > 0) {
-                    nameTransaction.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.custom_input));
+                if(nameTransaction.getEditText().length() > 0) {
+                    nameTransaction.setError(null);
                 }else {
-                    nameTransaction.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.custom_input_error));
+                    nameTransaction.setError(getString(R.string.required_field));
                 }
             }
         });
 
-        noteTransaction.addTextChangedListener(new TextWatcher() {
+        amountTransaction.getEditText().setFilters(new InputFilter[]{new DecimalDigitsInputFilter(10, 2)});
+
+        Objects.requireNonNull(noteTransaction.getEditText()).addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
 
@@ -165,10 +162,10 @@ public class TransactionActivity extends AppCompatActivity implements BottomShee
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(noteTransaction.length() > 0) {
-                    noteTransaction.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.custom_input));
+                if(noteTransaction.getEditText().length() > 0) {
+                    noteTransaction.setError(null);
                 }else {
-                    noteTransaction.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.custom_input_error));
+                    noteTransaction.setError(getString(R.string.required_field));
                 }
             }
         });
@@ -186,22 +183,22 @@ public class TransactionActivity extends AppCompatActivity implements BottomShee
 
         buttonSave.setOnClickListener(view -> {
             boolean isError = false;
-            if(nameTransaction.getText() != null && !"".equals(nameTransaction.getText().toString().trim())) {
-                transactionBean.setTitle(nameTransaction.getText().toString().trim());
-                nameTransaction.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.custom_input));
+            if(nameTransaction.getEditText().getText() != null && !"".equals(nameTransaction.getEditText().getText().toString().trim())) {
+                transactionBean.setTitle(nameTransaction.getEditText().getText().toString().trim());
+                nameTransaction.setError(null);
             }else {
-                nameTransaction.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.custom_input_error));
                 isError = true;
+                nameTransaction.setError(getString(R.string.required_field));
             }
 
-            if(amountTransaction.getText() != null && !"".equals(amountTransaction.getText().toString().trim())) {
+            if(amountTransaction.getEditText().getText() != null && !"".equals(amountTransaction.getEditText().getText().toString().trim())) {
                 try {
-                    int amount = utility.convertEditTextValueInInt(amountTransaction.getText().toString().trim());
+                    int amount = utility.convertEditTextValueInInt(amountTransaction.getEditText().getText().toString().trim());
                     if(amount > 0) {
                         transactionBean.setAmount(amount);
-                        amountTransaction.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.custom_input));
+                        amountTransaction.setError(null);
                     }else {
-                        amountTransaction.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.custom_input_error));
+                        amountTransaction.setError(getString(R.string.required_field_amount));
                         isError = true;
                     }
                 }catch (Exception e) {
@@ -209,8 +206,8 @@ public class TransactionActivity extends AppCompatActivity implements BottomShee
                 }
             }
 
-            if(noteTransaction.getText() != null && !"".equals(noteTransaction.getText().toString().trim())) {
-                transactionBean.setNote(noteTransaction.getText().toString());
+            if(noteTransaction.getEditText().getText() != null && !"".equals(noteTransaction.getEditText().getText().toString().trim())) {
+                transactionBean.setNote(noteTransaction.getEditText().getText().toString());
             }
 
             if(transactionBean.getIdCategory() == 0) {
@@ -264,6 +261,8 @@ public class TransactionActivity extends AppCompatActivity implements BottomShee
         nameCategory = findViewById(R.id.nameCategory);
         containerCategoryInfo = findViewById(R.id.containerCategoryInfo);
         containerCategoryInfo1 = findViewById(R.id.containerCategoryInfo1);
+
+        Objects.requireNonNull(amountTransaction.getEditText()).setFilters(new InputFilter[]{new DecimalDigitsInputFilter(10, 2)});
     }
 
     private void updateLabel() {

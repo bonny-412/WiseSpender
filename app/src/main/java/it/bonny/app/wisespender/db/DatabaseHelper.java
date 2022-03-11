@@ -646,23 +646,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * Getting all Transactions To MainActivity
      */
     @SuppressLint("Range")
-    public List<TransactionBean> getAllTransactionBeansToMainActivity(AccountBean accountBeanSelected, String from, String a) {
+    public List<TransactionBean> getAllTransactionBeansToMainActivity(long idAccountBeanSelected, String ids, String from, String a) {
         List<TransactionBean> transactionBeans = new ArrayList<>();
         String columns = "t." + TransactionBean.KEY_ID + ", t." + TransactionBean.KEY_AMOUNT + ", t." + TransactionBean.KEY_TYPE_TRANSACTION + ", t."
                 + TransactionBean.KEY_ID_TRANSACTION_TRANSFER + ", t." + TransactionBean.KEY_TITLE + ", t." + TransactionBean.KEY_ID_ACCOUNT + ", t."
                 + TransactionBean.KEY_DATE_INSERT + ", t." + TransactionBean.KEY_ID_CATEGORY  + ", t." + TransactionBean.KEY_NOTE;
         String selectQuery = "SELECT " + columns + " FROM " + TransactionBean.TABLE + " t ";
 
-        if(accountBeanSelected != null && accountBeanSelected.getIsMaster() == TypeObjectBean.IS_MASTER)
-            selectQuery += "INNER JOIN " + AccountBean.TABLE + " a ON a." + AccountBean.KEY_ID + " = t." + TransactionBean.KEY_ID_ACCOUNT + " ";
+        selectQuery += "WHERE 1=1 ";
 
-        selectQuery += "WHERE t." + TransactionBean.KEY_DATE_INSERT + " BETWEEN '" + from + "' AND '" + a + "' ";
+        if(!"".equals(from) && !"".equals(a))
+            selectQuery += "AND t." + TransactionBean.KEY_DATE_INSERT + " BETWEEN '" + from + "' AND '" + a + "' ";
 
-        if(accountBeanSelected != null && accountBeanSelected.getIsMaster() == TypeObjectBean.IS_MASTER)
-            selectQuery += "AND a." + AccountBean.KEY_IS_INCLUDED_BALANCE + " = " + TypeObjectBean.IS_INCLUDED_BALANCE + " ";
-
-        if(accountBeanSelected != null && accountBeanSelected.getIsMaster() == TypeObjectBean.NO_MASTER)
-            selectQuery += "AND t." + TransactionBean.KEY_ID_ACCOUNT + " = " + accountBeanSelected.getId() + " ";
+        if(ids != null) {
+            selectQuery += "AND t." + TransactionBean.KEY_ID_ACCOUNT + " IN (" + ids + ") ";
+        }else {
+            selectQuery += "AND t." + TransactionBean.KEY_ID_ACCOUNT + " = " + idAccountBeanSelected + " ";
+        }
 
         selectQuery += "ORDER BY t." + TransactionBean.KEY_ID + " DESC LIMIT 7";
 
@@ -694,8 +694,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @SuppressLint("Range")
     public int getSumTransactionsByAccountAndType(long idAccountBeanSelected, String ids, String from, String a, int typeTransaction) {
         int total = 0;
-        String selectQuery = "SELECT SUM(" + TransactionBean.KEY_AMOUNT + ") AS total FROM " + TransactionBean.TABLE + " t WHERE t." + TransactionBean.KEY_DATE_INSERT +
-                " BETWEEN '" + from + "' AND '" + a + "' ";
+        String selectQuery = "SELECT SUM(" + TransactionBean.KEY_AMOUNT + ") AS total FROM " + TransactionBean.TABLE + " t WHERE 1=1 ";
+
+        if(!"".equals(from) && !"".equals(a))
+            selectQuery += "AND t." + TransactionBean.KEY_DATE_INSERT + " BETWEEN '" + from + "' AND '" + a + "' ";
 
         if(typeTransaction == TypeObjectBean.TRANSACTION_INCOME) {
             selectQuery += "AND (t." + TransactionBean.KEY_TYPE_TRANSACTION + " = " + typeTransaction + " "
@@ -753,7 +755,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if(lastId > 0)
             selectQuery += " AND t." + TransactionBean.KEY_ID + " < " + lastId;
 
-        selectQuery += " ORDER BY t." + TransactionBean.KEY_ID + " DESC LIMIT 10";
+        selectQuery += " ORDER BY t." + TransactionBean.KEY_ID + " DESC";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);

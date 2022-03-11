@@ -2,6 +2,18 @@
     <string name="app_name">Spender</string>
     <string name="ok">OK</string>
     <string name="close_page_btn">Close page</string>
+    <string name="required_field">Required field</string>
+    <string name="required_field_amount">Amount greater than 0</string>
+
+    <string name="daily">Daily</string>
+    <string name="weekly">Weekly</string>
+    <string name="monthly">Monthly</string>
+    <string name="yearly">Yearly</string>
+    <string name="all">All</string>
+    <string name="interval">Interval</string>
+    <string name="specific_date">Date</string>
+    <string name="button_custom_period">Button custom period</string>
+    <string name="title_bottom_sheet_period">Selected period</string>
 
     <!-- Bottom Navigation Menu -->
     <string name="title_statistics_menu">Statistics</string>
@@ -112,5 +124,20 @@
     <string name="transfer_to_short">To</string>
     <string name="transfer_save_ok">Transfer executed</string>
     <string name="transfer_count_account_problem">Create at least two accounts</string>
+    <string name="amount_transfer_title">Transfer amount</string>
+
+    <!-- SETTINGS -->
+    <string name="title_page_settings">Settings</string>
+    <string name="settings_page_icon_reminder">Icon reminder</string>
+    <string name="settings_page_title_reminder">Reminder</string>
+    <string name="settings_page_icon_theme">Icon theme</string>
+    <string name="settings_page_title_theme">Theme</string>
+    <string name="settings_page_theme_light">Light</string>
+    <string name="settings_page_theme_dark">Dark</string>
+    <string name="settings_page_theme_system_default">System default</string>
+    <string name="settings_page_icon_currency">Icon currency</string>
+    <string name="settings_page_title_currency">Currency</string>
+    <string name="settings_page_title_currency_selected_off">Off</string>
+    <string name="settings_theme_title_bs">Choose theme</string>
 
 </resources>

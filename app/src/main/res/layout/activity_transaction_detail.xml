@@ -469,7 +469,21 @@
                             app:layout_constraintTop_toBottomOf="@+id/amountTitle"
                             android:textSize="20sp"
                             android:layout_marginTop="5dp"
-                            app:drawableEndCompat="@drawable/ic_euro"/>
+                            android:ellipsize="marquee"
+                            android:lines="1"
+                            android:fadingEdge="horizontal"
+                            android:marqueeRepeatLimit="marquee_forever"
+                            android:scrollHorizontally="true"/>
+                        <TextView
+                            android:id="@+id/currency"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/primary_text"
+                            app:layout_constraintStart_toEndOf="@+id/amountTransaction"
+                            app:layout_constraintTop_toTopOf="@+id/amountTransaction"
+                            app:layout_constraintBottom_toBottomOf="@+id/amountTransaction"
+                            android:textSize="20sp" />
+
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

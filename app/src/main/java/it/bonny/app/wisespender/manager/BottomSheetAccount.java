@@ -1,6 +1,8 @@
 package it.bonny.app.wisespender.manager;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,16 +22,22 @@ import java.util.concurrent.Executors;
 
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
+import it.bonny.app.wisespender.component.BottomSheetNewEditTransactionListener;
+import it.bonny.app.wisespender.component.RecyclerViewClickBottomSheetInterface;
 import it.bonny.app.wisespender.db.DatabaseHelper;
 import it.bonny.app.wisespender.component.ListAccountBottomSheetAdapter;
 
-public class BottomSheetAccount extends BottomSheetDialogFragment {
+public class BottomSheetAccount extends BottomSheetDialogFragment implements RecyclerViewClickBottomSheetInterface  {
     private final Activity activity;
     private ProgressBar progressBar;
     private RecyclerView listViewAccount;
     private DatabaseHelper db;
+    private long idAccountSelected;
 
-    public BottomSheetAccount(Activity activity) {
+    private BottomSheetNewEditTransactionListener bottomSheetNewEditTransactionListener;
+
+    public BottomSheetAccount(long idAccountSelected, Activity activity) {
+        this.idAccountSelected = idAccountSelected;
         this.activity = activity;
     }
 
@@ -52,7 +60,7 @@ public class BottomSheetAccount extends BottomSheetDialogFragment {
         progressBar.setVisibility(View.VISIBLE);
         service.execute(() -> {
             List<AccountBean> accountBeanList = db.getAllAccountBeans();
-            ListAccountBottomSheetAdapter listAccountBottomSheetAdapter = new ListAccountBottomSheetAdapter(accountBeanList, activity);
+            ListAccountBottomSheetAdapter listAccountBottomSheetAdapter = new ListAccountBottomSheetAdapter(idAccountSelected, accountBeanList, activity, BottomSheetAccount.this);
             listViewAccount.setHasFixedSize(true);
             listViewAccount.setLayoutManager(new LinearLayoutManager(getContext()));
             listViewAccount.setAdapter(listAccountBottomSheetAdapter);
@@ -64,4 +72,30 @@ public class BottomSheetAccount extends BottomSheetDialogFragment {
         });
     }
 
+    /**
+     */
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try {
+            bottomSheetNewEditTransactionListener = (BottomSheetNewEditTransactionListener) context;
+        }catch (ClassCastException e) {
+            //TODO: Firebase
+            throw new ClassCastException(context.toString()
+                    + " must implement BottomSheetNewEditTransactionListener");
+        }
+    }
+
+    @Override
+    public void onCancel(@NonNull DialogInterface dialog) {
+        super.onCancel(dialog);
+    }
+
+    @Override
+    public void onItemClick(long idElement, boolean isCategory) {
+        this.idAccountSelected = idElement;
+        bottomSheetNewEditTransactionListener.onItemClick(idElement, false);
+        dismiss();
+    }
 }

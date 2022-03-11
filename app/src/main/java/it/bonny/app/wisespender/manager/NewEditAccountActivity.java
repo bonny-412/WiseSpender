@@ -1,6 +1,7 @@
 package it.bonny.app.wisespender.manager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.content.ContextCompat;
 
@@ -10,6 +11,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -23,19 +25,23 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.AccountBean;
 import it.bonny.app.wisespender.bean.CategoryBean;
 import it.bonny.app.wisespender.bean.IconBean;
+import it.bonny.app.wisespender.bean.SettingsBean;
 import it.bonny.app.wisespender.bean.TransactionBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
 import it.bonny.app.wisespender.db.DatabaseHelper;
 import it.bonny.app.wisespender.util.CurrencyEditText;
 import it.bonny.app.wisespender.component.IconListAdapter;
+import it.bonny.app.wisespender.util.DecimalDigitsInputFilter;
 import it.bonny.app.wisespender.util.Utility;
 
 public class NewEditAccountActivity extends AppCompatActivity implements TextWatcher {
@@ -43,8 +49,8 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
     private MaterialButton returnNewEditAccount;
     private MaterialCardView btnDeleteAccount;
     private GridView gridView;
-    private EditText accountName;
-    private CurrencyEditText accountOpeningBalance;
+    private TextInputLayout accountName;
+    private TextInputLayout accountOpeningBalance;
     private MaterialButton buttonSaveNewAccount;
     private TextView titleChooseIconNewAccount, titlePageNewAccount;
     private SwitchMaterial flagViewTotalBalance;
@@ -56,6 +62,15 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_edit_account);
         init();
+        Utility utility = new Utility();
+        SettingsBean settingsBean = utility.getSettingsBeanSaved(this);
+        if(settingsBean.getTheme() == TypeObjectBean.SETTING_THEME_DARK_MODE) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }else if(settingsBean.getTheme() == TypeObjectBean.SETTING_THEME_LIGHT_MODE) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        }
 
         DatabaseHelper db = new DatabaseHelper(getApplicationContext());
         int iconSelectedPosition;
@@ -68,9 +83,9 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
             if(accountBean.getIsSelected() == TypeObjectBean.NO_SELECTED)
                 btnDeleteAccount.setVisibility(View.VISIBLE);
 
-            accountName.setText(accountBean.getName());
+            Objects.requireNonNull(accountName.getEditText()).setText(accountBean.getName());
             String openingBalance = utility.convertIntInEditTextValue(accountBean.getOpeningBalance()).toString();
-            accountOpeningBalance.setText(openingBalance);
+            Objects.requireNonNull(accountOpeningBalance.getEditText()).setText(openingBalance);
             boolean flag = accountBean.getIsIncludedBalance() == TypeObjectBean.IS_INCLUDED_BALANCE;
             flagViewTotalBalance.setChecked(flag);
             IconBean iconBean = Utility.getListIconToAccountBean().get(accountBean.getIdIcon());
@@ -82,7 +97,6 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
             accountBean.setIsSelected(TypeObjectBean.NO_SELECTED);
             accountBean.setIdIcon(-1);
             iconSelectedPosition = -1;
-            accountOpeningBalance.setText("0");
         }
 
         IconListAdapter iconListAdapter = new IconListAdapter(Utility.getListIconToAccountBean(),this);
@@ -117,11 +131,12 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
 
         buttonSaveNewAccount.setOnClickListener(view -> {
             boolean isError = false;
-            if("".equals(accountName.getText().toString().trim())) {
-                accountName.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.custom_input_error));
+            if("".equals(Objects.requireNonNull(accountName.getEditText()).getText().toString().trim())) {
+                accountName.setError(getString(R.string.required_field));
                 isError = true;
             }else {
-                accountBean.setName(accountName.getText().toString().trim());
+                accountBean.setName(accountName.getEditText().getText().toString().trim());
+                accountName.setError(null);
             }
 
             if(accountBean.getIdIcon() == -1) {
@@ -132,10 +147,10 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
             }
 
             int openingBalance = 0;
-            if(accountOpeningBalance.getText() != null &&
-                    !"".equals(accountOpeningBalance.getText().toString().trim())) {
+            if(Objects.requireNonNull(accountOpeningBalance.getEditText()).getText() != null &&
+                    !"".equals(accountOpeningBalance.getEditText().getText().toString().trim())) {
                 try {
-                    openingBalance = utility.convertEditTextValueInInt(accountOpeningBalance.getText().toString().trim());
+                    openingBalance = utility.convertEditTextValueInInt(accountOpeningBalance.getEditText().getText().toString().trim());
                 }catch (Exception e) {
                     //TODO: Firebase
                 }
@@ -213,7 +228,8 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
         btnDeleteAccount = findViewById(R.id.btnDeleteAccount);
         titlePageNewAccount = findViewById(R.id.titlePageNewAccount);
 
-        accountName.addTextChangedListener(this);
+        Objects.requireNonNull(accountName.getEditText()).addTextChangedListener(this);
+        Objects.requireNonNull(accountOpeningBalance.getEditText()).setFilters(new InputFilter[]{new DecimalDigitsInputFilter(10, 2)});
     }
 
     @Override
@@ -228,10 +244,10 @@ public class NewEditAccountActivity extends AppCompatActivity implements TextWat
 
     @Override
     public void afterTextChanged(Editable editable) {
-        if("".equals(accountName.getText().toString().trim())) {
-            accountName.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.custom_input_error));
+        if("".equals(Objects.requireNonNull(accountName.getEditText()).getText().toString().trim())) {
+            accountName.setError(getString(R.string.required_field));
         }else {
-            accountName.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.custom_input));
+            accountName.setError(null);
         }
     }
 

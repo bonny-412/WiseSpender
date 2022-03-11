@@ -11,23 +11,25 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.List;
+import java.util.Objects;
 
 import it.bonny.app.wisespender.R;
 import it.bonny.app.wisespender.bean.CategoryBean;
 import it.bonny.app.wisespender.bean.IconBean;
+import it.bonny.app.wisespender.bean.SettingsBean;
 import it.bonny.app.wisespender.bean.TransactionBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
 import it.bonny.app.wisespender.db.DatabaseHelper;
@@ -38,7 +40,7 @@ public class NewEditCategoryActivity extends AppCompatActivity implements TextWa
 
     private MaterialCardView btnDeleteCategory;
     private GridView gridView;
-    private EditText categoryName;
+    private TextInputLayout categoryName;
     private MaterialButton buttonSaveCategory, returnNewEditCategory;
     private TextView titleChooseIconCategory, titlePageCategory;
     private TextView textViewTypeCategory;
@@ -49,6 +51,15 @@ public class NewEditCategoryActivity extends AppCompatActivity implements TextWa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_edit_category);
         init();
+        Utility utility = new Utility();
+        SettingsBean settingsBean = utility.getSettingsBeanSaved(this);
+        if(settingsBean.getTheme() == TypeObjectBean.SETTING_THEME_DARK_MODE) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }else if(settingsBean.getTheme() == TypeObjectBean.SETTING_THEME_LIGHT_MODE) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        }
 
         DatabaseHelper db = new DatabaseHelper(getApplicationContext());
         int iconSelectedPosition;
@@ -63,7 +74,7 @@ public class NewEditCategoryActivity extends AppCompatActivity implements TextWa
             //Edit CategoryBean
             titlePageCategory.setText(getString(R.string.title_page_edit_category));
             btnDeleteCategory.setVisibility(View.VISIBLE);
-            categoryName.setText(categoryBean.getName());
+            Objects.requireNonNull(categoryName.getEditText()).setText(categoryBean.getName());
             IconBean iconBean = Utility.getListIconToCategoryBean().get(categoryBean.getIdIcon());
             iconSelectedPosition = iconBean.getId();
             if(categoryBean.getTypeCategory() == TypeObjectBean.CATEGORY_INCOME)
@@ -100,11 +111,12 @@ public class NewEditCategoryActivity extends AppCompatActivity implements TextWa
 
         buttonSaveCategory.setOnClickListener(view -> {
             boolean isError = false;
-            if("".equals(categoryName.getText().toString().trim())) {
-                categoryName.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.custom_input_error));
+            if("".equals(Objects.requireNonNull(categoryName.getEditText()).getText().toString().trim())) {
+                categoryName.setError(getText(R.string.required_field));
                 isError = true;
             }else {
-                categoryBean.setName(categoryName.getText().toString().trim());
+                categoryBean.setName(categoryName.getEditText().getText().toString().trim());
+                categoryName.setError(null);
             }
 
             if(categoryBean.getIdIcon() == -1) {
@@ -157,7 +169,7 @@ public class NewEditCategoryActivity extends AppCompatActivity implements TextWa
         titlePageCategory = findViewById(R.id.titlePageCategory);
         textViewTypeCategory = findViewById(R.id.textViewTypeCategory);
 
-        categoryName.addTextChangedListener(this);
+        Objects.requireNonNull(categoryName.getEditText()).addTextChangedListener(this);
     }
 
     @Override
@@ -172,10 +184,10 @@ public class NewEditCategoryActivity extends AppCompatActivity implements TextWa
 
     @Override
     public void afterTextChanged(Editable editable) {
-        if("".equals(categoryName.getText().toString().trim())) {
-            categoryName.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.custom_input_error));
+        if("".equals(Objects.requireNonNull(categoryName.getEditText()).getText().toString().trim())) {
+            categoryName.setError(getText(R.string.required_field));
         }else {
-            categoryName.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.custom_input));
+            categoryName.setError(null);
         }
     }
 

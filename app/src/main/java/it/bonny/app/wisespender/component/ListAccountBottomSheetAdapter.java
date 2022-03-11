@@ -27,11 +27,15 @@ public class ListAccountBottomSheetAdapter extends RecyclerView.Adapter<ListAcco
     private final Activity activity;
     private final DatabaseHelper db;
     private final Utility utility = new Utility();
+    private long idElementSelected;
+    private final RecyclerViewClickBottomSheetInterface accountInterface;
 
-    public ListAccountBottomSheetAdapter(List<AccountBean> accountBeanList, Activity activity) {
+    public ListAccountBottomSheetAdapter(long idElementSelected, List<AccountBean> accountBeanList, Activity activity, RecyclerViewClickBottomSheetInterface accountInterface) {
         this.accountBeanList = accountBeanList;
+        this.idElementSelected = idElementSelected;
         this.activity = activity;
         this.db = new DatabaseHelper(activity);
+        this.accountInterface = accountInterface;
         findSelectedTimer();
     }
 
@@ -54,15 +58,29 @@ public class ListAccountBottomSheetAdapter extends RecyclerView.Adapter<ListAcco
                 //TODO: Firebase
             }
         }
-        if(position == selectedPosition){
+
+        if(idElementSelected == accountBean.getId()) {
             holder.radioButtonAccount.setVisibility(View.VISIBLE);
-            accountBeanList.get(position).setIsSelected(TypeObjectBean.SELECTED);
+            accountBean.setIsSelected(TypeObjectBean.SELECTED);
         }else {
             holder.radioButtonAccount.setVisibility(View.GONE);
-            accountBeanList.get(position).setIsSelected(TypeObjectBean.NO_SELECTED);
+            accountBean.setIsSelected(TypeObjectBean.NO_SELECTED);
         }
+
         if(accountBeanList.size() > 0) {
-            holder.itemListAccount.setOnClickListener(onStateChangedListener(holder.radioButtonAccount, position));
+            holder.itemListAccount.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    accountBeanList.get(selectedPosition).setIsSelected(TypeObjectBean.NO_SELECTED);
+                    db.updateAccountBean(accountBeanList.get(selectedPosition));
+
+                    selectedPosition = holder.getAdapterPosition();
+                    accountBeanList.get(holder.getAdapterPosition()).setIsSelected(TypeObjectBean.SELECTED);
+                    db.updateAccountBean(accountBeanList.get(holder.getAdapterPosition()));
+
+                    accountInterface.onItemClick(accountBean.getId(), false);
+                }
+            });
         }
     }
 
@@ -98,9 +116,6 @@ public class ListAccountBottomSheetAdapter extends RecyclerView.Adapter<ListAcco
                 accountBeanList.get(position).setIsSelected(TypeObjectBean.SELECTED);
                 radioButtonAccount.setVisibility(View.VISIBLE);
                 db.updateAccountBean(accountBeanList.get(position));
-
-                activity.finish();
-                activity.startActivity(activity.getIntent());
             }
         };
     }

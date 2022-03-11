@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.core.content.res.ResourcesCompat;
+
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DateFormatSymbols;
@@ -21,6 +24,8 @@ import it.bonny.app.wisespender.bean.AccountBean;
 import it.bonny.app.wisespender.bean.CategoryBean;
 import it.bonny.app.wisespender.bean.FilterTransactionBean;
 import it.bonny.app.wisespender.bean.IconBean;
+import it.bonny.app.wisespender.bean.PeriodSelectedBean;
+import it.bonny.app.wisespender.bean.SettingsBean;
 import it.bonny.app.wisespender.bean.TypeObjectBean;
 import it.bonny.app.wisespender.db.DatabaseHelper;
 
@@ -380,6 +385,120 @@ public class Utility {
             }
         }
         return months;
+    }
+
+    public String capitalizedFirstLetterEachWorlds(String txt) {
+        StringBuilder nameCapitalized = new StringBuilder();
+        try {
+            String[] words = txt.split("\\s");
+
+            for(String w: words) {
+                String first = w.substring(0, 1);
+                String rest = w.substring(1);
+
+                nameCapitalized.append(first.toUpperCase()).append(rest).append(" ");
+            }
+        }catch(Exception e) {
+               nameCapitalized.append(txt);
+        }
+
+        return nameCapitalized.toString();
+    }
+
+    public String getNameToPeriodSelectedToButton(int periodSelected, Activity activity) {
+        String text = "";
+        if(periodSelected == TypeObjectBean.PERIOD_SELECTED_DAY) {
+            text = activity.getString(R.string.daily);
+        }else if(periodSelected == TypeObjectBean.PERIOD_SELECTED_MONTH) {
+            text = activity.getString(R.string.monthly);
+        }else if(periodSelected == TypeObjectBean.PERIOD_SELECTED_YEAR) {
+            text = activity.getString(R.string.yearly);
+        }else if(periodSelected == TypeObjectBean.PERIOD_SELECTED_ALL) {
+            text = activity.getString(R.string.all);
+        }else if(periodSelected == TypeObjectBean.PERIOD_SELECTED_INTERVAL) {
+            text = activity.getString(R.string.interval);
+        }else if(periodSelected == TypeObjectBean.PERIOD_SELECTED_DATE) {
+            text = activity.getString(R.string.specific_date);
+        }
+        return text;
+    }
+
+    public void getDateFromToPeriodSelected(PeriodSelectedBean periodSelectedBean, Calendar calendar, Calendar cal2, Context mContext) {
+        String dateFrom = "";
+        String dateTo = "";
+        String textPeriodSelected = "";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
+        if(periodSelectedBean.getPeriodSelectedMain() == TypeObjectBean.PERIOD_SELECTED_DAY) {
+            String patternFormat = "EE, dd MMM";
+
+            if(Calendar.getInstance().get(Calendar.YEAR) != calendar.get(Calendar.YEAR)) {
+                patternFormat += " yyyy";
+            }
+            SimpleDateFormat dayFormat = new SimpleDateFormat(patternFormat, Locale.getDefault());
+            String format = dateFormat.format(calendar.getTime());
+            dateFrom = format + " 00:00";
+            dateTo = format + " 23:59";
+
+            textPeriodSelected = capitalizedFirstLetterEachWorlds(dayFormat.format(calendar.getTime()));
+        }else if(periodSelectedBean.getPeriodSelectedMain() == TypeObjectBean.PERIOD_SELECTED_MONTH) {
+            SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM", Locale.getDefault());
+            calendar.set(Calendar.DAY_OF_MONTH, 1);
+            dateFrom = dateFormat.format(calendar.getTime()) + " 00:00";
+
+            calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+            dateTo = dateFormat.format(calendar.getTime()) + " 23:59";
+
+            textPeriodSelected = capitalizedFirstLetterEachWorlds(monthFormat.format(calendar.getTime()));
+        }else if(periodSelectedBean.getPeriodSelectedMain() == TypeObjectBean.PERIOD_SELECTED_YEAR) {
+            SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy", Locale.getDefault());
+            calendar.set(Calendar.DAY_OF_MONTH, 1);
+            calendar.set(Calendar.MONTH, 0);
+            dateFrom = dateFormat.format(calendar.getTime()) + " 00:00";
+
+            calendar.set(Calendar.DAY_OF_MONTH, 31);
+            calendar.set(Calendar.MONTH, 11);
+            dateTo = dateFormat.format(calendar.getTime()) + " 23:59";
+
+            textPeriodSelected = capitalizedFirstLetterEachWorlds(yearFormat.format(calendar.getTime()));
+        }else if(periodSelectedBean.getPeriodSelectedMain() == TypeObjectBean.PERIOD_SELECTED_ALL) {
+            dateFrom = "";
+            dateTo = "";
+            textPeriodSelected = mContext.getString(R.string.all);
+        }else if(periodSelectedBean.getPeriodSelectedMain() == TypeObjectBean.PERIOD_SELECTED_DATE) {
+            SimpleDateFormat dayFormat = new SimpleDateFormat("EE, dd MMM yyyy", Locale.getDefault());
+            String format = dateFormat.format(calendar.getTime());
+            dateFrom = format + " 00:00";
+            dateTo = format + " 23:59";
+            textPeriodSelected = capitalizedFirstLetterEachWorlds(dayFormat.format(calendar.getTime()));
+        }else if(periodSelectedBean.getPeriodSelectedMain() == TypeObjectBean.PERIOD_SELECTED_INTERVAL) {
+            SimpleDateFormat dayFormat = new SimpleDateFormat("EE, dd MMM yyyy", Locale.getDefault());
+            dateFrom = dateFormat.format(calendar.getTime()) + " 00:00";
+            dateTo = dateFormat.format(cal2.getTime()) + " 23:59";
+            textPeriodSelected = capitalizedFirstLetterEachWorlds(dayFormat.format(calendar.getTime())) + capitalizedFirstLetterEachWorlds(dayFormat.format(cal2.getTime()));
+        }
+
+        periodSelectedBean.setDateFrom(dateFrom);
+        periodSelectedBean.setDateTo(dateTo);
+        periodSelectedBean.setTextPeriodSelected(textPeriodSelected);
+    }
+
+    public void saveSettingsBean(SettingsBean settingsBean, Activity activity){
+        SharedPreferences.Editor editor = activity.getSharedPreferences(PREFS_NAME_FILE, Context.MODE_PRIVATE).edit();
+        editor.putInt("theme", settingsBean.getTheme());
+        editor.putString("currency", settingsBean.getCurrency());
+
+        editor.apply();
+    }
+
+    public SettingsBean getSettingsBeanSaved(Activity activity){
+        SettingsBean bean = new SettingsBean();
+        SharedPreferences sharedPreferences = activity.getSharedPreferences(PREFS_NAME_FILE, Context.MODE_PRIVATE);
+
+        bean.setTheme(sharedPreferences.getInt("theme", TypeObjectBean.SETTING_THEME_LIGHT_MODE));
+        bean.setCurrency(sharedPreferences.getString("currency", ""));
+
+        return bean;
     }
 
 }

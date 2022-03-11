@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="16dp"
-        android:text="@string/title_bottom_sheet_period"
+        android:text="@string/settings_theme_title_bs"
         android:textColor="@color/primary_text"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/containerDay"
+                android:id="@+id/containerLightTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
@@ -62,10 +62,10 @@
                 android:focusable="true"
                 android:background="?selectableItemBackground">
                 <TextView
-                    android:id="@+id/titleDay"
+                    android:id="@+id/titleLightTheme"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/daily"
+                    android:text="@string/settings_page_theme_light"
                     android:textSize="16sp"
                     android:textColor="@color/primary_text"
                     app:layout_constraintStart_toStartOf="parent"
@@ -76,21 +76,21 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/containerMonth"
+                android:id="@+id/containerDarkTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/containerDay"
+                app:layout_constraintTop_toBottomOf="@+id/containerLightTheme"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?selectableItemBackground">
                 <TextView
-                    android:id="@+id/titleMonth"
+                    android:id="@+id/titleDarkTheme"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/monthly"
+                    android:text="@string/settings_page_theme_dark"
                     android:textSize="16sp"
                     android:textColor="@color/primary_text"
                     app:layout_constraintStart_toStartOf="parent"
@@ -101,21 +101,21 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/containerYear"
+                android:id="@+id/containerSystemTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/containerMonth"
+                app:layout_constraintTop_toBottomOf="@+id/containerDarkTheme"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?selectableItemBackground">
                 <TextView
-                    android:id="@+id/titleYear"
+                    android:id="@+id/titleSystemTheme"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/yearly"
+                    android:text="@string/settings_page_theme_system_default"
                     android:textSize="16sp"
                     android:textColor="@color/primary_text"
                     app:layout_constraintStart_toStartOf="parent"
@@ -125,79 +125,6 @@
                     android:layout_margin="16dp"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/containerAll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/containerYear"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?selectableItemBackground">
-                <TextView
-                    android:id="@+id/titleAll"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/all"
-                    android:textSize="16sp"
-                    android:textColor="@color/primary_text"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_margin="16dp"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/containerInterval"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/containerAll"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?selectableItemBackground">
-                <TextView
-                    android:id="@+id/titleInterval"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/interval"
-                    android:textSize="16sp"
-                    android:textColor="@color/primary_text"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_margin="16dp"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/containerDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/containerInterval"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?selectableItemBackground">
-                <TextView
-                    android:id="@+id/titleDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/specific_date"
-                    android:textSize="16sp"
-                    android:textColor="@color/primary_text"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_margin="16dp"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
