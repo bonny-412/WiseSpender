@@ -62,7 +62,6 @@
                 android:focusable="true"
                 android:background="?selectableItemBackground">
                 <TextView
-                    android:id="@+id/titleDay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/daily"
@@ -87,7 +86,6 @@
                 android:focusable="true"
                 android:background="?selectableItemBackground">
                 <TextView
-                    android:id="@+id/titleMonth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/monthly"
@@ -112,7 +110,6 @@
                 android:focusable="true"
                 android:background="?selectableItemBackground">
                 <TextView
-                    android:id="@+id/titleYear"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/yearly"
@@ -137,7 +134,6 @@
                 android:focusable="true"
                 android:background="?selectableItemBackground">
                 <TextView
-                    android:id="@+id/titleAll"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/all"
@@ -162,7 +158,6 @@
                 android:focusable="true"
                 android:background="?selectableItemBackground">
                 <TextView
-                    android:id="@+id/titleInterval"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/interval"
@@ -186,7 +181,6 @@
                 android:focusable="true"
                 android:background="?selectableItemBackground">
                 <TextView
-                    android:id="@+id/titleDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/specific_date"

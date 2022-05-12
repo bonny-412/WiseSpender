@@ -62,7 +62,6 @@
                 android:focusable="true"
                 android:background="?selectableItemBackground">
                 <TextView
-                    android:id="@+id/titleLightTheme"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_page_theme_light"
@@ -87,7 +86,6 @@
                 android:focusable="true"
                 android:background="?selectableItemBackground">
                 <TextView
-                    android:id="@+id/titleDarkTheme"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_page_theme_dark"
@@ -112,7 +110,6 @@
                 android:focusable="true"
                 android:background="?selectableItemBackground">
                 <TextView
-                    android:id="@+id/titleSystemTheme"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_page_theme_system_default"

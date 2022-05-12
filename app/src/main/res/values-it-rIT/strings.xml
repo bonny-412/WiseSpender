@@ -5,7 +5,6 @@
     <string name="title_transaction_menu">Transazioni</string>
     <string name="title_transactions">Ultime transazioni</string>
     <string name="see_all">Vedi tutto</string>
-    <string name="hello_text">Ciao,</string>
     <string name="name_first_account">Conto principale</string>
     <string name="money_account">0</string>
     <string name="type_income">Entrata</string>
@@ -15,7 +14,6 @@
     <string name="name_new_account_input">Nome conto</string>
     <string name="opening_balance_new_account_input">Saldo apertura conto</string>
     <string name="title_page_new_account">Nuovo conto</string>
-    <string name="spender_text">Spendaccione</string>
     <string name="pressToExit">Premere di nuovo indietro per uscire</string>
     <string name="account_bean_master">Tutti i conti</string>
     <string name="account_bean_main">Principale</string>
@@ -76,9 +74,7 @@
     <string name="search_filter_date_end">Fine</string>
     <string name="balance">Saldo</string>
     <string name="category_bean_transfer">Trasferimento</string>
-    <string name="title_transfer_menu">Trasferimento</string>
     <string name="title_page_new_transfer">Nuovo trasferimento</string>
-    <string name="title_page_edit_transfer">Modifica trasferimento</string>
     <string name="save_button_transfer">Salva trasferimento</string>
     <string name="transfer_from">Trasferimento da</string>
     <string name="transfer_to">Trasferimento a</string>
@@ -86,7 +82,6 @@
     <string name="transfer_error_equal_account">I conti devono essere diversi</string>
     <string name="transfer_from_short">Da</string>
     <string name="transfer_to_short">A</string>
-    <string name="transfer_save_ok">Trasferimento eseguito</string>
     <string name="transfer_count_account_problem">Creare almeno due conti</string>
     <string name="title_page_settings">Impostazioni</string>
     <string name="settings_page_icon_reminder">Icona promemoria</string>
@@ -100,7 +95,6 @@
     <string name="settings_page_icon_currency">Icona valuta</string>
     <string name="settings_page_title_currency_selected_off">Off</string>
     <string name="daily">Giorno</string>
-    <string name="weekly">Settimana</string>
     <string name="monthly">Mese</string>
     <string name="yearly">Anno</string>
     <string name="all">Tutto</string>

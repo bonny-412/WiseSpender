@@ -218,7 +218,6 @@
                     android:gravity="center"
                     android:padding="16dp">
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/iconTransfer"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:src="@drawable/ic_transfer_down"

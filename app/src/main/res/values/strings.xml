@@ -6,7 +6,6 @@
     <string name="required_field_amount">Amount greater than 0</string>
 
     <string name="daily">Daily</string>
-    <string name="weekly">Weekly</string>
     <string name="monthly">Monthly</string>
     <string name="yearly">Yearly</string>
     <string name="all">All</string>
@@ -18,10 +17,7 @@
     <!-- Bottom Navigation Menu -->
     <string name="title_statistics_menu">Statistics</string>
     <string name="title_transaction_menu">Transactions</string>
-    <string name="title_transfer_menu">Transfer</string>
 
-    <string name="hello_text">Hello,</string>
-    <string name="spender_text">Spender</string>
     <string name="name_first_account">Main accountBean</string>
     <string name="money_account">0</string>
 
@@ -115,14 +111,12 @@
 
     <!-- TRANSFER -->
     <string name="title_page_new_transfer">New transfer</string>
-    <string name="title_page_edit_transfer">Edit transfer</string>
     <string name="save_button_transfer">Save transfer</string>
     <string name="transfer_from">Transfer from</string>
     <string name="transfer_to">Transfer to</string>
     <string name="transfer_error_equal_account">The accounts must be different</string>
     <string name="transfer_from_short">From</string>
     <string name="transfer_to_short">To</string>
-    <string name="transfer_save_ok">Transfer executed</string>
     <string name="transfer_count_account_problem">Create at least two accounts</string>
     <string name="amount_transfer_title">Transfer amount</string>
 

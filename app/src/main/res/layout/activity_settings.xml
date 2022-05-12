@@ -34,7 +34,6 @@
             app:layout_constraintStart_toStartOf="parent"
             />
         <TextView
-            android:id="@+id/titlePage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/title_page_settings"
@@ -70,7 +69,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/container1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
@@ -110,7 +108,6 @@
                                 android:layout_margin="16dp"
                                 android:contentDescription="@string/settings_page_icon_reminder"/>
                             <TextView
-                                android:id="@+id/titleReminder"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:textSize="14sp"
@@ -237,7 +234,6 @@
                                 android:layout_marginStart="16dp"
                                 android:orientation="vertical">
                                 <TextView
-                                    android:id="@+id/titleCurrency"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="14sp"
